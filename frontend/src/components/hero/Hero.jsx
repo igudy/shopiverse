@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "./Navbar";
-import { heroapi } from "../data/data";
+import Navbar from '../navbar/Navbar'
+import { heroapi } from '../../data/data'
 
 const Hero = () => {
   return (

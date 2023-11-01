@@ -1,4 +1,4 @@
-import { featured } from "../data/data";
+import { featured } from '../../data/data'
 
 const Featured = () => {
   return (

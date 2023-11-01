@@ -1,6 +1,5 @@
-import React from "react";
-import { topratedsales } from "../data/data";
-import ProductCards from "./sub-components/ProductCards";
+import { topratedsales } from "../../data/data";
+import ProductCards from '../reusable/ProductCards'
 
 const TopRatedSales = () => {
   return (

@@ -4,7 +4,7 @@ import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { FiDelete } from "react-icons/fi";
 import CartEmpty from "./CartEmpty";
-import CartItems from "./CartItems";
+import CartItems from "./CartIems";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCartItems,
@@ -12,7 +12,7 @@ import {
   selectTotalQuantity,
   setClearItems,
   setGetTotalAmount,
-} from "../redux/slices/CartSlice";
+} from '../redux/slices/CartSlice'
 
 const CartModal = ({ openModal, closeModal, isOpen }) => {
   const cartItems = useSelector(selectCartItems);

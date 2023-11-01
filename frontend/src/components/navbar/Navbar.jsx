@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { HeartIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import logo from "../assets/logo.png";
-import CartModal from "./modal/CartModal";
+import logo from "../../assets/logo.png";
+import CartModal from '../modal/CartModal'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);

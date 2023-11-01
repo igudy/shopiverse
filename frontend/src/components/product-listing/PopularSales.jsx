@@ -1,5 +1,4 @@
-import React from "react";
-import { popularsales } from "../data/data";
+import { popularsales } from "../../data/data";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
 

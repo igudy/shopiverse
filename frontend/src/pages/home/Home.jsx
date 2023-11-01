@@ -1,13 +1,10 @@
-import React from "react";
-import {
-  Featured,
-  Footer,
-  Hero,
-  Highlights,
-  PopularSales,
-  TopRatedSales,
-  TopStories,
-} from "./";
+import Hero from "../../components/hero/Hero";
+import PopularSales from "../../components/product-listing/popularSales";
+import Highlights from "../../components/product-listing/Highlights";
+import TopRatedSales from "../../components/product-listing/TopRatedSales";
+import Featured from "../../components/product-listing/Featured";
+import TopStories from "../../components/product-listing/TopStories";
+import Footer from "../../components/footer/Footer";
 
 const Home = () => {
   return (

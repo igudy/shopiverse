@@ -1,5 +1,5 @@
 import React from "react";
-import { story } from "../data/data";
+import { story } from "../../data/data";
 
 import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,7 +11,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import StoriesCard from "./sub-components/StoriesCard";
+import StoriesCard from "../reusable/StoriesCard";
 
 const TopStories = () => {
   return (
