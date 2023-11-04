@@ -1,0 +1,78 @@
+TODO
+
+FRONTEND
+- Design product details page
+- Add product details page
+- Sticky navbar
+- Small cart items on homepage for cart
+- Buy now to open modal
+- Popular sales responsive styling
+- Normal sign in and sign up
+- Checkout section
+- Admin page
+- PayStack Integration
+- Flutterwave Integration
+- Checkout Page
+- Filtering(Price, Category)
+- Longitude & Latitude(Location for checkout page)
+- Product Details
+- Contact Us Page
+- API's integration
+- Search
+
+BACKEND
+- User authentication & authorization
+- Google authentication
+- 2FA
+- Reset Password
+- Products
+- Category
+- Cart
+- Related Product
+- Search functionality
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+POSTMAN
+USER  -> AUTH
+- Create Account
+- Verify Account
+- Reset Password
+- Create Password
+- Login
+- Google Login
+
+USER PROFILE
+- Get User
+- Change Password
+- Change Profile
+
+FRONT END
+- Get Product(Each Product should contain slug)
+- Get Product by ID
+- Search Product
+- Get Product By Categories(Params to this ones)
+
+
+CART
+- Add cart
+- Get Cart
+- Add or Remove a Cart
+- Clear All Cart
+- Delete Cart Product
+
+
