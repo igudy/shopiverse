@@ -3,6 +3,7 @@ import React from "react";
 import { heroapi } from '../../data/data'
 import HomeNavbar from "../navbar/HomeNavbar";
 
+
 const Hero = () => {
   return (
     <>
