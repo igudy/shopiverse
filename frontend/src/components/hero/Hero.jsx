@@ -1,12 +1,13 @@
 import React from "react";
-import Navbar from '../navbar/Navbar'
+
 import { heroapi } from '../../data/data'
+import HomeNavbar from "../navbar/HomeNavbar";
 
 const Hero = () => {
   return (
     <>
       <div className="relative bg-theme clip-path xsm:h-[63vh] sm:h-[65vh] lg:h-[70vh] h-[70vh]">
-        <Navbar />
+        <HomeNavbar />
         <div className="text-center justify-center">
           <div className="text-5xl md:text-3xl lg:text-5xl xl:text-6xl font-extrabold text-slate-200 drop-shadow-sm filter xsm:text-2xl text-center align-center items-center sm:mt-1">
             <p className="">{heroapi.title}</p>

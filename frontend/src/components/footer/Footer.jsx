@@ -4,7 +4,7 @@ import SocialIcons from "../reusable/SocialIcons";
 
 const Footer = () => {
   return (
-    <div className="bg-theme text-white mt-10 text-sm">
+    <div className="bg-theme text-white text-sm">
       <div className="flex xsm:flex-col sm:flex-col py-10 px-20 xsm:px-1 sm:px-2 md:px-2 lg:px-10 gap-7 justify-between flex-wrap">
         <div>
           <p className="font-bold">{footerAPI?.titles[0]?.title}</p>

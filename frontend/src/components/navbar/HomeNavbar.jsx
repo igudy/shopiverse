@@ -4,7 +4,7 @@ import logo from "../../assets/logo.png";
 import CartModal from '../modal/CartModal';
 import {Link} from 'react-router-dom'
 
-const Navbar = () => {
+const HomeNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [navState, setNavState] = useState(false);
 
@@ -32,19 +32,18 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="text-white text-sm">
-
     <div
-      className={ `flex flex-row justify-between items-center py-8 px-10 sm:py-8 md:py-8 bg-purple-700`
+      className={
+        !navState
+          ? `flex flex-row justify-between items-center mx-14 py-8 xsm:mx-2 xsm:py-6 sm:mx-2 sm:py-8 md:mx-8 md:py-8` : `flex flex-row justify-between items-center mx-14 py-8 xsm:mx-2 xsm:py-6 sm:mx-2 sm:py-8 md:mx-8 md:py-8`
+          // : `flex flex-row justify-between items-center px-16 xsm:mx-2 xsm:py-6 sm:mx-2 sm:py-8 md:mx-8 md:py-8 fixed top-0 left-0 right-0 h-[9vh]  opacity-100 z-[999999] bg-black
+          //`
       }
     >
       <div className="">
-        {/* <img src={logo} className="w-[120px] h-6 cursor-pointer" alt="logo" /> */}
-        <Link to="/">
-            Shopiverse
-        </Link>
+        <img src={logo} className="w-[120px] h-6 cursor-pointer" alt="logo" />
       </div>
-      <div className="flex items-center gap-4 xsm:gap-0 sm:gap-1 right-0">
+      <div className="flex text-white items-center gap-4 xsm:gap-0 sm:gap-1 right-0 z-[999999]">
         {/* <HeartIcon className="w-8 h-6 cursor-pointer" />
 
         <MagnifyingGlassIcon className="w-8 h-6 cursor-pointer" /> */}
@@ -55,9 +54,7 @@ const Navbar = () => {
         <Link to="/register">
           <p className="cursor-pointer hover:underline">Register</p>
         </Link>
-        {/* <Link to="/contact">
-          <p className="cursor-pointer hover:underline">Contact</p>
-        </Link> */}
+        
         <CartModal
           openModal={openModal}
           closeModal={closeModal}
@@ -66,8 +63,7 @@ const Navbar = () => {
         
       </div>
     </div>
-    </div>
   );
 };
 
-export default Navbar;
+export default HomeNavbar;
