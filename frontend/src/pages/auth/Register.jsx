@@ -9,7 +9,11 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { AiFillAccountBook, AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
+import {
+  AiFillAccountBook,
+  AiFillCheckCircle,
+  AiFillCloseCircle,
+} from "react-icons/ai";
 
 const schema = z.object({
   firstName: z
@@ -91,8 +95,8 @@ const Register = () => {
                     <input
                       type="text"
                       id="firstName"
-                      className={`bg-gray-50 border border-gray-300 rounded-lg md:w-full w-60 sm:w-full p-2.5 ${
-                        errors.firstName ? "border-red-500" : "" // Apply red border on error
+                      className={`bg-gray-50 border border-gray-500 rounded-lg md:w-full w-60 sm:w-full p-2.5 ${
+                        errors.firstName ? "border-red-500" : "border-green-500"
                       }`}
                       placeholder="John"
                       {...register("firstName")}
@@ -106,8 +110,8 @@ const Register = () => {
                     <input
                       type="text"
                       id="last_name"
-                      className={`bg-gray-50 border border-gray-300 rounded-lg p-2.5 md:w-full w-60 sm:w-full ${
-                        errors.lastName ? "border-red-500" : "" // Apply red border on error
+                      className={`bg-gray-50 border border-gray-500 rounded-lg p-2.5 md:w-full w-60 sm:w-full ${
+                        errors.lastName ? "border-red-500" : "border-green-500"
                       }`}
                       placeholder="Doe"
                       {...register("lastName")}
@@ -122,8 +126,8 @@ const Register = () => {
                 <input
                   type="email"
                   id="email"
-                  className={`bg-gray-50 border border-gray-300 rounded-lg w-full p-2.5 sm:w-full sm:block ${
-                    errors.email ? "border-red-500" : "" // Apply red border on error
+                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block ${
+                    errors.email ? "border-red-500" : "border-green-500"
                   }`}
                   placeholder="john.doe@company.com"
                   {...register("email")}
@@ -136,8 +140,8 @@ const Register = () => {
                 <input
                   type="password"
                   id="password"
-                  className={`bg-gray-50 border border-gray-300 rounded-lg w-full p-2.5 sm:w-full sm:block ${
-                    errors.password ? "border-red-500" : "" // Apply red border on error
+                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block ${
+                    errors.password ? "border-red-500" : "border-green-500"
                   }`}
                   placeholder="Password"
                   {...register("password")}
@@ -150,8 +154,8 @@ const Register = () => {
                 <input
                   type="password"
                   id="confirm_password"
-                  className={`bg-gray-50 border border-gray-300 rounded-lg w-full p-2.5 sm:w-full sm:block ${
-                    errors.confirmPassword ? "border-red-500" : "" // Apply red border on error
+                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block ${
+                    errors.confirmPassword ? "border-red-500" : "border-green-500"
                   }`}
                   placeholder="Confirm password"
                   {...register("confirmPassword")}
@@ -159,45 +163,59 @@ const Register = () => {
               </div>
 
               {/* All error messages */}
-              <div className="flex flex-col text-[12px]">
-                {errors.firstName && (
-                  <span className="mb-2 text-red-800">
-                    {errors.firstName.message}
-                  </span>
+              <div className="flex flex-col text-[12px] border-2 p-2 rounded-xl">
+                {errors.firstName ? (
+                  <div className=" text-red-800 flex items-center">
+                    <AiFillCloseCircle />{errors.firstName.message}
+                  </div>
+                ) : (
+                  <div className="flex items-center text-green-500">
+                    <AiFillCheckCircle /> First name
+                  </div>
+                )}
+                {errors.lastName ? (
+                  <div className=" text-red-800 flex items-center">
+                    <AiFillCloseCircle />{errors.lastName.message}
+                  </div>
+                ) : (
+                  <div className="flex items-center text-green-500">
+                    <AiFillCheckCircle /> Last name
+                  </div>
                 )}
 
-
-    {errors.lastName ? (
-      <div className=" text-red-800">
-        <AiFillCloseCircle />
-      </div>
-    ) : (
-      <div className="flex items-center text-green-500">
-        <AiFillCheckCircle /> LastName
-      </div>
-    )}
-
-                {errors.email && (
-                  <span className="mb-2 text-red-800">
-                    {errors.email.message}
-                  </span>
+                {errors.email ? (
+                  <div className=" text-red-800 flex items-center">
+                    <AiFillCloseCircle />{errors.email.message}
+                  </div>
+                ) : (
+                  <div className="flex items-center text-green-500">
+                    <AiFillCheckCircle /> Email
+                  </div>
                 )}
 
-                {errors.password && (
-                  <span className="mb-2 text-red-800">
-                    {errors.password.message}
-                  </span>
+                {errors.password ? (
+                  <div className=" text-red-800 flex items-center">
+                    <AiFillCloseCircle />{errors.password.message}
+                  </div>
+                ) : (
+                  <div className="flex items-center text-green-500">
+                    <AiFillCheckCircle /> Password
+                  </div>
+                )}
+                {errors.confirmPassword ? (
+                  <div className=" text-red-800 flex items-center">
+                    <AiFillCloseCircle />{errors.confirmPassword.message}
+                  </div>
+                ) : (
+                  <div className="flex items-center text-green-500">
+                    <AiFillCheckCircle /> Confirm Password
+                  </div>
                 )}
 
-                {errors.confirmPassword && (
-                  <span className="mb-2 text-red-800">
-                    {errors.confirmPassword.message}
-                  </span>
-                )}
               </div>
               <button
                 type="submit"
-                className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg w-full px-5 py-2.5 text-center sm:w-full"
+                className="mt-4 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg w-full px-5 py-2.5 text-center sm:w-full"
               >
                 Submit
               </button>
