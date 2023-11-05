@@ -40,7 +40,7 @@ const Navbar = () => {
       }
     >
       <div className="">
-        <img src={logo} className="w-20 h-6 cursor-pointer" alt="logo" />
+        <img src={logo} className="w-[120px] h-6 cursor-pointer" alt="logo" />
       </div>
       <div className="flex text-white items-center gap-4 xsm:gap-0 sm:gap-1 right-0 z-[999999]">
         <HeartIcon className="w-8 h-6 cursor-pointer" />
