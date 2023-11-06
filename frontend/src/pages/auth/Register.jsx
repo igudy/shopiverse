@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import LoginImage from "../../../src/assets/product6.png";
 import Logo from "../../../src/assets/logo.png";
 import Google from "../../../src/assets/icons/googleicon.svg";
@@ -8,51 +8,29 @@ import { Link } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import {
-  AiFillAccountBook,
-  AiFillCheckCircle,
-  AiFillCloseCircle,
-} from "react-icons/ai";
-
-const schema = z.object({
-  firstName: z
-    .string()
-    .min(3, { message: "First name should be at least 3 characters" })
-    .max(30, { message: "First name should be at most 30 characters" })
-    .refine((value) => value.length <= 30, {
-      message: "First name should be less than or equal to 30 characters",
-      path: ["firstName"],
-    }),
-  lastName: z
-    .string()
-    .min(2, { message: "Last name should be at least 2 characters" })
-    .max(30, { message: "Last name should be at most 30 characters" }),
-  email: z.string().email({ message: "Invalid email format" }),
-  // age: z.number()
-  //   .min(18, { message: "Age should be at least 18" })
-  //   .max(70, { message: "Age should be at most 70" }),
-  password: z
-    .string()
-    .min(5, { message: "Password should be at least 5 characters" })
-    .max(20, { message: "Password should be at most 20 characters" }),
-  confirmPassword: z
-    .string()
-    .min(5, { message: "Confirm password should be at least 5 characters" })
-    .max(20, { message: "Confirm password should be at most 20 characters" })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: "Passwords do not match",
-      path: ["confirmPassword"],
-    }),
-});
+  sign_up_user_validation_schema,
+  validatePassword,
+} from "../../components/validation-schema/authentication-schema";
+import PasswordValidationChecker from "../../components/authentication/password-validation-checker";
+import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 
 const Register = () => {
+  const [isPasswordValid, setIsPasswordValid] = useState({
+    hasUppercase: false,
+    hasLowercase: false,
+    hasNumber: false,
+    hasSpecialChar: false,
+    hasAtLeast8Char: false,
+  });
+
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(sign_up_user_validation_schema),
   });
 
   // data coming from the refine section
@@ -89,74 +67,103 @@ const Register = () => {
               <div className="flex flex-col text-sm">
                 <div className="flex md:gap-2 lg:gap-10 xl:gap-10 items-center justify-between sm:block">
                   <div className="flex flex-col">
-                    <label htmlFor="firstName" className="my-1">
-                      First name
+                    <label htmlFor="firstName" className="flex my-1">
+                      First name  {errors.firstName && (
+                      <div className=" text-red-800 text-[12px] flex items-center mx-2">
+                        <AiFillCloseCircle />
+                        {errors.firstName.message && (<div>Required</div>)}
+                      </div>
+                    )}
                     </label>
                     <input
                       type="text"
                       id="firstName"
-                      className={`bg-gray-50 border border-gray-500 rounded-lg md:w-full w-60 sm:w-full p-2.5 ${
-                        errors.firstName ? "border-red-500" : "border-green-500"
-                      }`}
+                      className={`bg-gray-50 border border-gray-500 rounded-lg md:w-full w-60 sm:w-full p-2.5 
+                      
+                      `}
+                      // ${
+                      //   errors.firstName ? "border-red-500" : "border-green-500"
+                      // }
                       placeholder="John"
-                      {...register("firstName")}
-                    />
-                  </div>
+                      {...register("firstName", { required: true })}
+                    />{" "}
+                     <span>
+                       
+                        </span>
 
+                  </div>{" "}
                   <div className="flex flex-col">
-                    <label htmlFor="last_name" className="my-1 ml-1">
-                      Last name
+                    <label htmlFor="last_name" className="flex my-1 ml-1">
+                      Last name{errors.lastName && (
+                      <div className=" text-red-800 text-[12px] flex items-center mx-2">
+                        <AiFillCloseCircle />
+                        {errors.lastName.message && (<div>Required</div>)}
+                      </div>
+                    )}
                     </label>
                     <input
                       type="text"
                       id="last_name"
-                      className={`bg-gray-50 border border-gray-500 rounded-lg p-2.5 md:w-full w-60 sm:w-full ${
-                        errors.lastName ? "border-red-500" : "border-green-500"
-                      }`}
+                      className={`bg-gray-50 border border-gray-500 rounded-lg p-2.5 md:w-full w-60 sm:w-full`}
                       placeholder="Doe"
-                      {...register("lastName")}
+                      {...register("lastName", { required: true })}
                     />
                   </div>
                 </div>
               </div>
               <div className="my-3">
-                <label htmlFor="email" className="">
-                  Email address
+                <label htmlFor="email" className="flex">
+                  Email address {errors.email && (
+                      <div className=" text-red-800 text-[12px] flex items-center mx-2">
+                        <AiFillCloseCircle />
+                        {errors.email.message && (<div>Required</div>)}
+                      </div>
+                    )}
                 </label>
                 <input
                   type="email"
                   id="email"
-                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block ${
-                    errors.email ? "border-red-500" : "border-green-500"
-                  }`}
+                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block `}
                   placeholder="john.doe@company.com"
-                  {...register("email")}
-                />
+                  {...register("email", { required: true })}
+                />{" "}
               </div>
               <div className="my-3">
-                <label htmlFor="password" className="mb-2 my-1 ">
+                <label htmlFor="password" className="flex mb-2 my-1 ">
                   Password
+                {errors.password && (
+                      <div className=" text-red-800 text-[12px] flex items-center mx-2">
+                        <AiFillCloseCircle />
+                        {errors.password.message && (<div>Required</div>)}
+                      </div>
+                    )}
                 </label>
                 <input
                   type="password"
                   id="password"
-                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block ${
-                    errors.password ? "border-red-500" : "border-green-500"
-                  }`}
+                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block `}
                   placeholder="Password"
-                  {...register("password")}
-                />
+                  {...register("password", {
+                    required: true,
+                    onChange: () => {
+                      validatePassword(watch("password"), setIsPasswordValid);
+                    },
+                  })}
+                />{" "}
               </div>
               <div className="my-3">
-                <label htmlFor="confirmPassword" className="mb-2">
-                  Confirm password
+                <label htmlFor="confirmPassword" className="flex mb-2">
+                  Confirm password {errors.confirmPassword && (
+                      <div className=" text-red-800 text-[12px] flex items-center mx-2">
+                        <AiFillCloseCircle />
+                        {errors.confirmPassword.message && (<div>Required</div>)}
+                      </div>
+                    )}
                 </label>
                 <input
                   type="password"
-                  id="confirm_password"
-                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block ${
-                    errors.confirmPassword ? "border-red-500" : "border-green-500"
-                  }`}
+                  id="confirmPassowrd"
+                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block`}
                   placeholder="Confirm password"
                   {...register("confirmPassword")}
                 />
@@ -164,54 +171,39 @@ const Register = () => {
 
               {/* All error messages */}
               <div className="flex flex-col text-[12px] border-2 p-2 rounded-xl">
-                {errors.firstName ? (
-                  <div className=" text-red-800 flex items-center">
-                    <AiFillCloseCircle />{errors.firstName.message}
-                  </div>
-                ) : (
-                  <div className="flex items-center text-green-500">
-                    <AiFillCheckCircle /> First name
-                  </div>
-                )}
-                {errors.lastName ? (
-                  <div className=" text-red-800 flex items-center">
-                    <AiFillCloseCircle />{errors.lastName.message}
-                  </div>
-                ) : (
-                  <div className="flex items-center text-green-500">
-                    <AiFillCheckCircle /> Last name
-                  </div>
-                )}
+                <div className="flex flex-col gap-2">
+                  <PasswordValidationChecker
+                    title="must contain at least 8 letters"
+                    checked={isPasswordValid.hasAtLeast8Char}
+                  />
+                  <PasswordValidationChecker
+                    title="must contain at least 1 uppercase letter"
+                    checked={isPasswordValid.hasUppercase}
+                  />
+                  <PasswordValidationChecker
+                    title="must contain at least 1 lowercase letter"
+                    checked={isPasswordValid.hasLowercase}
+                  />
+                  <PasswordValidationChecker
+                    title="must contain at least 1 number"
+                    checked={isPasswordValid.hasNumber}
+                  />
+                  <PasswordValidationChecker
+                    title="must contain at least 1 special character"
+                    checked={isPasswordValid.hasSpecialChar}
+                  />
+                </div>
 
-                {errors.email ? (
-                  <div className=" text-red-800 flex items-center">
-                    <AiFillCloseCircle />{errors.email.message}
-                  </div>
-                ) : (
-                  <div className="flex items-center text-green-500">
-                    <AiFillCheckCircle /> Email
-                  </div>
-                )}
-
-                {errors.password ? (
-                  <div className=" text-red-800 flex items-center">
-                    <AiFillCloseCircle />{errors.password.message}
-                  </div>
-                ) : (
-                  <div className="flex items-center text-green-500">
-                    <AiFillCheckCircle /> Password
-                  </div>
-                )}
-                {errors.confirmPassword ? (
-                  <div className=" text-red-800 flex items-center">
-                    <AiFillCloseCircle />{errors.confirmPassword.message}
+                {/* {errors.confirmPassword ? (
+                  <div className=" text-red-800 text-[12px] flex items-center">
+                    <AiFillCloseCircle />
+                    {errors.confirmPassword.message}
                   </div>
                 ) : (
                   <div className="flex items-center text-green-500">
                     <AiFillCheckCircle /> Confirm Password
                   </div>
-                )}
-
+                )} */}
               </div>
               <button
                 type="submit"
