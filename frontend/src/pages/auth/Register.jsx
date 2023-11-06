@@ -18,6 +18,7 @@ import {
   AiFillEye,
   AiFillEyeInvisible,
 } from "react-icons/ai";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const [isPasswordValid, setIsPasswordValid] = useState({
@@ -50,15 +51,15 @@ const Register = () => {
   // data coming from the refine section
   const onSubmit = (data) => {
     if (data.password !== data.confirmPassword) {
+
       // Handle password mismatch, display error, etc.
+      toast.error("Invalid, password does not match")
       console.log("Invalid, password does not match");
     } else {
       // Passwords match, continue with submission.
       console.log(`Data submitted`, data);
     }
   };
-
-
 
   return (
     <>

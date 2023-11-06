@@ -10,10 +10,6 @@ export const login_validation_schema = z.object({
     .nonempty("password is required"),
 });
 
-export const user_location_validation_schema = z.object({
-  state: z.number({ required_error: "state is required" }),
-  city: z.number({ required_error: "city is required" }),
-});
 
 export const sign_up_user_validation_schema = z.object({
   firstName: z

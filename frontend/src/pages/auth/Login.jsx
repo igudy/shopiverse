@@ -7,31 +7,41 @@ import { Link } from "react-router-dom";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 
-const passwordSchema = z.string()
-  .min(8, { message: "Password should contain at least 8 characters" })
-  .regex(/.*[A-Z].*/, { message: "Password should contain at least 1 uppercase letter" })
-  .regex(/.*[a-z].*/, { message: "Password should contain at least 1 lowercase letter" })
-  .regex(/.*\d.*/, { message: "Password should contain at least 1 number" })
-  .regex(/.*[^A-Za-z0-9].*/, { message: "Password should contain at least 1 special character" });
-
-const schema = z.object({
-  email: z.string().email({ message: "Invalid email format" }),
-  password: passwordSchema
-});
+import {
+  login_validation_schema, validatePassword,
+} from "../../components/validation-schema/authentication-schema";
+import {
+  AiFillEye,
+  AiFillEyeInvisible,
+} from "react-icons/ai";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(login_validation_schema),
   });
+
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPassword =() => {
+    setShowConfirmPassword(!showConfirmPassword);
+  }
 
   // Data coming from the refine section
   const onSubmit = (data) => {
+    toast.success('Data submitted')
     console.log(`Data submitted`, data);
   };
 
@@ -49,78 +59,58 @@ const Login = () => {
           />
         </div>
 
-        <div className="flex flex-col mx-10 sm:mx-2 xsm:mx-2 p-5 my-7 shadow-2xl right-0">
+        <div className="flex flex-col mx-10 sm:mx-2 xsm:mx-2 p-5 my-7 shadow-2xl right-0  min-w-xl">
           <div className="">
             {/* <img src={Logo} alt='logo' className='mt-10 h-10 xsm:h-7 sm:h-7' /> */}
             {/* SHOPIVERSE */}
           </div>
           <div>
             <h1 className="text-5xl font-bold font-serif my-3 mb-6 text-purple-00 xsm:text-xl sm:text-xl mt-10 md:text-2xl sm:mt-1">
-              Create your account.
+             Login to your account.
             </h1>
           </div>
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="my-3">
-                <label htmlFor="email" className="">
-                  Email address
+                <label htmlFor="email" className="flex">
+                  Email address{" "}
+                  {errors.email && (
+                    <div className=" text-red-800 text-[12px] flex items-center mx-2">
+                      <AiFillCloseCircle />
+                      {errors.email.message}
+                    </div>
+                  )}
                 </label>
                 <input
                   type="email"
                   id="email"
-                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block ${
-                    errors.email ? "border-red-500" : "border-green-500"
-                  }`}
+                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block `}
                   placeholder="john.doe@company.com"
-                  {...register("email")}
-                />
+                  {...register("email", { required: true })}
+                />{" "}
               </div>
               <div className="my-3">
-                <label htmlFor="password" className="mb-2 my-1 ">
+                <label htmlFor="password" className="flex mb-2 my-1 ">
                   Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block ${
-                    errors.password ? "border-red-500" : "border-green-500"
-                  }`}
-                  placeholder="Password"
-                  {...register("password")}
-                />
-              </div>
-
-              {/* All error messages */}
-              <div className="flex flex-col text-[12px] border-2 p-2 rounded-xl">
-
-                {errors.email ? (
-                  <div className="text-red-800 flex items-center">
-                    <AiFillCloseCircle />
-                    <span className="text-red-800 ml-1">
-                      {errors.email.message}
-                    </span>
-                  </div>
-                ) : (
-                  <div className="flex items-center text-green-500">
-                    <AiFillCheckCircle />
-                    <span className="text-green-500 ml-1">Email</span>
-                  </div>
-                )}
-
-                {
-                errors.password ? (
-                  <div className="text-red-800 flex items-center">
-                    <AiFillCloseCircle />
-                    <span className="text-red-800 ml-1">
+                  {errors.password && (
+                    <div className=" text-red-800 text-[12px] flex items-center mx-2">
+                      <AiFillCloseCircle />
                       {errors.password.message}
-                    </span>
-                  </div>
-                ) : (
-                  <div className="flex items-center text-green-500">
-                    <AiFillCheckCircle />
-                    <span className="text-green-500 ml-1">Password</span>
-                  </div>
-                )}
+                    </div>
+                  )}
+                </label>
+                <span className="flex items-center">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    className={`bg-gray-50 border border-gray-500 w-full rounded-lg p-2.5 sm:w-full sm:block `}
+                    placeholder="Password"
+                    {...register("password")}
+                  />{" "}
+                  <span onClick={togglePasswordVisibility} className="cursor-pointer mx-[-40px]">
+                    {showPassword ? <AiFillEyeInvisible className="text-gray-800 w-7 h-7" /> : <AiFillEye className="text-gray-800 w-7 h-7"/>}
+                  </span>
+                </span>
               </div>
 
               <button
