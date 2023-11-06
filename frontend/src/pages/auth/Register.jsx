@@ -35,7 +35,13 @@ const Register = () => {
 
   // data coming from the refine section
   const onSubmit = (data) => {
+     if (data.password !== data.confirmPassword) {
+    // Handle password mismatch, display error, etc.
+    console.log("Invalid, password does not match")
+  } else {
+    // Passwords match, continue with submission.
     console.log(`Data submitted`, data);
+  }
   };
 
   return (
@@ -151,23 +157,25 @@ const Register = () => {
                   })}
                 />{" "}
               </div>
-              <div className="my-3">
-                <label htmlFor="confirmPassword" className="flex mb-2">
-                  Confirm password {errors.confirmPassword && (
-                      <div className=" text-red-800 text-[12px] flex items-center mx-2">
-                        <AiFillCloseCircle />
-                        {errors.confirmPassword.message && (<div>Required</div>)}
-                      </div>
-                    )}
-                </label>
-                <input
-                  type="password"
-                  id="confirmPassowrd"
-                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block`}
-                  placeholder="Confirm password"
-                  {...register("confirmPassword")}
-                />
-              </div>
+          <div className="my-3">
+  <label htmlFor="confirmPassword" className="flex mb-2">
+    Confirm password
+    {errors.confirmPassword && (
+      <div className=" text-red-800 text-[12px] flex items-center mx-2">
+        <AiFillCloseCircle />
+        {errors.confirmPassword.message && <div>{errors.confirmPassword.message}</div>}
+      </div>
+    )}
+  </label>
+  <input
+    type="password"
+    id="confirmPassword"
+    className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block `}
+    placeholder="Confirm password"
+    {...register("confirmPassword", { required: true })}
+  />
+</div>
+
 
               {/* All error messages */}
               <div className="flex flex-col text-[12px] border-2 p-2 rounded-xl">

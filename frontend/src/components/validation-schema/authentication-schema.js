@@ -31,7 +31,11 @@ export const sign_up_user_validation_schema = z.object({
     .nonempty("password is required"),
   confirmPassword: z
     .string({ required_error: "confirm password is required" })
-    .nonempty("confirm password is required"),
+    .nonempty("confirm password is required")
+    .refine((confirmPassword, data) => confirmPassword === data.password, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    }),
 });
 
 export const password_reset_mail_validation_schema = z.object({
