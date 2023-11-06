@@ -17,24 +17,23 @@ export const user_location_validation_schema = z.object({
 
 export const sign_up_user_validation_schema = z.object({
   firstName: z
-    .string({ required_error: "first name is required" })
-    .nonempty("last name is required"),
+    .string({ required_error: "First name is required" })
+    .min(2, { message: "At least 2 characters" })
+    .max(50, { message: "Not than 50 character" }),
   lastName: z
-    .string({ required_error: "last name is required" })
-    .nonempty("last name is required"),
-  email: z
-    .string({ required_error: "email is required" })
-    .email()
-    .nonempty("email is required"),
+    .string({ required_error: "Last name is required" })
+    .min(2, { message: "At least 2 characters" })
+    .max(50, { message: "Not than 50 character" }),
+  email: z.string({ required_error: "email is required" }).email(),
   password: z
-    .string({ required_error: "password is required" })
-    .nonempty("password is required"),
+    .string({ required_error: "Password is required" })
+    .min(6, { message: "At least 2 characters" })
+    .max(30, { message: "Not than 50 character" }),
   confirmPassword: z
-    .string({ required_error: "confirm password is required" })
-    .nonempty("confirm password is required")
-    .refine((confirmPassword, data) => confirmPassword === data.password, {
-      message: "Passwords do not match",
+    .string({ required_error: "Confirm password is required" })
+    .refine((data) => data.password === data.confirmPassword, {
       path: ["confirmPassword"],
+      message: "Passwords do not match",
     }),
 });
 
