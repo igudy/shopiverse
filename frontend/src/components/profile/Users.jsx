@@ -2,6 +2,7 @@ import InfoBox from "../users/info-box";
 import { userData } from "../../data/data2";
 import Search from "../users/search";
 import Tables from "../users/tables";
+import { LoaderPortal } from "../ui/loader";
 
 const Users = () => {
   return (
