@@ -49,6 +49,9 @@ const Navbar = () => {
 
         <MagnifyingGlassIcon className="w-8 h-6 cursor-pointer" /> */}
 
+        <Link to="/profile">
+          <p className="cursor-pointer hover:underline">Profile</p>
+        </Link>
         <Link to="/login">
           <p className="cursor-pointer hover:underline">Login</p>
         </Link>

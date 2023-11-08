@@ -10,6 +10,19 @@ export const login_validation_schema = z.object({
     .nonempty("password is required"),
 });
 
+export const forgot_password_validation_schema = z.object({
+  email: z
+    .string({ required_error: "email is required" })
+    .email()
+    .nonempty("email is required"),
+});
+
+export const access_validation_schema = z.object({
+  access: z
+    .string({ required_error: "email is required" })
+    .email()
+    .nonempty("email is required"),
+});
 
 export const sign_up_user_validation_schema = z.object({
   firstName: z
@@ -21,6 +34,19 @@ export const sign_up_user_validation_schema = z.object({
     .min(2, { message: "At least 2 characters" })
     .max(50, { message: "Not than 50 character" }),
   email: z.string({ required_error: "email is required" }).email(),
+  password: z
+    .string({ required_error: "Password is required" })
+    .min(6, { message: "At least 2 characters" })
+    .max(30, { message: "Not than 50 character" }),
+  confirmPassword: z
+    .string({ required_error: "Confirm password is required" })
+    .refine((data) => data.password === data.confirmPassword, {
+      path: ["confirmPassword"],
+      message: "Passwords do not match",
+    }),
+});
+
+export const reset_password_validation_schema = z.object({
   password: z
     .string({ required_error: "Password is required" })
     .min(6, { message: "At least 2 characters" })

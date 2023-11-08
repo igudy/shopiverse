@@ -3,21 +3,21 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { Link } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { IoMdExit, IoMdArrowForward } from "react-icons/io";
-import { BiArrowBack } from "react-icons/bi";
+import { IoMdArrowForward } from "react-icons/io";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { forgot_password_validation_schema } from "../../components/validation-schema/authentication-schema";
+import { access_validation_schema } from "../../components/validation-schema/authentication-schema";
 import toast from "react-hot-toast";
+import { IoEnterOutline } from "react-icons/io5";
 
-const ForgotPassword = () => {
+const EnterAccessCode = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(forgot_password_validation_schema),
+    resolver: zodResolver(access_validation_schema)
   });
 
   // Data coming from the refine section
@@ -45,29 +45,29 @@ const ForgotPassword = () => {
             {/* SHOPIVERSE */}
           </div>
           <div>
-            <h1 className="text-5xl font-bold font-serif my-3 mb-6 text-purple-00 xsm:text-xl sm:text-xl mt-10 md:text-2xl sm:mt-1 flex ">
-              <IoMdExit />
-              Forgot Password
+            <h1 className="text-5xl font-bold font-serif my-3 mb-6 text-purple-00 xsm:text-xl sm:text-xl mt-10 md:text-2xl sm:mt-1 flex">
+              <IoEnterOutline />
+              Enter Access Code
             </h1>
           </div>
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="my-3">
                 <label htmlFor="email" className="flex">
-                  Email address{" "}
-                  {errors.email && (
+                  Access Code{" "}
+                  {errors.access && (
                     <div className=" text-red-800 text-[12px] flex items-center mx-2">
                       <AiFillCloseCircle />
-                      {errors.email.message}
+                      {errors.access.message}
                     </div>
                   )}
                 </label>
                 <input
-                  type="email"
-                  id="email"
+                  type="access"
+                  id="access"
                   className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block `}
-                  placeholder="john.doe@company.com"
-                  {...register("email", { required: true })}
+                  placeholder="Access code"
+                  {...register("access", { required: true })}
                 />{" "}
               </div>
               <button
@@ -79,16 +79,15 @@ const ForgotPassword = () => {
             </form>
             <div className="my-1">
               <Link to="/forgot-password">
-                <p className="text-blue-600 hover:underline cursor-pointer flex justify-between mx-1 underline my-2 ">
-                  <Link to="/login">
-                    <div className="left-0 flex mx-1 items-center hover:text-blue-800">
-                      <BiArrowBack />
-                      Login
-                    </div>
-                  </Link>
+                <p className="text-blue-600 hover:underline cursor-pointer flex justify-between mx-1 underline my-2">
                   <Link to="/">
                     <div className="flex items-center mx-1 hover:text-blue-800">
                       Home <IoMdArrowForward />
+                    </div>
+                  </Link>
+                <Link to="$">
+                    <div className="left-0 flex mx-1 items-center font-bold hover:text-blue-800">
+                      Resend Code
                     </div>
                   </Link>
                 </p>
@@ -102,4 +101,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default EnterAccessCode;
