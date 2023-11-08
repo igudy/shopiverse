@@ -96,8 +96,15 @@ const ResetPassword = () => {
                       },
                     })}
                   />{" "}
-                  <span onClick={togglePasswordVisibility} className="cursor-pointer mx-[-40px]">
-                    {showPassword ? <AiFillEyeInvisible className="text-gray-800 w-7 h-7" /> : <AiFillEye className="text-gray-800 w-7 h-7"/>}
+                  <span
+                    onClick={togglePasswordVisibility}
+                    className="cursor-pointer mx-[-40px]"
+                  >
+                    {showPassword ? (
+                      <AiFillEyeInvisible className="text-gray-800 w-7 h-7" />
+                    ) : (
+                      <AiFillEye className="text-gray-800 w-7 h-7" />
+                    )}
                   </span>
                 </span>
               </div>
@@ -114,21 +121,25 @@ const ResetPassword = () => {
                   )}
                 </label>
                 <div className="flex items-center">
-                <input
-                  type={showConfirmPassword ? "text":  "password"}
-                  id="confirmPassword"
-                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block `}
-                  placeholder="Confirm password"
-                  {...register("confirmPassword", { required: true })}
-                />
-                <span onClick={toggleConfirmPassword} className="cursor-pointer mx-[-40px]">
-                    {showConfirmPassword ? <AiFillEyeInvisible className="text-gray-800 w-7 h-7"/> : <AiFillEye className="text-gray-800 w-7 h-7"/>}
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    className={`input-box `}
+                    placeholder="Confirm password"
+                    {...register("confirmPassword", { required: true })}
+                  />
+                  <span
+                    onClick={toggleConfirmPassword}
+                    className="cursor-pointer mx-[-40px]"
+                  >
+                    {showConfirmPassword ? (
+                      <AiFillEyeInvisible className="text-gray-800 w-7 h-7" />
+                    ) : (
+                      <AiFillEye className="text-gray-800 w-7 h-7" />
+                    )}
                   </span>
                 </div>
               </div>
-
-
-
 
               <button
                 type="submit"

@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import ProfileImage from "../../assets/profile.jpg";
-import { useForm, Controller } from "react-hook-form";
 
-// Normal Form handling
+const initialState = {
+  name: "Igudy",
+  email: "igudy@gmail.com",
+  phone: "",
+  bio: "",
+  role: "",
+  isVerified: false,
+};
 
 const ProfileComponent = () => {
+  const [profile, setProfile] = useState(initialState);
+
+  // Normal Form handling
+  const handleImageChange = () => {
+    console.log("Handle Image Change");
+  };
+  const handleInputChange = () => {
+    console.log("Handle Input Change");
+  };
 
   return (
     <div className="flex sm:flex-col gap-10">
@@ -19,13 +34,69 @@ const ProfileComponent = () => {
           <p className="mx-2 text-sm text-gray-500">Role: Admin</p>
         </div>
         <div className="px-3 py-2">
-        Change Photo:
-
+          <form>
+            <p className="my-3">
+              <label className="text-sm">Change Photo:</label>
+              <input
+                type="file"
+                accept="image/*"
+                name="image"
+                className="input-box my-1"
+                onChange={handleImageChange}
+              />
+            </p>
+          </form>
         </div>
-
       </div>
       <div className="basis-[75%] bg-slate-100 rounded-lg shadow-md p-3">
         <p className="text-2xl font-bold">Account data</p>
+        <form>
+          <p>
+            <label>Name:</label>
+            <input
+              type="text"
+              name="name"
+              className="input-box my-1"
+              value={profile.name}
+              onChange={handleInputChange}
+            />
+          </p>
+          <p>
+            <label>Email:</label>
+            <input
+              type="text"
+              name="email"
+              className="input-box my-1"
+              value={profile.email}
+              onChange={handleInputChange}
+            />
+          </p>
+          <p>
+            <label>Phone:</label>
+            <input
+              type="text"
+              name="phone"
+              className="input-box my-1"
+              value={profile.phone}
+              onChange={handleInputChange}
+            />
+          </p>
+          <p>
+            <label>Bio:</label>
+            <textarea
+              type="text"
+              name="bio"
+              className="input-box my-1"
+              value={profile.bio}
+              onChange={handleInputChange}
+              cols="30"
+              rows="10"
+            />
+          </p>
+          <button className="mt-4 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg w-full px-5 py-2.5 text-center sm:w-full">
+            Update Profile
+          </button>
+        </form>
       </div>
     </div>
   );

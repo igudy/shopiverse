@@ -65,7 +65,7 @@ const ForgotPassword = () => {
                 <input
                   type="email"
                   id="email"
-                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block `}
+                  className={`input-box `}
                   placeholder="john.doe@company.com"
                   {...register("email", { required: true })}
                 />{" "}

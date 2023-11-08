@@ -6,6 +6,7 @@ import Users from "../../components/profile/Users";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { BiUser } from "react-icons/bi";
 import { HiOutlineUserCircle } from "react-icons/hi";
+import Footer from "../../components/footer/Footer";
 
 const allTabs = [
   {
@@ -45,6 +46,7 @@ const Profile = () => {
         <div>{tab === "Password" && <Password />}</div>
         <div>{tab === "Users" && <Users />}</div>
       </div>
+      <Footer />
     </div>
   );
 };

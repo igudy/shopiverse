@@ -65,7 +65,7 @@ const EnterAccessCode = () => {
                 <input
                   type="access"
                   id="access"
-                  className={`bg-gray-50 border border-gray-500 rounded-lg w-full p-2.5 sm:w-full sm:block `}
+                  className={`input-box `}
                   placeholder="Access code"
                   {...register("access", { required: true })}
                 />{" "}
@@ -85,7 +85,7 @@ const EnterAccessCode = () => {
                       Home <IoMdArrowForward />
                     </div>
                   </Link>
-                <Link to="$">
+                  <Link to="$">
                     <div className="left-0 flex mx-1 items-center font-bold hover:text-blue-800">
                       Resend Code
                     </div>
