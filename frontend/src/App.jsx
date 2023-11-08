@@ -1,13 +1,14 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './pages/home/Home.jsx';
-import About from './pages/about/About.jsx';
-import Contact from './pages/contact/Contact.jsx';
-import Login from './pages/auth/Login.jsx';
-import Register from './pages/auth/Register.jsx';
-import ForgotPassword from './pages/auth/ForgotPassword.jsx';
-import ResetPassword from './pages/auth/ResetPassword.jsx';
-import EnterAccessCode from './pages/auth/EnterAccessCode.jsx';
-import Profile from './pages/profile/Profile.jsx';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/home/Home.jsx";
+import About from "./pages/about/About.jsx";
+import Contact from "./pages/contact/Contact.jsx";
+import Login from "./pages/auth/Login.jsx";
+import Register from "./pages/auth/Register.jsx";
+import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
+import ResetPassword from "./pages/auth/ResetPassword.jsx";
+import EnterAccessCode from "./pages/auth/EnterAccessCode.jsx";
+import Profile from "./pages/profile/Profile.jsx";
+import Verify from "./pages/auth/Verify.jsx";
 
 const App = () => {
   return (
@@ -20,11 +21,12 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/about" element={<About />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/enter-access-code" element={<EnterAccessCode />} />
+        <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
+        <Route path="/enter-access-code/:email" element={<EnterAccessCode />} />
+        <Route path="/verify/:verificationToken" element={<Verify />} />
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
