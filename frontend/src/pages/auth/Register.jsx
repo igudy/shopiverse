@@ -13,12 +13,9 @@ import {
   validatePassword,
 } from "../../components/validation-schema/authentication-schema";
 import PasswordValidationChecker from "../../components/authentication/password-validation-checker";
-import {
-  AiFillCloseCircle,
-  AiFillEye,
-  AiFillEyeInvisible,
-} from "react-icons/ai";
+import { AiFillCloseCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
+import PasswordInput from "../../components/authentication/password-input";
 
 const Register = () => {
   const [isPasswordValid, setIsPasswordValid] = useState({
@@ -28,16 +25,6 @@ const Register = () => {
     hasSpecialChar: false,
     hasAtLeast8Char: false,
   });
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleConfirmPassword =() => {
-    setShowConfirmPassword(!showConfirmPassword);
-  }
 
   const {
     register,
@@ -51,9 +38,8 @@ const Register = () => {
   // data coming from the refine section
   const onSubmit = (data) => {
     if (data.password !== data.confirmPassword) {
-
       // Handle password mismatch, display error, etc.
-      toast.error("Invalid, password does not match")
+      toast.error("Invalid, password does not match");
       console.log("Invalid, password does not match");
     } else {
       // Passwords match, continue with submission.
@@ -161,29 +147,23 @@ const Register = () => {
                     </div>
                   )}
                 </label>
-                <span className="flex items-center">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    className={`bg-gray-50 border border-gray-500 w-full rounded-lg p-2.5 sm:w-full sm:block `}
-                    placeholder="Password"
-                    {...register("password", {
-                      required: true,
-                      onChange: () => {
-                        validatePassword(watch("password"), setIsPasswordValid);
-                      },
-                    })}
-                  />{" "}
-                  <span
-                    onClick={togglePasswordVisibility}
-                    className="cursor-pointer mx-[-40px]"
-                  >
-                    {showPassword ? (
-                      <AiFillEyeInvisible className="text-gray-800 w-7 h-7" />
-                    ) : (
-                      <AiFillEye className="text-gray-800 w-7 h-7" />
-                    )}
-                  </span>
+                <span className="">
+                  <PasswordInput
+                    placeholder={"Password"}
+                    id={"Password"}
+                    name={"Password"}
+                    register={{
+                      ...register("password", {
+                        required: true,
+                        onChange: () => {
+                          validatePassword(
+                            watch("password"),
+                            setIsPasswordValid
+                          );
+                        },
+                      }),
+                    }}
+                  />
                 </span>
               </div>
               <div className="my-3">
@@ -198,24 +178,23 @@ const Register = () => {
                     </div>
                   )}
                 </label>
-                <div className="flex items-center">
-                  <input
-                    type={showConfirmPassword ? "text" : "password"}
-                    id="confirmPassword"
-                    className={`input-box `}
-                    placeholder="Confirm password"
-                    {...register("confirmPassword", { required: true })}
+                <div className="">
+                  <PasswordInput
+                    placeholder={"Confirm Password"}
+                    id={"confirmPassword"}
+                    name={"ConfirmPassword"}
+                    register={{
+                      ...register("confirmPassword", {
+                        required: true,
+                        onChange: () => {
+                          validatePassword(
+                            watch("confirmPassword"),
+                            setIsPasswordValid
+                          );
+                        },
+                      }),
+                    }}
                   />
-                  <span
-                    onClick={toggleConfirmPassword}
-                    className="cursor-pointer mx-[-40px]"
-                  >
-                    {showConfirmPassword ? (
-                      <AiFillEyeInvisible className="text-gray-800 w-7 h-7" />
-                    ) : (
-                      <AiFillEye className="text-gray-800 w-7 h-7" />
-                    )}
-                  </span>
                 </div>
               </div>
 
@@ -243,17 +222,6 @@ const Register = () => {
                     checked={isPasswordValid.hasSpecialChar}
                   />
                 </div>
-
-                {/* {errors.confirmPassword ? (
-                  <div className=" text-red-800 text-[12px] flex items-center">
-                    <AiFillCloseCircle />
-                    {errors.confirmPassword.message}
-                  </div>
-                ) : (
-                  <div className="flex items-center text-green-500">
-                    <AiFillCheckCircle /> Confirm Password
-                  </div>
-                )} */}
               </div>
               <button
                 type="submit"
