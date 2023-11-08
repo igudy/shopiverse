@@ -15,7 +15,7 @@ import {
 import PasswordValidationChecker from "../../components/authentication/password-validation-checker";
 import { AiFillCloseCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
-import PasswordInput from "../../components/authentication/password-input";
+import PasswordInputRHF from "../../components/authentication/password-input-rhf";
 
 const Register = () => {
   const [isPasswordValid, setIsPasswordValid] = useState({
@@ -148,7 +148,7 @@ const Register = () => {
                   )}
                 </label>
                 <span className="">
-                  <PasswordInput
+                  <PasswordInputRHF
                     placeholder={"Password"}
                     id={"Password"}
                     name={"Password"}
@@ -179,7 +179,7 @@ const Register = () => {
                   )}
                 </label>
                 <div className="">
-                  <PasswordInput
+                  <PasswordInputRHF
                     placeholder={"Confirm Password"}
                     id={"confirmPassword"}
                     name={"ConfirmPassword"}

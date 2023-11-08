@@ -1,9 +1,58 @@
-import React from 'react'
+import React, { useState } from "react";
+import PasswordInputNormal from "../authentication/password-input-normal";
+
+const initialState = { oldPassword: "", newPassword: "", newPassword2: "" };
 
 const Password = () => {
-  return (
-    <div>Password</div>
-  )
-}
+  const [formData, setFormData] = useState(initialState);
+  const { oldPassword, password, password2 } = formData;
 
-export default Password
+  const handleInputChange = () => {};
+
+  return (
+    <div className="flex justify-center text-center ">
+      <div className="border-2 rounded-xl w-[70%] sm:w-[100%] xsm:w-[100%] mx-3 p-6 shadow-lg">
+        <h1 className="text-4xl sm:text-xl font-bold">Confirm Password</h1>
+        <div>
+          <form>
+            <p className="my-3">
+              <label>Current Password</label>
+              <PasswordInputNormal
+                placeholder="Old Password"
+                name="oldPassword"
+                value={oldPassword}
+                onChange={handleInputChange}
+              />
+            </p>
+            <p className="my-3">
+              <label>New Password:</label>
+              <PasswordInputNormal
+                placeholder="Password"
+                name="password"
+                value={password}
+                onChange={handleInputChange}
+              />
+            </p>
+            <p className="my-3">
+              <label>Confirm New Password:</label>
+              <PasswordInputNormal
+                placeholder="Confirm Password"
+                name="password2"
+                value={password2}
+                onChange={handleInputChange}
+              />
+            </p>
+            <button
+              type="submit"
+              className="mt-4 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg w-full px-5 py-2.5 text-center sm:w-full"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Password;
