@@ -1,39 +1,13 @@
-import React from "react";
 import InfoBox from "../users/info-box";
-import { FiUserCheck, FiUserMinus, FiUserPlus, FiUsers } from "react-icons/fi";
-
-const userData = [
-  {
-    className: "bg-red-600",
-    icons: <FiUsers />,
-    text: "User 1",
-    number: "43",
-  },
-  {
-    className: "bg-green-600",
-    icons: <FiUserCheck />,
-    text: "User 1",
-    number: "43",
-  },
-  {
-    className: "bg-purple-600",
-    icons: <FiUserMinus />,
-    text: "User 1",
-    number: "43",
-  },
-  {
-    className: "bg-blue-600",
-    icons: <FiUserPlus />,
-    text: "User 1",
-    number: "43",
-  },
-];
+import { userData } from "../../data/data2";
+import Search from "../users/search";
+import Tables from "../users/tables";
 
 const Users = () => {
   return (
     <>
       <h1 className="text-4xl sm:text-xl font-bold">User Stats</h1>
-      <div className="flex justify-between gap-3 sm:flex-col">
+      <div className="flex justify-between gap-3 sm:flex-col flex-wrap">
         {userData?.map((item, i) => (
           <div key={i}>
             <InfoBox
@@ -44,6 +18,16 @@ const Users = () => {
             />
           </div>
         ))}
+      </div>
+      {/* Table Top */}
+      <div className="flex justify-between mx-2 my-4 items-center">
+        <div className="text-3xl">All Users</div>
+        <div className="w-[300px]">
+          <Search />
+        </div>
+      </div>
+      <div>
+        <Tables />
       </div>
     </>
   );
