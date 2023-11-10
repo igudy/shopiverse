@@ -23,7 +23,26 @@ const userSchema = mongoose.Schema(
     photo: {
       type: String,
       required: [true, "Please add a photo"],
-      default: "",
+      default: "https://i.ibb.co/4pDNDk1/avatar.png",
+    },
+    bio: {
+      type: String,
+      default: "+234",
+    },
+    role: {
+      type: String,
+      required: true,
+      default: "subscriber",
+      //   subscriber, author and admin
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    userAgent: {
+      type: Array,
+      required: true,
+      default: [],
     },
   },
   {
