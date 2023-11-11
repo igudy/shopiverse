@@ -34,6 +34,8 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+mongoose.set("strictQuery", false);
+
 mongoose
   .connect(MONGO_URI, {
     useNewUrlParser: true,
