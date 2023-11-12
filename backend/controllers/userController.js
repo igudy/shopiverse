@@ -7,7 +7,7 @@ const parser = require("ua-parser-js");
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
-  // validation
+  // Validation
   if (!name || !password || !email) {
     res.status(400);
     throw new Error("Please fill all the required fields");
@@ -187,10 +187,34 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  await user.remove();
+  res.status(200).json({ message: "User deleted successfully" });
+});
+
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find().sort("-createdAt").select("-password");
+
+  if (!users) {
+    res.status(500);
+    throw new Error("Cannot get all users");
+  }
+
+  res.status(200).json(users);
+});
+
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
   getUser,
   updateUser,
+  deleteUser,
+  getUsers,
 };
