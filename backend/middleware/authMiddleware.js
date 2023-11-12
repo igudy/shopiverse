@@ -35,7 +35,7 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-const adminOnly = asyncHandler(async (req, res) => {
+const adminOnly = asyncHandler(async (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     next();
   } else {
@@ -53,7 +53,7 @@ const authorOnly = asyncHandler(async (req, res, next) => {
   }
 });
 
-const verifiedOnly = asyncHandler(async (req, res) => {
+const verifiedOnly = asyncHandler(async (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     next();
   } else {
@@ -61,7 +61,6 @@ const verifiedOnly = asyncHandler(async (req, res) => {
     throw new Error("Not authorized, acount not verified");
   }
 });
-
 
 module.exports = {
   protect,

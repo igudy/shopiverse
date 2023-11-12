@@ -225,6 +225,23 @@ const loginStatus = asyncHandler(async (req, res) => {
   return res.json(false);
 });
 
+const upgradeUser = asyncHandler(async (req, res) => {
+  const { role, id } = req.body;
+  const user = await User.findById(id);
+
+  if (!user) {
+    res.status(500);
+    throw new Error("User not found");
+  }
+
+  user.role = role;
+  await user.save();
+
+  res.status(200).json({
+    message: `User role update ${role}`,
+  });
+});
+
 module.exports = {
   registerUser,
   loginUser,
@@ -234,4 +251,5 @@ module.exports = {
   deleteUser,
   getUsers,
   loginStatus,
+  upgradeUser,
 };

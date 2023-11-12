@@ -8,6 +8,7 @@ const {
   deleteUser,
   getUsers,
   loginStatus,
+  upgradeUser,
 } = require("../controllers/userController");
 const {
   protect,
@@ -25,5 +26,6 @@ router.patch("/updateUser", protect, updateUser);
 router.delete("/:id", protect, adminOnly, deleteUser);
 router.get("/getUsers", protect, authorOnly, getUsers);
 router.get("/loginStatus", protect, loginStatus);
+router.post("/upgradeUser", protect, adminOnly, upgradeUser);
 
 module.exports = router;
