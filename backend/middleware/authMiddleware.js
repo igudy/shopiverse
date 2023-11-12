@@ -62,6 +62,7 @@ const verifiedOnly = asyncHandler(async (req, res) => {
   }
 });
 
+
 module.exports = {
   protect,
   adminOnly,
