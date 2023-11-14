@@ -9,6 +9,7 @@ const {
   getUsers,
   loginStatus,
   upgradeUser,
+  sendAutomatedEmail,
 } = require("../controllers/userController");
 
 const {
@@ -29,5 +30,6 @@ router.delete("/:id", protect, adminOnly, deleteUser);
 router.get("/getUsers", protect, authorOnly, getUsers);
 router.get("/loginStatus", protect, loginStatus);
 router.post("/upgradeUser", protect, adminOnly, upgradeUser);
+router.post("/sendAutomatedEmail", protect, sendAutomatedEmail);
 
 module.exports = router;

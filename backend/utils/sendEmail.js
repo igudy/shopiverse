@@ -34,6 +34,8 @@ const sendEmail = async (
     extName: ".handlebars",
   };
 
+  transporter.use("compile", hbs(handlebarOptions));
+
   // Options for sending mail
   const options = {
     from: send_from,
