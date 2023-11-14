@@ -20,8 +20,10 @@ const sendEmail = async (
       pass: process.env.EMAIL_PASS,
     },
     tls: {
+      // ciphers: "SSLv3",
       rejectUnauthorized: false,
     },
+    requireTLS: true,
   });
 
   const handlebarOptions = {
