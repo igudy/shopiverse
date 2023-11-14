@@ -10,11 +10,13 @@ const {
   loginStatus,
   upgradeUser,
 } = require("../controllers/userController");
+
 const {
   protect,
   adminOnly,
   authorOnly,
 } = require("../middleware/authMiddleware");
+
 const router = express.Router();
 
 router.post("/register", registerUser);
