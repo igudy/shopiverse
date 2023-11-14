@@ -33,5 +33,5 @@ router.get("/loginStatus", protect, loginStatus);
 router.post("/upgradeUser", protect, adminOnly, upgradeUser);
 router.post("/sendAutomatedEmail", protect, sendAutomatedEmail);
 
-router.post("/sendVerificationEmail", protect, sendVerificationEmail);
+router.post("/sendVerificationEmail", sendVerificationEmail);
 module.exports = router;
