@@ -5,7 +5,7 @@ const path = require("path");
 const sendEmail = async (
   subject,
   send_to,
-  send_from,
+  sent_from,
   reply_to,
   template,
   name,
@@ -38,7 +38,7 @@ const sendEmail = async (
 
   // Options for sending mail
   const options = {
-    from: send_from,
+    from: sent_from,
     to: send_to,
     replyTo: reply_to,
     subject,

@@ -321,7 +321,7 @@ const sendVerificationEmail = asyncHandler(async (req, res) => {
   // Send Email
   const subject = "Verify Your Account - Shopiverse";
   const send_to = user.email;
-  const send_from = process.env.EMAIL_USER;
+  const sent_from = process.env.EMAIL_USER;
   const reply_to = "noreply@shopiverse.com";
   const template = "verifyEmail";
   const name = user.name;
@@ -337,13 +337,13 @@ const sendVerificationEmail = asyncHandler(async (req, res) => {
       name,
       link
     );
-    res.status(200).json({ message: `Email sent` });
+    res.status(200).json({ message: `Email sent successfully` });
   } catch (error) {
     res.status(500);
     throw new Error("Email not sent, please try again");
   }
 
-  // console.log(verificationToken);
+  console.log(verificationToken);
 });
 
 module.exports = {
