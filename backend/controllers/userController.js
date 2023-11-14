@@ -281,6 +281,9 @@ const sendAutomatedEmail = asyncHandler(async (req, res) => {
   }
 });
 
+// Send Verification emails
+const sendVerificationEmail = asyncHandler(async (req, res) => {});
+
 module.exports = {
   registerUser,
   loginUser,
@@ -292,4 +295,5 @@ module.exports = {
   loginStatus,
   upgradeUser,
   sendAutomatedEmail,
+  sendVerificationEmail,
 };

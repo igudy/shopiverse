@@ -10,6 +10,7 @@ const {
   loginStatus,
   upgradeUser,
   sendAutomatedEmail,
+  sendVerificationEmail,
 } = require("../controllers/userController");
 
 const {
@@ -32,4 +33,5 @@ router.get("/loginStatus", protect, loginStatus);
 router.post("/upgradeUser", protect, adminOnly, upgradeUser);
 router.post("/sendAutomatedEmail", protect, sendAutomatedEmail);
 
+router.post("/sendVerificationEmail", protect, sendVerificationEmail);
 module.exports = router;
