@@ -79,14 +79,13 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   // req.body is the data coming from the front end
   const { email, password } = req.body;
-  console.log(req.body);
+  console.log(email, password, "Log in");
 
   // Validation
   if (!email || !password) {
     res.status(400);
     throw new Error("Please add email password");
   }
-
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -378,70 +377,62 @@ const verifyUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Account Verification Successful" });
 });
 
-// const forgotPassword = asyncHandler(async (req, res) => {
-//   const { email } = req.body;
-//   const user = await User.findOne({ email });
-
-//   if (!user) {
-//     res.status(404);
-//     throw new Error("User not found");
-//   }
-
-//   // Delete Token if it exists in DB
-//   await Token.findOneAndDelete({ userId: user._id });
-
-//   // Create reset token and save
-//   const resetToken = crypto.randomBytes(32).toString("hex") + user._id;
-
-//   // Hash token and save
-//   const hashedToken = hashToken(resetToken);
-//   await new Token({
-//     userId: user._id,
-//     rToken: hashedToken,
-//     createdAt: Date.now(),
-//     expiresAt: Date.now() + 60 * 60 * 1000, // 60 minutes
-//   }).save();
-
-//   // Construct Reset URL
-//   const resetUrl = `${process.env.FRONTEND_URL}/resetPassword/${resetToken}`;
-
-//   // Send Email
-//   const subject = "Reset your password - Shopiverse";
-//   const send_to = user.email;
-//   const sent_from = process.env.EMAIL_USER;
-//   const reply_to = "noreply@shopiverse.com";
-//   const template = "forgotPassword";
-//   const name = user.name;
-//   const link = resetUrl;
-
-//   try {
-//     await sendEmail(
-//       subject,
-//       send_to,
-//       sent_from,
-//       reply_to,
-//       template,
-//       name,
-//       link
-//     );
-//     res.status(200).json({ message: `Reset password email sent successfully` });
-//   } catch (error) {
-//     return next(new Error("Reset password email not sent, please try again"));
-//   }
-
-//   console.log(resetToken);
-// });
-
+// Forgot Password
 const forgotPassword = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-
-  console.log(email, password);
+  const { email } = req.body;
 
   const user = await User.findOne({ email });
 
   if (!user) {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("No user with this email");
+  }
+
+  // Delete Token if it exists in DB
+  let token = await Token.findOne({ userId: user._id });
+  if (token) {
+    await token.deleteOne();
+  }
+
+  //   Create Verification Token and Save
+  const resetToken = crypto.randomBytes(32).toString("hex") + user._id;
+  console.log(resetToken);
+
+  // Hash token and save
+  const hashedToken = hashToken(resetToken);
+  await new Token({
+    userId: user._id,
+    rToken: hashedToken,
+    createdAt: Date.now(),
+    expiresAt: Date.now() + 60 * (60 * 1000), // 60mins
+  }).save();
+
+  // Construct Reset URL
+  const resetUrl = `${process.env.FRONTEND_URL}/resetPassword/${resetToken}`;
+
+  // Send Email
+  const subject = "Password Reset Request - AUTH:Z";
+  const send_to = user.email;
+  const sent_from = process.env.EMAIL_USER;
+  const reply_to = "noreply@zino.com";
+  const template = "forgotPassword";
+  const name = user.name;
+  const link = resetUrl;
+
+  try {
+    await sendEmail(
+      subject,
+      send_to,
+      sent_from,
+      reply_to,
+      template,
+      name,
+      link
+    );
+    res.status(200).json({ message: "Password Reset Email Sent" });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Email not sent, please try again");
   }
 });
 
@@ -449,7 +440,29 @@ const forgotPassword = asyncHandler(async (req, res) => {
 const resetPassword = asyncHandler(async (req, res) => {
   const { resetToken } = req.params;
   const { password } = req.body;
-  console.log(resetToken, password);
+  console.log(resetToken);
+  console.log(password);
+
+  const hashedToken = hashToken(resetToken);
+
+  const userToken = await Token.findOne({
+    rToken: hashedToken,
+    expiresAt: { $gt: Date.now() },
+  });
+
+  if (!userToken) {
+    res.status(404);
+    throw new Error("Invalid or Expired Token");
+  }
+
+  // Find User
+  const user = await User.findOne({ _id: userToken.userId });
+
+  // Now Reset password
+  user.password = password;
+  await user.save();
+
+  res.status(200).json({ message: "Password Reset Successful, please login" });
 });
 
 module.exports = {
