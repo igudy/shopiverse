@@ -79,6 +79,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   // req.body is the data coming from the front end
   const { email, password } = req.body;
+  console.log(req.body);
 
   // Validation
   if (!email || !password) {
@@ -141,6 +142,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     sameSite: "none",
     secure: true,
   });
+  console.log("logout");
 });
 
 const getUser = asyncHandler(async (req, res) => {
@@ -376,6 +378,80 @@ const verifyUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Account Verification Successful" });
 });
 
+// const forgotPassword = asyncHandler(async (req, res) => {
+//   const { email } = req.body;
+//   const user = await User.findOne({ email });
+
+//   if (!user) {
+//     res.status(404);
+//     throw new Error("User not found");
+//   }
+
+//   // Delete Token if it exists in DB
+//   await Token.findOneAndDelete({ userId: user._id });
+
+//   // Create reset token and save
+//   const resetToken = crypto.randomBytes(32).toString("hex") + user._id;
+
+//   // Hash token and save
+//   const hashedToken = hashToken(resetToken);
+//   await new Token({
+//     userId: user._id,
+//     rToken: hashedToken,
+//     createdAt: Date.now(),
+//     expiresAt: Date.now() + 60 * 60 * 1000, // 60 minutes
+//   }).save();
+
+//   // Construct Reset URL
+//   const resetUrl = `${process.env.FRONTEND_URL}/resetPassword/${resetToken}`;
+
+//   // Send Email
+//   const subject = "Reset your password - Shopiverse";
+//   const send_to = user.email;
+//   const sent_from = process.env.EMAIL_USER;
+//   const reply_to = "noreply@shopiverse.com";
+//   const template = "forgotPassword";
+//   const name = user.name;
+//   const link = resetUrl;
+
+//   try {
+//     await sendEmail(
+//       subject,
+//       send_to,
+//       sent_from,
+//       reply_to,
+//       template,
+//       name,
+//       link
+//     );
+//     res.status(200).json({ message: `Reset password email sent successfully` });
+//   } catch (error) {
+//     return next(new Error("Reset password email not sent, please try again"));
+//   }
+
+//   console.log(resetToken);
+// });
+
+const forgotPassword = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  console.log(email, password);
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+// Reset Password
+const resetPassword = asyncHandler(async (req, res) => {
+  const { resetToken } = req.params;
+  const { password } = req.body;
+  console.log(resetToken, password);
+});
+
 module.exports = {
   registerUser,
   loginUser,
@@ -389,4 +465,6 @@ module.exports = {
   sendAutomatedEmail,
   sendVerificationEmail,
   verifyUser,
+  forgotPassword,
+  resetPassword,
 };
