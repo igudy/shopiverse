@@ -347,6 +347,7 @@ const sendVerificationEmail = asyncHandler(async (req, res) => {
   console.log(verificationToken);
 });
 
+// Verify User
 const verifyUser = asyncHandler(async (req, res) => {
   const { verificationToken } = req.params;
   const hashedToken = hashToken(verificationToken);
@@ -395,7 +396,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
     await token.deleteOne();
   }
 
-  //   Create Verification Token and Save
+  // Create Verification Token and Save
   const resetToken = crypto.randomBytes(32).toString("hex") + user._id;
   console.log(resetToken);
 
@@ -466,6 +467,38 @@ const resetPassword = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Password Reset Successful, please login" });
 });
 
+// Change Password
+const changePassword = asyncHandler(async (req, res) => {
+  const { oldPassword, password } = req.body;
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  if (!oldPassword || !password) {
+    res.status(400);
+    throw new Error("Please enter old and new password");
+  }
+
+  // Check if old password is correct
+  const passwordIsCorrect = await bcrypt.compare(oldPassword, user.password);
+
+  // Save new password
+  if (user && passwordIsCorrect) {
+    user.password = password;
+    await user.save();
+
+    res
+      .status(200)
+      .json({ message: "Password change successful, please re-login" });
+  } else {
+    res.status(400);
+    throw new Error("Old password is incorrect");
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
@@ -481,4 +514,5 @@ module.exports = {
   verifyUser,
   forgotPassword,
   resetPassword,
+  changePassword,
 };
