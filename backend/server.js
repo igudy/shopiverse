@@ -16,7 +16,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://shopiverse.vercel.com"],
+    origin: ["http://localhost:3000", "http://shopiverse.vercel.app/"],
     credentials: true,
   })
 );

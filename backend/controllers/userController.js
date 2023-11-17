@@ -141,7 +141,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     sameSite: "none",
     secure: true,
   });
-  console.log("logout");
+  res.json({ message: "Logout successfully" });
 });
 
 const getUser = asyncHandler(async (req, res) => {
@@ -382,6 +382,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
 
   const user = await User.findOne({ email });
+  console.log(email);
 
   if (!user) {
     res.status(404);
