@@ -2,7 +2,7 @@ import { AiFillStar } from "react-icons/ai";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { setAddItemToCart } from "../redux/slices/CartSlice";
+import { setAddItemToCart } from "../redux/slices/cart/CartSlice";
 
 const ProductCards = ({
   id,

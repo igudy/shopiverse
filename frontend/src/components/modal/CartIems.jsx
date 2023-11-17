@@ -2,7 +2,14 @@ import {
     AiFillDelete,
   } from "react-icons/ai";
   import { useDispatch, useSelector } from "react-redux";
-  import { selectCartItems, selectTotalQuantity, setDecreaseItemQuantity, setGetTotalAmount, setIncreaseItemQuantity, setRemoveItemFromCart } from '../redux/slices/CartSlice'
+  import {
+    selectCartItems,
+    selectTotalQuantity,
+    setDecreaseItemQuantity,
+    setGetTotalAmount,
+    setIncreaseItemQuantity,
+    setRemoveItemFromCart,
+  } from "../redux/slices/cart/CartSlice";
   import { useEffect } from "react";
   
   const CartItems = ({

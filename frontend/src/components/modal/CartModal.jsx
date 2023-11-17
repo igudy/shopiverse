@@ -12,7 +12,7 @@ import {
   selectTotalQuantity,
   setClearItems,
   setGetTotalAmount,
-} from '../redux/slices/CartSlice'
+} from "../redux/slices/cart/CartSlice";
 
 const CartModal = ({ openModal, closeModal, isOpen }) => {
   const cartItems = useSelector(selectCartItems);
