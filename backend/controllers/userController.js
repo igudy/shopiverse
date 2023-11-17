@@ -7,6 +7,9 @@ const jwt = require("jsonwebtoken");
 const parser = require("ua-parser-js");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
+const Cryptr = require("cryptr");
+
+const cryptr = new Cryptr(process.env.CRYPTR_KEY);
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -101,6 +104,37 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   // Trigger 2FA for unknown UserAgent
+  const ua = parser(req.headers["user-agent"]);
+  const thisUserAgent = ua.ua;
+  console.log(thisUserAgent);
+
+  // Check if the user agent is in the array
+  const allowedAgent = user.userAgent.includes(thisUserAgent);
+
+  if (!allowedAgent) {
+    // Generate 6 digit code
+    const loginCode = Math.floor(100000 + Math.random() * 900000);
+
+    // Enrypt login code before saving to DB
+    const encryptedLoginCode = cryptr.encrypt(loginCode.toString());
+
+    // Delete Token if it exists in DB
+    let userToken = await Token.findOne({ userId: user._id });
+    if (userToken) {
+      await userToken.deleteOne();
+    }
+
+    // Save token to DB
+    await new Token({
+      userId: user._id,
+      lToken: encryptedLoginCode,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 60 * (60 * 1000), //60mins
+    }).save();
+
+    res.status(400);
+    throw new Error("Check your email for login code");
+  }
 
   // Generate token
   const token = generateToken(user._id);
@@ -499,6 +533,56 @@ const changePassword = asyncHandler(async (req, res) => {
   }
 });
 
+// Send Login Code
+const sendLoginCode = asyncHandler(async (req, res) => {
+  const { email } = req.params;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  // Find login code in DB
+  let userToken = await Token.findOne({
+    userId: user._id,
+    expiresAt: { $gt: Date.now() },
+  });
+
+  if (!userToken) {
+    res.status(400);
+    throw new Error("Invalid or Expired token, please login again");
+  }
+
+  const loginCode = userToken.lToken;
+  const decryptedLoginCode = cryptr.decrypt(loginCode);
+
+  // Send Login Code
+  const subject = "Login Access Code - Shopiverse";
+  const send_to = email;
+  const sent_from = process.env.EMAIL_USER;
+  const reply_to = "noreply@shopiverse.com";
+  const template = "loginCode";
+  const name = user.name;
+  const link = decryptedLoginCode;
+
+  try {
+    await sendEmail(
+      subject,
+      send_to,
+      sent_from,
+      reply_to,
+      template,
+      name,
+      link
+    );
+    res.status(200).json({ message: `Access code sent to ${email}` });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Login access code not sent, please try again");
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
@@ -515,4 +599,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   changePassword,
+  sendLoginCode,
 };
