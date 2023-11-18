@@ -21,14 +21,15 @@ export const registerUser = createAsyncThunk(
       return await authService.register(userData);
     } catch (error) {
       const message =
-        (error.reponse && error.response.data && error.response.data.message) ||
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
         error.message ||
         error.renderToString;
       return thunkAPI.rejectWithValue(message);
     }
   }
 );
-
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -58,6 +59,7 @@ const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.user = null;
+        console.log(action.payload);
         toast.error(action.payload);
       });
   },
