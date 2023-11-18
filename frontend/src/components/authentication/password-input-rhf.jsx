@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
-const PasswordInput = ({ placeholder, id, name, register }) => {
+const PasswordInput = ({ placeholder, id, name, register, onPaste, value }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -16,7 +16,9 @@ const PasswordInput = ({ placeholder, id, name, register }) => {
         name={name}
         className={`bg-gray-50 border border-gray-500 w-full rounded-lg p-2.5 sm:w-full sm:block`}
         placeholder={placeholder}
-        register={register}
+        {...register}
+        onPaste={onPaste}
+        value={value}
       />
       <span
         onClick={togglePasswordVisibility}

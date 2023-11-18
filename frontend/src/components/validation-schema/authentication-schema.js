@@ -25,14 +25,18 @@ export const access_validation_schema = z.object({
 });
 
 export const sign_up_user_validation_schema = z.object({
-  firstName: z
-    .string({ required_error: "First name is required" })
+  name: z
+    .string({ required_error: "Username is required" })
     .min(2, { message: "At least 2 characters" })
     .max(50, { message: "Not than 50 character" }),
-  lastName: z
-    .string({ required_error: "Last name is required" })
-    .min(2, { message: "At least 2 characters" })
-    .max(50, { message: "Not than 50 character" }),
+  // firstName: z
+  //   .string({ required_error: "First name is required" })
+  //   .min(2, { message: "At least 2 characters" })
+  //   .max(50, { message: "Not than 50 character" }),
+  // lastName: z
+  //   .string({ required_error: "Last name is required" })
+  //   .min(2, { message: "At least 2 characters" })
+  //   .max(50, { message: "Not than 50 character" }),
   email: z.string({ required_error: "email is required" }).email(),
   password: z
     .string({ required_error: "Password is required" })

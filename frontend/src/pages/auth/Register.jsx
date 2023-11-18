@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import LoginImage from "../../../src/assets/product6.png";
-import Logo from "../../../src/assets/logo.png";
 import Google from "../../../src/assets/icons/googleicon.svg";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -16,6 +15,8 @@ import PasswordValidationChecker from "../../components/authentication/password-
 import { AiFillCloseCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
 import PasswordInputRHF from "../../components/authentication/password-input-rhf";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../components/redux/slices/auth/authSlice";
 
 const Register = () => {
   const [isPasswordValid, setIsPasswordValid] = useState({
@@ -25,6 +26,8 @@ const Register = () => {
     hasSpecialChar: false,
     hasAtLeast8Char: false,
   });
+
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -36,14 +39,18 @@ const Register = () => {
   });
 
   // data coming from the refine section
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (data.password !== data.confirmPassword) {
-      // Handle password mismatch, display error, etc.
       toast.error("Invalid, password does not match");
-      console.log("Invalid, password does not match");
     } else {
       // Passwords match, continue with submission.
-      console.log(`Data submitted`, data);
+      console.log(`data submitted`, data);
+      const userData = {
+        name: data?.name,
+        password: data?.password,
+        email: data?.email,
+      };
+      await dispatch(registerUser(userData));
     }
   };
 
@@ -74,46 +81,23 @@ const Register = () => {
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-col text-sm">
-                <div className="flex md:gap-2 lg:gap-10 xl:gap-10 items-center justify-between sm:block">
-                  <div className="flex flex-col">
-                    <label htmlFor="firstName" className="flex my-1">
-                      First name{" "}
-                      {errors.firstName && (
-                        <div className=" text-red-800 text-[12px] flex items-center mx-2">
-                          <AiFillCloseCircle />
-                          {errors.firstName.message}
-                        </div>
-                      )}
-                    </label>
-                    <input
-                      type="text"
-                      id="firstName"
-                      className={`bg-gray-50 border border-gray-500 rounded-lg md:w-full w-60 sm:w-full p-2.5 
-                      
-                      `}
-                      placeholder="John"
-                      {...register("firstName", { required: true })}
-                    />{" "}
-                    <span></span>
-                  </div>{" "}
-                  <div className="flex flex-col">
-                    <label htmlFor="last_name" className="flex my-1 ml-1">
-                      Last name
-                      {errors.lastName && (
-                        <div className=" text-red-800 text-[12px] flex items-center mx-2">
-                          <AiFillCloseCircle />
-                          {errors.lastName.message}
-                        </div>
-                      )}
-                    </label>
-                    <input
-                      type="text"
-                      id="last_name"
-                      className={`bg-gray-50 border border-gray-500 rounded-lg p-2.5 md:w-full w-60 sm:w-full`}
-                      placeholder="Doe"
-                      {...register("lastName", { required: true })}
-                    />
-                  </div>
+                <div className="my-3">
+                  <label htmlFor="name" className="flex">
+                    Username{" "}
+                    {errors.name && (
+                      <div className=" text-red-800 text-[12px] flex items-center mx-2">
+                        <AiFillCloseCircle />
+                        {errors.name.message}
+                      </div>
+                    )}
+                  </label>
+                  <input
+                    type="text"
+                    className={`input-box `}
+                    name="name"
+                    placeholder="Igudy"
+                    {...register("name", { required: true })}
+                  />
                 </div>
               </div>
               <div className="my-3">
@@ -128,7 +112,6 @@ const Register = () => {
                 </label>
                 <input
                   type="email"
-                  id="email"
                   className={`input-box `}
                   placeholder="john.doe@company.com"
                   {...register("email", { required: true })}
@@ -147,7 +130,6 @@ const Register = () => {
                 <span className="">
                   <PasswordInputRHF
                     placeholder={"Password"}
-                    id={"Password"}
                     name={"Password"}
                     register={{
                       ...register("password", {
@@ -178,7 +160,6 @@ const Register = () => {
                 <div className="">
                   <PasswordInputRHF
                     placeholder={"Confirm Password"}
-                    id={"confirmPassword"}
                     name={"ConfirmPassword"}
                     register={{
                       ...register("confirmPassword", {
@@ -190,6 +171,11 @@ const Register = () => {
                           );
                         },
                       }),
+                    }}
+                    onPaste={(e) => {
+                      e.preventDefault();
+                      toast.error("Cannot paste to input field");
+                      return false;
                     }}
                   />
                 </div>
