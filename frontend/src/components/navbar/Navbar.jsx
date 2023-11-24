@@ -64,7 +64,7 @@ const Navbar = () => {
           <Link to="/register">
             <p className="cursor-pointer hover:underline">Register</p>
           </Link>
-          <p className="cursor-pointer hover:underline" onClick={logout}>
+          <p className="cursor-pointer hover:underline" onClick={logoutUser}>
             Logout
           </p>
           {/* <Link to="/contact">

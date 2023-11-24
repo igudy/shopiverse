@@ -23,7 +23,7 @@ const logout = async () => {
 
 // Login Status
 const loginStatus = async () => {
-  const response = await axios.get(API_URL + "logout");
+  const response = await axios.get(API_URL + "loginStatus");
   return response.data;
 };
 

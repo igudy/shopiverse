@@ -7,6 +7,8 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { BiUser } from "react-icons/bi";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import Footer from "../../components/footer/Footer";
+import useRedirectLoggedOutUser from "../../components/customHooks/useRedirectLoggedOutUser";
+import { useSelector } from "react-redux";
 
 const allTabs = [
   {
@@ -21,9 +23,13 @@ const allTabs = [
 ];
 
 const Profile = () => {
+  const { isLoading, isError } = useSelector((state) => state.auth);
+  useRedirectLoggedOutUser("/login");
   const [tab, setTab] = useState("Profile");
+
   return (
     <div>
+      {isLoading && <div>Loading...</div>}
       <Navbar />
       <div className="bg-gray-200 border-2 border-gray-300">
         <div className="flex justify-around mx-10 sm:mx-2 xsm:mx-2 py-2">

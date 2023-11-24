@@ -156,16 +156,16 @@ const authSlice = createSlice({
       })
 
       // LoginStatus
-      .addCase(logout.pending, (state) => {
+      .addCase(loginStatus.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(logout.fulfilled, (state, action) => {
+      .addCase(loginStatus.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isLoggedIn = action.payload;
-        toast.success(`Login Status ${loginStatus}`);
+        console.log(action.payload);
       })
-      .addCase(logout.rejected, (state, action) => {
+      .addCase(loginStatus.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
