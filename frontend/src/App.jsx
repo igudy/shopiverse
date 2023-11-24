@@ -9,8 +9,17 @@ import ResetPassword from "./pages/auth/ResetPassword.jsx";
 import EnterAccessCode from "./pages/auth/EnterAccessCode.jsx";
 import Profile from "./pages/profile/Profile.jsx";
 import Verify from "./pages/auth/Verify.jsx";
+import { loginStatus } from "./components/redux/slices/auth/authSlice.jsx";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loginStatus());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Routes>
