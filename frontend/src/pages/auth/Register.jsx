@@ -45,7 +45,7 @@ const Register = () => {
     resolver: zodResolver(sign_up_user_validation_schema),
   });
 
-  // data coming from the refine section
+  // Data coming from the refine section
   const onSubmit = async (data) => {
     if (data.password !== data.confirmPassword) {
       toast.error("Invalid, password does not match");

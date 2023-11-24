@@ -2,11 +2,22 @@ import { useEffect, useState } from "react";
 import { HeartIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import logo from "../../assets/logo.png";
 import CartModal from "../modal/CartModal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { RESET, logout } from "../redux/slices/auth/authSlice";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [navState, setNavState] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Logoout functionality
+  const logoutUser = async () => {
+    dispatch(RESET());
+    await dispatch(logout());
+    navigate("/login");
+  };
 
   const closeModal = () => {
     setIsOpen(false);
@@ -53,6 +64,9 @@ const Navbar = () => {
           <Link to="/register">
             <p className="cursor-pointer hover:underline">Register</p>
           </Link>
+          <p className="cursor-pointer hover:underline" onClick={logout}>
+            Logout
+          </p>
           {/* <Link to="/contact">
           <p className="cursor-pointer hover:underline">Contact</p>
         </Link> */}
