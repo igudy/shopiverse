@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginImage from "../../../src/assets/product6.png";
 import Google from "../../../src/assets/icons/googleicon.svg";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,8 +15,11 @@ import PasswordValidationChecker from "../../components/authentication/password-
 import { AiFillCloseCircle } from "react-icons/ai";
 import toast from "react-hot-toast";
 import PasswordInputRHF from "../../components/authentication/password-input-rhf";
-import { useDispatch } from "react-redux";
-import { registerUser } from "../../components/redux/slices/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  RESET,
+  registerUser,
+} from "../../components/redux/slices/auth/authSlice";
 
 const Register = () => {
   const [isPasswordValid, setIsPasswordValid] = useState({
@@ -26,8 +29,12 @@ const Register = () => {
     hasSpecialChar: false,
     hasAtLeast8Char: false,
   });
+  const { isLoading, isLoggedIn, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -54,10 +61,19 @@ const Register = () => {
     }
   };
 
+  useEffect(() => {
+    if (isSuccess && isLoggedIn) {
+      navigate("/");
+    }
+
+    dispatch(RESET());
+  }, [isLoggedIn, isSuccess, dispatch, navigate]);
+
   return (
     <>
       <Navbar />
       <div className="flex sm:block gap-5 justify-between mx-16 xsm:mx-2 sm:mx-2">
+        {isLoading}
         {/* <div className='bg-gradient-to-t from-purple-500 to-purple-300 h-10 sm:w-full'></div> */}
         <div className="basis-1/2 md:justify-center xsm:justify-center justify-center flex flex-col xsm:hidden sm:hidden md:hidden lg:hidden sm:justify-center left-0">
           <img

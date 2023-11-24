@@ -1,18 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginImage from "../../../src/assets/login/shoe-login.png";
 import Navbar from "../../components/navbar/Navbar";
 import Google from "../../../src/assets/icons/googleicon.svg";
 import Footer from "../../components/footer/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { login_validation_schema } from "../../components/validation-schema/authentication-schema";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import toast from "react-hot-toast";
+import { RESET, loginUser } from "../../components/redux/slices/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isLoading, isLoggedIn, isSuccess, isError } = useSelector(
+    (state) => state.auth
+  );
+
   const {
     register,
     handleSubmit,
@@ -28,10 +35,20 @@ const Login = () => {
   };
 
   // Data coming from the refine section
-  const onSubmit = (data) => {
-    toast.success("Data submitted");
-    console.log(`Data submitted`, data);
+  const onSubmit = async (data) => {
+    const userData = {
+      email: data?.email,
+      password: data?.password,
+    };
+    await dispatch(loginUser(userData));
   };
+
+  useEffect(() => {
+    if (isSuccess && isLoggedIn) {
+      navigate("/profile");
+    }
+    dispatch(RESET());
+  }, [isLoggedIn, isSuccess, dispatch, navigate]);
 
   return (
     <>
@@ -120,7 +137,7 @@ const Login = () => {
               </Link>
             </div>
             <div className="my-3 text-lg text-center justify-center sm:w-full sm:text-sm">
-              Don't have an account?{" "}
+              Don&rsquo;t have an account?{" "}
               <span className="text-blue-700 hover:text-blue-900 font-medium cursor-pointer underline">
                 {" "}
                 <Link to="/register">Register Now</Link>
