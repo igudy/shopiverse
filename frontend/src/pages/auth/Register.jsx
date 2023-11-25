@@ -70,7 +70,7 @@ const Register = () => {
   }, [isLoggedIn, isSuccess, dispatch, navigate]);
 
   return (
-    <>
+    <div>
       <Navbar />
       <div className="flex sm:block gap-5 justify-between mx-16 xsm:mx-2 sm:mx-2">
         {isLoading}
@@ -247,7 +247,7 @@ const Register = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

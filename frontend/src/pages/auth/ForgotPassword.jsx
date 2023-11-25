@@ -27,7 +27,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <>
+    <div>
       <Navbar />
       <div className="flex sm:block gap-5 justify-between mx-16 xsm:mx-2 sm:mx-2 my-8">
         <div className="basis-1/2 md:justify-center xsm:justify-center justify-center flex flex-col xsm:hidden sm:hidden md:hidden lg:hidden sm:justify-center left-0">
@@ -95,7 +95,7 @@ const ForgotPassword = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

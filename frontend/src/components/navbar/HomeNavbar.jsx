@@ -4,6 +4,7 @@ import CartModal from "../modal/CartModal";
 import { Link, useNavigate } from "react-router-dom";
 import { RESET, logout } from "../redux/slices/auth/authSlice";
 import { useDispatch } from "react-redux";
+import { ShowOnLogin, ShowOnLogout } from "../protect/hiddenLink";
 
 const HomeNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,16 +55,21 @@ const HomeNavbar = () => {
         <img src={logo} className="w-[120px] h-6 cursor-pointer" alt="logo" />
       </div>
       <div className="flex text-white items-center gap-4 xsm:gap-0 sm:gap-1 right-0 z-[999999]">
-        <Link to="/login">
-          <p className="cursor-pointer hover:underline">Login</p>
-        </Link>
-        <Link to="/register">
-          <p className="cursor-pointer hover:underline">Register</p>
-        </Link>
-        <p className="cursor-pointer hover:underline" onClick={logoutUser}>
-          Logout
-        </p>
-
+        <ShowOnLogout>
+          <Link to="/login">
+            <p className="cursor-pointer hover:underline">Login</p>
+          </Link>
+        </ShowOnLogout>
+        <ShowOnLogout>
+          <Link to="/register">
+            <p className="cursor-pointer hover:underline">Register</p>
+          </Link>
+        </ShowOnLogout>
+        <ShowOnLogin>
+          <p className="cursor-pointer hover:underline" onClick={logoutUser}>
+            Logout
+          </p>
+        </ShowOnLogin>
         <CartModal
           openModal={openModal}
           closeModal={closeModal}

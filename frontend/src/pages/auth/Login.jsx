@@ -7,11 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { login_validation_schema } from "../../components/validation-schema/authentication-schema";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { RESET, loginUser } from "../../components/redux/slices/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { LoaderSkeleton } from "../../components/ui/loader";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -51,8 +51,13 @@ const Login = () => {
   }, [isLoggedIn, isSuccess, dispatch, navigate]);
 
   return (
-    <>
+    <div>
       <Navbar />
+      {isLoading && (
+        <div>
+          <LoaderSkeleton />
+        </div>
+      )}
       <div className="flex sm:block gap-5 justify-between mx-16 xsm:mx-2 sm:mx-2">
         {/* <div className='bg-gradient-to-t from-purple-500 to-purple-300 h-10 sm:w-full'></div> */}
         <div className="basis-1/2 md:justify-center xsm:justify-center justify-center flex flex-col xsm:hidden sm:hidden md:hidden lg:hidden sm:justify-center left-0">
@@ -157,7 +162,7 @@ const Login = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

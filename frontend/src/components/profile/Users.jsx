@@ -2,11 +2,10 @@ import InfoBox from "../users/info-box";
 import { userData } from "../../data/data2";
 import Search from "../users/search";
 import Tables from "../users/tables";
-import { LoaderPortal } from "../ui/loader";
 
 const Users = () => {
   return (
-    <>
+    <div>
       <h1 className="text-4xl sm:text-xl font-bold">User Stats</h1>
       <div className="flex justify-between gap-3 sm:flex-col flex-wrap">
         {userData?.map((item, i) => (
@@ -30,7 +29,7 @@ const Users = () => {
       <div>
         <Tables />
       </div>
-    </>
+    </div>
   );
 };
 

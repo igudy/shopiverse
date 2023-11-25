@@ -4,7 +4,7 @@ import Footer from "../../components/footer/Footer";
 
 const Verify = () => {
   return (
-    <>
+    <div>
       <Navbar />
       <div className="flex flex-col justify-center text-center sm:my-10 xsm:my-10 my-40">
         <p className="text-4xl xsm:text-lg sm:text-lg font-bold">
@@ -18,7 +18,7 @@ const Verify = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

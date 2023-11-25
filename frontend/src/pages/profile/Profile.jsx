@@ -9,6 +9,8 @@ import { HiOutlineUserCircle } from "react-icons/hi";
 import Footer from "../../components/footer/Footer";
 import useRedirectLoggedOutUser from "../../components/customHooks/useRedirectLoggedOutUser";
 import { useSelector } from "react-redux";
+import { LoaderSkeleton } from "../../components/ui/loader";
+import { AdminLink } from "../../components/protect/hiddenLink";
 
 const allTabs = [
   {
@@ -29,7 +31,11 @@ const Profile = () => {
 
   return (
     <div>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <div>
+          <LoaderSkeleton />
+        </div>
+      )}
       <Navbar />
       <div className="bg-gray-200 border-2 border-gray-300">
         <div className="flex justify-around mx-10 sm:mx-2 xsm:mx-2 py-2">
@@ -50,7 +56,9 @@ const Profile = () => {
       <div className="my-5 mx-10 sm:mx-2 xsm:mx-2 lg:mx-3">
         <div>{tab === "Profile" && <ProfileComponent />}</div>
         <div>{tab === "Password" && <Password />}</div>
-        <div>{tab === "Users" && <Users />}</div>
+        <AdminLink>
+          <div>{tab === "Users" && <Users />}</div>
+        </AdminLink>
       </div>
       <Footer />
     </div>

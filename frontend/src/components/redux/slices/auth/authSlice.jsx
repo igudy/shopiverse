@@ -178,4 +178,6 @@ export const { RESET } = authSlice.actions;
 // For useSelector
 export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
 
+export const selectUser = (state) => state.auth.user;
+
 export default authSlice.reducer;

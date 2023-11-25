@@ -2,19 +2,27 @@ import LoginImage from "../../../src/assets/product6.png";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { Link } from "react-router-dom";
-import { AiFillCloseCircle, AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import {
+  AiFillCloseCircle,
+  AiFillEye,
+  AiFillEyeInvisible,
+} from "react-icons/ai";
 import { IoMdArrowForward } from "react-icons/io";
 import { GrPowerReset } from "react-icons/gr";
 import { BiArrowBack } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { login_validation_schema, reset_password_validation_schema, validatePassword } from "../../components/validation-schema/authentication-schema";
+import {
+  login_validation_schema,
+  reset_password_validation_schema,
+  validatePassword,
+} from "../../components/validation-schema/authentication-schema";
 import toast from "react-hot-toast";
 import { useState } from "react";
 
 const ResetPassword = () => {
-      const [isPasswordValid, setIsPasswordValid] = useState({
+  const [isPasswordValid, setIsPasswordValid] = useState({
     hasUppercase: false,
     hasLowercase: false,
     hasNumber: false,
@@ -22,21 +30,21 @@ const ResetPassword = () => {
     hasAtLeast8Char: false,
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const toggleConfirmPassword =() => {
+  const toggleConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
-  }
+  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch
+    watch,
   } = useForm({
     resolver: zodResolver(reset_password_validation_schema),
   });
@@ -48,7 +56,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <>
+    <div>
       <Navbar />
       <div className="flex sm:block gap-5 justify-between mx-16 xsm:mx-2 sm:mx-2 my-8">
         <div className="basis-1/2 md:justify-center xsm:justify-center justify-center flex flex-col xsm:hidden sm:hidden md:hidden lg:hidden sm:justify-center left-0">
@@ -166,7 +174,7 @@ const ResetPassword = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

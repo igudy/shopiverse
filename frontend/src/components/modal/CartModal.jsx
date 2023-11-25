@@ -17,11 +17,11 @@ import {
 const CartModal = ({ openModal, closeModal, isOpen }) => {
   const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
-  const cartTotalQuantity = useSelector(selectTotalQuantity)
+  const cartTotalQuantity = useSelector(selectTotalQuantity);
 
   useEffect(() => {
-    dispatch(setGetTotalAmount())
-  },[cartItems, dispatch])
+    dispatch(setGetTotalAmount());
+  }, [cartItems, dispatch]);
 
   const totalAmount = useSelector(selectTotalAmount);
 
@@ -29,15 +29,12 @@ const CartModal = ({ openModal, closeModal, isOpen }) => {
     dispatch(setClearItems());
   };
   return (
-    <>
-    <ShoppingBagIcon
+    <div>
+      <ShoppingBagIcon
         type="button"
         onClick={openModal}
         className="w-8 h-6 cursor-pointer"
-      />    
-        {/* <span className="text-black justify-center text-center mt-4 ml-[] text-xs bg-white w-4 h-4 rounded-full">
-      <span className="font-medium">7</span>
-    </span> */}
+      />
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -77,7 +74,10 @@ const CartModal = ({ openModal, closeModal, isOpen }) => {
                         <span className="ml-2">
                           Your cart
                           <span className="bg-black mx-2 rounded-lg text-white">
-                            <span className="px-3 py-3">{cartTotalQuantity} item{cartTotalQuantity === 1 ? "" :"s"} </span>
+                            <span className="px-3 py-3">
+                              {cartTotalQuantity} item
+                              {cartTotalQuantity === 1 ? "" : "s"}{" "}
+                            </span>
                           </span>
                         </span>
                       </div>
@@ -94,7 +94,7 @@ const CartModal = ({ openModal, closeModal, isOpen }) => {
                       {cartItems?.length === 0 ? (
                         <CartEmpty />
                       ) : (
-                        <>
+                        <div>
                           <div className="overflow-y-scroll scroll-smooth  scroll-hidden xsm:max-h-[calc(100vh-270px)] sm:max-h-[calc(100vh-270px)] max-h-[calc(100vh-180px)]">
                             {cartItems?.map((item, i) => (
                               <CartItems key={i} item={item} />
@@ -122,7 +122,7 @@ const CartModal = ({ openModal, closeModal, isOpen }) => {
                               </button>
                             </div>
                           </div>
-                        </>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -132,7 +132,7 @@ const CartModal = ({ openModal, closeModal, isOpen }) => {
           </div>
         </Dialog>
       </Transition>
-    </>
+    </div>
   );
 };
 export default CartModal;

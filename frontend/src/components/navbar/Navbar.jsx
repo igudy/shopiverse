@@ -5,6 +5,7 @@ import CartModal from "../modal/CartModal";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { RESET, logout } from "../redux/slices/auth/authSlice";
+import { ShowOnLogin, ShowOnLogout } from "../protect/hiddenLink";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,18 +56,26 @@ const Navbar = () => {
           {/* <HeartIcon className="w-8 h-6 cursor-pointer" />
         <MagnifyingGlassIcon className="w-8 h-6 cursor-pointer" /> */}
 
-          <Link to="/profile">
-            <p className="cursor-pointer hover:underline">Profile</p>
-          </Link>
-          <Link to="/login">
-            <p className="cursor-pointer hover:underline">Login</p>
-          </Link>
-          <Link to="/register">
-            <p className="cursor-pointer hover:underline">Register</p>
-          </Link>
-          <p className="cursor-pointer hover:underline" onClick={logoutUser}>
-            Logout
-          </p>
+          <ShowOnLogin>
+            <Link to="/profile">
+              <p className="cursor-pointer hover:underline">Profile</p>
+            </Link>
+          </ShowOnLogin>
+          <ShowOnLogout>
+            <Link to="/login">
+              <p className="cursor-pointer hover:underline">Login</p>
+            </Link>
+          </ShowOnLogout>
+          <ShowOnLogout>
+            <Link to="/register">
+              <p className="cursor-pointer hover:underline">Register</p>
+            </Link>
+          </ShowOnLogout>
+          <ShowOnLogin>
+            <p className="cursor-pointer hover:underline" onClick={logoutUser}>
+              Logout
+            </p>
+          </ShowOnLogin>
           {/* <Link to="/contact">
           <p className="cursor-pointer hover:underline">Contact</p>
         </Link> */}
