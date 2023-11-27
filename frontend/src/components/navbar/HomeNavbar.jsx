@@ -66,6 +66,11 @@ const HomeNavbar = () => {
           </Link>
         </ShowOnLogout>
         <ShowOnLogin>
+          <Link to="/profile">
+            <p className="cursor-pointer hover:underline">Profile</p>
+          </Link>
+        </ShowOnLogin>
+        <ShowOnLogin>
           <p className="cursor-pointer hover:underline" onClick={logoutUser}>
             Logout
           </p>

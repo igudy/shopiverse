@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import ProfileImage from "../../assets/profile.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, selectUser } from "../redux/slices/auth/authSlice";
+import useRedirectLoggedOutUser from "../customHooks/useRedirectLoggedOutUser";
+import { LoaderSkeleton } from "../ui/loader";
 
 const ProfileComponent = () => {
   const dispatch = useDispatch();
+  useRedirectLoggedOutUser("/login");
 
   const { isLoading, isLoggedIn, isSuccess, isError } = useSelector(
     (state) => state.auth
@@ -26,20 +29,28 @@ const ProfileComponent = () => {
   };
 
   const [profile, setProfile] = useState(initialState);
+  const [profileImage, setProfileImage] = useState(initialState);
+  const [imagePreview, setImagePreview] = useState(initialState);
 
   // Normal Form handling
-  const handleImageChange = () => {
+  const handleImageChange = (e) => {
+    setProfileImage(e.target.files[0]);
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
     console.log("Handle Image Change");
   };
-  const handleInputChange = () => {
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProfile({ ...profile, [name]: value });
     console.log("Handle Input Change");
   };
 
   return (
     <div className="flex sm:flex-col gap-10">
+      {isLoading && <LoaderSkeleton />}
       <div className="basis-[20%] max-w-md bg-slate-100 rounded-lg shadow-md">
         <img
-          src={profile?.photo}
+          src={imagePreview === null ? profile?.photo : imagePreview}
           alt="profile_picture"
           className="rounded-full px-5 py-5"
         />
@@ -57,6 +68,7 @@ const ProfileComponent = () => {
                 name="image"
                 className="input-box my-1"
                 onChange={handleImageChange}
+                disabled={!isLoggedIn}
               />
             </p>
           </form>
@@ -82,8 +94,7 @@ const ProfileComponent = () => {
               name="email"
               className="input-box my-1"
               value={profile?.email}
-              disabled
-              onChange={handleInputChange}
+              readOnly
             />
           </p>
           <p>
