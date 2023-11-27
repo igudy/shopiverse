@@ -1,16 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProfileImage from "../../assets/profile.jpg";
-
-const initialState = {
-  name: "Igudy",
-  email: "igudy@gmail.com",
-  phone: "",
-  bio: "",
-  role: "",
-  isVerified: false,
-};
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, selectUser } from "../redux/slices/auth/authSlice";
 
 const ProfileComponent = () => {
+  const dispatch = useDispatch();
+
+  const { isLoading, isLoggedIn, isSuccess, isError } = useSelector(
+    (state) => state.auth
+  );
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
+
+  const initialState = {
+    name: user?.name || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
+    bio: user?.bio || "",
+    role: user?.role || "",
+    photo: user?.photo || "",
+    isVerified: false,
+  };
+
   const [profile, setProfile] = useState(initialState);
 
   // Normal Form handling
@@ -25,7 +39,7 @@ const ProfileComponent = () => {
     <div className="flex sm:flex-col gap-10">
       <div className="basis-[20%] max-w-md bg-slate-100 rounded-lg shadow-md">
         <img
-          src={ProfileImage}
+          src={profile?.photo}
           alt="profile_picture"
           className="rounded-full px-5 py-5"
         />
@@ -57,7 +71,7 @@ const ProfileComponent = () => {
               type="text"
               name="name"
               className="input-box my-1"
-              value={profile.name}
+              value={profile?.name}
               onChange={handleInputChange}
             />
           </p>
@@ -67,7 +81,8 @@ const ProfileComponent = () => {
               type="text"
               name="email"
               className="input-box my-1"
-              value={profile.email}
+              value={profile?.email}
+              disabled
               onChange={handleInputChange}
             />
           </p>
@@ -77,7 +92,7 @@ const ProfileComponent = () => {
               type="text"
               name="phone"
               className="input-box my-1"
-              value={profile.phone}
+              value={profile?.phone}
               onChange={handleInputChange}
             />
           </p>
@@ -87,7 +102,7 @@ const ProfileComponent = () => {
               type="text"
               name="bio"
               className="input-box my-1"
-              value={profile.bio}
+              value={profile?.bio}
               onChange={handleInputChange}
               cols="30"
               rows="10"

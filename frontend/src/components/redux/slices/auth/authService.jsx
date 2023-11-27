@@ -27,9 +27,16 @@ const loginStatus = async () => {
   return response.data;
 };
 
+// Get User
+const getUser = async () => {
+  const response = await axios.get(API_URL + "getUser");
+  return response.data;
+};
+
 export const authService = {
   register,
   login,
   logout,
   loginStatus,
+  getUser,
 };
