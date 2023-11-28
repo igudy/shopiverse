@@ -33,17 +33,29 @@ const getUser = async () => {
   return response.data;
 };
 
-// Updatdate User
+// Update User
 const updateUser = async (userData) => {
   const response = await axios.patch(API_URL + "updateUser", userData);
   console.log(`Updated code`, response.data);
   return response.data;
 };
 
-// Updatae User
+// Send verification email
 const sendVerificationEmail = async () => {
   const response = await axios.post(API_URL + "sendVerificationEmail");
   return response.data;
+};
+
+// Verify User
+const verifyUser = async (verificationToken) => {
+  // const response = await axios.patch(
+  //   `${API_URL}verifyUser/${verificationToken}`
+  // );
+  // return response.data;
+  const response = await axios.patch(
+    `${API_URL}verifyUser/${verificationToken}`
+  );
+  return response.data.message;
 };
 
 export const authService = {
@@ -54,4 +66,5 @@ export const authService = {
   getUser,
   updateUser,
   sendVerificationEmail,
+  verifyUser,
 };
