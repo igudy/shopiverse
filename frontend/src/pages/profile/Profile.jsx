@@ -13,6 +13,7 @@ import { AdminLink } from "../../components/protect/hiddenLink";
 import {
   getUser,
   selectUser,
+  sendVerificationEmail,
 } from "../../components/redux/slices/auth/authSlice";
 
 const allTabs = [
@@ -37,6 +38,10 @@ const Profile = () => {
     dispatch(getUser());
   }, [dispatch]);
 
+  const sendVerifyMail = () => {
+    dispatch(sendVerificationEmail());
+  };
+
   const user = useSelector(selectUser);
   return (
     <div>
@@ -59,6 +64,25 @@ const Profile = () => {
               ))}
             </div>
           </div>
+
+          {user.isVerified === true ? (
+            ""
+          ) : (
+            <div>
+              <div className="p-3 bg-red-400 grid place-items-center gap-2 lg:flex lg:text-center lg:justify-center md:w-full">
+                <div>
+                  Message: To verify your account check your email for a
+                  verification link.{"  "}
+                </div>
+                <div
+                  className="text-blue-800 font-bold lg:flex px-2 cursor-pointer"
+                  onClick={sendVerifyMail}
+                >
+                  Resend Link
+                </div>
+              </div>
+            </div>
+          )}
           <div className="my-5 mx-10 sm:mx-2 xsm:mx-2 lg:mx-3">
             <div>{tab === "Profile" && <ProfileComponent />}</div>
             <div>{tab === "Password" && <Password />}</div>

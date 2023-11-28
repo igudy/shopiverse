@@ -1,5 +1,4 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import ProfileImage from "../../assets/profile.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUser,
@@ -11,17 +10,6 @@ import toast from "react-hot-toast";
 
 const upload_preset = import.meta.env.VITE_REACT_APP_UPLOAD_PRESET;
 const cloud_name = import.meta.env.VITE_REACT_APP_CLOUD_NAME;
-
-// const cloud_name = "igudy";
-// const upload_preset = "igudy_one";
-
-export const shortenText = (text, n) => {
-  if (text.length > n) {
-    const shoretenedText = text.substring(0, n).concat("...");
-    return shoretenedText;
-  }
-  return text;
-};
 
 const ProfileComponent = () => {
   useRedirectLoggedOutUser("/login");
@@ -129,25 +117,10 @@ const ProfileComponent = () => {
     }
   }, [user]);
 
-  // useLayoutEffect(() => {
-  //   if (user) {
-  //     setProfile({
-  //       name: user.name || "",
-  //       email: user.email || "",
-  //       phone: user.phone || "",
-  //       photo: user.photo || "",
-  //       bio: user.bio || "",
-  //       role: user.role || "",
-  //       isVerified: user.isVerified || false,
-  //     });
-  //   }
-  // }, [user]);
-
   return (
     <div>
       <form onSubmit={saveProfile}>
         <div className="flex sm:flex-col gap-10">
-          {isLoading && <div>Loading...</div>}
           <div className="basis-[20%] max-w-md bg-slate-100 rounded-lg shadow-md">
             <img
               src={imagePreview === null ? user?.photo : imagePreview}
@@ -155,7 +128,7 @@ const ProfileComponent = () => {
               className="rounded-full px-5 py-5"
             />
             <div className="justify-center text-center">
-              <p className="mx-2 text-lg font-bold">@Igudy</p>
+              <p className="mx-2 text-lg font-bold">{user?.name}</p>
               <p className="mx-2 text-sm text-gray-500">Role: {user.role}</p>
             </div>
             <div className="px-3 py-2">
@@ -172,7 +145,6 @@ const ProfileComponent = () => {
           </div>
           <div className="basis-[75%] bg-slate-100 rounded-lg shadow-md p-3">
             <p className="text-2xl font-bold">Account data</p>
-
             <p>
               <label>Name:</label>
               <input

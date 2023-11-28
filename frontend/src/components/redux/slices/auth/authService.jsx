@@ -33,10 +33,16 @@ const getUser = async () => {
   return response.data;
 };
 
-// Updatae User
+// Updatdate User
 const updateUser = async (userData) => {
   const response = await axios.patch(API_URL + "updateUser", userData);
   console.log(`Updated code`, response.data);
+  return response.data;
+};
+
+// Updatae User
+const sendVerificationEmail = async () => {
+  const response = await axios.post(API_URL + "sendVerificationEmail");
   return response.data;
 };
 
@@ -47,4 +53,5 @@ export const authService = {
   loginStatus,
   getUser,
   updateUser,
+  sendVerificationEmail,
 };
