@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import ProfileComponent from "../../components/profile/ProfileComponent";
 import Password from "../../components/profile/Password";
@@ -8,9 +8,12 @@ import { BiUser } from "react-icons/bi";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import Footer from "../../components/footer/Footer";
 import useRedirectLoggedOutUser from "../../components/customHooks/useRedirectLoggedOutUser";
-import { useSelector } from "react-redux";
-import { LoaderSkeleton } from "../../components/ui/loader";
+import { useDispatch, useSelector } from "react-redux";
 import { AdminLink } from "../../components/protect/hiddenLink";
+import {
+  getUser,
+  selectUser,
+} from "../../components/redux/slices/auth/authSlice";
 
 const allTabs = [
   {
@@ -28,38 +31,43 @@ const Profile = () => {
   const { isLoading, isError } = useSelector((state) => state.auth);
   useRedirectLoggedOutUser("/login");
   const [tab, setTab] = useState("Profile");
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
+
+  const user = useSelector(selectUser);
   return (
     <div>
-      {isLoading && (
+      <Navbar />
+      {user && (
         <div>
-          <LoaderSkeleton />
+          <div className="bg-gray-200 border-2 border-gray-300">
+            <div className="flex justify-around mx-10 sm:mx-2 xsm:mx-2 py-2">
+              {allTabs.map((item, i) => (
+                <div key={i} className="cursor-pointer">
+                  <div
+                    onClick={() => setTab(item.tabName)}
+                    className={`flex items-center px-3 ${
+                      item.tabName === tab ? "font-bold" : "text-gray-700"
+                    }`}
+                  >
+                    {item.icon} {item.tabName}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="my-5 mx-10 sm:mx-2 xsm:mx-2 lg:mx-3">
+            <div>{tab === "Profile" && <ProfileComponent />}</div>
+            <div>{tab === "Password" && <Password />}</div>
+            <AdminLink>
+              <div>{tab === "Users" && <Users />}</div>
+            </AdminLink>
+          </div>
         </div>
       )}
-      <Navbar />
-      <div className="bg-gray-200 border-2 border-gray-300">
-        <div className="flex justify-around mx-10 sm:mx-2 xsm:mx-2 py-2">
-          {allTabs.map((item, i) => (
-            <div key={i} className="cursor-pointer">
-              <div
-                onClick={() => setTab(item.tabName)}
-                className={`flex items-center px-3 ${
-                  item.tabName === tab ? "font-bold" : "text-gray-700"
-                }`}
-              >
-                {item.icon} {item.tabName}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="my-5 mx-10 sm:mx-2 xsm:mx-2 lg:mx-3">
-        <div>{tab === "Profile" && <ProfileComponent />}</div>
-        <div>{tab === "Password" && <Password />}</div>
-        <AdminLink>
-          <div>{tab === "Users" && <Users />}</div>
-        </AdminLink>
-      </div>
       <Footer />
     </div>
   );

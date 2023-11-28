@@ -98,7 +98,7 @@ export const updateUser = createAsyncThunk(
   "auth/updateUser",
   async (userData, thunkAPI) => {
     try {
-      return await authService.updateUser();
+      return await authService.updateUser(userData);
     } catch (error) {
       const message =
         (error.response &&
@@ -115,7 +115,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    RESET: (state, action) => {
+    RESET: (state) => {
       state.twoFactor = false;
       state.isError = false;
       state.isSuccess = false;
@@ -226,6 +226,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
+        console.log(state.user);
+        toast.success("User updated");
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.isLoading = false;

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import logo from "../../assets/logo.png";
 import CartModal from "../modal/CartModal";
 import { Link, useNavigate } from "react-router-dom";
-import { RESET, logout } from "../redux/slices/auth/authSlice";
-import { useDispatch } from "react-redux";
+import { RESET, logout, selectUser } from "../redux/slices/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { ShowOnLogin, ShowOnLogout } from "../protect/hiddenLink";
 
 const HomeNavbar = () => {
@@ -11,6 +11,7 @@ const HomeNavbar = () => {
   const [navState, setNavState] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector(selectUser);
 
   // Logoout functionality
   const logoutUser = async () => {
@@ -65,6 +66,11 @@ const HomeNavbar = () => {
             <p className="cursor-pointer hover:underline">Register</p>
           </Link>
         </ShowOnLogout>
+        <ShowOnLogin>
+          <Link to="/profile">
+            <p className="cursor-pointer hover:underline">Hi {user?.name}</p>
+          </Link>
+        </ShowOnLogin>
         <ShowOnLogin>
           <Link to="/profile">
             <p className="cursor-pointer hover:underline">Profile</p>

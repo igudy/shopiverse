@@ -3,8 +3,8 @@ import { HeartIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import logo from "../../assets/logo.png";
 import CartModal from "../modal/CartModal";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { RESET, logout } from "../redux/slices/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RESET, logout, selectUser } from "../redux/slices/auth/authSlice";
 import { ShowOnLogin, ShowOnLogout } from "../protect/hiddenLink";
 
 const Navbar = () => {
@@ -12,6 +12,7 @@ const Navbar = () => {
   const [navState, setNavState] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
 
   // Logoout functionality
   const logoutUser = async () => {
@@ -55,7 +56,11 @@ const Navbar = () => {
         <div className="flex items-center gap-4 xsm:gap-0 sm:gap-1 right-0">
           {/* <HeartIcon className="w-8 h-6 cursor-pointer" />
         <MagnifyingGlassIcon className="w-8 h-6 cursor-pointer" /> */}
-
+          <ShowOnLogin>
+            <Link to="/profile">
+              <p className="cursor-pointer hover:underline">Hi {user?.name}</p>
+            </Link>
+          </ShowOnLogin>
           <ShowOnLogin>
             <Link to="/profile">
               <p className="cursor-pointer hover:underline">Profile</p>
