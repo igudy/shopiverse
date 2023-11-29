@@ -147,6 +147,25 @@ export const verifyUser = createAsyncThunk(
   }
 );
 
+// Change password
+export const changePassword = createAsyncThunk(
+  "auth/changePassword",
+  async (userData, thunkAPI) => {
+    try {
+      return await authService.changePassword(userData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.renderToString;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -178,7 +197,6 @@ const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.user = null;
-        console.log(action.payload);
         toast.error(action.payload);
       })
 
@@ -191,15 +209,12 @@ const authSlice = createSlice({
         state.isSuccess = true;
         state.isLoggedIn = true;
         state.user = action.payload;
-        console.log(state.user);
         toast.success("Login successful");
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.user = null;
-        console.log(action.payload);
         toast.error(action.payload);
       })
 
@@ -230,7 +245,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isLoggedIn = action.payload;
-        console.log(action.payload);
       })
       .addCase(loginStatus.rejected, (state, action) => {
         state.isLoading = false;
@@ -246,7 +260,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
-        console.log(action.payload);
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -262,7 +275,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
-        // console.log(state.user);
         toast.success("User updated");
       })
       .addCase(updateUser.rejected, (state, action) => {
@@ -295,14 +307,31 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
-        console.log(state.user);
         toast.success("User verified");
       })
       .addCase(verifyUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-      });
+      })
+
+      // Change Password
+      .addCase(changePassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+        console.log(state.user);
+        toast.success("Password changed");
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
   },
 });
 

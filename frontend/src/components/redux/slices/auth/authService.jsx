@@ -48,14 +48,16 @@ const sendVerificationEmail = async () => {
 
 // Verify User
 const verifyUser = async (verificationToken) => {
-  // const response = await axios.patch(
-  //   `${API_URL}verifyUser/${verificationToken}`
-  // );
-  // return response.data;
   const response = await axios.patch(
     `${API_URL}verifyUser/${verificationToken}`
   );
   return response.data.message;
+};
+
+// Change password
+const changePassword = async (userData) => {
+  const response = await axios.patch(API_URL + "changePassword", userData);
+  return response.data;
 };
 
 export const authService = {
@@ -67,4 +69,5 @@ export const authService = {
   updateUser,
   sendVerificationEmail,
   verifyUser,
+  changePassword,
 };
