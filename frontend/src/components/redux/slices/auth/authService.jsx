@@ -61,16 +61,26 @@ const verifyUser = async (verificationToken) => {
   return response.data.message;
 };
 
+// Fix bug for frontend
 // Change password
 const changePassword = async (userData) => {
   const response = await axios.patch(API_URL + "changePassword", userData);
   return response.data.message;
 };
 
-// Change password
+// Forgot password
 const forgotPassword = async (userData) => {
   const response = await axios.post(API_URL + "forgotPassword", userData);
 
+  return response.data.message;
+};
+
+// Reset password
+const resetPassword = async (userData, resetToken) => {
+  const response = await axios.patch(
+    `${API_URL}resetPassword/${resetToken}`,
+    userData
+  );
   return response.data.message;
 };
 
@@ -85,4 +95,5 @@ export const authService = {
   verifyUser,
   changePassword,
   forgotPassword,
+  resetPassword,
 };

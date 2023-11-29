@@ -1,7 +1,7 @@
 import LoginImage from "../../../src/assets/product6.png";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   AiFillCloseCircle,
   AiFillEye,
@@ -20,6 +20,8 @@ import {
 } from "../../components/validation-schema/authentication-schema";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { resetPassword } from "../../components/redux/slices/auth/authSlice";
 
 const ResetPassword = () => {
   const [isPasswordValid, setIsPasswordValid] = useState({
@@ -31,6 +33,9 @@ const ResetPassword = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { resetToken } = useParams();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -51,8 +56,15 @@ const ResetPassword = () => {
 
   // Data coming from the refine section
   const onSubmit = (data) => {
-    toast.success("Data submitted");
-    console.log(`Data submitted`, data);
+    if (data?.password !== data?.confirmPassword) {
+      toast.error("Password does not match");
+      return;
+    }
+    const userData = {
+      password: data?.password,
+    };
+    dispatch(resetPassword({ userData, resetToken }));
+    navigate("/login");
   };
 
   return (
