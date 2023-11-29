@@ -1,5 +1,12 @@
 import axios from "axios";
 
+// Validate email
+export const validateEmail = (email) => {
+  return email.match(
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+};
+
 const BACKEND_URL = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 const API_URL = `${BACKEND_URL}/api/users/`;
 
@@ -57,7 +64,14 @@ const verifyUser = async (verificationToken) => {
 // Change password
 const changePassword = async (userData) => {
   const response = await axios.patch(API_URL + "changePassword", userData);
-  return response.data;
+  return response.data.message;
+};
+
+// Change password
+const forgotPassword = async (userData) => {
+  const response = await axios.post(API_URL + "forgotPassword", userData);
+
+  return response.data.message;
 };
 
 export const authService = {
@@ -70,4 +84,5 @@ export const authService = {
   sendVerificationEmail,
   verifyUser,
   changePassword,
+  forgotPassword,
 };

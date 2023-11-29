@@ -1,7 +1,7 @@
 import LoginImage from "../../../src/assets/product6.png";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { IoMdExit, IoMdArrowForward } from "react-icons/io";
 import { BiArrowBack } from "react-icons/bi";
@@ -10,8 +10,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { forgot_password_validation_schema } from "../../components/validation-schema/authentication-schema";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import {
+  RESET,
+  forgotPassword,
+} from "../../components/redux/slices/auth/authSlice";
 
 const ForgotPassword = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -22,8 +29,12 @@ const ForgotPassword = () => {
 
   // Data coming from the refine section
   const onSubmit = (data) => {
-    toast.success("Data submitted");
-    console.log(`Data submitted`, data);
+    const userData = {
+      email: data?.email,
+    };
+
+    dispatch(forgotPassword(userData));
+    dispatch(RESET(userData));
   };
 
   return (
@@ -76,7 +87,7 @@ const ForgotPassword = () => {
             </form>
             <div className="my-1">
               <Link to="/forgot-password">
-                <p className="text-blue-600 hover:underline cursor-pointer flex justify-between mx-1 underline my-2 ">
+                <div className="text-blue-600 hover:underline cursor-pointer flex justify-between mx-1 underline my-2 ">
                   <Link to="/login">
                     <div className="left-0 flex mx-1 items-center hover:text-blue-800">
                       <BiArrowBack />
@@ -88,7 +99,7 @@ const ForgotPassword = () => {
                       Home <IoMdArrowForward />
                     </div>
                   </Link>
-                </p>
+                </div>
               </Link>
             </div>
           </div>
