@@ -84,6 +84,12 @@ const resetPassword = async (userData, resetToken) => {
   return response.data.message;
 };
 
+// Get all users
+const getUsers = async () => {
+  const response = await axios.get(API_URL + "getUsers");
+  return response.data;
+};
+
 export const authService = {
   register,
   login,
@@ -96,4 +102,5 @@ export const authService = {
   changePassword,
   forgotPassword,
   resetPassword,
+  getUsers,
 };

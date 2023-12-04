@@ -201,6 +201,24 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
+// Forgot password
+export const getUsers = createAsyncThunk(
+  "auth/getUsers",
+  async (_, thunkAPI) => {
+    try {
+      return await authService.getUsers();
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.renderToString;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -399,6 +417,22 @@ const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         toast.error(action.payload);
+      })
+
+      // Get All Users
+      .addCase(getUsers.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getUsers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.users = action.payload;
+        console.log(state.users);
+      })
+      .addCase(getUsers.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });
@@ -409,5 +443,6 @@ export const { RESET } = authSlice.actions;
 export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
 
 export const selectUser = (state) => state.auth.user;
+export const selectAllUsers = (state) => state.auth.users;
 
 export default authSlice.reducer;

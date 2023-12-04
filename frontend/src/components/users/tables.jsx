@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getUsers,
+  selectAllUsers,
+  selectUser,
+} from "../redux/slices/auth/authSlice";
+import { MdDelete } from "react-icons/md";
 
 const Tables = () => {
+  const dispatch = useDispatch();
+
+  // Get all users
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
+  const users = useSelector(selectAllUsers);
+
   return (
     <div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg rounded-2xl">
@@ -23,37 +38,44 @@ const Tables = () => {
                 Change Row
               </th>
               <th scope="col" className="px-6 py-3">
-                Action
+                Edit
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Delete
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-gray-600 border-b border-gray-400">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium bg-gray-500 text-gray-50 whitespace-nowrap dark:text-gray-100"
-              >
-                1
-              </th>
-              <td className="px-6 py-4">Apple MacBook Pro 17</td>
-              <td className="px-6 py-4 bg-gray-500">Laptop</td>
-              <td className="px-6 py-4">Silver</td>
-              <td className="px-6 py-4 bg-gray-500">
-                <a href="#" className="font-medium text-white">
-                  <select
-                    id="countries"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option selected>Select</option>
-                    <option value="US">Admin</option>
-                    <option value="CA">Subscriber</option>
-                    <option value="FR">None</option>
-                  </select>
-                </a>
-              </td>
-
-              <td className="px-6 py-4">Edit</td>
-            </tr>
+            {users?.map((user, index) => (
+              <tr key={index} className="bg-gray-600 border-b border-gray-400">
+                <td
+                  scope="row"
+                  className="px-6 py-4 font-medium bg-gray-500 text-gray-50 whitespace-nowrap dark:text-gray-100"
+                >
+                  {index + 1}
+                </td>
+                <td className="px-6 py-4">{user.name}</td>
+                <td className="px-6 py-4 bg-gray-500">{user.email}</td>
+                <td className="px-6 py-4">{user.role}</td>
+                <td className="px-6 py-4 bg-gray-500">
+                  <div className="font-medium text-white">
+                    <select
+                      id="countries"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
+                      <option selected>Select</option>
+                      <option value="US">Admin</option>
+                      <option value="CA">Subscriber</option>
+                      <option value="FR">None</option>
+                    </select>
+                  </div>
+                </td>
+                <td className="px-6 py-4">Edit</td>
+                <td className="px-6 py-4 cursor-pointer">
+                  <MdDelete width={40} height={40} />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
