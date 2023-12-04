@@ -201,12 +201,30 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
-// Forgot password
+// Get All Users
 export const getUsers = createAsyncThunk(
   "auth/getUsers",
   async (_, thunkAPI) => {
     try {
       return await authService.getUsers();
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.renderToString;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Delete User
+export const deleteUser = createAsyncThunk(
+  "auth/deleteUser",
+  async (id, thunkAPI) => {
+    try {
+      return await authService.deleteUser(id);
     } catch (error) {
       const message =
         (error.response &&
@@ -433,6 +451,22 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+
+      // Delete Users
+      .addCase(deleteUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+        toast.success(action.payload);
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });
@@ -441,7 +475,6 @@ export const { RESET } = authSlice.actions;
 
 // For useSelector
 export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
-
 export const selectUser = (state) => state.auth.user;
 export const selectAllUsers = (state) => state.auth.users;
 

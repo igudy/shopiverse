@@ -90,6 +90,12 @@ const getUsers = async () => {
   return response.data;
 };
 
+// Delete user
+const deleteUser = async (id) => {
+  const response = await axios.delete(API_URL + id);
+  return response.data.message;
+};
+
 export const authService = {
   register,
   login,
@@ -103,4 +109,5 @@ export const authService = {
   forgotPassword,
   resetPassword,
   getUsers,
+  deleteUser,
 };
