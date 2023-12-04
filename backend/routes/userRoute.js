@@ -17,6 +17,7 @@ const {
   changePassword,
   sendLoginCode,
   loginWithCode,
+  loginWithGoogle,
 } = require("../controllers/userController");
 
 const {
@@ -47,5 +48,7 @@ router.patch("/changePassword", protect, changePassword);
 
 router.post("/sendLoginCode/:email", sendLoginCode);
 router.post("/loginWithCode/:email", loginWithCode);
+
+router.post("/google/callback", loginWithGoogle);
 
 module.exports = router;

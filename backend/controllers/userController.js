@@ -645,6 +645,14 @@ const loginWithCode = asyncHandler(async (req, res) => {
     });
   }
 });
+
+const loginWithGoogle = asyncHandler(async (req, res) => {
+  const { userToken } = req.body;
+  console.log(userToken);
+
+  res.send("Google Login");
+});
+
 module.exports = {
   registerUser,
   loginUser,
@@ -663,4 +671,5 @@ module.exports = {
   changePassword,
   sendLoginCode,
   loginWithCode,
+  loginWithGoogle,
 };
