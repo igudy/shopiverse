@@ -4,7 +4,6 @@ import {
   deleteUser,
   getUsers,
   selectAllUsers,
-  selectUser,
   upgradeUser,
 } from "../redux/slices/auth/authSlice";
 import { MdDelete } from "react-icons/md";
@@ -17,7 +16,8 @@ import {
   sendAutomatedEmail,
 } from "../redux/slices/email/emailSlice";
 
-const Tables = () => {
+const Tables = ({ filteredUsers }) => {
+  // console.log(filteredUsers);
   const users = useSelector(selectAllUsers);
   const dispatch = useDispatch();
   const [userRoles, setUserRoles] = useState(Array(users.length).fill(""));
@@ -111,7 +111,7 @@ const Tables = () => {
             </tr>
           </thead>
           <tbody>
-            {users?.map((user, index) => {
+            {filteredUsers?.map((user, index) => {
               const { _id, name, email, role } = user;
               return (
                 <tr key={_id} className="bg-gray-600 border-b border-gray-400">

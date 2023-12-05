@@ -1,0 +1,27 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  filteredUsers: [],
+};
+
+const filterSlice = createSlice({
+  name: "filter",
+  initialState,
+  reducers: {
+    FITLER_USERS(state, action) {
+      const { users, search } = action.payload;
+      const tempUsers = users.filter(
+        (user) =>
+          user.name.toLowerCase().includes(search.toLowerCase()) ||
+          user.email.toLowerCase().includes(search.toLowerCase())
+      );
+      state.filteredUsers = tempUsers;
+    },
+  },
+});
+
+export const { FITLER_USERS } = filterSlice.actions;
+
+export const selectFilterUsers = (state) => state.filter.filteredUsers;
+
+export default filterSlice.reducer;
