@@ -237,6 +237,24 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+// Upgrade User
+export const upgradeUser = createAsyncThunk(
+  "auth/upgradeUser",
+  async (userData, thunkAPI) => {
+    try {
+      return await authService.upgradeUser(userData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.renderToString;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -394,7 +412,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
-        console.log(state.user);
         toast.success("Password changed");
       })
       .addCase(changePassword.rejected, (state, action) => {
@@ -411,7 +428,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
-        console.log(state.user);
         toast.success(action.payload);
       })
       .addCase(forgotPassword.rejected, (state, action) => {
@@ -445,7 +461,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.users = action.payload;
-        console.log(state.users);
       })
       .addCase(getUsers.rejected, (state, action) => {
         state.isLoading = false;
@@ -464,6 +479,22 @@ const authSlice = createSlice({
         toast.success(action.payload);
       })
       .addCase(deleteUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      // Upgrade Users
+      .addCase(upgradeUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(upgradeUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+        toast.success(action.payload);
+      })
+      .addCase(upgradeUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

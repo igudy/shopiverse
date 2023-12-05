@@ -96,6 +96,12 @@ const deleteUser = async (id) => {
   return response.data.message;
 };
 
+// Upgrade user
+const upgradeUser = async (userData) => {
+  const response = await axios.post(API_URL + "upgradeUser", userData);
+  return response.data.message;
+};
+
 export const authService = {
   register,
   login,
@@ -110,4 +116,5 @@ export const authService = {
   resetPassword,
   getUsers,
   deleteUser,
+  upgradeUser,
 };
