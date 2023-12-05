@@ -11,6 +11,8 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: "",
+  verifiedUsers: 0,
+  suspendedUsers: 0,
 };
 
 // Register User
@@ -266,10 +268,37 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.message = "";
     },
+    CALC_VERIFIED_USER(state, action) {
+      const array = [];
+      state.users.map((user) => {
+        const { isVerified } = user;
+        return array.push(isVerified);
+      });
+      let count = 0;
+      array.forEach((item) => {
+        if (item === true) {
+          count += 1;
+        }
+      });
+      state.verifiedUsers = count;
+    },
+    CALC_SUSPENDED_USER(state, action) {
+      const array = [];
+      state.users.map((user) => {
+        const { role } = user;
+        return array.push(role);
+      });
+      let count = 0;
+      array.forEach((item) => {
+        if (item === "suspended") {
+          count += 1;
+        }
+      });
+      state.suspendedUsers = count;
+    },
   },
   extraReducers: (builder) => {
     builder
-
       // Register user
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
@@ -502,7 +531,8 @@ const authSlice = createSlice({
   },
 });
 
-export const { RESET } = authSlice.actions;
+export const { RESET, CALC_SUSPENDED_USER, CALC_VERIFIED_USER } =
+  authSlice.actions;
 
 // For useSelector
 export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;

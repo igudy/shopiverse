@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteUser,
@@ -15,9 +15,9 @@ import {
   EMAIL_RESET,
   sendAutomatedEmail,
 } from "../redux/slices/email/emailSlice";
+import ReactPaginate from "react-paginate";
 
 const Tables = ({ filteredUsers }) => {
-  // console.log(filteredUsers);
   const users = useSelector(selectAllUsers);
   const dispatch = useDispatch();
   const [userRoles, setUserRoles] = useState(Array(users.length).fill(""));
@@ -81,6 +81,19 @@ const Tables = ({ filteredUsers }) => {
     dispatch(EMAIL_RESET());
   };
 
+  // Pagination
+  const itemsPerPage = 3;
+  const [itemOffset, setItemOffset] = useState(0);
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = filteredUsers.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(filteredUsers.length / itemsPerPage);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % filteredUsers.length;
+    setItemOffset(newOffset);
+  };
+  // End of pagination
+
   return (
     <div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg rounded-2xl">
@@ -111,7 +124,7 @@ const Tables = ({ filteredUsers }) => {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers?.map((user, index) => {
+            {currentItems?.map((user, index) => {
               const { _id, name, email, role } = user;
               return (
                 <tr key={_id} className="bg-gray-600 border-b border-gray-400">
@@ -161,6 +174,22 @@ const Tables = ({ filteredUsers }) => {
             })}
           </tbody>
         </table>
+        <div className="justify-center my-5 ">
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel="Next >"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={5}
+            pageCount={pageCount}
+            previousLabel="< Previous"
+            renderOnZeroPageCount={null}
+            containerClassName="flex justify-center mt-4"
+            pageLinkClassName="text-purple-500 hover:text-purple-800 px-3 py-1 rounded-md"
+            previousLinkClassName="text-purple-500 hover:text-purple-800 px-3 py-1 rounded-md"
+            nextLinkClassName="text-purple-500 hover:text-purple-800 px-3 py-1 rounded-md"
+            activeClassName="text-white px-3 hover:text-white rounded-full"
+          />
+        </div>
       </div>
     </div>
   );
