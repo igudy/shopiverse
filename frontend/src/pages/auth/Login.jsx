@@ -12,11 +12,15 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import {
   RESET,
   loginUser,
+  loginWithGoogle,
   selectUser,
   sendLoginCode,
 } from "../../components/redux/slices/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { LoaderSkeleton } from "../../components/ui/loader";
+import toast from "react-hot-toast";
+
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const [email, setEmail] = useState(null);
@@ -69,6 +73,13 @@ const Login = () => {
 
     dispatch(RESET());
   }, [isLoggedIn, isSuccess, dispatch, navigate, isError, twoFactor, email]);
+
+  const googleLogin = async (credentialResponse) => {
+    console.log(credentialResponse);
+    await dispatch(
+      loginWithGoogle({ userToken: credentialResponse.credential })
+    );
+  };
 
   return (
     <div>
@@ -171,12 +182,19 @@ const Login = () => {
           </div>
           <div className="flex-row flex justify-center cursor-pointer sm:w-full">
             <div className="text-lg sm:text-sm flex border-2 rounded-full hover:bg-purple-200 w-72 items-center justify-center text-center">
-              <img
+              {/*<img
                 src={Google}
                 className="w-6 h-16 mx-2 sm:w-4 sm:h-4 sm:text-sm"
                 alt="google_image"
               />{" "}
-              Login with google
+                    Login with google*/}
+              <GoogleLogin
+                onSuccess={googleLogin}
+                onError={() => {
+                  console.log("Login Failed");
+                  toast.error("Login Failed");
+                }}
+              />
             </div>
           </div>
         </div>

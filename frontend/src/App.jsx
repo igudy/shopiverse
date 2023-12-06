@@ -17,6 +17,9 @@ import {
 } from "./components/redux/slices/auth/authSlice.jsx";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 const App = () => {
   const dispatch = useDispatch();
