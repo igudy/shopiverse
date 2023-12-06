@@ -19,9 +19,9 @@ export const forgot_password_validation_schema = z.object({
 
 export const access_validation_schema = z.object({
   access: z
-    .string({ required_error: "email is required" })
-    .email()
-    .nonempty("email is required"),
+    .string({ required_error: "Access code is required" })
+    .nonempty("Access is required")
+    .max(6, { message: "Not more than 6 characters" }),
 });
 
 export const sign_up_user_validation_schema = z.object({

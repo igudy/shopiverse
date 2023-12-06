@@ -9,14 +9,20 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { login_validation_schema } from "../../components/validation-schema/authentication-schema";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { RESET, loginUser } from "../../components/redux/slices/auth/authSlice";
+import {
+  RESET,
+  loginUser,
+  selectUser,
+  sendLoginCode,
+} from "../../components/redux/slices/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { LoaderSkeleton } from "../../components/ui/loader";
 
 const Login = () => {
+  const [email, setEmail] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoading, isLoggedIn, isSuccess, isError } = useSelector(
+  const { isLoading, isLoggedIn, isSuccess, isError, twoFactor } = useSelector(
     (state) => state.auth
   );
 
@@ -40,6 +46,10 @@ const Login = () => {
       email: data?.email,
       password: data?.password,
     };
+
+    setEmail(data?.email);
+
+    console.log(email);
     await dispatch(loginUser(userData));
   };
 
@@ -47,8 +57,18 @@ const Login = () => {
     if (isSuccess && isLoggedIn) {
       navigate("/profile");
     }
+
+    if (isError && twoFactor) {
+      // dispatch(sendLoginCode(email));
+      // navigate(`/loginWithCode/${email}`);
+
+      const encodedEmail = encodeURIComponent(email);
+      dispatch(sendLoginCode(encodedEmail));
+      navigate(`/enter-access-code/${encodedEmail}`);
+    }
+
     dispatch(RESET());
-  }, [isLoggedIn, isSuccess, dispatch, navigate]);
+  }, [isLoggedIn, isSuccess, dispatch, navigate, isError, twoFactor, email]);
 
   return (
     <div>

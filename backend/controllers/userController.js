@@ -543,19 +543,21 @@ const sendLoginCode = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
-  // Find login code in DB
+  // Find Login Code in DB
   let userToken = await Token.findOne({
     userId: user._id,
     expiresAt: { $gt: Date.now() },
   });
 
   if (!userToken) {
-    res.status(400);
+    res.status(404);
     throw new Error("Invalid or Expired token, please login again");
   }
 
   const loginCode = userToken.lToken;
   const decryptedLoginCode = cryptr.decrypt(loginCode);
+
+  console.log(decryptedLoginCode);
 
   // Send Login Code
   const subject = "Login Access Code - Shopiverse";
@@ -583,6 +585,7 @@ const sendLoginCode = asyncHandler(async (req, res) => {
   }
 });
 
+// Login with Code
 const loginWithCode = asyncHandler(async (req, res) => {
   const { email } = req.params;
   const { loginCode } = req.body;
@@ -607,12 +610,12 @@ const loginWithCode = asyncHandler(async (req, res) => {
 
   const decryptedLoginCode = cryptr.decrypt(userToken.lToken);
 
-  if (loginCode != decryptedLoginCode) {
+  if (loginCode !== decryptedLoginCode) {
     res.status(400);
     throw new Error("Incorrect login code, please try again");
   } else {
     // Register userAgent
-    const ua = parser(req.headers("user-agent"));
+    const ua = parser(req.headers["user-agent"]);
     const thisUserAgent = ua.ua;
     user.userAgent.push(thisUserAgent);
     await user.save();
@@ -624,7 +627,7 @@ const loginWithCode = asyncHandler(async (req, res) => {
     res.cookie("token", token, {
       path: "/",
       httpOnly: true,
-      expires: new Date(Date.now() + 1000 * 86400), //1Day
+      expires: new Date(Date.now() + 1000 * 86400), // 1 day
       sameSite: "none",
       secure: true,
     });
@@ -641,7 +644,6 @@ const loginWithCode = asyncHandler(async (req, res) => {
       role,
       isVerified,
       token,
-      userAgent,
     });
   }
 });
