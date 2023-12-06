@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import LoginImage from "../../../src/assets/login/shoe-login.png";
 import Navbar from "../../components/navbar/Navbar";
-import Google from "../../../src/assets/icons/googleicon.svg";
+// import Google from "../../../src/assets/icons/googleicon.svg";
 import Footer from "../../components/footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
@@ -17,7 +17,7 @@ import {
   sendLoginCode,
 } from "../../components/redux/slices/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { LoaderSkeleton } from "../../components/ui/loader";
+// import { LoaderSkeleton } from "../../components/ui/loader";
 import toast from "react-hot-toast";
 
 import { GoogleLogin } from "@react-oauth/google";
@@ -84,11 +84,7 @@ const Login = () => {
   return (
     <div>
       <Navbar />
-      {isLoading && (
-        <div>
-          <LoaderSkeleton />
-        </div>
-      )}
+      {isLoading && <div>Loading...</div>}
       <div className="flex sm:block gap-5 justify-between mx-16 xsm:mx-2 sm:mx-2">
         {/* <div className='bg-gradient-to-t from-purple-500 to-purple-300 h-10 sm:w-full'></div> */}
         <div className="basis-1/2 md:justify-center xsm:justify-center justify-center flex flex-col xsm:hidden sm:hidden md:hidden lg:hidden sm:justify-center left-0">
@@ -181,7 +177,7 @@ const Login = () => {
             </div>
           </div>
           <div className="flex-row flex justify-center cursor-pointer sm:w-full">
-            <div className="text-lg sm:text-sm flex border-2 rounded-full hover:bg-purple-200 w-72 items-center justify-center text-center">
+            <div className="my-3">
               {/*<img
                 src={Google}
                 className="w-6 h-16 mx-2 sm:w-4 sm:h-4 sm:text-sm"
@@ -194,6 +190,9 @@ const Login = () => {
                   console.log("Login Failed");
                   toast.error("Login Failed");
                 }}
+                size="large"
+                text="signin_with"
+                width={500}
               />
             </div>
           </div>

@@ -18,8 +18,11 @@ import PasswordInputRHF from "../../components/authentication/password-input-rhf
 import { useDispatch, useSelector } from "react-redux";
 import {
   RESET,
+  loginWithGoogle,
   registerUser,
 } from "../../components/redux/slices/auth/authSlice";
+
+import { GoogleLogin } from "@react-oauth/google";
 
 const Register = () => {
   const [isPasswordValid, setIsPasswordValid] = useState({
@@ -68,6 +71,13 @@ const Register = () => {
 
     dispatch(RESET());
   }, [isLoggedIn, isSuccess, dispatch, navigate]);
+
+  const googleLogin = async (credentialResponse) => {
+    console.log(credentialResponse);
+    await dispatch(
+      loginWithGoogle({ userToken: credentialResponse.credential })
+    );
+  };
 
   return (
     <div>
@@ -234,15 +244,17 @@ const Register = () => {
               </span>
             </div>
           </div>
-          <div className="flex-row flex justify-center cursor-pointer sm:w-full">
-            <div className="text-lg sm:text-sm flex border-2 rounded-full hover:bg-purple-200 w-72 items-center justify-center text-center">
-              <img
-                src={Google}
-                className="w-6 h-6 mx-2 sm:w-4 sm:h-4 sm:text-sm"
-                alt="google_image"
-              />
-              Login with google
-            </div>
+          <div className="flex-row flex justify-center cursor-pointer sm:w-full my-6">
+            <GoogleLogin
+              onSuccess={googleLogin}
+              onError={() => {
+                toast.error("Login Failed");
+              }}
+              size="large"
+              text="signup_with"
+              width={500}
+              height={100}
+            />
           </div>
         </div>
       </div>
