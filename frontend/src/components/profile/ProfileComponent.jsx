@@ -13,6 +13,10 @@ const cloud_name = import.meta.env.VITE_REACT_APP_CLOUD_NAME;
 
 const ProfileComponent = () => {
   useRedirectLoggedOutUser("/login");
+  // useEffect(() => {
+  //   dispatch(getUser());
+  // }, [dispatch]);
+
   const dispatch = useDispatch();
   const { isLoading, isLoggedIn, isSuccess, message, user } = useSelector(
     (state) => state.auth

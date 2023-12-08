@@ -19,7 +19,6 @@ import {
 } from "../../components/redux/slices/auth/authSlice";
 
 const EnterAccessCode = () => {
-  const [loginCode, setLoginCode] = useState("");
   const { email } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
