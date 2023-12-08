@@ -1,5 +1,5 @@
 import Hero from "../../components/hero/Hero";
-import PopularSales from "../../components/product-listing/popularSales";
+import PopularSales from "../../components/product-listing/PopularSales";
 import Highlights from "../../components/product-listing/Highlights";
 import TopRatedSales from "../../components/product-listing/TopRatedSales";
 import Featured from "../../components/product-listing/Featured";
