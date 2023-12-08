@@ -20,7 +20,7 @@ const PasswordInput = ({ placeholder, id, name, register, onPaste, value }) => {
         onPaste={onPaste}
         value={value}
       />
-      <span
+      <spanp
         onClick={togglePasswordVisibility}
         className="cursor-pointer mx-[-40px]"
       >
@@ -29,7 +29,7 @@ const PasswordInput = ({ placeholder, id, name, register, onPaste, value }) => {
         ) : (
           <AiFillEye className="text-gray-800 w-7 h-7" />
         )}
-      </span>
+      </spanp>
     </div>
   );
 };

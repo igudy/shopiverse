@@ -20,7 +20,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:5173",
-      "https://shopiverse.vercel.app",
+      "https://shopiverse-client.vercel.app",
     ],
     credentials: true,
   })
