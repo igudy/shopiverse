@@ -18,6 +18,11 @@ import {
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import Admin from "./pages/admin/Admin.jsx";
+import Dashboard from "./pages/admin/Dashboard.jsx";
+import AllProducts from "./pages/admin/AllProducts.jsx";
+import AddProduct from "./pages/admin/AddProduct.jsx";
+import Orders from "./pages/admin/Orders.jsx";
 
 axios.defaults.withCredentials = true;
 
@@ -36,7 +41,10 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Home */}
         <Route path="/" element={<Home />} />
+
+        {/* Authentication */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/contact" element={<Contact />} />
@@ -46,6 +54,22 @@ const App = () => {
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
         <Route path="/enter-access-code/:email" element={<EnterAccessCode />} />
         <Route path="/verify/:verificationToken" element={<Verify />} />
+
+
+    {/* Admin section */}
+        <Route
+          path="/admin/*"
+          element={<Admin />}
+        >
+          {/* Nested admin routes */}
+          {/* <Route path="dashboard" element={<Dashboard />} /> */}
+          <Route index element={<Dashboard />} />
+          <Route path="all-products" element={<AllProducts />} />
+          <Route path="add-product" element={<AddProduct />} />
+          <Route path="orders" element={<Orders />} />
+        </Route>
+
+     
       </Routes>
     </BrowserRouter>
   );

@@ -56,6 +56,9 @@ const HomeNavbar = () => {
         <img src={logo} className="w-[120px] h-6 cursor-pointer" alt="logo" />
       </div>
       <div className="flex text-white items-center gap-4 xsm:gap-0 sm:gap-1 right-0 z-[999999]">
+                    <Link to="/admin">
+              <p className="cursor-pointer hover:underline">Admin</p>
+            </Link>
         <ShowOnLogout>
           <Link to="/login">
             <p className="cursor-pointer hover:underline">Login</p>

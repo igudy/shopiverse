@@ -56,6 +56,9 @@ const Navbar = () => {
         <div className="flex items-center gap-4 xsm:gap-0 sm:gap-1 right-0">
           {/* <HeartIcon className="w-8 h-6 cursor-pointer" />
         <MagnifyingGlassIcon className="w-8 h-6 cursor-pointer" /> */}
+            <Link to="/admin">
+              <p className="cursor-pointer hover:underline">Admin</p>
+            </Link>
           <ShowOnLogin>
             <Link to="/profile">
               <p className="cursor-pointer hover:underline">Hi {user?.name}</p>
