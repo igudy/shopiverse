@@ -5,7 +5,7 @@ const Sidebar = () => {
     <nav className="bg-gray-800 text-white h-screen w-1/5 p-4">
       <ul>
         <li className="mb-4">
-          <NavLink to="/admin/dashboard" activeClassName="text-blue-500">
+          <NavLink to="/admin" activeClassName="text-blue-500">
             Dashboard
           </NavLink>
         </li>
