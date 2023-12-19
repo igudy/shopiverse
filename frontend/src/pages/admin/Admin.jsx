@@ -6,7 +6,7 @@ const Admin = () => {
  <>
     <div className="flex flex-auto h-screen">
       <Sidebar />
-    <div className="grow">
+    <div className="grow bg-[#F4F7FE]">
       <div className="m-5">
         <Outlet />
       </div>

@@ -1,30 +1,99 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useRoutes, useMatch } from "react-router-dom";
+import LogoDashboard from "../../assets/logo/shopiverse-dashboard-06.png";
+import { MdHome } from "react-icons/md";
+import { FaList } from "react-icons/fa";
+import { MdAddBox } from "react-icons/md";
+import { MdOutlineShoppingCart } from "react-icons/md";
+import { IoExitOutline } from "react-icons/io5";
+
+const Dashboard = () => {
+  const match = useMatch("/admin");
+  return (
+    <NavLink
+      to="/admin"
+      className={`flex items-center ${match ? "text-purple-700" : ""}`}
+    >
+      <MdHome className="w-5 h-5 mr-1" />
+      Dashboard
+    </NavLink>
+  );
+};
+
+const AllProducts = () => {
+  const match = useMatch("/admin/all-products");
+  return (
+    <NavLink
+      to="/admin/all-products"
+      className={`flex items-center ${match ? "text-purple-700" : ""}`}
+    >
+      <FaList className="w-5 h-5 mr-1" />
+      All Products
+    </NavLink>
+  );
+};
+
+const AddProduct = () => {
+  const match = useMatch("/admin/add-product");
+  return (
+    <NavLink
+      to="/admin/add-product"
+      className={`flex items-center ${match ? "text-purple-700" : ""}`}
+    >
+      <MdAddBox className="w-5 h-5 mr-1" />
+      Add Product
+    </NavLink>
+  );
+};
+
+const Orders = () => {
+  const match = useMatch("/admin/orders");
+  return (
+    <NavLink
+      to="/admin/orders"
+      className={`flex items-center ${match ? "text-purple-700" : ""}`}
+    >
+      <MdOutlineShoppingCart className="w-5 h-5 mr-1" />
+      Orders
+    </NavLink>
+  );
+};
+
+const Exit = () => {
+  const match = useMatch("/login");
+  return (
+    <NavLink
+      to="/login"
+      className={`flex items-center ${match ? "text-purple-700" : ""}`}
+    >
+      <IoExitOutline className="w-5 h-5 mr-1" />
+      Exit
+    </NavLink>
+  );
+};
 
 const Sidebar = () => {
   return (
-    <nav className="bg-gray-800 text-white h-screen w-1/5 p-4">
-      <ul>
-        <li className="mb-4">
-          <NavLink to="/admin" activeClassName="text-blue-500">
-            Dashboard
-          </NavLink>
-        </li>
-        <li className="mb-4">
-          <NavLink to="/admin/all-products" activeClassName="text-blue-500">
-            All Products
-          </NavLink>
-        </li>
-        <li className="mb-4">
-          <NavLink to="/admin/add-product" activeClassName="text-blue-500">
-            Add Product
-          </NavLink>
-        </li>
-        <li className="mb-4">
-          <NavLink to="/admin/orders" activeClassName="text-blue-500">
-            Orders
-          </NavLink>
-        </li>
-      </ul>
+    <nav className="bg-white text-gray-700 font-medium h-screen w-1/5 p-4">
+      <div>
+        <img src={LogoDashboard} className="w-[130px] h-20 mb-10" alt={"logo"} />
+        <ul className="space-y-7">
+          <li className="">
+            <Dashboard />
+          </li>
+          <li className="">
+            <AllProducts />
+          </li>
+          <li className="">
+            <AddProduct />
+          </li>
+          <li className="">
+            <Orders />
+          </li>
+        </ul>
+        <div className="mt-32">
+          <Exit />
+        </div>
+      </div>
     </nav>
   );
 };

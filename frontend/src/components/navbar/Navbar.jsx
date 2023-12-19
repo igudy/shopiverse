@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { HeartIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import logo from "../../assets/logo.png";
+// import logo from "../../assets/logo.png";
 import CartModal from "../modal/CartModal";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
