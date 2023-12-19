@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RESET, logout, selectUser } from "../redux/slices/auth/authSlice";
 import { ShowOnLogin, ShowOnLogout } from "../protect/hiddenLink";
+import NavImage from "../../assets/logo/shopi.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,18 +48,23 @@ const Navbar = () => {
   return (
     <div className="text-white text-sm">
       <div
-        className={`flex flex-row justify-between items-center py-8 px-10 sm:py-8 md:py-8 bg-purple-700`}
+        className={`flex flex-row justify-between items-center px-3 bg-purple-700`}
       >
         <div className="">
-          {/* <img src={logo} className="w-[120px] h-6 cursor-pointer" alt="logo" /> */}
-          <Link to="/">Shopiverse</Link>
+          <Link to={"/"}>
+            <img
+              src={NavImage}
+              className="w-[160px] cursor-pointer"
+              alt="logo"
+            />
+          </Link>
         </div>
         <div className="flex items-center gap-4 xsm:gap-0 sm:gap-1 right-0">
           {/* <HeartIcon className="w-8 h-6 cursor-pointer" />
         <MagnifyingGlassIcon className="w-8 h-6 cursor-pointer" /> */}
-            <Link to="/admin">
-              <p className="cursor-pointer hover:underline">Admin</p>
-            </Link>
+          <Link to="/admin">
+            <p className="cursor-pointer hover:underline">Admin</p>
+          </Link>
           <ShowOnLogin>
             <Link to="/profile">
               <p className="cursor-pointer hover:underline">Hi {user?.name}</p>

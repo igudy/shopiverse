@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { RESET, logout, selectUser } from "../redux/slices/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ShowOnLogin, ShowOnLogout } from "../protect/hiddenLink";
+import NavImage from '../../assets/logo/shopi.png'
 
 const HomeNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,12 +49,12 @@ const HomeNavbar = () => {
     <div
       className={
         !navState
-          ? `flex flex-row justify-between items-center mx-14 py-8 xsm:mx-2 xsm:py-6 sm:mx-2 sm:py-8 md:mx-8 md:py-8`
-          : `flex flex-row justify-between items-center mx-14 py-8 xsm:mx-2 xsm:py-6 sm:mx-2 sm:py-8 md:mx-8 md:py-8`
+          ? `flex flex-row justify-between items-center mx-14 py-2 xsm:mx-2 xsm:py-6 sm:mx-2 sm:py-8 md:mx-8 md:py-2`
+          : `flex flex-row justify-between items-center mx-14 py-2 xsm:mx-2 xsm:py-6 sm:mx-2 sm:py-8 md:mx-8 md:py-2`
       }
     >
       <div className="">
-        <img src={logo} className="w-[120px] h-6 cursor-pointer" alt="logo" />
+        <img src={NavImage} className="w-[160px] cursor-pointer" alt="logo" />
       </div>
       <div className="flex text-white items-center gap-4 xsm:gap-0 sm:gap-1 right-0 z-[999999]">
                     <Link to="/admin">

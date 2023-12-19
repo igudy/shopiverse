@@ -67,8 +67,6 @@ const App = () => {
           <Route path="add-product" element={<AddProduct />} />
           <Route path="orders" element={<Orders />} />
         </Route>
-
-     
       </Routes>
     </BrowserRouter>
   );
