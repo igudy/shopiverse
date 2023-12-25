@@ -8,8 +8,8 @@ const Card = ({ top, image, amount }) => {
           <img src={image} className="w-12" alt="name" />
         </div>
         <div className="flex-col space-y-1">
-          <p className="text-[#A3AED0] text-[10px]">{top}</p>
-          <p className="text-[#2B3674] font-[600] text-[24px]">{amount}</p>
+          <p className="text-[#A3AED0] text-[9px]">{top}</p>
+          <p className="text-[#2B3674] font-[600] text-[20px]">{amount}</p>
         </div>
       </div>
     </div>
