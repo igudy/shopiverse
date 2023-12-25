@@ -11,7 +11,9 @@ const Dashboard = () => {
   return (
     <NavLink
       to="/admin"
-      className={`flex items-center ${match ? "text-purple-700" : ""}`}
+      className={`flex items-center ${
+        match ? "text-purple-700 font-[700]" : ""
+      }`}
     >
       <MdHome className="w-5 h-5 mr-1" />
       Dashboard
@@ -24,7 +26,9 @@ const AllProducts = () => {
   return (
     <NavLink
       to="/admin/all-products"
-      className={`flex items-center ${match ? "text-purple-700" : ""}`}
+      className={`flex items-center ${
+        match ? "text-purple-700 font-[700]" : ""
+      }`}
     >
       <FaList className="w-5 h-5 mr-1" />
       All Products
@@ -37,7 +41,9 @@ const AddProduct = () => {
   return (
     <NavLink
       to="/admin/add-product"
-      className={`flex items-center ${match ? "text-purple-700" : ""}`}
+      className={`flex items-center ${
+        match ? "text-purple-700 font-[700]" : ""
+      }`}
     >
       <MdAddBox className="w-5 h-5 mr-1" />
       Add Product
@@ -50,7 +56,9 @@ const Orders = () => {
   return (
     <NavLink
       to="/admin/orders"
-      className={`flex items-center ${match ? "text-purple-700" : ""}`}
+      className={`flex items-center ${
+        match ? "text-purple-700 font-[700]" : ""
+      }`}
     >
       <MdOutlineShoppingCart className="w-5 h-5 mr-1" />
       Orders
@@ -63,7 +71,9 @@ const Exit = () => {
   return (
     <NavLink
       to="/login"
-      className={`flex items-center ${match ? "text-purple-700" : ""}`}
+      className={`flex items-center ${
+        match ? "text-purple-700 font-[700]" : ""
+      }`}
     >
       <IoExitOutline className="w-5 h-5 mr-1" />
       Exit
@@ -73,26 +83,31 @@ const Exit = () => {
 
 const Sidebar = () => {
   return (
-    <nav className="bg-white text-gray-700 font-medium h-screen w-1/5 p-4">
-      <div>
-        <img src={LogoDashboard} className="w-[130px] h-20 mb-10" alt={"logo"} />
-        <ul className="space-y-7">
-          <li className="">
-            <Dashboard />
-          </li>
-          <li className="">
-            <AllProducts />
-          </li>
-          <li className="">
-            <AddProduct />
-          </li>
-          <li className="">
-            <Orders />
-          </li>
-        </ul>
-        <div className="mt-32">
-          <Exit />
-        </div>
+    <nav className="bg-white text-gray-700 font-medium h-screen w-1/6">
+      <img
+        src={LogoDashboard}
+        className="w-[130px] mx-4 h-20 mb-5"
+        alt={"logo"}
+      />
+
+      <div className="w-[100%] bg-gray-200 h-[1px] my-6"></div>
+
+      <ul className="space-y-7 font-[400] text-sm text-gray-500 p-4">
+        <li className="">
+          <Dashboard />
+        </li>
+        <li className="">
+          <AllProducts />
+        </li>
+        <li className="">
+          <AddProduct />
+        </li>
+        <li className="">
+          <Orders />
+        </li>
+      </ul>
+      <div className="mt-32 p-4">
+        <Exit />
       </div>
     </nav>
   );

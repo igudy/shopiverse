@@ -54,13 +54,8 @@ const App = () => {
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
         <Route path="/enter-access-code/:email" element={<EnterAccessCode />} />
         <Route path="/verify/:verificationToken" element={<Verify />} />
-
-
-    {/* Admin section */}
-        <Route
-          path="/admin/*"
-          element={<Admin />}
-        >
+        {/* Admin section */}
+        <Route path="/admin/*" element={<Admin />}>
           {/* Nested admin routes */}
           <Route index element={<Dashboard />} />
           <Route path="all-products" element={<AllProducts />} />

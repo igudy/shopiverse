@@ -76,3 +76,18 @@ CART
 - Delete Cart Product
 
 
+Prettier Fix
+Start > Run 
+File Path:
+
+%AppData%\Code\User\settings.json
+Change From:
+
+"[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+},
+To:
+
+"[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+},
