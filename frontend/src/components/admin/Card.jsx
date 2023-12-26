@@ -3,7 +3,7 @@ import React from "react";
 const Card = ({ top, image, amount }) => {
   return (
     <div>
-      <div className="mt-4 text-sm flex bg-white rounded-3xl w-[200px] pl-2 pr-10 py-3  shadow-purple-200 shadow-md items-center">
+      <div className="mt-4 text-sm flex bg-white rounded-3xl pl-2 pr-10 py-3 shadow-purple-200 shadow-md items-center">
         <div className="bg-gray-200 rounded-full items-center m-2">
           <img src={image} className="w-12" alt="name" />
         </div>
@@ -17,3 +17,11 @@ const Card = ({ top, image, amount }) => {
 };
 
 export default Card;
+
+export const CardGraph = ({ children }) => {
+  return (
+    <div className="mt-8 rounded-xl w-full bg-white shadow-purple-200 shadow-xl">
+      {children}
+    </div>
+  );
+};

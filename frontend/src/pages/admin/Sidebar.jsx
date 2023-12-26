@@ -83,7 +83,7 @@ const Exit = () => {
 
 const Sidebar = () => {
   return (
-    <nav className="bg-white text-gray-700 font-medium h-screen w-1/6">
+    <nav className="bg-white text-gray-700 font-medium h-screen min-w-[200px  ] w-1/6">
       <img
         src={LogoDashboard}
         className="w-[130px] mx-4 h-20 mb-5"
