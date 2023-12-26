@@ -76,7 +76,7 @@ const ThirdRow = () => {
   });
 
   return (
-    <div className="flex gap-5 justify-between mb-10">
+    <div className="flex gap-5 justify-between p-2">
       {/* Complex Table */}
       <CardGraph>
         <ComplexTable />
@@ -84,7 +84,7 @@ const ThirdRow = () => {
 
       {/* HeatMap */}
       <CardGraph>
-        <div id="heatmap-chart">
+        <div id="heatmap-chart" className="p-2">
           <ReactApexChart
             options={chartState.options}
             series={chartState.series}

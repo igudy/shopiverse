@@ -1,10 +1,11 @@
 import React from "react";
 import { Approved, Disable, Error } from "./StatusProgress";
+import { Progress } from "../ui/progress";
 
 const ComplexTable = () => {
   return (
     <div>
-      <div className="relative p-3  overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg h-[400px]">
+      <div className="relative p-3 overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg h-[400px]">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
           <thead className="text-xs text-gray-500 uppercase bg-white border-b font-bold ">
             <tr>
@@ -34,8 +35,9 @@ const ComplexTable = () => {
                 <Approved />
               </td>
               <td className="px-6 py-4">10th March</td>
-              <td className="px-6 py-4">Progress</td>
-              <td className="px-6 py-4 text-right"></td>
+              <td className="px-6 py-4">
+                <Progress value={80} className="h-2" />
+              </td>
             </tr>
             <tr className="bg-white  text-black hover:bg-gray-50 ">
               <th
@@ -48,8 +50,9 @@ const ComplexTable = () => {
                 <Approved />
               </td>
               <td className="px-6 py-4">10th March</td>
-              <td className="px-6 py-4">Progress</td>
-              <td className="px-6 py-4 text-right"></td>
+              <td className="px-6 py-4">
+                <Progress value={50} className="h-2" />
+              </td>
             </tr>
             <tr className="bg-white  text-black hover:bg-gray-50 ">
               <th
@@ -62,8 +65,9 @@ const ComplexTable = () => {
                 <Disable />
               </td>
               <td className="px-6 py-4">10th March</td>
-              <td className="px-6 py-4">Progress</td>
-              <td className="px-6 py-4 text-right"></td>
+              <td className="px-6 py-4">
+                <Progress value={100} className="h-2" />
+              </td>
             </tr>
             <tr className="bg-white  text-black hover:bg-gray-50 ">
               <th
@@ -76,13 +80,14 @@ const ComplexTable = () => {
                 <Error />
               </td>
               <td className="px-6 py-4">10th March</td>
-              <td className="px-6 py-4">Progress</td>
-              <td className="px-6 py-4 text-right"></td>
+              <td className="px-6 py-4">
+                <Progress value={25} className="h-2" />
+              </td>
             </tr>
             <tr className="bg-white  text-black hover:bg-gray-50 ">
               <th
                 scope="row"
-                className="px-6 py-4  text-[#2B3674] font-bol-900 whitespace-nowrap"
+                className="px-6 py-4 text-[#2B3674] font-bol-900 whitespace-nowrap"
               >
                 Samsung A22
               </th>
@@ -90,8 +95,9 @@ const ComplexTable = () => {
                 <Approved />
               </td>
               <td className="px-6 py-4">10th March</td>
-              <td className="px-6 py-4">Progress</td>
-              <td className="px-6 py-4 text-right"></td>
+              <td className="px-6 py-4">
+                <Progress value={38} className="h-2" />
+              </td>
             </tr>
             <tr className="bg-white  text-black hover:bg-gray-50 ">
               <th
@@ -104,8 +110,9 @@ const ComplexTable = () => {
                 <Error />
               </td>
               <td className="px-6 py-4">10th March</td>
-              <td className="px-6 py-4">Progress</td>
-              <td className="px-6 py-4 text-right"></td>
+              <td className="px-6 py-4">
+                <Progress value={36} className="h-2" />
+              </td>
             </tr>
             <tr className="bg-white  text-black hover:bg-gray-50 ">
               <th
@@ -118,8 +125,9 @@ const ComplexTable = () => {
                 <Approved />
               </td>
               <td className="px-6 py-4">10th March</td>
-              <td className="px-6 py-4">Progress</td>
-              <td className="px-6 py-4 text-right"></td>
+              <td className="px-6 py-4">
+                <Progress value={13} className="h-2" />
+              </td>
             </tr>
           </tbody>
         </table>

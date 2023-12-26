@@ -75,7 +75,7 @@ const SecondRow = () => {
   });
 
   return (
-    <div className="flex gap-8 justify-between p-2">
+    <div className="flex gap-5 justify-between p-2">
       {/* Line charts */}
       <CardGraph>
         <div id="chart" className="p-4">

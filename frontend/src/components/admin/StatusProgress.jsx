@@ -28,7 +28,3 @@ export const Error = () => {
     </div>
   );
 };
-
-export const Progress = () => {
-  return <div>Progress</div>;
-};
