@@ -12,7 +12,7 @@ const initialState = { oldPassword: "", newPassword: "", newPassword2: "" };
 const Password = () => {
   useRedirectLoggedOutUser("/login");
   const [formData, setFormData] = useState(initialState);
-  const { oldPassword, password, password2 } = formData;
+  const [oldPassword, password, password2] = formData;
 
   const { isLoading, user } = useSelector((state) => state.auth);
 

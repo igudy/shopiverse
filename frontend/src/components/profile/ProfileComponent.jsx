@@ -30,6 +30,7 @@ const ProfileComponent = () => {
     role: user?.role || "",
     isVerified: user?.isVerified || false,
   };
+
   const [profile, setProfile] = useState(initialState);
   const [profileImage, setProfileImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
