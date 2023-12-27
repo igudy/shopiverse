@@ -13,3 +13,5 @@ router.get("/getproduct", getProduct);
 router.post("/addProduct", addProduct);
 router.patch("/updateProduct", updateProduct);
 router.delete("/:id", deleteProduct);
+
+module.exports = router;

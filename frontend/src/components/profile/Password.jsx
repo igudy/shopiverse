@@ -58,6 +58,7 @@ const Password = () => {
   //   await dispatch(RESET(userData));
   //   navigate("/login");
   // };
+
   const updatePassword = async (e) => {
     e.preventDefault();
 

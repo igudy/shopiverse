@@ -1,20 +1,19 @@
-const express = require("express");
 const asyncHandler = require("express-async-handler");
 
 const getProduct = asyncHandler(async (req, res) => {
-  console.log("Get Product");
+  res.json("get product");
 });
 
 const addProduct = asyncHandler(async (req, res) => {
-  console.log("Add Product");
+  res.json("add product");
 });
 
 const updateProduct = asyncHandler(async (req, res) => {
-  console.log("Update Product");
+  res.json("update product");
 });
 
 const deleteProduct = asyncHandler(async (req, res) => {
-  console.log("Delete Product");
+  res.json("delete product");
 });
 
 module.exports = {
