@@ -5,7 +5,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const userRoute = require("./routes/userRoute");
-const adminRoute = require("./routes/adminRoute");
+const productRoute = require("./routes/productRoute");
 const errorHandler = require("./middleware/errorMiddleware");
 
 const app = express();
@@ -29,7 +29,7 @@ app.use(
 
 // Routes
 app.use("/api/users", userRoute);
-app.use("/api/admin", adminRoute);
+app.use("/api/products", productRoute);
 
 app.get("/", (req, res) => {
   res.send("Home page");

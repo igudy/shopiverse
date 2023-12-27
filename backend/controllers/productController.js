@@ -9,10 +9,6 @@ const addProduct = asyncHandler(async (req, res) => {
   console.log("Add Product");
 });
 
-const editProduct = asyncHandler(async (req, res) => {
-  console.log("Edit Product");
-});
-
 const updateProduct = asyncHandler(async (req, res) => {
   console.log("Update Product");
 });
@@ -24,7 +20,6 @@ const deleteProduct = asyncHandler(async (req, res) => {
 module.exports = {
   getProduct,
   addProduct,
-  editProduct,
   updateProduct,
   deleteProduct,
 };
