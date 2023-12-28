@@ -1,6 +1,7 @@
 const express = require("express");
 
 const {
+  getAllProducts,
   getProduct,
   addProduct,
   updateProduct,
@@ -9,9 +10,7 @@ const {
 
 const router = express.Router();
 
-router.get("/getproduct", getProduct);
-router.post("/addProduct", addProduct);
-router.patch("/updateProduct", updateProduct);
-router.delete("/:id", deleteProduct);
+router.route("/").get(getAllProducts).post(addProduct);
+router.route("/:id").get(getProduct).patch(updateProduct).delete(deleteProduct);
 
 module.exports = router;
