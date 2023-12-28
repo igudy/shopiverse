@@ -8,7 +8,7 @@ const Card = ({ top, icon: Icon, amount }) => {
           <Icon className="w-[40px] h-[40px] p-1 text-[#2B3674]" />
         </div>
         <div className="flex-col space-y-1">
-          <p className="text-[#A3AED0] text-[9px]">{top}</p>
+          <p className="text-[#39393b] text-[9px]">{top}</p>
           <p className="text-[#2B3674] font-[600] text-[20px]">{amount}</p>
         </div>
       </div>
