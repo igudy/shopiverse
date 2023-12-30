@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import Card, { CardGraph } from "../../components/admin/Card";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { CardGraph } from "../../components/admin/Card";
 import { createProduct } from "../../service/axios-utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -30,20 +30,19 @@ const cloud_name = import.meta.env.VITE_REACT_APP_CLOUD_NAME;
 const AddProduct = () => {
   const queryClient = useQueryClient();
   const [product, setProduct] = useState(initialState);
-  const { name, imageURL, quantity, price, falsePrice, category, brand, desc } =
-    product;
+  const navigate = useNavigate();
 
   const mutationOptions = {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(data);
+    onSuccess: () => {
       toast.success("Registration successful");
     },
     onError: (error) => {
-      toast.error(error, "Error product wasn't added");
+      toast.error(error.message, "Error product wasn't added");
     },
   };
 
-  const { isLoading, mutate } = useMutation(createProduct, mutationOptions);
+  const mutation = useMutation({ mutationFn: createProduct, mutationOptions });
+  console.log(mutation);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -55,7 +54,7 @@ const AddProduct = () => {
 
   const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];
-    setProfileImage(e.target.files[0]);
+    setProductImage(selectedFile);
 
     if (selectedFile) {
       // Check the file size (in bytes)
@@ -69,16 +68,14 @@ const AddProduct = () => {
 
         // Clear the input field
         e.target.value = null;
-        setProfileImage(null);
+        setProductImage(null);
         setImagePreview(null);
         return;
       }
 
       // If the file size is within the limit, update state
-      setProfileImage(selectedFile);
       setImagePreview(URL.createObjectURL(selectedFile));
     }
-    setImagePreview(URL.createObjectURL(e.target.files[0]));
   };
 
   const saveProduct = async (e) => {
@@ -110,7 +107,7 @@ const AddProduct = () => {
       // Save profile to MongoDB
       const payload = {
         name: product.name,
-        imageURL: productImage ? imageURL : product.imageURL,
+        productImg: productImage ? imageURL : product.imageURL,
         quantity: product.quantity,
         price: product.price,
         falsePrice: product.falsePrice,
@@ -119,7 +116,9 @@ const AddProduct = () => {
         desc: product.desc,
       };
 
-      mutate(payload);
+      mutation.mutate(payload);
+      toast.success("Product Added");
+      // navigate("/admin/all-products");
     } catch (error) {
       toast.error(error.message);
     }
@@ -181,9 +180,6 @@ const AddProduct = () => {
                   >
                     <path
                       stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
                       d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                     />
                   </svg>
@@ -199,16 +195,17 @@ const AddProduct = () => {
                   id="dropzone-file"
                   type="file"
                   className="hidden"
-                  value={product.imageURL}
+                  // value={product.imageURL} // Remove this line
                 />
               </label>
             </div>
-            {/* <input
-              type="file"
-              accept="image/*"
-              name="image"
-              onChange={handleImageChange}
-            /> */}
+            <div>
+              <img
+                src={imagePreview === null ? product?.imageURL : imagePreview}
+                alt="profile_picture"
+                className="rounded-full px-5 py-5"
+              />
+            </div>
 
             <div className="flex gap-5">
               <div className="flex flex-col w-[50%]">
