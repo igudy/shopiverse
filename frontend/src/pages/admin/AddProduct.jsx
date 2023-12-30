@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Card, { CardGraph } from "../../components/admin/Card";
+import { createProduct } from "../../service/axios-utils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const categories = [
   { id: 1, name: "Laptop" },
@@ -21,19 +24,106 @@ const initialState = {
   desc: "",
 };
 
+const upload_preset = import.meta.env.VITE_REACT_APP_UPLOAD_PRESET;
+const cloud_name = import.meta.env.VITE_REACT_APP_CLOUD_NAME;
+
 const AddProduct = () => {
+  const queryClient = useQueryClient();
   const [product, setProduct] = useState(initialState);
   const { name, imageURL, quantity, price, falsePrice, category, brand, desc } =
     product;
+
+  const mutationOptions = {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(data);
+      toast.success("Registration successful");
+    },
+    onError: (error) => {
+      toast.error(error, "Error product wasn't added");
+    },
+  };
+
+  const { isLoading, mutate } = useMutation(createProduct, mutationOptions);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
   };
 
-  const handleImageChange = (e) => {};
+  const [productImage, setProductImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
-  const handleAddProduct = (e) => {};
+  const handleImageChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setProfileImage(e.target.files[0]);
+
+    if (selectedFile) {
+      // Check the file size (in bytes)
+      const fileSizeInBytes = selectedFile.size;
+      const maxSizeInBytes = 3 * 1024 * 1024; //3MB
+
+      if (fileSizeInBytes > maxSizeInBytes) {
+        toast.error(
+          "Image size exceeds the limit of 3MB. Please choose a smaller image."
+        );
+
+        // Clear the input field
+        e.target.value = null;
+        setProfileImage(null);
+        setImagePreview(null);
+        return;
+      }
+
+      // If the file size is within the limit, update state
+      setProfileImage(selectedFile);
+      setImagePreview(URL.createObjectURL(selectedFile));
+    }
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
+  };
+
+  const saveProduct = async (e) => {
+    e.preventDefault();
+    let imageURL;
+
+    try {
+      if (
+        productImage !== null &&
+        (productImage.type === "image/jpeg" ||
+          productImage.type === "image/jpg" ||
+          productImage.type === "image/png")
+      ) {
+        const image = new FormData();
+        image.append("file", productImage);
+        image.append("cloud_name", cloud_name);
+        image.append("upload_preset", upload_preset);
+
+        // Save image to Cloudinary
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/igudy/image/upload",
+          { method: "post", body: image }
+        );
+        const imgData = await response.json();
+        console.log(imgData);
+        imageURL = imgData.url ? imgData.url.toString() : null;
+      }
+
+      // Save profile to MongoDB
+      const payload = {
+        name: product.name,
+        imageURL: productImage ? imageURL : product.imageURL,
+        quantity: product.quantity,
+        price: product.price,
+        falsePrice: product.falsePrice,
+        category: product.category,
+        brand: product.brand,
+        desc: product.desc,
+      };
+
+      mutate(payload);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div>
@@ -44,7 +134,7 @@ const AddProduct = () => {
 
       <div className="px-2">
         <CardGraph>
-          <form onSubmit={handleAddProduct} className="p-4 flex flex-col gap-3">
+          <form onSubmit={saveProduct} className="p-4 flex flex-col gap-3">
             <div className="flex items-center gap-5">
               <div className="flex flex-col w-[50%]">
                 <label className="text-gray-600">Product Name:</label>
@@ -73,7 +163,10 @@ const AddProduct = () => {
             </div>
 
             <label className="text-gray-600">Product Image:</label>
-            <div className="flex items-center justify-center w-full">
+            <div
+              className="flex items-center justify-center w-full"
+              onClick={handleImageChange}
+            >
               <label
                 htmlFor="dropzone-file"
                 className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 hover:bg-gray-100 "

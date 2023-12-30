@@ -1,4 +1,4 @@
-import { NavLink, useRoutes, useMatch } from "react-router-dom";
+import { NavLink, useRoutes, useMatch, Link } from "react-router-dom";
 import LogoDashboard from "../../assets/logo/shopiverse-dashboard-06.png";
 import { MdHome } from "react-icons/md";
 import { FaList } from "react-icons/fa";
@@ -83,12 +83,14 @@ const Exit = () => {
 
 const Sidebar = () => {
   return (
-    <nav className="bg-white text-gray-700 font-medium h-screen min-w-[200px  ] w-1/6">
-      <img
-        src={LogoDashboard}
-        className="w-[130px] mx-4 h-20 mb-5"
-        alt={"logo"}
-      />
+    <nav className="bg-white text-gray-700 font-medium h-screen min-w-[17%] max-w-[17%]">
+      <Link to="/">
+        <img
+          src={LogoDashboard}
+          className="w-[130px] mx-4 h-20 mb-5"
+          alt={"logo"}
+        />
+      </Link>
 
       <div className="w-[100%] bg-gray-200 h-[1px] my-6"></div>
 

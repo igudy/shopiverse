@@ -13,14 +13,18 @@ export const publicRequest = axios.create({
   baseURL: `${BASE_URL}/${API_VERSION}`,
 });
 
-// Fetch Products
+// Get Products
 const fetchProducts = async () => {
   const response = await publicRequest.get("/products");
   return response?.data;
 };
 
-const useProducts = () => {
-  return useQuery({ queryKey: ["products"], queryFn: fetchProducts });
+// Create Products
+export const createProduct = async (payload) => {
+  const response = await publicRequest.post("/products", payload);
+  return response?.data;
 };
 
-export default useProducts;
+export const useProducts = () => {
+  return useQuery({ queryKey: ["products"], queryFn: fetchProducts });
+};

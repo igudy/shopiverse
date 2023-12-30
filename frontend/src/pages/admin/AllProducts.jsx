@@ -1,5 +1,5 @@
 import React from "react";
-import useProducts from "../../service/axios-utils";
+import { useProducts } from "../../service/axios-utils";
 import { Progress } from "../../components/ui/progress";
 import { truncate } from "lodash";
 
@@ -8,7 +8,11 @@ const AllProducts = () => {
 
   return (
     <>
-      <div className="relative p-3 overflow-x-auto shadow-lg sm:rounded-lg">
+      <p className="text-sm text-[#707EAE] font-medium mt-3 ">
+        Pages / All Products
+      </p>
+      <p className="text-2xl font-[700] text-[#2B3674]">Product Listing</p>
+      <div className="relative p-3 overflow-x-auto sm:rounded-lg  rounded-2xl">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
           <thead className="text-xs text-gray-500 uppercase bg-white border-b font-bold ">
             <tr>
