@@ -13,17 +13,23 @@ export const publicRequest = axios.create({
   baseURL: `${BASE_URL}/${API_VERSION}`,
 });
 
-// Get Products
+// Get Product
 const fetchProducts = async () => {
   const response = await publicRequest.get("/products");
   return response?.data;
 };
 
-// Create Products
+// Create Product
 export const createProduct = async (payload) => {
   const response = await publicRequest.post("/products", payload);
   return response?.data;
 };
+
+// Update Product
+export const updateProduct = async () => {};
+
+// Delete Product
+export const deleteProduct = () => {};
 
 export const useProducts = () => {
   return useQuery({ queryKey: ["products"], queryFn: fetchProducts });

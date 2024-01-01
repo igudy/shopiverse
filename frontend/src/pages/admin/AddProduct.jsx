@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CardGraph } from "../../components/admin/Card";
 import { createProduct } from "../../service/axios-utils";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 const categories = [
@@ -28,16 +28,15 @@ const upload_preset = import.meta.env.VITE_REACT_APP_UPLOAD_PRESET;
 const cloud_name = import.meta.env.VITE_REACT_APP_CLOUD_NAME;
 
 const AddProduct = () => {
-  const queryClient = useQueryClient();
   const [product, setProduct] = useState(initialState);
   const navigate = useNavigate();
 
   const mutationOptions = {
     onSuccess: () => {
-      toast.success("Registration successful");
+      console.log("Registration successful");
     },
     onError: (error) => {
-      toast.error(error.message, "Error product wasn't added");
+      console.log(error.message, "Error product wasn't added");
     },
   };
 
@@ -118,7 +117,7 @@ const AddProduct = () => {
 
       mutation.mutate(payload);
       toast.success("Product Added");
-      // navigate("/admin/all-products");
+      navigate("/admin/all-products");
     } catch (error) {
       toast.error(error.message);
     }
