@@ -60,7 +60,10 @@ const App = () => {
           {/* Nested admin routes */}
           <Route index element={<Dashboard />} />
           <Route path="all-products" element={<AllProducts />} />
-          <Route path="update-product/:id" element={<UpdateProduct />} />
+          <Route
+            path="all-products/update-product/:id"
+            element={<UpdateProduct />}
+          />
           <Route path="add-product" element={<AddProduct />} />
           <Route path="orders" element={<Orders />} />
         </Route>
