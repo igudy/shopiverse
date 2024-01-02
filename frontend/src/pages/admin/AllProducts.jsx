@@ -4,9 +4,11 @@ import { Progress } from "../../components/ui/progress";
 import { truncate } from "lodash";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const AllProducts = () => {
   const { data, error, isLoading } = useProducts();
+  const navigate = useNavigate();
 
   // Delete Mutation
   const deleteMutationOptions = {
@@ -30,6 +32,12 @@ const AllProducts = () => {
     } catch (error) {
       console.error("Error deleting product:", error.message);
     }
+  };
+
+  console.log(data);
+
+  const navigateEdit = (productId) => {
+    navigate(`update-product/${productId}`);
   };
 
   return (
@@ -105,7 +113,10 @@ const AllProducts = () => {
                     omission: "...",
                   })}
                 </td>
-                <td className="px-6 py-4  text-blue-600 underline cursor-pointer">
+                <td
+                  className="px-6 py-4 text-blue-600 underline cursor-pointer"
+                  onClick={() => navigateEdit(item._id)}
+                >
                   Edit
                 </td>
                 <td
