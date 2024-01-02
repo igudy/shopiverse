@@ -1,10 +1,36 @@
 import React from "react";
-import { useProducts } from "../../service/axios-utils";
+import { deleteProduct, useProducts } from "../../service/axios-utils";
 import { Progress } from "../../components/ui/progress";
 import { truncate } from "lodash";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const AllProducts = () => {
   const { data, error, isLoading } = useProducts();
+
+  // Delete Mutation
+  const deleteMutationOptions = {
+    onSuccess: () => {
+      console.log("Delete");
+    },
+    onError: (error) => {
+      console.log(error.message, "Error product wasn't deleted");
+    },
+  };
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteProduct,
+    deleteMutationOptions,
+  });
+
+  const deleteFunc = async (id) => {
+    try {
+      await deleteMutation.mutateAsync(id);
+      toast.success("Product Deleted");
+    } catch (error) {
+      console.error("Error deleting product:", error.message);
+    }
+  };
 
   return (
     <>
@@ -71,7 +97,6 @@ const AllProducts = () => {
                 <td className="px-6 py-4 text-gray-800">N{item.price}</td>
                 <td className="px-6 py-4 text-gray-800">N{item.falsePrice}</td>
                 <td className="px-6 py-4 text-gray-800">{item.category}</td>
-
                 <td className="px-6 py-4 text-gray-800 ">{item.brand}</td>
                 <td className="px-6 py-4 text-gray-800 ">{item.desc}</td>
                 <td className="text-[12px] px-6 py-4 text-gray-800 ">
@@ -83,7 +108,10 @@ const AllProducts = () => {
                 <td className="px-6 py-4  text-blue-600 underline cursor-pointer">
                   Edit
                 </td>
-                <td className="px-6 py-4  text-blue-600 underline cursor-pointer">
+                <td
+                  className="px-6 py-4  text-blue-600 underline cursor-pointer"
+                  onClick={() => deleteFunc(item._id)}
+                >
                   Delete
                 </td>
               </tr>

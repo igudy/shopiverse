@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_REACT_APP_BACKEND_URL;
@@ -26,11 +26,24 @@ export const createProduct = async (payload) => {
 };
 
 // Update Product
-export const updateProduct = async () => {};
+export const updateProduct = async (id, payload) => {
+  const response = await privateRequest.put(`/products/${id}`, payload);
+  return response?.data;
+};
 
 // Delete Product
-export const deleteProduct = () => {};
+export const deleteProduct = async (id) => {
+  await privateRequest.delete(`/products/${id}`);
+};
 
 export const useProducts = () => {
-  return useQuery({ queryKey: ["products"], queryFn: fetchProducts });
+  const queryClient = useQueryClient();
+
+  return useQuery({
+    queryKey: ["products"],
+    queryFn: fetchProducts,
+    onSuccess: () => {
+      queryClient.invalidateQueries("products");
+    },
+  });
 };
