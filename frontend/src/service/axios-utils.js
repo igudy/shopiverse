@@ -21,14 +21,19 @@ const fetchProducts = async () => {
 
 // Create Product
 export const createProduct = async (payload) => {
-  const response = await publicRequest.post("/products", payload);
+  const response = await privateRequest.post("/products", payload);
   return response?.data;
 };
 
 // Update Product
-export const updateProduct = async (id, payload) => {
-  const response = await privateRequest.put(`/products/${id}`, payload);
-  return response?.data;
+export const updateProduct = async ({ id, payload }) => {
+  try {
+    const response = await privateRequest.patch(`/products/${id}`, payload);
+    return response?.data;
+  } catch (error) {
+    console.error("Error updating product:", error);
+    throw error;
+  }
 };
 
 // Delete Product

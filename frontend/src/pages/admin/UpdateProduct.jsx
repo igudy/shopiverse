@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CardGraph } from "../../components/admin/Card";
-import { createProduct } from "../../service/axios-utils";
+import { privateRequest, updateProduct } from "../../service/axios-utils";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
@@ -28,28 +28,30 @@ const upload_preset = import.meta.env.VITE_REACT_APP_UPLOAD_PRESET;
 const cloud_name = import.meta.env.VITE_REACT_APP_CLOUD_NAME;
 
 const UpdateProduct = () => {
-  const [product, setProduct] = useState(initialState);
   const navigate = useNavigate();
+  const [productImage, setProductImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const { id } = useParams();
+  const [product, setProduct] = useState(initialState);
 
-  const mutationOptions = {
+  const updateMutationOptions = {
     onSuccess: () => {
-      console.log("Registration successful");
+      console.log("Updated successfully");
     },
     onError: (error) => {
-      console.log(error.message, "Error product wasn't added");
+      console.log(error.message, "Error product wasn't updated");
     },
   };
 
-  const mutation = useMutation({ mutationFn: createProduct, mutationOptions });
-  console.log(mutation);
+  const mutation = useMutation({
+    mutationFn: updateProduct,
+    updateMutationOptions,
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
   };
-
-  const [productImage, setProductImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
 
   const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -65,45 +67,39 @@ const UpdateProduct = () => {
           "Image size exceeds the limit of 3MB. Please choose a smaller image."
         );
 
-        // Clear the input field
         e.target.value = null;
         setProductImage(null);
         setImagePreview(null);
         return;
       }
-
-      // If the file size is within the limit, update state
       setImagePreview(URL.createObjectURL(selectedFile));
     }
   };
 
-  const saveProduct = async (e) => {
+  const saveUpdatedProduct = async (e) => {
     e.preventDefault();
     let imageURL;
 
     try {
-      if (
-        productImage !== null &&
-        (productImage.type === "image/jpeg" ||
-          productImage.type === "image/jpg" ||
-          productImage.type === "image/png")
-      ) {
-        const image = new FormData();
-        image.append("file", productImage);
-        image.append("cloud_name", cloud_name);
-        image.append("upload_preset", upload_preset);
+      // if (
+      //   productImage !== null &&
+      //   (productImage.type === "image/jpeg" ||
+      //     productImage.type === "image/jpg" ||
+      //     productImage.type === "image/png")
+      // ) {
+      //   const image = new FormData();
+      //   image.append("file", productImage);
+      //   image.append("cloud_name", cloud_name);
+      //   image.append("upload_preset", upload_preset);
 
-        // Save image to Cloudinary
-        const response = await fetch(
-          "https://api.cloudinary.com/v1_1/igudy/image/upload",
-          { method: "post", body: image }
-        );
-        const imgData = await response.json();
-        console.log(imgData);
-        imageURL = imgData.url ? imgData.url.toString() : null;
-      }
+      //   const response = await fetch(
+      //     "https://api.cloudinary.com/v1_1/igudy/image/upload",
+      //     { method: "post", body: image }
+      //   );
+      //   const imgData = await response.json();
+      //   imageURL = imgData.url ? imgData.url.toString() : null;
+      // }
 
-      // Save profile to MongoDB
       const payload = {
         name: product.name,
         productImg: productImage ? imageURL : product.imageURL,
@@ -115,11 +111,13 @@ const UpdateProduct = () => {
         desc: product.desc,
       };
 
-      mutation.mutate(payload);
-      toast.success("Product Added");
-      navigate("/admin/all-products");
+      mutation.mutate({ id, payload });
+      console.log(mutation.mutate({ id, payload }));
+      toast.success("Product updated successfully");
+      // navigate("/admin/all-products");
     } catch (error) {
-      toast.error(error.message);
+      console.error("Error saving product:", error);
+      toast.error("Error updating product. Please try again.");
     }
   };
 
@@ -132,14 +130,16 @@ const UpdateProduct = () => {
 
       <div className="px-2">
         <CardGraph>
-          <form onSubmit={saveProduct} className="p-4 flex flex-col gap-3">
+          <form
+            onSubmit={saveUpdatedProduct}
+            className="p-4 flex flex-col gap-3"
+          >
             <div className="flex items-center gap-5">
               <div className="flex flex-col w-[50%]">
                 <label className="text-gray-600">Product Name:</label>
                 <input
                   type="text"
                   placeholder="Iphone 15 Pro Max"
-                  required
                   className="bg-gray-50 border border-gray-500 w-full rounded-lg p-2.5 sm:w-full sm:block`"
                   name="name"
                   value={product.name}
@@ -151,7 +151,6 @@ const UpdateProduct = () => {
                 <input
                   type="text"
                   placeholder="45"
-                  required
                   className="bg-gray-50 border border-gray-500 w-full rounded-lg p-2.5 sm:w-full sm:block"
                   name="quantity"
                   value={product.quantity}
@@ -190,12 +189,7 @@ const UpdateProduct = () => {
                     SVG, PNG, JPG or GIF (MAX. 800x400px)
                   </p>
                 </div>
-                <input
-                  id="dropzone-file"
-                  type="file"
-                  className="hidden"
-                  // value={product.imageURL} // Remove this line
-                />
+                <input id="dropzone-file" type="file" className="hidden" />
               </label>
             </div>
             <div>
@@ -212,7 +206,6 @@ const UpdateProduct = () => {
                 <input
                   type="text"
                   placeholder="Product Price"
-                  required
                   className="bg-gray-50 border border-gray-500 rounded-lg p-2.5 sm:w-full sm:block"
                   name="price"
                   value={product.price}
@@ -226,7 +219,6 @@ const UpdateProduct = () => {
                   type="text"
                   className="bg-gray-50 border border-gray-500 rounded-lg p-2.5 sm:w-full sm:block"
                   placeholder="Product Discounted Price"
-                  required
                   name="falsePrice"
                   value={product.falsePrice}
                   onChange={handleInputChange}
@@ -236,7 +228,6 @@ const UpdateProduct = () => {
 
             <label>Product Category</label>
             <select
-              required
               name="category"
               className="bg-gray-50 border border-gray-500 rounded-lg p-2.5 sm:w-full sm:block"
               value={product.category}
@@ -260,7 +251,6 @@ const UpdateProduct = () => {
             <label>Product Description</label>
             <textarea
               name="desc"
-              required
               className="bg-gray-50 border border-gray-500 rounded-lg p-2.5 sm:w-full sm:block"
               placeholder="Product Description"
               value={product.desc}

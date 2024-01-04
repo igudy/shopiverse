@@ -78,7 +78,7 @@ const addProduct = asyncHandler(async (req, res) => {
   }
 });
 
-const updateProduct = asyncHandler(async (req, res) => {
+const updateProduct = asyncHandler(async (req, res, next) => {
   const { id: productID } = req.params;
 
   const product = await Product.findOneAndUpdate({ _id: productID }, req.body, {
@@ -87,7 +87,7 @@ const updateProduct = asyncHandler(async (req, res) => {
   });
 
   if (!product) {
-    return next(createCustomError(`No product with id : ${productID}`, 404));
+    return `No product with id : ${productID}`;
   }
   res.status(200).json({ product, message: "Product updated successfully" });
 });
