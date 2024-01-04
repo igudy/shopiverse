@@ -4,16 +4,16 @@ const productSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please a product name"],
+      required: [false, "Please a product name"],
     },
     productImg: {
       type: String,
-      required: [true, "Please add a product image"],
+      required: [false, "Please add a product image"],
       default: "https://ibb.co/HVDWrpT",
     },
     quantity: {
       type: Number,
-      required: [true, "Please enter the quantity"],
+      required: [false, "Please enter the quantity"],
     },
     price: {
       type: Number,
@@ -21,20 +21,20 @@ const productSchema = mongoose.Schema(
     },
     falsePrice: {
       type: Number,
-      required: [true, "Please enter false price"],
+      required: [false, "Please enter false price"],
     },
     category: {
       type: String,
       enum: ["Laptop", "Electronics", "Fashion", "Shoes", "Phone"],
-      required: [true, "Please select a category"],
+      required: [false, "Please select a category"],
     },
     brand: {
       type: String,
-      required: [true, "Please a product brand"],
+      required: [false, "Please a product brand"],
     },
     desc: {
       type: String,
-      required: [true, "Please a product description"],
+      required: [false, "Please a product description"],
     },
   },
   {

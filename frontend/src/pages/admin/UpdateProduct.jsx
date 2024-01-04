@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CardGraph } from "../../components/admin/Card";
-import { privateRequest, updateProduct } from "../../service/axios-utils";
+import { privateRequest, updateProductAxios } from "../../service/axios-utils";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
@@ -28,6 +29,7 @@ const upload_preset = import.meta.env.VITE_REACT_APP_UPLOAD_PRESET;
 const cloud_name = import.meta.env.VITE_REACT_APP_CLOUD_NAME;
 
 const UpdateProduct = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [productImage, setProductImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -44,7 +46,7 @@ const UpdateProduct = () => {
   };
 
   const mutation = useMutation({
-    mutationFn: updateProduct,
+    mutationFn: updateProductAxios,
     updateMutationOptions,
   });
 
@@ -81,28 +83,28 @@ const UpdateProduct = () => {
     let imageURL;
 
     try {
-      // if (
-      //   productImage !== null &&
-      //   (productImage.type === "image/jpeg" ||
-      //     productImage.type === "image/jpg" ||
-      //     productImage.type === "image/png")
-      // ) {
-      //   const image = new FormData();
-      //   image.append("file", productImage);
-      //   image.append("cloud_name", cloud_name);
-      //   image.append("upload_preset", upload_preset);
+      if (
+        productImage !== null &&
+        (productImage.type === "image/jpeg" ||
+          productImage.type === "image/jpg" ||
+          productImage.type === "image/png")
+      ) {
+        const image = new FormData();
+        image.append("file", productImage);
+        image.append("cloud_name", cloud_name);
+        image.append("upload_preset", upload_preset);
 
-      //   const response = await fetch(
-      //     "https://api.cloudinary.com/v1_1/igudy/image/upload",
-      //     { method: "post", body: image }
-      //   );
-      //   const imgData = await response.json();
-      //   imageURL = imgData.url ? imgData.url.toString() : null;
-      // }
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/igudy/image/upload",
+          { method: "post", body: image }
+        );
+        const imgData = await response.json();
+        imageURL = imgData.url ? imgData.url.toString() : null;
+      }
 
       const payload = {
         name: product.name,
-        productImg: productImage ? imageURL : product.imageURL,
+        productImg: productImage ? product.imageURL : imageURL,
         quantity: product.quantity,
         price: product.price,
         falsePrice: product.falsePrice,
@@ -112,9 +114,8 @@ const UpdateProduct = () => {
       };
 
       mutation.mutate({ id, payload });
-      console.log(mutation.mutate({ id, payload }));
       toast.success("Product updated successfully");
-      // navigate("/admin/all-products");
+      navigate("/admin/all-products");
     } catch (error) {
       console.error("Error saving product:", error);
       toast.error("Error updating product. Please try again.");

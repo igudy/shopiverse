@@ -41,7 +41,6 @@ const AddProduct = () => {
   };
 
   const mutation = useMutation({ mutationFn: createProduct, mutationOptions });
-  console.log(mutation);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

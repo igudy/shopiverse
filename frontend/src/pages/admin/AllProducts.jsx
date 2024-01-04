@@ -2,13 +2,14 @@ import React from "react";
 import { deleteProduct, useProducts } from "../../service/axios-utils";
 import { Progress } from "../../components/ui/progress";
 import { truncate } from "lodash";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const AllProducts = () => {
   const { data, error, isLoading } = useProducts();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   // Delete Mutation
   const deleteMutationOptions = {
@@ -96,7 +97,7 @@ const AllProducts = () => {
                   {item.name}
                 </th>
                 <td className="px-6 py-4">
-                  <img src={`${item.producImg}`} alt={item.name} />
+                  <img src={item.productImg} alt={item.name} />
                 </td>
                 <td className="px-6 py-4 flex items-center flex-col gap-2 font-bold">
                   {item.quantity}

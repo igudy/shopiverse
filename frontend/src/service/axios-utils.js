@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 const API_VERSION = "api";
@@ -26,14 +27,12 @@ export const createProduct = async (payload) => {
 };
 
 // Update Product
-export const updateProduct = async ({ id, payload }) => {
-  try {
-    const response = await privateRequest.patch(`/products/${id}`, payload);
-    return response?.data;
-  } catch (error) {
-    console.error("Error updating product:", error);
-    throw error;
-  }
+export const updateProductAxios = async ({ id, payload }) => {
+  const response = await privateRequest.patch(`/products/${id}`, payload);
+
+  console.log("response", response?.data);
+  console.log(payload, id);
+  return response?.data;
 };
 
 // Delete Product
