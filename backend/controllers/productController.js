@@ -13,11 +13,12 @@ const getAllProducts = asyncHandler(async (req, res) => {
 
 const getProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
-  console.log(req.product);
+  // console.log(req.product);
 
   if (product) {
     const {
       _id,
+      name,
       productImg,
       quantity,
       price,
@@ -28,6 +29,7 @@ const getProduct = asyncHandler(async (req, res) => {
     } = product;
     res.status(200).json({
       _id,
+      name,
       productImg,
       quantity,
       price,

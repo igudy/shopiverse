@@ -114,6 +114,7 @@ const AddProduct = () => {
       };
 
       mutation.mutate(payload);
+      // console.log("addproduct", payload);
       toast.success("Product Added");
       navigate("/admin/all-products");
     } catch (error) {

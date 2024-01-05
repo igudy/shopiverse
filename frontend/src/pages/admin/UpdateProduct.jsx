@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CardGraph } from "../../components/admin/Card";
-import { privateRequest, updateProductAxios } from "../../service/axios-utils";
+import {
+  privateRequest,
+  updateProductAxios,
+  useProducts,
+} from "../../service/axios-utils";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -35,6 +39,20 @@ const UpdateProduct = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const { id } = useParams();
   const [product, setProduct] = useState(initialState);
+
+  // Fetch product data when the component mounts
+  const { data: productData } = useQuery({
+    queryKey: ["product", id],
+    queryFn: () =>
+      privateRequest.get(`/products/${id}`).then((response) => response.data),
+  });
+
+  useEffect(() => {
+    if (productData) {
+      setProduct(productData);
+      setImagePreview(productData.imageURL);
+    }
+  }, [productData]);
 
   const updateMutationOptions = {
     onSuccess: () => {

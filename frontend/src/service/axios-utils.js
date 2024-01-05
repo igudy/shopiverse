@@ -23,13 +23,13 @@ const fetchProducts = async () => {
 // Create Product
 export const createProduct = async (payload) => {
   const response = await privateRequest.post("/products", payload);
+  // console.log("response", response?.data, "payload", payload);
   return response?.data;
 };
 
 // Update Product
 export const updateProductAxios = async ({ id, payload }) => {
   const response = await privateRequest.patch(`/products/${id}`, payload);
-
   console.log("response", response?.data);
   console.log(payload, id);
   return response?.data;
