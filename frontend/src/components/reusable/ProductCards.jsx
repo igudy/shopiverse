@@ -3,6 +3,50 @@ import { BsFillCartCheckFill } from "react-icons/bs";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { setAddItemToCart } from "../redux/slices/cart/CartSlice";
+import Shirt1 from "../../../src/assets/shirt1.jpg";
+
+export const AllProductsCard = () => {
+  return (
+    <>
+      <div className="flex border-2 border-gray-500 w-[250px] items-center rounded-xl shadow-xl bg-gradient-to-r from-indigo-700 to-indigo-500 p-1 text-white">
+        <div className="flex-col gap-2 w-[50%] max-w-[50%] p-1">
+          <p className="xsm:font-sm xsm:font-bold font-bold">Gucci Blue</p>
+          <p>Clothes</p>
+          <div className="flex gap-1">
+            <p className="font-bold sm:text-sm xsm:text-sm lg:font-bold xl:font-bold md:font-bold md:text-xl lg:text-lg cursor-pointer">
+              $140
+            </p>
+            <span className="bg-slate-200 w-12 sm:w-8 md:w-16 lg:w-10 rounded-lg drop-shadow-xl text-black cursor-pointer">
+              <p className="flex text font-medium sm:text-sm justify-center items-center md:font-bold md:text-md md:mt-[2px] cursor-pointer">
+                5 <AiFillStar className="text-yellow-500" />
+              </p>
+            </span>
+          </div>
+          <div className="flex items-center">
+            <div className="border-[2px] w-7 h-6 cursor-pointer rounded-full drop-shadow-xl mr-[2px] text-inherit items-center">
+              <span className="flex text-center items-center justify-center">
+                <BsFillCartCheckFill
+                  className="pt-1 hover:px-1"
+                  // onClick={() => addTocart()}
+                />
+              </span>
+            </div>
+            <span className="mt-1 pl-2 xl:text-md text-sm shadow-md cursor-pointer w-full bg-slate-200 hover:text-white text-black rounded-lg px-2 mx-[0.5px] hover:bg-slate-700">
+              <p className="text-center">Buy Now</p>
+            </span>
+          </div>
+        </div>
+        <div className="w-[50%] min-w-[50%]">
+          <img
+            src={Shirt1}
+            alt="image"
+            className="w-full h-full object-cover rounded-lg cursor-pointer"
+          />
+        </div>
+      </div>
+    </>
+  );
+};
 
 const ProductCards = ({
   id,
@@ -21,7 +65,7 @@ const ProductCards = ({
     const temp = { id, title, text, rating, btn, img, price, color, shadow };
     dispatch(setAddItemToCart(temp));
   };
-  
+
   return (
     <>
       <div
@@ -44,13 +88,14 @@ const ProductCards = ({
             <div className="flex items-center">
               <div className="border-[2px] w-7 h-6 cursor-pointer rounded-full drop-shadow-xl mr-[2px] text-inherit items-center">
                 <span className="flex text-center items-center justify-center">
-                  <BsFillCartCheckFill className="pt-1 hover:px-1" onClick={() => addTocart()}/>
+                  <BsFillCartCheckFill
+                    className="pt-1 hover:px-1"
+                    onClick={() => addTocart()}
+                  />
                 </span>
               </div>
               <span className="mt-1 pl-2 xl:text-md text-sm shadow-md cursor-pointer w-full bg-slate-200 hover:text-white text-black rounded-lg px-2 mx-[0.5px] hover:bg-slate-700">
-                <p className="text-center">
-                  {btn}
-                </p>
+                <p className="text-center">{btn}</p>
               </span>
             </div>
           </div>
