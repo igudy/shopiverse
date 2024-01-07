@@ -3,24 +3,40 @@ import { BsFillCartCheckFill } from "react-icons/bs";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { setAddItemToCart } from "../redux/slices/cart/CartSlice";
-import Shirt1 from "../../../src/assets/shirt1.jpg";
+import { truncate } from "lodash";
 
-export const AllProductsCard = () => {
+export const AllProductsCard = ({
+  title,
+  text,
+  price,
+  rating,
+  img,
+  discountPrice,
+}) => {
+  const truncatedTitle = truncate(title, {
+    length: 20,
+    omission: "...",
+  });
   return (
     <>
-      <div className="flex border-2 border-gray-500 w-[250px] items-center rounded-xl shadow-xl bg-gradient-to-r from-indigo-700 to-indigo-500 p-1 text-white">
+      <div className="flex w-full items-center rounded-xl shadow-xl bg-gradient-to-r from-indigo-700 to-indigo-500  hover:bg-gradient-to-b p-2 text-white h-[180px] min-h-[180px] max-h-[180px] cursor-pointer">
         <div className="flex-col gap-2 w-[50%] max-w-[50%] p-1">
-          <p className="xsm:font-sm xsm:font-bold font-bold">Gucci Blue</p>
-          <p>Clothes</p>
-          <div className="flex gap-1">
-            <p className="font-bold sm:text-sm xsm:text-sm lg:font-bold xl:font-bold md:font-bold md:text-xl lg:text-lg cursor-pointer">
-              $140
+          <p className="xsm:font-sm xsm:font-bold font-bold">
+            {truncatedTitle}
+          </p>
+          <p>{text}</p>
+          <div className="flex gap-1 mt-2">
+            <p className="font-bold sm:text-sm xsm:text-sm lg:font-bold xl:font-bold md:font-bold md:text-xl lg:text-lg cursor-pointer line-through">
+              ${price}
             </p>
-            <span className="bg-slate-200 w-12 sm:w-8 md:w-16 lg:w-10 rounded-lg drop-shadow-xl text-black cursor-pointer">
-              <p className="flex text font-medium sm:text-sm justify-center items-center md:font-bold md:text-md md:mt-[2px] cursor-pointer">
-                5 <AiFillStar className="text-yellow-500" />
-              </p>
-            </span>
+            <p className="font-bold sm:text-sm xsm:text-sm lg:font-bold xl:font-bold md:font-bold md:text-xl lg:text-lg cursor-pointer">
+              ${discountPrice}
+            </p>
+          </div>
+          <div className="bg-slate-200 w-12 sm:w-8 md:w-16 lg:w-10 rounded-lg drop-shadow-xl text-black cursor-pointer my-1 mb-2">
+            <p className="flex text font-medium sm:text-sm justify-center items-center md:font-bold md:text-md md:mt-[2px] cursor-pointer">
+              {rating} <AiFillStar className="text-yellow-500" />
+            </p>
           </div>
           <div className="flex items-center">
             <div className="border-[2px] w-7 h-6 cursor-pointer rounded-full drop-shadow-xl mr-[2px] text-inherit items-center">
@@ -36,11 +52,11 @@ export const AllProductsCard = () => {
             </span>
           </div>
         </div>
-        <div className="w-[50%] min-w-[50%]">
+        <div className="w-[50%] min-w-[50%] overflow-hidden">
           <img
-            src={Shirt1}
+            src={img}
             alt="image"
-            className="w-full h-full object-cover rounded-lg cursor-pointer"
+            className="w-full h-[165px] object-cover rounded-lg cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-95"
           />
         </div>
       </div>
