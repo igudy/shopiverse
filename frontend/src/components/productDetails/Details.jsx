@@ -67,6 +67,9 @@ const Details = () => {
               Add to Cart
             </div>
             <HorizontalLine />
+            <div className="text-xl font-bold text-purple-800 mb-2">
+              Description
+            </div>
             <div>{data?.desc}</div>
           </div>
         </div>

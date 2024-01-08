@@ -1,7 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+import Reviews from "./Reviews";
+import ProductInformation from "./ProductInformation";
+import MoreProduct from "./MoreProduct";
+import {
+  HorizontalLine,
+  HorizontalReviewLine,
+} from "../reusable/HorizontalLine";
+
+const allTabs = [
+  { tabName: "Reviews" },
+  { tabName: "Other product information" },
+  { tabName: "More product" },
+];
 
 const ProductDetailsBottomTabs = () => {
-  return <div>ProductDetailsBottomTabs</div>;
+  const [tab, setTab] = useState("Reviews");
+  return (
+    <>
+      <div className="mt-10 flex px-10 text-lg gap-12 text-gray-500">
+        {allTabs?.map((item, i) => (
+          <div
+            key={i}
+            className={`flex items-center px-3 cursor-pointer ${
+              item.tabName === tab
+                ? "font-medium rounded-lg text-white bg-purple-700"
+                : "text-gray-700"
+            }`}
+            onClick={() => setTab(item.tabName)}
+          >
+            {item.tabName}
+          </div>
+        ))}
+      </div>
+      <div className="">
+        <HorizontalReviewLine />
+
+        <div className="my-5 mx-10 sm:mx-2 xsm:mx-2 lg:mx-3">
+          <div>{tab === "Reviews" && <Reviews />}</div>
+          <div>
+            {tab === "Other product information" && <ProductInformation />}
+          </div>
+          <div>{tab === "More product" && <MoreProduct />}</div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default ProductDetailsBottomTabs;
