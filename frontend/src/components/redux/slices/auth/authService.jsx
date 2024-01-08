@@ -43,7 +43,7 @@ const getUser = async () => {
 // Update User
 const updateUser = async (userData) => {
   const response = await axios.patch(API_URL + "updateUser", userData);
-  console.log(`Updated code`, response.data);
+  // console.log(`Updated code`, response.data);
   return response.data;
 };
 

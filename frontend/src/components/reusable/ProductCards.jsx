@@ -4,8 +4,10 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { setAddItemToCart } from "../redux/slices/cart/CartSlice";
 import { truncate } from "lodash";
+import { Link } from "react-router-dom";
 
 export const AllProductsCard = ({
+  id,
   title,
   text,
   price,
@@ -47,17 +49,19 @@ export const AllProductsCard = ({
                 />
               </span>
             </div>
-            <span className="mt-1 pl-2 xl:text-md text-sm shadow-md cursor-pointer w-full bg-slate-200 hover:text-white text-black rounded-lg px-2 mx-[0.5px] hover:bg-slate-700">
+            <span className="mt-1 pl-2 xl:text-md text-sm shadow-md w-[70%] cursor-pointer bg-slate-200 hover:text-white text-black rounded-lg px-2 mx-[0.5px] hover:bg-slate-700">
               <p className="text-center">Buy Now</p>
             </span>
           </div>
         </div>
         <div className="w-[50%] min-w-[50%] overflow-hidden">
-          <img
-            src={img}
-            alt="image"
-            className="w-full h-[165px] object-cover rounded-lg cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-95"
-          />
+          <Link to={`/productDetails/${id}`}>
+            <img
+              src={img}
+              alt="image"
+              className="w-full h-[165px] object-cover rounded-lg cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-95"
+            />
+          </Link>
         </div>
       </div>
     </>

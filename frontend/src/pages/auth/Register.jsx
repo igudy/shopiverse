@@ -54,7 +54,7 @@ const Register = () => {
       toast.error("Invalid, password does not match");
     } else {
       // Passwords match, continue with submission.
-      console.log(`data submitted`, data);
+      // console.log(`data submitted`, data);
       const userData = {
         name: data?.name,
         password: data?.password,

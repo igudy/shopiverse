@@ -85,7 +85,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   // req.body is the data coming from the front end
   const { email, password } = req.body;
-  console.log(email, password, "Log in");
+  // console.log(email, password, "Log in");
 
   // Validation
   if (!email || !password) {

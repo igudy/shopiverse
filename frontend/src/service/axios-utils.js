@@ -30,8 +30,8 @@ export const createProduct = async (payload) => {
 // Update Product
 export const updateProductAxios = async ({ id, payload }) => {
   const response = await privateRequest.patch(`/products/${id}`, payload);
-  console.log("response", response?.data);
-  console.log(payload, id);
+  // console.log("response", response?.data);
+  // console.log(payload, id);
   return response?.data;
 };
 
