@@ -106,10 +106,108 @@ const deleteProduct = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Product deleted succesfully" });
 });
 
+const reviewProduct = asyncHandler(async (req, res) => {
+  // Star, review
+  const { star, review, reviewDate } = req.body;
+  const { id } = req.params;
+
+  // Validation
+  if (star < 1 || !review) {
+    res.status(400);
+    throw new Error("Please add star and review");
+  }
+
+  const product = await Product.findById(id);
+
+  // if product doesnt exist
+  if (!product) {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+  if (!product) {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+
+  // Update Product
+  product.ratings.push({
+    star,
+    review,
+    reviewDate,
+    name: req.user.name,
+    userID: req.user._id,
+  });
+  product.save();
+
+  res.status(200).json({ message: "Product review added." });
+});
+
+const deleteReview = asyncHandler(async (req, res) => {
+  const { userID } = req.body;
+
+  const product = await Product.findById(req.params.id);
+  // if product doesnt exist
+  if (!product) {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+
+  const newRatings = product.ratings.filter((rating) => {
+    return rating.userID.toString() !== userID.toString();
+  });
+  console.log(newRatings);
+  product.ratings = newRatings;
+  product.save();
+  res.status(200).json({ message: "Product rating deleted!!!." });
+});
+
+const updateReview = asyncHandler(async (req, res) => {
+  const { star, review, reviewDate, userID } = req.body;
+  const { id } = req.params;
+
+  // validation
+  if (star < 1 || !review) {
+    res.status(400);
+    throw new Error("Please add star and review");
+  }
+
+  const product = await Product.findById(id);
+
+  // if product doesn't exist
+  if (!product) {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+
+  // Match user to review
+  if (req.user._id.toString() !== userID) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+  const updatedReview = await Product.findOneAndUpdate(
+    { _id: product._id, "ratings.userID": mongoose.Types.ObjectId(userID) },
+    {
+      $set: {
+        "ratings.$.star": Number(star),
+        "ratings.$.review": review,
+        "ratings.$.reviewDate": reviewDate,
+      },
+    }
+  );
+
+  if (updatedReview) {
+    res.status(200).json({ message: "Product review updated." });
+  } else {
+    res.status(400).json({ message: "Product review NOT updated." });
+  }
+});
+
 module.exports = {
   getAllProducts,
   getProduct,
   addProduct,
   updateProduct,
   deleteProduct,
+  reviewProduct,
+  deleteReview,
 };

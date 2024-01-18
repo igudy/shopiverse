@@ -36,6 +36,9 @@ const productSchema = mongoose.Schema(
       type: String,
       required: [false, "Please a product description"],
     },
+    ratings: {
+      type: [Object],
+    },
   },
   {
     timestamps: true,
