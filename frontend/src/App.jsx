@@ -45,15 +45,15 @@ const App = () => {
       <Routes>
         {/* Home */}
         <Route path="/" element={<Home />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/productDetails/:id" element={<ProductDetails />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/about" element={<About />} />
 
         {/* Authentication */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/about" element={<About />} />
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
         <Route path="/enter-access-code/:email" element={<EnterAccessCode />} />
         <Route path="/verify/:verificationToken" element={<Verify />} />
