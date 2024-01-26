@@ -12,6 +12,8 @@ const {
   updateProduct,
   deleteProduct,
   reviewProduct,
+  deleteReview,
+  updateReview,
 } = require("../controllers/productController");
 
 const router = express.Router();

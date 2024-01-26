@@ -13,7 +13,6 @@ const getAllProducts = asyncHandler(async (req, res) => {
 
 const getProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
-  // console.log(req.product);
 
   if (product) {
     const {
@@ -210,4 +209,5 @@ module.exports = {
   deleteProduct,
   reviewProduct,
   deleteReview,
+  updateReview,
 };
