@@ -35,8 +35,6 @@ const AllProducts = () => {
     }
   };
 
-  console.log(data);
-
   const navigateEdit = (productId) => {
     navigate(`update-product/${productId}`);
   };

@@ -32,6 +32,7 @@ const Register = () => {
     hasSpecialChar: false,
     hasAtLeast8Char: false,
   });
+
   const { isLoading, isLoggedIn, isSuccess, message } = useSelector(
     (state) => state.auth
   );
