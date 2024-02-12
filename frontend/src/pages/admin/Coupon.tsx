@@ -1,15 +1,15 @@
 import React from "react";
 
-const Orders = () => {
+const Coupon = () => {
   return (
     <div>
       {" "}
       <p className="text-sm text-[#707EAE] font-medium mt-3 ">
-        Pages / View Orders
+        Pages / Add Coupon
       </p>
-      <p className="text-2xl font-[700] text-[#2B3674]">Orders</p>
+      <p className="text-2xl font-[700] text-[#2B3674]">Coupon</p>
     </div>
   );
 };
 
-export default Orders;
+export default Coupon;

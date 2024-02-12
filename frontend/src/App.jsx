@@ -21,6 +21,9 @@ import axios from "axios";
 import Admin from "./pages/admin/Admin.jsx";
 import Dashboard from "./pages/admin/Dashboard.jsx";
 import AllProducts from "./pages/admin/AllProducts.jsx";
+import Categories from "./pages/admin/Categories.tsx";
+import Brand from "./pages/admin/Brand.tsx";
+import Coupon from "./pages/admin/Coupon.tsx";
 import AddProduct from "./pages/admin/AddProduct.jsx";
 import Orders from "./pages/admin/Orders.jsx";
 import UpdateProduct from "./pages/admin/UpdateProduct.jsx";
@@ -68,6 +71,9 @@ const App = () => {
             element={<UpdateProduct />}
           />
           <Route path="add-product" element={<AddProduct />} />
+          <Route path="categories" element={<Categories />} />
+          <Route path="brand" element={<Brand />} />
+          <Route path="coupon" element={<Coupon />} />
           <Route path="orders" element={<Orders />} />
         </Route>
       </Routes>

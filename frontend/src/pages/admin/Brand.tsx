@@ -1,15 +1,15 @@
 import React from "react";
 
-const Orders = () => {
+const Brand = () => {
   return (
     <div>
       {" "}
       <p className="text-sm text-[#707EAE] font-medium mt-3 ">
-        Pages / View Orders
+        Pages / Add Brand
       </p>
-      <p className="text-2xl font-[700] text-[#2B3674]">Orders</p>
+      <p className="text-2xl font-[700] text-[#2B3674]">Brand</p>
     </div>
   );
 };
 
-export default Orders;
+export default Brand;

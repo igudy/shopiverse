@@ -1,10 +1,12 @@
 import { NavLink, useRoutes, useMatch, Link } from "react-router-dom";
 import LogoDashboard from "../../assets/logo/shopiverse-dashboard-06.png";
-import { MdHome } from "react-icons/md";
+import { MdHome, MdOutlineCategory } from "react-icons/md";
 import { FaList } from "react-icons/fa";
 import { MdAddBox } from "react-icons/md";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { IoExitOutline } from "react-icons/io5";
+import { SiBrandfolder } from "react-icons/si";
+import { RiCoupon4Line } from "react-icons/ri";
 
 const Dashboard = () => {
   const match = useMatch("/admin");
@@ -47,6 +49,51 @@ const AddProduct = () => {
     >
       <MdAddBox className="w-5 h-5 mr-1" />
       Add Product
+    </NavLink>
+  );
+};
+
+const Categories = () => {
+  const match = useMatch("/admin/categories");
+  return (
+    <NavLink
+      to="/admin/categories"
+      className={`flex items-center ${
+        match ? "text-purple-700 font-[700]" : ""
+      }`}
+    >
+      <MdOutlineCategory className="w-5 h-5 mr-1" />
+      Categories
+    </NavLink>
+  );
+};
+
+const Coupon = () => {
+  const match = useMatch("/admin/coupon");
+  return (
+    <NavLink
+      to="/admin/coupon"
+      className={`flex items-center ${
+        match ? "text-purple-700 font-[700]" : ""
+      }`}
+    >
+      <RiCoupon4Line className="w-5 h-5 mr-1" />
+      Coupon
+    </NavLink>
+  );
+};
+
+const Brand = () => {
+  const match = useMatch("/admin/brand");
+  return (
+    <NavLink
+      to="/admin/brand"
+      className={`flex items-center ${
+        match ? "text-purple-700 font-[700]" : ""
+      }`}
+    >
+      <SiBrandfolder className="w-5 h-5 mr-1" />
+      Brand
     </NavLink>
   );
 };
@@ -103,6 +150,15 @@ const Sidebar = () => {
         </li>
         <li className="">
           <AddProduct />
+        </li>
+        <li className="">
+          <Categories />
+        </li>
+        <li className="">
+          <Brand />
+        </li>
+        <li className="">
+          <Coupon />
         </li>
         <li className="">
           <Orders />
