@@ -6,10 +6,12 @@ import {
   useGetCategoriesQuery,
 } from "../../components/redux/api/categoryApi.jsx";
 import { toast } from "react-hot-toast";
+import { confirmAlert } from "react-confirm-alert";
 
 interface ICategory {
   name: string;
   slug: string;
+  _id: string;
 }
 
 const Categories = () => {
@@ -21,8 +23,8 @@ const Categories = () => {
 
   const [createCategory] = useCreateCategoryMutation();
   const [deleteCategory] = useDeleteCategoryMutation();
-  const [categoryName, setCategoryName] = useState("");
-  const [categorySlug, setCategorySlug] = useState("");
+  const [categoryName, setCategoryName] = useState<string>("");
+  const [categorySlug, setCategorySlug] = useState<string>("");
 
   const handleCategorySubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,6 +50,48 @@ const Categories = () => {
       toast.error(errorMessage);
       console.log("Error creating category:", error);
     }
+  };
+
+  // const deleteFunction = async (slug: string) => {
+  //   try {
+  //     console.log(slug);
+  //     await deleteCategory(slug);
+  //     toast.success(`Category deleted successfully`);
+  //   } catch (error) {
+  //     const errorMessage =
+  //       error.response?.data?.message ||
+  //       "An error occurred while deleting the category";
+  //     toast.error(errorMessage);
+  //     console.log("Error deleting category:", error);
+  //   }
+  // };
+
+  const deleteFunction = (slug: string) => {
+    confirmAlert({
+      title: "Confirm Delete",
+      message: "Are you sure you want to delete this category?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: async () => {
+            try {
+              await deleteCategory(slug); // Change id to slug here
+              toast.success(`Category deleted successfully`);
+            } catch (error) {
+              const errorMessage =
+                error.response?.data?.message ||
+                "An error occurred while deleting the category";
+              toast.error(errorMessage);
+              console.log("Error deleting category:", error);
+            }
+          },
+        },
+        {
+          label: "No",
+          onClick: () => {},
+        },
+      ],
+    });
   };
 
   return (
@@ -103,8 +147,8 @@ const Categories = () => {
           <div>
             <div className="text-2xl font-bold px-4">All Categories</div>
             <div className="relative p-3 overflow-x-auto sm:rounded-lg rounded-2xl">
-              <table className="w-full text-sm text-left  text-gray-500">
-                <thead className="text-xs text-gray-500 uppercase bg-white border-b-2 font-bold ">
+              <table className="w-full text-sm text-left  text-gray-500 ">
+                <thead className="text-xs text-gray-500 uppercase bg-white border-b-2 font-bold">
                   <tr>
                     <th scope="col" className="px-6 py-3">
                       S/N
@@ -121,14 +165,19 @@ const Categories = () => {
                   </tr>
                 </thead>
                 {category?.map((item: ICategory, index: number) => (
-                  <tbody>
+                  <tbody key={item.slug} className="pt-10">
                     <tr className="bg-white text-black hover:bg-gray-50">
                       <td className="px-6 py-4  text-[#2B3674] font-bold">
                         {index + 1}
                       </td>
                       <td className="px-6 py-4">{item.name}</td>
                       <td className="px-6 py-4 text-gray-800">{item.slug}</td>
-                      <td className="px-6 py-4 text-gray-800">Delete</td>
+                      <td
+                        className="px-6 py-4 p-1 bg-purple-600 mt-2 cursor-pointer flex justify-center items-center font-bold hover:bg-purple-800 text-white rounded-2xl"
+                        onClick={() => deleteFunction(item.slug)}
+                      >
+                        Delete
+                      </td>
                     </tr>
                   </tbody>
                 ))}
