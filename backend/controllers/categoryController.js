@@ -41,7 +41,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Category not found");
   }
-  res.json(200).json({ message: "Category deleted." });
+  res.status(200).json({ message: "Category deleted" });
 });
 
 module.exports = {

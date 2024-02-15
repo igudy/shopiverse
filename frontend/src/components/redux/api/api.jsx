@@ -5,13 +5,16 @@ const API_VERSION = "api";
 
 export const api = createApi({
   reducerPath: "api",
+  tagTypes: ["productTagTypes"],
   baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}/${API_VERSION}` }),
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => "products",
+      providesTags: ["productTagTypes"],
     }),
     getProduct: builder.query({
       query: (id) => `products/${id}`,
+      providesTags: ["productTagTypes"],
     }),
     addProduct: builder.mutation({
       query: (payload) => ({
@@ -19,6 +22,7 @@ export const api = createApi({
         method: "POST",
         body: payload,
       }),
+      invalidatesTags: ["productTagTypes"],
     }),
     updateProduct: builder.mutation({
       query: ({ id, ...payload }) => ({
@@ -26,12 +30,14 @@ export const api = createApi({
         method: "PUT",
         body: payload,
       }),
+      invalidatesTags: ["productTagTypes"],
     }),
     deleteProduct: builder.mutation({
       query: (id) => ({
         url: `products/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["productTagTypes"],
     }),
   }),
 });
