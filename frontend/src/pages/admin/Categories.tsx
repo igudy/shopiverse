@@ -9,14 +9,14 @@ import { toast } from "react-hot-toast";
 import { confirmAlert } from "react-confirm-alert";
 
 interface ICategory {
-  name: string;
-  slug: string;
-  _id: string;
+  name?: string;
+  slug?: string;
+  _id?: string;
 }
 
 const Categories = () => {
   const {
-    data: category = [],
+    data: category = [] as ICategory[],
     error: getCategoryError,
     isLoading,
   } = useGetCategoriesQuery({}) ?? {};
@@ -42,31 +42,17 @@ const Categories = () => {
     } catch (error) {
       // Fix this error part
       const errorMessage =
-        error.response?.data?.messageerror.response ||
-        error.response.data ||
-        error.response.data.message ||
-        error.message;
+        (error as any).response?.data?.messageerror.response ||
+        (error as any).response.data ||
+        (error as any).response.data.message ||
+        (error as any).message;
       ("An error occurred while creating the category");
       toast.error(errorMessage);
       console.log("Error creating category:", error);
     }
   };
 
-  // const deleteFunction = async (slug: string) => {
-  //   try {
-  //     console.log(slug);
-  //     await deleteCategory(slug);
-  //     toast.success(`Category deleted successfully`);
-  //   } catch (error) {
-  //     const errorMessage =
-  //       error.response?.data?.message ||
-  //       "An error occurred while deleting the category";
-  //     toast.error(errorMessage);
-  //     console.log("Error deleting category:", error);
-  //   }
-  // };
-
-  const deleteFunction = (slug: string) => {
+  const deleteFunction = (slug?: string) => {
     confirmAlert({
       title: "Confirm Delete",
       message: "Are you sure you want to delete this category?",
@@ -79,7 +65,7 @@ const Categories = () => {
               toast.success(`Category deleted successfully`);
             } catch (error) {
               const errorMessage =
-                error.response?.data?.message ||
+                (error as any).response?.data?.message ||
                 "An error occurred while deleting the category";
               toast.error(errorMessage);
               console.log("Error deleting category:", error);
@@ -164,23 +150,24 @@ const Categories = () => {
                     </th>
                   </tr>
                 </thead>
-                {category?.map((item: ICategory, index: number) => (
-                  <tbody key={item.slug} className="pt-10">
-                    <tr className="bg-white text-black hover:bg-gray-50">
-                      <td className="px-6 py-4  text-[#2B3674] font-bold">
-                        {index + 1}
-                      </td>
-                      <td className="px-6 py-4">{item.name}</td>
-                      <td className="px-6 py-4 text-gray-800">{item.slug}</td>
-                      <td
-                        className="px-6 py-4 p-1 bg-purple-600 mt-2 cursor-pointer flex justify-center items-center font-bold hover:bg-purple-800 text-white rounded-2xl"
-                        onClick={() => deleteFunction(item.slug)}
-                      >
-                        Delete
-                      </td>
-                    </tr>
-                  </tbody>
-                ))}
+                {Array.isArray(category) &&
+                  category.map((item: ICategory, index: number) => (
+                    <tbody key={item.slug} className="pt-10">
+                      <tr className="bg-white text-black hover:bg-gray-50">
+                        <td className="px-6 py-4  text-[#2B3674] font-bold">
+                          {index + 1}
+                        </td>
+                        <td className="px-6 py-4">{item.name}</td>
+                        <td className="px-6 py-4 text-gray-800">{item.slug}</td>
+                        <td
+                          className="px-6 py-4 p-1 bg-purple-600 mt-2 cursor-pointer flex justify-center items-center font-bold hover:bg-purple-800 text-white rounded-2xl"
+                          onClick={() => deleteFunction(item.slug)}
+                        >
+                          Delete
+                        </td>
+                      </tr>
+                    </tbody>
+                  ))}
               </table>
             </div>
           </div>
