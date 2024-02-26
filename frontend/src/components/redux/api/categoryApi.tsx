@@ -4,9 +4,7 @@ import {
   IGetCategory,
   IPostCategory,
 } from "./types/categoryApi.types";
-
-const BASE_URL: string = import.meta.env.VITE_REACT_APP_BACKEND_URL as string;
-const API_VERSION: string = "api";
+import { BASE_URL, API_VERSION } from "../../constants/constants";
 
 export const categoryApi = createApi({
   reducerPath: "categoryApi",

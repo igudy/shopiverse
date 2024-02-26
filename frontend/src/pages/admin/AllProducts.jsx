@@ -67,7 +67,6 @@ const AllProducts = () => {
               <th scope="col" className="px-6 py-3">
                 Cat.
               </th>
-
               <th scope="col" className="px-6 py-3">
                 Brand
               </th>

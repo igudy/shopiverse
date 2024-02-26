@@ -40,7 +40,6 @@ const Categories = () => {
       setCategoryName("");
       setCategorySlug("");
     } catch (error) {
-      // Fix this error part
       const errorMessage =
         (error as any).response?.data?.messageerror.response ||
         (error as any).response.data ||

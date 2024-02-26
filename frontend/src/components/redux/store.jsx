@@ -6,6 +6,7 @@ import filterSlice from "./slices/auth/filterSlice.jsx";
 import { api } from "./api/api.jsx";
 import { categoryApi } from "./api/categoryApi.tsx";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import { brandApi } from "./api/brandApi.tsx";
 
 const store = configureStore({
   reducer: {
@@ -15,10 +16,15 @@ const store = configureStore({
     filter: filterSlice,
     [api.reducerPath]: api.reducer,
     [categoryApi.reducerPath]: categoryApi.reducer,
+    [brandApi.reducerPath]: brandApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     // remember to add the middlewares and concat them
-    getDefaultMiddleware().concat(api.middleware, categoryApi.middleware),
+    getDefaultMiddleware().concat(
+      api.middleware,
+      categoryApi.middleware,
+      brandApi.middleware
+    ),
 });
 
 setupListeners(store.dispatch);
