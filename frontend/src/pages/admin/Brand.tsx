@@ -12,6 +12,7 @@ import { useGetCategoriesQuery } from "../../components/redux/api/categoryApi";
 interface IBrand {
   slug?: string;
   _id?: string;
+  category?: string;
   name?: string;
 }
 
@@ -37,15 +38,17 @@ const Brand = () => {
   const [createBrand] = useCreateBrandMutation();
   const [deleteBrand] = useDeleteBrandMutation();
   const [brandName, setBrandName] = useState<string>("");
+  const [slugName, setSlugName] = useState<string>("");
   const [brandSlug, setBrandSlug] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedSlug, setSelectedSlug] = useState<string>("");
 
   const handleBrandSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const payload = {
         name: brandName,
-        slug: brandSlug,
+        slug: slugName,
+        category: selectedSlug,
       };
       console.log(payload);
       await createBrand(payload);
@@ -93,8 +96,19 @@ const Brand = () => {
     });
   };
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value);
+  const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCategorySlug = e.target.value;
+    setSelectedSlug(selectedCategorySlug);
+
+    const selectedCategory = category.find(
+      (cat: any) => cat.slug === selectedCategorySlug
+    );
+
+    if (selectedCategory) {
+      setBrandSlug(selectedCategory.slug);
+    } else {
+      setBrandSlug("");
+    }
   };
 
   return (
@@ -128,14 +142,26 @@ const Brand = () => {
                   onChange={(e) => setBrandName(e.target.value)}
                 />
                 <label className="text-gray-600 font-bold text-sm mt-3">
+                  Slug:
+                </label>
+                <input
+                  type="text"
+                  placeholder="Iphone-11-Pro-Max"
+                  required
+                  className="bg-gray-50 border border-gray-500 w-full rounded-lg p-2.5 sm:w-full sm:block"
+                  name="name"
+                  value={slugName}
+                  onChange={(e) => setSlugName(e.target.value)}
+                />
+                <label className="text-gray-600 font-bold text-sm mt-3">
                   Select Category:
                 </label>
                 <select
                   required
                   name="category"
                   className="bg-gray-50 border border-gray-500 rounded-lg p-2.5 sm:w-full sm:block"
-                  value={selectedCategory}
-                  onChange={handleCategoryChange}
+                  value={selectedSlug}
+                  onChange={handleBrandChange}
                 >
                   <option value="">Select a category</option>
                   {category?.map((cat: any) => (
@@ -148,12 +174,12 @@ const Brand = () => {
             </div>
 
             <button className="w-[50%] bg-purple-600 text-white h-12 my-5 rounded-lg shadow-xl font-bold hover:bg-purple-700">
-              Add Product
+              Add Brand
             </button>
           </form>
 
           <div>
-            <div className="text-2xl font-bold px-4">All Categories</div>
+            <div className="text-2xl font-bold px-4">All Brands</div>
             <div className="relative p-3 overflow-x-auto sm:rounded-lg rounded-2xl">
               <table className="w-full text-sm text-left  text-gray-500 ">
                 <thead className="text-xs text-gray-500 uppercase bg-white border-b-2 font-bold">
@@ -166,6 +192,9 @@ const Brand = () => {
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Slug
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Category
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Action
@@ -181,6 +210,7 @@ const Brand = () => {
                         </td>
                         <td className="px-6 py-4">{item.name}</td>
                         <td className="px-6 py-4 text-gray-800">{item.slug}</td>
+                        <td className="px-6 py-4">{item.category}</td>
                         <td
                           className="px-6 py-4 p-1 bg-purple-600 mt-2 cursor-pointer flex justify-center items-center font-bold hover:bg-purple-800 text-white rounded-2xl"
                           onClick={() => deleteFunction(item.slug)}
