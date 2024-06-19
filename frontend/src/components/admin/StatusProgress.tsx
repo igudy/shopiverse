@@ -2,7 +2,9 @@ import React from "react";
 import { FaCheck, FaExclamation } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
 
-export const Approved = () => {
+interface IApproved {}
+
+export const Approved = ({}: IApproved) => {
   return (
     <div className="flex items-center font-bold text-[#2B3674]">
       <FaCheck className=" bg-green-600 text-white w-5 h-5 rounded-full p-1 mr-1" />

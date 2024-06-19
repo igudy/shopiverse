@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { CardGraph } from "./Card";
 
-const SecondRow = () => {
+interface ISecondRow {}
+
+const SecondRow = ({}: ISecondRow) => {
   const [chartState, setChartState] = useState({
     series: [
       {
@@ -80,7 +82,7 @@ const SecondRow = () => {
       <CardGraph>
         <div id="chart" className="p-4">
           <ReactApexChart
-            options={chartState.options}
+            options={chartState.options as any}
             series={chartState.series}
             type="line"
             height={350}
@@ -92,7 +94,7 @@ const SecondRow = () => {
       <CardGraph>
         <div id="chart" className="p-4">
           <ReactApexChart
-            options={chartState.options}
+            options={chartState.options as any}
             series={chartState.series}
             type="bar"
             height={350}

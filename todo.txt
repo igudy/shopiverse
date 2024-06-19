@@ -1,13 +1,13 @@
 TODO
 
 FRONTEND
-- Design product details page
-- Add product details page
+- Design product details page - Done
+- Add product details page - Done
 - Sticky navbar
 - Small cart items on homepage for cart
 - Buy now to open modal
 - Popular sales responsive styling
-- Normal sign in and sign up
+- Normal sign in and sign up - Done
 - Checkout section
 - Admin page
 - PayStack Integration
@@ -19,13 +19,14 @@ FRONTEND
 - Contact Us Page
 - API's integration
 - Search
+- Pusher API
 
 BACKEND
 - User authentication & authorization
-- Google authentication
-- 2FA
-- Reset Password
-- Products
+- Google authentication - Done
+- 2FA - Done
+- Reset Password - Done
+- Products - Done
 - Category
 - Cart
 - Related Product

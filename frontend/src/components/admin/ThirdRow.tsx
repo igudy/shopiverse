@@ -3,7 +3,9 @@ import ReactApexChart from "react-apexcharts";
 import { CardGraph } from "./Card";
 import ComplexTable from "./ComplexTable";
 
-const ThirdRow = () => {
+interface IThirdRow {}
+
+const ThirdRow = ({}: IThirdRow) => {
   const [chartState, setChartState] = useState({
     series: [
       {
@@ -86,7 +88,7 @@ const ThirdRow = () => {
       <CardGraph>
         <div id="heatmap-chart" className="p-2">
           <ReactApexChart
-            options={chartState.options}
+            options={chartState.options as any}
             series={chartState.series}
             type="heatmap"
             height={350}

@@ -2,7 +2,9 @@ import React from "react";
 import { Approved, Disable, Error } from "./StatusProgress";
 import { Progress } from "../ui/progress";
 
-const ComplexTable = () => {
+interface IComplexTable {}
+
+const ComplexTable = ({}: IComplexTable) => {
   return (
     <div>
       <div className="relative p-3 overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg h-[400px]">

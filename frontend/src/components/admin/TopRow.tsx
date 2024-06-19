@@ -7,7 +7,8 @@ import { MdAccountBalanceWallet } from "react-icons/md";
 import { MdOutlineHomeWork } from "react-icons/md";
 import { MdOutlineStackedBarChart } from "react-icons/md";
 
-const TopRow = () => {
+interface ITopRow {}
+const TopRow = ({}: ITopRow) => {
   return (
     <div>
       <p className="text-sm text-[#707EAE] font-medium mt-3 ">
