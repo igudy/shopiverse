@@ -1,6 +1,6 @@
 import InfoBox from "../users/info-box";
 import Search from "../users/search";
-import Tables from "../users/tables";
+import Tables from "../validation-schema/tables";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {

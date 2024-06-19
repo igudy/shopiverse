@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "./skeleton";
 import Product7 from "../../assets/product11.png";
 
 export function LoaderSkeleton() {
