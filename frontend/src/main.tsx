@@ -11,7 +11,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 // This makes the fix for the import.meta.env type...
-import "vite/client";
+// import "vite/client";
 
 const queryClient = new QueryClient();
 
