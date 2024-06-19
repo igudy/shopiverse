@@ -9,12 +9,6 @@ import ResetPassword from "./pages/auth/ResetPassword.tsx";
 import EnterAccessCode from "./pages/auth/EnterAccessCode.tsx";
 import Profile from "./pages/profile/Profile.tsx";
 import Verify from "./pages/auth/Verify.tsx";
-import {
-  getUser,
-  loginStatus,
-  selectIsLoggedIn,
-  selectUser,
-} from "./components/redux/slices/auth/authSlice.tsx";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -28,6 +22,13 @@ import AddProduct from "./pages/admin/AddProduct.tsx";
 import Orders from "./pages/admin/Orders.tsx";
 import UpdateProduct from "./pages/admin/UpdateProduct.tsx";
 import ProductDetails from "./pages/productDetails/ProductDetails.tsx";
+
+import {
+  getUser,
+  loginStatus,
+  selectIsLoggedIn,
+  selectUser,
+} from "./components/redux/slices/auth/authSlice.tsx";
 
 axios.defaults.withCredentials = true;
 
