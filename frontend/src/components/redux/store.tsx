@@ -4,9 +4,9 @@ import authSlice from "./slices/auth/authSlice.jsx";
 import emailSlice from "./slices/email/emailSlice.jsx";
 import filterSlice from "./slices/auth/filterSlice.jsx";
 import { api } from "./api/api.jsx";
-import { categoryApi } from "./api/categoryApi.tsx";
+import { categoryApi } from "./api/categoryApi.jsx";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { brandApi } from "./api/brandApi.tsx";
+import { brandApi } from "./api/brandApi.jsx";
 
 const store = configureStore({
   reducer: {
