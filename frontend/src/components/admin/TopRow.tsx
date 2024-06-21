@@ -1,6 +1,5 @@
 import Card from "./Card";
-// import Ranking from "../../assets/dashboard/ranking.svg";
-// import Dollar from "../../assets/dashboard/dollar.svg";
+import React from "react";
 import { TbPigMoney } from "react-icons/tb";
 import { MdAttachMoney } from "react-icons/md";
 import { MdAccountBalanceWallet } from "react-icons/md";
@@ -20,15 +19,32 @@ const TopRow = ({}: ITopRow) => {
           top={"Earnings"}
           icon={MdOutlineStackedBarChart}
           amount={"$350.4"}
+          data-testid="earnings"
         />
-        <Card top={"Spend this Month"} icon={MdAttachMoney} amount={"$642.3"} />
-        <Card top={"Sales"} icon={TbPigMoney} amount={"$574.3"} />
+        <Card
+          top={"Spend this Month"}
+          icon={MdAttachMoney}
+          amount={"$642.3"}
+          data-testid="spent"
+        />
+        <Card
+          top={"Sales"}
+          icon={TbPigMoney}
+          amount={"$574.3"}
+          data-testid="sales"
+        />
         <Card
           top={"Total Balance "}
           icon={MdAccountBalanceWallet}
           amount={"$123.1 "}
+          data-testid="wallet"
         />
-        <Card top={"Total Projects"} icon={MdOutlineHomeWork} amount={"2935"} />
+        <Card
+          top={"Total Projects"}
+          icon={MdOutlineHomeWork}
+          amount={"2935"}
+          data-testid="projects"
+        />
       </div>
     </div>
   );
