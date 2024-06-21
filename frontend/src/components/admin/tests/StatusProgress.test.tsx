@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { Approved, Disable } from "../StatusProgress";
+import { Approved, Disable, Error } from "../StatusProgress";
 
 describe("status progress", () => {
   it("should render the approved component", () => {
@@ -20,7 +20,7 @@ describe("status progress", () => {
   });
 
   it("should render the error component", () => {
-    render(<Disable />);
+    render(<Error />);
     const errorText = screen.getByText(/error/i);
     expect(errorText).toBeInTheDocument();
     const errorIcon = screen.getByLabelText("exclamation");
