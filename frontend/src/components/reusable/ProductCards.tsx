@@ -6,6 +6,16 @@ import { setAddItemToCart } from "../redux/slices/cart/CartSlice";
 import { truncate } from "lodash";
 import { Link } from "react-router-dom";
 
+interface IAllProductsCard {
+  id: string;
+  title: string;
+  text: string;
+  price: number;
+  rating: string;
+  img: string;
+  discountPrice: string;
+}
+
 export const AllProductsCard = ({
   id,
   title,
@@ -14,7 +24,7 @@ export const AllProductsCard = ({
   rating,
   img,
   discountPrice,
-}) => {
+}: IAllProductsCard) => {
   const truncatedTitle = truncate(title, {
     length: 20,
     omission: "...",
@@ -27,36 +37,36 @@ export const AllProductsCard = ({
         from-purple-700 to-purple-500  hover:bg-gradient-to-b p-2
         text-white h-[180px] min-h-[180px] max-h-[180px] cursor-pointer"
       >
-        <div className="flex-col gap-2 w-[50%] max-w-[50%] p-1">
-          <p className="text-[16px] font-bold leading-tight">
+        <div className="flex-col gap-2 w-[55%] p-1">
+          <p className="text-[15px] font-bold leading-tight">
             {truncatedTitle}
           </p>
           <p className="text-[10px] mt-1">{text}</p>
           <div className="flex gap-1 mt-2 items-center">
-            <p className="font-bold text-[12px] lg:font-bold xl:font-bold md:font-bold cursor-pointer line-through leading-tight">
+            <p className="font-bold text-[10px] lg:font-bold xl:font-bold md:font-bold cursor-pointer line-through leading-tight">
               ${price}
             </p>
-            <p className="font-bold lg:font-bold xl:font-bold md:font-bold text-[14px] cursor-pointer leading-tight">
+            <p className="font-bold lg:font-bold xl:font-bold md:font-bold text-[12px] cursor-pointer leading-tight">
               ${discountPrice}
             </p>
           </div>
           <div className="bg-slate-200 w-12 sm:w-8 md:w-16 lg:w-10 rounded-lg drop-shadow-xl text-black cursor-pointer my-1 mb-2">
-            <p className="flex text font-medium sm justify-center items-center md:font-bold md:text-md md:mt-[2px] cursor-pointer leading-tight">
+            <p className="flex text font-medium sm justify-center items-center text-[13px] md:font-bold md:text-md md:mt-[2px] cursor-pointer leading-tight">
               {rating} <AiFillStar className="text-yellow-500" />
             </p>
           </div>
           <div className="flex items-center">
-            <div className="border-[2px] w-7 h-6 cursor-pointer rounded-full drop-shadow-xl mr-[2px] text-inherit items-center">
+            <div className="border-[2px] w-10 h-6 cursor-pointer rounded-full drop-shadow-xl mr-[2px] text-inherit items-center">
               <span className="flex text-center items-center justify-center">
                 <BsFillCartCheckFill className="pt-1 hover:px-1" />
               </span>
             </div>
-            <span className="mt-1 pl-2 xl:text-md shadow-md w-[70%] cursor-pointer bg-slate-200 hover:text-white text-black rounded-lg px-2 mx-[0.5px] hover:bg-slate-700">
-              <p className="text-center leading-tight text-[12px]">Buy Now</p>
+            <span className="mt-1 pl-2 xl:text-md shadow-md w-[100%] cursor-pointer bg-slate-200 hover:text-white text-black rounded-lg px-2 mx-[0.5px] hover:bg-slate-700">
+              <p className="text-center leading-tight text-[10px]">Buy Now</p>
             </span>
           </div>
         </div>
-        <div className="w-[50%] min-w-[50%] overflow-hidden">
+        <div className="w-[45%] overflow-hidden">
           <Link to={`/productDetails/${id}`}>
             <img
               src={img}

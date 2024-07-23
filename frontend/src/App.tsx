@@ -22,6 +22,7 @@ import AddProduct from "./pages/admin/AddProduct.tsx";
 import Orders from "./pages/admin/Orders.tsx";
 import UpdateProduct from "./pages/admin/UpdateProduct.tsx";
 import ProductDetails from "./pages/productDetails/ProductDetails.tsx";
+import "rc-slider/assets/index.css";
 
 import {
   getUser,
