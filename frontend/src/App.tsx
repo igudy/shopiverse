@@ -29,6 +29,7 @@ import {
   selectIsLoggedIn,
   selectUser,
 } from "./components/redux/slices/auth/authSlice.tsx";
+import NotFound from "./pages/404/NotFound.jsx";
 
 axios.defaults.withCredentials = true;
 
@@ -77,6 +78,7 @@ const App = () => {
           <Route path="coupon" element={<Coupon />} />
           <Route path="orders" element={<Orders />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
