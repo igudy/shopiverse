@@ -19,38 +19,40 @@ export const AllProductsCard = ({
     length: 20,
     omission: "...",
   });
+
   return (
     <>
-      <div className="flex w-full items-center rounded-xl shadow-xl bg-gradient-to-r from-indigo-700 to-indigo-500  hover:bg-gradient-to-b p-2 text-white h-[180px] min-h-[180px] max-h-[180px] cursor-pointer">
+      <div
+        className="flex w-full items-center rounded-xl shadow-xl bg-gradient-to-r 
+        from-purple-700 to-purple-500  hover:bg-gradient-to-b p-2
+        text-white h-[180px] min-h-[180px] max-h-[180px] cursor-pointer"
+      >
         <div className="flex-col gap-2 w-[50%] max-w-[50%] p-1">
-          <p className="xsm:font-sm xsm:font-bold font-bold">
+          <p className="text-[16px] font-bold leading-tight">
             {truncatedTitle}
           </p>
-          <p>{text}</p>
-          <div className="flex gap-1 mt-2">
-            <p className="font-bold sm:text-sm xsm:text-sm lg:font-bold xl:font-bold md:font-bold md:text-xl lg:text-lg cursor-pointer line-through">
+          <p className="text-[10px] mt-1">{text}</p>
+          <div className="flex gap-1 mt-2 items-center">
+            <p className="font-bold text-[12px] lg:font-bold xl:font-bold md:font-bold cursor-pointer line-through leading-tight">
               ${price}
             </p>
-            <p className="font-bold sm:text-sm xsm:text-sm lg:font-bold xl:font-bold md:font-bold md:text-xl lg:text-lg cursor-pointer">
+            <p className="font-bold lg:font-bold xl:font-bold md:font-bold text-[14px] cursor-pointer leading-tight">
               ${discountPrice}
             </p>
           </div>
           <div className="bg-slate-200 w-12 sm:w-8 md:w-16 lg:w-10 rounded-lg drop-shadow-xl text-black cursor-pointer my-1 mb-2">
-            <p className="flex text font-medium sm:text-sm justify-center items-center md:font-bold md:text-md md:mt-[2px] cursor-pointer">
+            <p className="flex text font-medium sm justify-center items-center md:font-bold md:text-md md:mt-[2px] cursor-pointer leading-tight">
               {rating} <AiFillStar className="text-yellow-500" />
             </p>
           </div>
           <div className="flex items-center">
             <div className="border-[2px] w-7 h-6 cursor-pointer rounded-full drop-shadow-xl mr-[2px] text-inherit items-center">
               <span className="flex text-center items-center justify-center">
-                <BsFillCartCheckFill
-                  className="pt-1 hover:px-1"
-                  // onClick={() => addTocart()}
-                />
+                <BsFillCartCheckFill className="pt-1 hover:px-1" />
               </span>
             </div>
-            <span className="mt-1 pl-2 xl:text-md text-sm shadow-md w-[70%] cursor-pointer bg-slate-200 hover:text-white text-black rounded-lg px-2 mx-[0.5px] hover:bg-slate-700">
-              <p className="text-center">Buy Now</p>
+            <span className="mt-1 pl-2 xl:text-md shadow-md w-[70%] cursor-pointer bg-slate-200 hover:text-white text-black rounded-lg px-2 mx-[0.5px] hover:bg-slate-700">
+              <p className="text-center leading-tight text-[12px]">Buy Now</p>
             </span>
           </div>
         </div>
@@ -91,16 +93,18 @@ const ProductCards = ({
       <div
         className={`relative bg-gradient-to-b ${color} ${shadow} rounded-xl py-2 xsm:py-1 sm:py-2 px-3 transition-all duration-700 ease-in-out hover:scale-95 h-[210px] xsm:h-[200px] text-white sm:my-[0.5px] shadow-lg`}
       >
-        <div className="flex flex-row sm:mt-5 mt-4">
-          <div className="">
-            <p className="xsm:font-sm xsm:font-bold font-bold">{title}</p>
-            <p>{text}</p>
+        <div className="flex flex-row sm:mt-5 mt-4 text-[9px]">
+          <div>
+            <p className="xsm:font-sm xsm:font-bold font-bold leading-tight">
+              {title}
+            </p>
+            <p className="leading-tight">{text}</p>
             <div className="flex gap-2 my-2">
-              <p className="font-bold sm:text-sm xsm:text-sm lg:font-bold xl:font-bold md:font-bold md:text-xl lg:text-lg cursor-pointer">
+              <p className="font-bold lg:font-bold xl:font-bold md:font-bold md:text-xl lg:text-lg cursor-pointer leading-tight">
                 ${price}
               </p>
               <span className="bg-slate-200 w-12 sm:w-8 md:w-16 lg:w-10 rounded-lg drop-shadow-xl text-black cursor-pointer">
-                <p className="flex text font-medium sm:text-sm justify-center items-center md:font-bold md:text-md md:mt-[2px] cursor-pointer">
+                <p className="flex text font-medium justify-center items-center md:font-bold md:text-md md:mt-[2px] cursor-pointer leading-tight">
                   {rating} <AiFillStar className="text-yellow-500" />
                 </p>
               </span>
@@ -114,8 +118,8 @@ const ProductCards = ({
                   />
                 </span>
               </div>
-              <span className="mt-1 pl-2 xl:text-md text-sm shadow-md cursor-pointer w-full bg-slate-200 hover:text-white text-black rounded-lg px-2 mx-[0.5px] hover:bg-slate-700">
-                <p className="text-center">{btn}</p>
+              <span className="mt-1 pl-2 xl:text-md shadow-md cursor-pointer w-full bg-slate-200 hover:text-white text-black rounded-lg px-2 mx-[0.5px] hover:bg-slate-700">
+                <p className="text-center leading-tight">{btn}</p>
               </span>
             </div>
           </div>
