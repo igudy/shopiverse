@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetProductQuery, useGetProductsQuery } from "../redux/api/api";
 import { HorizontalLine } from "../reusable/HorizontalLine";
 import { AiFillStar } from "react-icons/ai";
+import { useDispatch } from "react-redux";
 
 const Details = () => {
   const { id } = useParams();
+
+  // Skipped image slider logic
+  const dispatch = useDispatch();
+  const [imageIndex, setImageIndex] = useState(0);
+
   const { data, error, isLoading } = useGetProductQuery(id);
   console.log(data);
 
