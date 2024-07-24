@@ -4,6 +4,8 @@ export interface IGetBrand {
   category?: string;
 }
 
+export type IGetBrands = IGetBrand[];
+
 export interface IPostBrand {
   _id?: string;
   slug?: string;

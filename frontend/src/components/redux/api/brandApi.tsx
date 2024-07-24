@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IGetBrand, IDeleteBrand, IPostBrand } from "./types/brandApi.types";
+import {
+  IGetBrand,
+  IDeleteBrand,
+  IPostBrand,
+  IGetBrands,
+} from "./types/brandApi.types";
 import { BASE_URL, API_VERSION } from "../../constants/constants";
 
 export const brandApi = createApi({
@@ -7,7 +12,7 @@ export const brandApi = createApi({
   tagTypes: ["brandTagTypes"],
   baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}/${API_VERSION}` }),
   endpoints: (builder) => ({
-    getBrand: builder.query<IGetBrand, any>({
+    getBrand: builder.query<IGetBrands, any>({
       query: () => `brandRoute/getBrands`,
       providesTags: ["brandTagTypes"],
     }),

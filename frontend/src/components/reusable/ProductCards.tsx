@@ -103,18 +103,16 @@ const ProductCards = ({
       <div
         className={`relative bg-gradient-to-b ${color} ${shadow} rounded-xl py-2 xsm:py-1 sm:py-2 px-3 transition-all duration-700 ease-in-out hover:scale-95 h-[210px] xsm:h-[200px] text-white sm:my-[0.5px] shadow-lg`}
       >
-        <div className="flex flex-row sm:mt-5 mt-4 text-[9px]">
-          <div>
-            <p className="xsm:font-sm xsm:font-bold font-bold leading-tight">
-              {title}
-            </p>
-            <p className="leading-tight">{text}</p>
+        <div className="flex flex-row sm:mt-5 mt-4">
+          <div className="">
+            <p className="xsm:font-sm xsm:font-bold font-bold">{title}</p>
+            <p>{text}</p>
             <div className="flex gap-2 my-2">
-              <p className="font-bold lg:font-bold xl:font-bold md:font-bold md:text-xl lg:text-lg cursor-pointer leading-tight">
+              <p className="font-bold sm:text-sm xsm:text-sm lg:font-bold xl:font-bold md:font-bold md:text-xl lg:text-lg cursor-pointer">
                 ${price}
               </p>
               <span className="bg-slate-200 w-12 sm:w-8 md:w-16 lg:w-10 rounded-lg drop-shadow-xl text-black cursor-pointer">
-                <p className="flex text font-medium justify-center items-center md:font-bold md:text-md md:mt-[2px] cursor-pointer leading-tight">
+                <p className="flex text font-medium sm:text-sm justify-center items-center md:font-bold md:text-md md:mt-[2px] cursor-pointer">
                   {rating} <AiFillStar className="text-yellow-500" />
                 </p>
               </span>
@@ -128,8 +126,8 @@ const ProductCards = ({
                   />
                 </span>
               </div>
-              <span className="mt-1 pl-2 xl:text-md shadow-md cursor-pointer w-full bg-slate-200 hover:text-white text-black rounded-lg px-2 mx-[0.5px] hover:bg-slate-700">
-                <p className="text-center leading-tight">{btn}</p>
+              <span className="mt-1 pl-2 xl:text-md text-sm shadow-md cursor-pointer w-full bg-slate-200 hover:text-white text-black rounded-lg px-2 mx-[0.5px] hover:bg-slate-700">
+                <p className="text-center">{btn}</p>
               </span>
             </div>
           </div>

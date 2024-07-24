@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   IDeleteCategory,
-  IGetCategory,
   IPostCategory,
+  IGetCategories,
 } from "./types/categoryApi.types";
 import { BASE_URL, API_VERSION } from "../../constants/constants";
 
@@ -11,7 +11,7 @@ export const categoryApi = createApi({
   tagTypes: ["categoryTagTypes"],
   baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}/${API_VERSION}` }),
   endpoints: (builder) => ({
-    getCategories: builder.query<IGetCategory, any>({
+    getCategories: builder.query<IGetCategories, any>({
       query: () => `category/getCategories`,
       providesTags: ["categoryTagTypes"],
     }),

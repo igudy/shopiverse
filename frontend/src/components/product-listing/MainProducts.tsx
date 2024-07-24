@@ -253,11 +253,11 @@ const MainProducts = () => {
                     min={minPrice}
                     max={maxPrice}
                     defaultValue={[minPrice, maxPrice]}
-                    tipFormatter={(value: any) => `$${value}`}
-                    tipProps={{
-                      placement: "top",
-                      visible: true,
-                    }}
+                    // tipFormatter={(value: any) => `$${value}`}
+                    // tipProps={{
+                    //   placement: "top",
+                    //   visible: true,
+                    // }}
                     value={price}
                     onChange={onChange}
                   />
