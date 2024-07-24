@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-hot-toast";
+import { getCartQuantityById } from "../../../../utils";
 
 const initialState = {
   cartItems: localStorage.getItem("cart")
@@ -7,9 +8,13 @@ const initialState = {
     : [],
   cartTotalAmount: 0,
   cartTotalQuantity: 0,
+  fixedCartTotalAmount: 0,
+  isError: false,
+  isSuccess: false,
+  isLoading: false,
 };
 
-// setAddItemToCart(Add one item for one product)
+// ADD_TO_CART(Add one item for one product)
 // setRemoveItemFromCart(Remove all items of one product)
 // setIncreaseItemQuantity(Increase cart quantity)
 // setDecreaseItemQuantity(Decrease the quantity)
@@ -20,30 +25,41 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    setAddItemToCart: (state, action) => {
-      const itemIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload.id
+    ADD_TO_CART(state, action) {
+      // console.log(action.payload);
+      const cartQuantity = getCartQuantityById(
+        state.cartItems,
+        action.payload._id
+      );
+      console.log(cartQuantity, action.payload);
+
+      const productIndex = state.cartItems.findIndex(
+        (item: any) => item._id === action.payload._id
       );
 
-      if (itemIndex >= 0) {
-        state.cartItems[itemIndex].cartQuantity += 1;
-        toast.success(`Item QTY Increased`);
+      if (productIndex >= 0) {
+        // Item already exists in the cart
+        // Increase the cartQuantity
+        if (cartQuantity === action.payload.quantity) {
+          state.cartItems[productIndex].cartQuantity += 0;
+          toast.success("Max number of product reached!!!");
+        } else {
+          state.cartItems[productIndex].cartQuantity += 1;
+          toast.success(`${action.payload.name} increased by one`, {
+            position: "top-left",
+          });
+        }
       } else {
-        // Declaring cartquantity for the first time
-        const temp = { ...action.payload, cartQuantity: 1 };
-        state.cartItems.push(temp);
-        toast.success(`${action.payload.title} added to Cart`);
+        // Item doesn't exists in the cart
+        // Add item to the cart
+        const tempProduct = { ...action.payload, cartQuantity: 1 };
+        state.cartItems.push(tempProduct);
+        toast.success(`${action.payload.name} added to cart`, {
+          position: "top-left",
+        });
       }
-      localStorage.setItem("cart", JSON.stringify(state.cartItems));
-    },
-
-    setRemoveItemFromCart: (state, action) => {
-      const removeItem = state.cartItems.filter(
-        (item) => item.id !== action.payload.id
-      );
-      state.cartItems = removeItem;
-      localStorage.setItem("cart", JSON.stringify(state.cartItems));
-      toast.success(`${action.payload.title} Removed From Cart`);
+      // save cart to LS
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
 
     setIncreaseItemQuantity: (state, action) => {
@@ -99,7 +115,7 @@ const cartSlice = createSlice({
 });
 
 export const {
-  setAddItemToCart,
+  ADD_TO_CART,
   setRemoveItemFromCart,
   setIncreaseItemQuantity,
   setDecreaseItemQuantity,

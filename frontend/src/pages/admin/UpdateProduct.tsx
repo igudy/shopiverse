@@ -58,7 +58,7 @@ const UpdateProduct = () => {
     onSuccess: () => {
       console.log("Updated successfully");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.log(error.message, "Error product wasn't updated");
     },
   };

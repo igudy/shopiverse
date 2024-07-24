@@ -16,11 +16,11 @@ export const sendAutomatedEmail = createAsyncThunk(
       return await emailService.sendAutomatedEmail(emailData);
     } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.renderToString;
+        ((error.response as any) &&
+          (error.response.data as any) &&
+          (error.response.data.message as any)) ||
+        (error.message as any) ||
+        (error.renderToString as any);
       return thunkAPI.rejectWithValue(message);
     }
   }

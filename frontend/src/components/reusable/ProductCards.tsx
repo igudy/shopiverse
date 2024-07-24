@@ -2,7 +2,7 @@ import { AiFillStar } from "react-icons/ai";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { setAddItemToCart } from "../redux/slices/cart/CartSlice";
+import { ADD_TO_CART } from "../redux/slices/cart/CartSlice";
 import { truncate } from "lodash";
 import { Link } from "react-router-dom";
 
@@ -80,6 +80,18 @@ export const AllProductsCard = ({
   );
 };
 
+interface IProductsCard {
+  id: string;
+  title: string;
+  text: string;
+  rating: string;
+  btn: string;
+  img: string;
+  price: number;
+  color: string;
+  shadow: string;
+}
+
 const ProductCards = ({
   id,
   title,
@@ -90,12 +102,12 @@ const ProductCards = ({
   price,
   color,
   shadow,
-}) => {
+}: IProductsCard) => {
   const dispatch = useDispatch();
 
   const addTocart = () => {
     const temp = { id, title, text, rating, btn, img, price, color, shadow };
-    dispatch(setAddItemToCart(temp));
+    dispatch(ADD_TO_CART(temp));
   };
 
   return (

@@ -57,7 +57,7 @@ const filterSlice = createSlice({
       }
 
       if (sort === "z-a") {
-        tempProducts = products.slice().sort((a, b) => {
+        tempProducts = products.slice().sort((a: any, b: any) => {
           return b.name.localeCompare(a.name);
         });
       }
