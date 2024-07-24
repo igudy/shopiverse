@@ -8,26 +8,20 @@ import CartItems from "./CartIems";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCartItems,
-  selectTotalAmount,
-  selectTotalQuantity,
-  setClearItems,
-  setGetTotalAmount,
+  selectCartTotalAmount,
+  selectCartTotalQuantity,
 } from "../redux/slices/cart/CartSlice";
 
-const CartModal = ({ openModal, closeModal, isOpen }) => {
+interface ICartModal {
+  openModal: any;
+  closeModal: any;
+  isOpen: any;
+}
+const CartModal = ({ openModal, closeModal, isOpen }: ICartModal) => {
   const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
-  const cartTotalQuantity = useSelector(selectTotalQuantity);
+  const cartTotalQuantity = useSelector(selectCartTotalQuantity);
 
-  useEffect(() => {
-    dispatch(setGetTotalAmount());
-  }, [cartItems, dispatch]);
-
-  const totalAmount = useSelector(selectTotalAmount);
-
-  const clearCart = () => {
-    dispatch(setClearItems());
-  };
   return (
     <div>
       <ShoppingBagIcon
@@ -52,7 +46,10 @@ const CartModal = ({ openModal, closeModal, isOpen }) => {
           >
             <div className="fixed inset-0 opacity-80 bg-slate-100" />
           </Transition.Child>
-          <div className="fixed top-0 right-0 xsm:w-[100%] sm:w-[100%] md:w-[100%] w-[50%]">
+          <div
+            className="fixed top-0 right-0 xsm:w-[100%] 
+          sm:w-[100%] md:w-[100%] w-[70%]"
+          >
             <div className="">
               <Transition.Child
                 as={Fragment}
@@ -70,7 +67,7 @@ const CartModal = ({ openModal, closeModal, isOpen }) => {
                         <IoArrowBackOutline
                           className="w-6 h-6 cursor-pointer"
                           onClick={closeModal}
-                        />{" "}
+                        />
                         <span className="ml-2">
                           Your cart
                           <span className="bg-black mx-2 rounded-lg text-white">
@@ -83,7 +80,7 @@ const CartModal = ({ openModal, closeModal, isOpen }) => {
                       </div>
                       <div
                         className="right-0 items-center flex gap-1 cursor-pointer border-2 rounded-full px-2 hover:text-gray-400"
-                        onClick={() => clearCart()}
+                        // onClick={() => clearCart()}
                       >
                         <p>Clear Cart</p>
                         <FiDelete />
@@ -96,9 +93,7 @@ const CartModal = ({ openModal, closeModal, isOpen }) => {
                       ) : (
                         <div>
                           <div className="overflow-y-scroll scroll-smooth  scroll-hidden xsm:max-h-[calc(100vh-270px)] sm:max-h-[calc(100vh-270px)] max-h-[calc(100vh-180px)]">
-                            {cartItems?.map((item, i) => (
-                              <CartItems key={i} item={item} />
-                            ))}
+                            <CartItems />
                           </div>
                           <div className="fixed bottom-0 w-full px-5 py-2 xsm:mb-16 sm:mb-16 grid items-center">
                             <div className="flex items-center justify-between">
@@ -106,7 +101,7 @@ const CartModal = ({ openModal, closeModal, isOpen }) => {
                                 SubTotal
                               </h1>
                               <h1 className="text-sm rounded bg-theme-cart justify-center text-center w-20 text-slate-100 py-0.5">
-                                ${totalAmount}
+                                {/* ${totalAmount} */}
                               </h1>
                             </div>
                             <div className="grid items-center gap-2">

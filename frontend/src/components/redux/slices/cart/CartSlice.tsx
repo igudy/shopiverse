@@ -62,9 +62,32 @@ const cartSlice = createSlice({
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
 
+    DECREASE_CART(state, action) {
+      // console.log(action.payload);
+      const productIndex = state.cartItems.findIndex(
+        (item: any) => item._id === action.payload._id
+      );
+
+      if (state.cartItems[productIndex].cartQuantity > 1) {
+        state.cartItems[productIndex].cartQuantity -= 1;
+        toast.success(`${action.payload.name} decreased by one`, {
+          position: "top-left",
+        });
+      } else if (state.cartItems[productIndex].cartQuantity === 1) {
+        const newCartItem = state.cartItems.filter(
+          (item: any) => item._id !== action.payload._id
+        );
+        state.cartItems = newCartItem;
+        toast.success(`${action.payload.name} removed from cart`, {
+          position: "top-left",
+        });
+      }
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+    },
+
     setIncreaseItemQuantity: (state, action) => {
       const itemIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload.id
+        (item: any) => item.id === action.payload.id
       );
 
       if (itemIndex >= 0) {
@@ -116,6 +139,7 @@ const cartSlice = createSlice({
 
 export const {
   ADD_TO_CART,
+  DECREASE_CART,
   setRemoveItemFromCart,
   setIncreaseItemQuantity,
   setDecreaseItemQuantity,
@@ -123,11 +147,12 @@ export const {
   setGetTotalAmount,
 } = cartSlice.actions;
 
-// this cart below is not the name, its the cart in the store
-export const selectCartItems = (state) => state.cart.cartItems;
+// This cart below is not the name, its the cart in the store
+export const selectCartItems = (state: any) => state.cart.cartItems;
+export const selectCartTotalQuantity = (state: any) =>
+  state.cart.cartTotalQuantity;
+export const selectCartTotalAmount = (state: any) => state.cart.cartTotalAmount;
 
-export const selectTotalAmount = (state) => state.cart.cartTotalAmount;
-
-export const selectTotalQuantity = (state) => state.cart.cartTotalQuantity;
+export const selectPreviousURL = (state: any) => state.cart.previousURL;
 
 export default cartSlice.reducer;

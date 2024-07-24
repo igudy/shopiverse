@@ -3,21 +3,36 @@ import { useParams } from "react-router-dom";
 import { useGetProductQuery, useGetProductsQuery } from "../redux/api/api";
 import { HorizontalLine } from "../reusable/HorizontalLine";
 import { AiFillStar } from "react-icons/ai";
-import { useDispatch } from "react-redux";
-import { ADD_TO_CART } from "../redux/slices/cart/CartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD_TO_CART,
+  DECREASE_CART,
+  selectCartItems,
+} from "../redux/slices/cart/CartSlice";
 
 const Details = () => {
   const { id } = useParams();
 
-  // ****Skipped image slider logic****
+  // ****Skipped image slider logic*****
   const dispatch = useDispatch();
   const [imageIndex, setImageIndex] = useState(0);
-
   const { data: product, error, isLoading } = useGetProductQuery(id);
+
+  const cartItems = useSelector(selectCartItems);
+
+  const cart = cartItems.find((cart: any) => cart._id === id);
+  const isCartAdded = cartItems.findIndex((cart: any) => {
+    return cart._id === id;
+  });
+
   console.log(product);
 
   const addToCart = (product: any) => {
     dispatch(ADD_TO_CART(product));
+  };
+
+  const decreaseCart = (product: any) => {
+    dispatch(DECREASE_CART(product));
   };
 
   return (
@@ -59,20 +74,38 @@ const Details = () => {
                 (5 verified ratings)
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="mt-3 font-bold text-2xl text-gray-500">
-                Quantity
-              </div>
-              <div className="border-2 p-1 rounded-lg gap-5 flex items-center justify-center font-semibold">
-                <div className="w-10 h-10 cursor-pointer hover:bg-gray-100 bg-white rounded-lg shadow-lg flex justify-center items-center text-2xl">
-                  -
+
+            {isCartAdded < 0 ? null : (
+              <>
+                {" "}
+                <div className="flex items-center gap-2">
+                  <div className="mt-3 font-bold text-2xl text-gray-500">
+                    Quantity
+                  </div>
+                  <div className="border-2 p-1 rounded-lg gap-5 flex items-center justify-center font-semibold">
+                    <div
+                      className="w-10 h-10 cursor-pointer 
+                      hover:bg-gray-100 bg-white rounded-lg 
+                      shadow-lg flex justify-center items-center
+                       text-2xl"
+                      onClick={() => decreaseCart(product)}
+                    >
+                      -
+                    </div>
+                    <div>{cart.cartQuantity}</div>
+                    <div
+                      className="w-10 h-10 cursor-pointer 
+                      hover:bg-purple-600 bg-purple-500 
+                      rounded-lg shadow-lg flex justify-center 
+                      items-center text-2xl"
+                      onClick={() => addToCart(product)}
+                    >
+                      +
+                    </div>
+                  </div>
                 </div>
-                <div>1</div>
-                <div className="w-10 h-10 cursor-pointer hover:bg-purple-600 bg-purple-500 rounded-lg shadow-lg flex justify-center items-center text-2xl">
-                  +
-                </div>
-              </div>
-            </div>
+              </>
+            )}
 
             {/* Product Quantity */}
             {product?.quantity > 0 ? (
