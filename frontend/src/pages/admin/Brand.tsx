@@ -165,7 +165,7 @@ const Brand = () => {
                 >
                   <option value="">Select a category</option>
                   {category?.map((cat: any) => (
-                    <option key={cat.id} value={cat.slug}>
+                    <option key={cat.id} value={cat.name}>
                       {cat.name}
                     </option>
                   ))}

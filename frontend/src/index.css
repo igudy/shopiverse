@@ -90,3 +90,41 @@
 .submit {
   @apply mt-4 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg w-full px-5 py-2.5 text-center sm:w-full;
 }
+
+/* React pagination */
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-num {
+  padding: 8px 12px;
+  margin: 0 5px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  color: #555;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.page-num:hover {
+  background-color: #f0f0f0;
+  color: #000;
+}
+
+.activePage {
+  background-color: #6b5b95;
+  color: white;
+  border: 1px solid #6b5b95;
+}
+
+.page-num:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

@@ -29,8 +29,8 @@ const initialState = {
   desc: "",
 };
 
-const upload_preset = import.meta.env.VITE_REACT_APP_UPLOAD_PRESET;
-const cloud_name = import.meta.env.VITE_REACT_APP_CLOUD_NAME;
+const upload_preset = import.meta.env.VITE_REACT_APP_UPLOAD_PRESET as string;
+const cloud_name = import.meta.env.VITE_REACT_APP_CLOUD_NAME as string;
 
 const UpdateProduct = () => {
   const queryClient = useQueryClient();
