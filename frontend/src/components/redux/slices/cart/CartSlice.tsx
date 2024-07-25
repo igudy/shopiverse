@@ -107,7 +107,7 @@ const cartSlice = createSlice({
 
     CLEAR_CART(state, action) {
       state.cartItems = [];
-      toast.scucess(`Cart cleared`, {
+      toast.success(`Cart cleared`, {
         position: "top-left",
       });
 

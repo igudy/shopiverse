@@ -123,11 +123,13 @@ const CartItems = () => {
                   </div>
                   <div className="right-0">
                     <div className="grid gap-y-3 justify-items-center">
-                      <p className="font-bold">${price * cartQuantity}</p>
+                      <p className="font-bold">
+                        ${(price * cartQuantity).toFixed(2)}
+                      </p>
                       <div className="bg-theme-cart bg-theme-cart rounded w-6 h-6 flex items-center justify-center active:scale-90 cursor-pointer">
                         <AiFillDelete
                           className="w-5 h-5 lg:w-8 lg:h-8 text-white stroke-[2]"
-                          onClick={() => removeFromCart()}
+                          onClick={() => removeFromCart(cart)}
                         />
                       </div>
                     </div>

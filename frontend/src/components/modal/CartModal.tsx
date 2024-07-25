@@ -22,6 +22,7 @@ const CartModal = ({ openModal, closeModal, isOpen }: ICartModal) => {
   const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
+  const cartTotalAmount = useSelector(selectCartTotalAmount);
 
   const clearCart = () => {
     dispatch(CLEAR_CART());
@@ -86,7 +87,7 @@ const CartModal = ({ openModal, closeModal, isOpen }: ICartModal) => {
                       </div>
                       <div
                         className="right-0 items-center flex gap-1 cursor-pointer border-2 rounded-full px-2 hover:text-gray-400"
-                        onClick={() => clearCart()}
+                        onClick={clearCart}
                       >
                         <p>Clear Cart</p>
                         <FiDelete />
@@ -114,7 +115,7 @@ const CartModal = ({ openModal, closeModal, isOpen }: ICartModal) => {
                                 SubTotal
                               </h1>
                               <h1 className="text-sm rounded bg-theme-cart justify-center text-center w-20 text-slate-100 py-0.5">
-                                {/* ${totalAmount} */}
+                                ${cartTotalAmount}
                               </h1>
                             </div>
                             <div className="grid items-center gap-2">

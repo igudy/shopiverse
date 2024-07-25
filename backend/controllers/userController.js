@@ -651,6 +651,7 @@ const loginWithCode = asyncHandler(async (req, res) => {
   }
 });
 
+// Login with google
 const loginWithGoogle = asyncHandler(async (req, res) => {
   const { userToken } = req.body;
   // console.log(userToken);
@@ -743,6 +744,52 @@ const loginWithGoogle = asyncHandler(async (req, res) => {
   }
 });
 
+// Save Cart
+const saveCart = asyncHandler(async (req, res) => {
+  const { cartItems } = req.body;
+
+  const { user } = await User.findById(req.user._id);
+
+  if (user) {
+    user.cartItems = cartItems;
+    user.save();
+    res.status(200).json({ message: "Cart Saved" });
+  } else {
+    res.status(400);
+    throw new Error("User Not Found");
+  }
+});
+
+// Get Cart
+const getCart = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    res.status(200).json(user.cartItems);
+  } else {
+    res.status(400);
+    throw new Error("User Not Found");
+  }
+});
+
+// Clear Cart
+const clearCart = asyncHandler(async (req, res) => {
+  const { cartItems } = req.body;
+
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    user.cartItems = [];
+    user.save();
+    res.status(200).json({
+      message: "Cart cleared",
+    });
+  } else {
+    res.status(400);
+    throw new Error("User not found");
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
@@ -762,4 +809,5 @@ module.exports = {
   sendLoginCode,
   loginWithCode,
   loginWithGoogle,
+  saveCart,
 };

@@ -18,6 +18,13 @@ const {
   sendLoginCode,
   loginWithCode,
   loginWithGoogle,
+  updatePhoto,
+  addToWishlist,
+  getWishlist,
+  removeFromWishlist,
+  getCart,
+  saveCart,
+  clearCart,
 } = require("../controllers/userController");
 
 const {
@@ -28,6 +35,7 @@ const {
 
 const router = express.Router();
 
+// Advanced Authentication
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logoutUser);
@@ -50,5 +58,17 @@ router.post("/sendLoginCode/:email", sendLoginCode);
 router.post("/loginWithCode/:email", loginWithCode);
 
 router.post("/google/callback", loginWithGoogle);
+
+router.patch("/updatePhoto", protect, updatePhoto);
+
+// wishlist
+router.post("/addToWishlist", protect, addToWishlist);
+router.get("/getWishlist", protect, getWishlist);
+router.put("/wishlist/:productId", protect, removeFromWishlist);
+
+// cart
+router.get("/getCart", protect, getCart);
+router.patch("/saveCart", protect, saveCart);
+router.patch("/clearCart", protect, clearCart);
 
 module.exports = router;

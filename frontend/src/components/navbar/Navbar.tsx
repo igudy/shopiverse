@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RESET, logout, selectUser } from "../redux/slices/auth/authSlice";
 import { ShowOnLogin, ShowOnLogout } from "../protect/hiddenLink";
 import NavImage from "../../assets/logo/shopi.png";
+import { selectCartTotalQuantity } from "../redux/slices/cart/CartSlice";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const cartTotalQuantity = useSelector(selectCartTotalQuantity);
 
   // Logoout functionality
   const logoutUser = async () => {
@@ -104,7 +106,7 @@ const Navbar = () => {
           <p className="cursor-pointer hover:underline">Contact</p>
         </Link> */}
           <div className="bg-purple-900 shadow-xl w-5 h-5 rounded-full flex justify-center mr-[-50px] mt-[-20px] z-[999]">
-            <span className="text-white text-[10px]">3</span>
+            <span className="text-white text-[10px]">{cartTotalQuantity}</span>
           </div>
           <CartModal
             openModal={openModal}
