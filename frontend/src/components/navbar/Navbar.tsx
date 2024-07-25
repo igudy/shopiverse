@@ -63,11 +63,21 @@ const Navbar = () => {
           {/* <HeartIcon className="w-8 h-6 cursor-pointer" />
         <MagnifyingGlassIcon className="w-8 h-6 cursor-pointer" /> */}
           <Link to="/admin">
-            <p className="cursor-pointer hover:underline">Admin</p>
+            <p
+              className="cursor-pointer 
+            hover:underline"
+            >
+              Admin
+            </p>
           </Link>
           <ShowOnLogin>
             <Link to="/profile">
-              <p className="cursor-pointer hover:underline">Hi {user?.name}</p>
+              <p
+                className="cursor-pointer 
+              hover:underline"
+              >
+                Hi {user?.name}
+              </p>
             </Link>
           </ShowOnLogin>
           <ShowOnLogin>
@@ -93,6 +103,9 @@ const Navbar = () => {
           {/* <Link to="/contact">
           <p className="cursor-pointer hover:underline">Contact</p>
         </Link> */}
+          <div className="bg-purple-900 shadow-xl w-5 h-5 rounded-full flex justify-center mr-[-50px] mt-[-20px] z-[999]">
+            <span className="text-white text-[10px]">3</span>
+          </div>
           <CartModal
             openModal={openModal}
             closeModal={closeModal}

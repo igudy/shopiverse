@@ -2,7 +2,9 @@ import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ADD_TO_CART,
+  CLEAR_CART,
   DECREASE_CART,
+  REMOVE_FROM_CART,
   selectCartItems,
   selectCartTotalAmount,
   selectCartTotalQuantity,
@@ -33,9 +35,11 @@ const CartItems = () => {
     // );
   };
 
-  const clearCart = () => {
-    // dispatch(CLEAR_CART());
-    // dispatch(saveCartDB({ cartItems: [] }));
+  const removeFromCart = (cart: any) => {
+    dispatch(REMOVE_FROM_CART(cart));
+    // dispatch(
+    //   saveCartDB({ cartItems: JSON.parse(localStorage.getItem("cartItems")) })
+    // );
   };
 
   return (
@@ -59,7 +63,9 @@ const CartItems = () => {
                           xsm:py-1 sm:py-2 px-3 transition-all 
                           duration-700 ease-in-out xsm:w-28 sm:w-28 w-24
                           hover:scale-95 text-white sm:my-[0.5px]`}
-                          // className={`relative bg-gradient-to-b ${color} ${shadow} rounded-xl py-2 xsm:py-1 sm:py-2 px-3 transition-all duration-700 ease-in-out xsm:w-28 sm:w-28 w-40 hover:scale-95 text-white sm:my-[0.5px]`}
+                          // className={`relative bg-gradient-to-b ${color} ${shadow}
+                          // rounded-xl py-2 xsm:py-1 sm:py-2 px-3 transition-all duration-700
+                          // ease-in-out xsm:w-28 sm:w-28 w-40 hover:scale-95 text-white sm:my-[0.5px]`}
                         />
                       </div>
 
@@ -121,8 +127,7 @@ const CartItems = () => {
                       <div className="bg-theme-cart bg-theme-cart rounded w-6 h-6 flex items-center justify-center active:scale-90 cursor-pointer">
                         <AiFillDelete
                           className="w-5 h-5 lg:w-8 lg:h-8 text-white stroke-[2]"
-                          // onClick={() => removeFromCart()}
-                          onClick={clearCart}
+                          onClick={() => removeFromCart()}
                         />
                       </div>
                     </div>

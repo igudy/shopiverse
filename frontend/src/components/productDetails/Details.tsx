@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetProductQuery, useGetProductsQuery } from "../redux/api/api";
 import { HorizontalLine } from "../reusable/HorizontalLine";
@@ -6,6 +6,8 @@ import { AiFillStar } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ADD_TO_CART,
+  CALCULATE_SUBTOTAL,
+  CALCULATE_TOTAL_QUANTITY,
   DECREASE_CART,
   selectCartItems,
 } from "../redux/slices/cart/CartSlice";
@@ -34,6 +36,12 @@ const Details = () => {
   const decreaseCart = (product: any) => {
     dispatch(DECREASE_CART(product));
   };
+
+  useEffect(() => {
+    // dispatch(CALCULATE_SUBTOTAL({ coupon }));
+    dispatch(CALCULATE_SUBTOTAL());
+    dispatch(CALCULATE_TOTAL_QUANTITY());
+  }, [cartItems, dispatch]);
 
   return (
     <div className="my-5 mx-10">

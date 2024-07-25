@@ -7,6 +7,7 @@ import CartEmpty from "./CartEmpty";
 import CartItems from "./CartIems";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  CLEAR_CART,
   selectCartItems,
   selectCartTotalAmount,
   selectCartTotalQuantity,
@@ -21,6 +22,11 @@ const CartModal = ({ openModal, closeModal, isOpen }: ICartModal) => {
   const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
+
+  const clearCart = () => {
+    dispatch(CLEAR_CART());
+    // dispatch(saveCartDB({ cartItems: [] }));
+  };
 
   return (
     <div>
@@ -80,7 +86,7 @@ const CartModal = ({ openModal, closeModal, isOpen }: ICartModal) => {
                       </div>
                       <div
                         className="right-0 items-center flex gap-1 cursor-pointer border-2 rounded-full px-2 hover:text-gray-400"
-                        // onClick={() => clearCart()}
+                        onClick={() => clearCart()}
                       >
                         <p>Clear Cart</p>
                         <FiDelete />
@@ -89,10 +95,17 @@ const CartModal = ({ openModal, closeModal, isOpen }: ICartModal) => {
                     {/* Cart Section */}
                     <div className="mt-8">
                       {cartItems?.length === 0 ? (
+                        // If cart is empty
                         <CartEmpty />
                       ) : (
                         <div>
-                          <div className="overflow-y-scroll scroll-smooth  scroll-hidden xsm:max-h-[calc(100vh-270px)] sm:max-h-[calc(100vh-270px)] max-h-[calc(100vh-180px)]">
+                          <div
+                            className="overflow-y-scroll scroll-smooth  
+                          scroll-hidden xsm:max-h-[calc(100vh-270px)]
+                          sm:max-h-[calc(100vh-270px)]
+                          max-h-[calc(100vh-180px)]"
+                          >
+                            {/* Cart Section */}
                             <CartItems />
                           </div>
                           <div className="fixed bottom-0 w-full px-5 py-2 xsm:mb-16 sm:mb-16 grid items-center">

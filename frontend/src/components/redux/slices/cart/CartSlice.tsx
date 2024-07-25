@@ -4,7 +4,7 @@ import { getCartQuantityById } from "../../../../utils";
 
 const initialState = {
   cartItems: localStorage.getItem("cart")
-    ? JSON.parse(localStorage.getItem("cart"))
+    ? (JSON.parse(localStorage.getItem("cart") as string) as [])
     : [],
   cartTotalAmount: 0,
   cartTotalQuantity: 0,
@@ -13,6 +13,13 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
 };
+
+// Apply discoount to cart
+function applyDiscount(cartTotalAmount: any, discountPercentage: any) {
+  var discountAmount = (discountPercentage / 100) * cartTotalAmount;
+  var updatedTotal = cartTotalAmount - discountAmount;
+  return updatedTotal;
+}
 
 // ADD_TO_CART(Add one item for one product)
 // setRemoveItemFromCart(Remove all items of one product)
@@ -85,53 +92,61 @@ const cartSlice = createSlice({
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
 
-    setIncreaseItemQuantity: (state, action) => {
-      const itemIndex = state.cartItems.findIndex(
-        (item: any) => item.id === action.payload.id
+    REMOVE_FROM_CART(state, action) {
+      const newCartItem = state.cartItems.filter(
+        (item: any) => item._id !== action.payload._id
       );
 
-      if (itemIndex >= 0) {
-        state.cartItems[itemIndex].cartQuantity += 1;
-        toast.success(`Item QTY Increased`);
-      }
+      state.cartItems = newCartItem;
+      toast.success(`${action.payload.name} removed from cart`, {
+        position: "top-left",
+      });
+
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
 
-    setDecreaseItemQuantity: (state, action) => {
-      const itemIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload.id
-      );
-
-      if (state.cartItems[itemIndex].cartQuantity > 1) {
-        state.cartItems[itemIndex].cartQuantity -= 1;
-        toast.success(`Item QTY Decreased`);
-      }
-      localStorage.setItem("cart", JSON.stringify(state.cartItems));
-    },
-
-    setClearItems: (state, action) => {
+    CLEAR_CART(state, action) {
       state.cartItems = [];
-      toast.success(`Cart cleared`);
-      localStorage.setItem("cart", JSON.stringify(state.cartItems));
+      toast.scucess(`Cart cleared`, {
+        position: "top-left",
+      });
+
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
 
-    setGetTotalAmount: (state, action) => {
-      let { totalAmount, totalQuantity } = state.cartItems.reduce(
-        (cartTotal, cartItem) => {
-          const { price, cartQuantity } = cartItem;
-          const totalPrice = price * cartQuantity;
+    CALCULATE_SUBTOTAL(state, action) {
+      const array: any = [];
+      state.cartItems.map((item) => {
+        const { price, cartQuantity } = item;
+        const cartItemAmount = price * cartQuantity;
+        return array.push(cartItemAmount);
+      });
+      const totalAmount = array.reduce((a: any, b: any) => {
+        return a + b;
+      }, 0);
 
-          cartTotal.totalAmount += totalPrice;
-          cartTotal.totalQuantity += cartQuantity;
+      state.fixedCartTotalAmount = totalAmount;
+      if (action.payload && action.payload.coupon !== null) {
+        const discountedTotalAmount = applyDiscount(
+          totalAmount,
+          action.payload.coupon.discount
+        );
+        state.cartTotalAmount = discountedTotalAmount;
+      } else {
+        state.cartTotalAmount = totalAmount;
+      }
+    },
 
-          return cartTotal;
-        },
-        {
-          totalAmount: 0,
-          totalQuantity: 0,
-        }
-      );
-
-      state.cartTotalAmount = totalAmount;
+    CALCULATE_TOTAL_QUANTITY(state, action) {
+      const array: any = [];
+      state.cartItems?.map((item) => {
+        const { cartQuantity } = item;
+        const quantity = cartQuantity;
+        return array.push(quantity);
+      });
+      const totalQuantity = array.reduce((a: any, b: any) => {
+        return a + b;
+      }, 0);
       state.cartTotalQuantity = totalQuantity;
     },
   },
@@ -140,11 +155,10 @@ const cartSlice = createSlice({
 export const {
   ADD_TO_CART,
   DECREASE_CART,
-  setRemoveItemFromCart,
-  setIncreaseItemQuantity,
-  setDecreaseItemQuantity,
-  setClearItems,
-  setGetTotalAmount,
+  REMOVE_FROM_CART,
+  CLEAR_CART,
+  CALCULATE_SUBTOTAL,
+  CALCULATE_TOTAL_QUANTITY,
 } = cartSlice.actions;
 
 // This cart below is not the name, its the cart in the store

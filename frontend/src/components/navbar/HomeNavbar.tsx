@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { RESET, logout, selectUser } from "../redux/slices/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ShowOnLogin, ShowOnLogout } from "../protect/hiddenLink";
-import NavImage from '../../assets/logo/shopi.png'
+import NavImage from "../../assets/logo/shopi.png";
 
 const HomeNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,9 +57,9 @@ const HomeNavbar = () => {
         <img src={NavImage} className="w-[160px] cursor-pointer" alt="logo" />
       </div>
       <div className="flex text-white items-center gap-4 xsm:gap-0 sm:gap-1 right-0 z-[999999]">
-                    <Link to="/admin">
-              <p className="cursor-pointer hover:underline">Admin</p>
-            </Link>
+        <Link to="/admin">
+          <p className="cursor-pointer hover:underline">Admin</p>
+        </Link>
         <ShowOnLogout>
           <Link to="/login">
             <p className="cursor-pointer hover:underline">Login</p>
@@ -85,6 +85,9 @@ const HomeNavbar = () => {
             Logout
           </p>
         </ShowOnLogin>
+        <div className="bg-white shadow-xl w-5 h-5 rounded-full items-center flex justify-center mr-[-50px] mt-[-20px] z-[999]">
+          <span className="text-purple-800 text-[13px] font-medium">5</span>
+        </div>
         <CartModal
           openModal={openModal}
           closeModal={closeModal}
