@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import CartModal from "../modal/CartModal";
+// import CartModal from "../modal/CartModal";
 import { Link, useNavigate } from "react-router-dom";
 import { RESET, logout, selectUser } from "../redux/slices/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ShowOnLogin, ShowOnLogout } from "../protect/hiddenLink";
 import NavImage from "../../assets/logo/shopi.png";
 import { selectCartTotalQuantity } from "../redux/slices/cart/CartSlice";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 const HomeNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,6 +46,10 @@ const HomeNavbar = () => {
       window.removeEventListener("scroll", onNavScroll);
     };
   }, []);
+
+  const handleNavigate = () => {
+    navigate("/cart");
+  };
 
   return (
     <div
@@ -93,16 +98,29 @@ const HomeNavbar = () => {
             Logout
           </p>
         </ShowOnLogin>
-        <div className="bg-white shadow-xl w-5 h-5 rounded-full items-center flex justify-center mr-[-50px] mt-[-20px] z-[999]">
-          <span className="text-purple-800 text-[13px] font-medium">
-            {cartTotalQuantity}
-          </span>
+
+        <div onClick={handleNavigate}>
+          <div
+            className="bg-white
+             shadow-xl w-5 h-5 
+          rounded-full flex justify-center mr-[-50px]
+          mt-[-20px] z-[999]"
+          >
+            <span
+              className="text-purple-800 
+            text-[10px]"
+            >
+              {cartTotalQuantity}
+            </span>
+          </div>
+          <ShoppingBagIcon type="button" className="w-8 h-6 cursor-pointer" />
         </div>
-        <CartModal
+
+        {/* <CartModal
           openModal={openModal}
           closeModal={closeModal}
           isOpen={isOpen}
-        />
+        /> */}
       </div>
     </div>
   );

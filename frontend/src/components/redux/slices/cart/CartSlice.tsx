@@ -3,8 +3,8 @@ import { toast } from "react-hot-toast";
 import { getCartQuantityById } from "../../../../utils";
 
 const initialState = {
-  cartItems: localStorage.getItem("cart")
-    ? (JSON.parse(localStorage.getItem("cart") as string) as [])
+  cartItems: localStorage.getItem("cartItems")
+    ? (JSON.parse(localStorage.getItem("cartItems") as string) as [])
     : [],
   cartTotalAmount: 0,
   cartTotalQuantity: 0,

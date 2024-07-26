@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { HeartIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import {
+  HeartIcon,
+  MagnifyingGlassIcon,
+  ShoppingBagIcon,
+} from "@heroicons/react/24/outline";
 // import logo from "../../assets/logo.png";
-import CartModal from "../modal/CartModal";
+// import CartModal from "../modal/CartModal";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RESET, logout, selectUser } from "../redux/slices/auth/authSlice";
@@ -39,6 +43,7 @@ const Navbar = () => {
       setNavState(false);
     }
   };
+
   useEffect(() => {
     window.addEventListener("scroll", onNavScroll);
 
@@ -46,6 +51,10 @@ const Navbar = () => {
       window.removeEventListener("scroll", onNavScroll);
     };
   }, []);
+
+  const handleNavigate = () => {
+    navigate("/cart");
+  };
 
   return (
     <div className="text-white text-sm">
@@ -105,14 +114,20 @@ const Navbar = () => {
           {/* <Link to="/contact">
           <p className="cursor-pointer hover:underline">Contact</p>
         </Link> */}
-          <div className="bg-purple-900 shadow-xl w-5 h-5 rounded-full flex justify-center mr-[-50px] mt-[-20px] z-[999]">
-            <span className="text-white text-[10px]">{cartTotalQuantity}</span>
+          <div onClick={handleNavigate}>
+            <div className="bg-purple-900 shadow-xl w-5 h-5 rounded-full flex justify-center mr-[-50px] mt-[-20px] z-[999]">
+              <span className="text-white text-[10px]">
+                {cartTotalQuantity}
+              </span>
+            </div>
+            <ShoppingBagIcon type="button" className="w-8 h-6 cursor-pointer" />
           </div>
-          <CartModal
+
+          {/* <CartModal
             openModal={openModal}
             closeModal={closeModal}
             isOpen={isOpen}
-          />
+          /> */}
         </div>
       </div>
     </div>
