@@ -12,7 +12,7 @@ const useRedirectLoggedOutUser = (path) => {
       try {
         isLoggedIn = await authService.loginStatus();
       } catch (error) {
-        console.log(error.message);
+        throw new Error("An error occurred");
       }
 
       if (!isLoggedIn) {

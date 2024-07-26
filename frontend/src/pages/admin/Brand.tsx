@@ -50,7 +50,6 @@ const Brand = () => {
         slug: slugName,
         category: selectedSlug,
       };
-      console.log(payload);
       await createBrand(payload);
       toast.success(`Brand ${brandName} created successfully`);
 
@@ -64,7 +63,6 @@ const Brand = () => {
         (error as any).message;
       ("An error occurred while creating the brand");
       toast.error(errorMessage);
-      console.log("Error creating brand:", error);
     }
   };
 
@@ -84,7 +82,6 @@ const Brand = () => {
                 (error as any).response?.data?.message ||
                 "An error occurred while deleting the brand";
               toast.error(errorMessage);
-              console.log("Error deleting brand:", error);
             }
           },
         },
@@ -105,7 +102,7 @@ const Brand = () => {
     );
 
     if (selectedCategory) {
-      setBrandSlug(selectedCategory.slug);
+      setBrandSlug(selectedCategory.slug as string);
     } else {
       setBrandSlug("");
     }

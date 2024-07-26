@@ -26,7 +26,9 @@ const CartModal = ({ openModal, closeModal, isOpen }: ICartModal) => {
 
   const clearCart = () => {
     dispatch(CLEAR_CART());
-    // dispatch(saveCartDB({ cartItems: [] }));
+    saveCartDB({
+      cartItems: JSON.parse(localStorage.getItem("cartItems") as string) as [],
+    });
   };
 
   return (

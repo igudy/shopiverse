@@ -651,6 +651,26 @@ const loginWithCode = asyncHandler(async (req, res) => {
   }
 });
 
+// Update Photo
+const updatePhoto = asyncHandler(async (req, res) => {
+  const { photo } = req.body;
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+  user.photo = photo;
+  const updatedUser = await user.save();
+  res.status(200).json({
+    _id: updatedUser._id,
+    name: updatedUser.name,
+    email: updatedUser.email,
+    phone: updatedUser.phone,
+    photo: updatedUser.photo,
+    address: updatedUser.address,
+  });
+});
+
 // Login with google
 const loginWithGoogle = asyncHandler(async (req, res) => {
   const { userToken } = req.body;
@@ -746,17 +766,15 @@ const loginWithGoogle = asyncHandler(async (req, res) => {
 
 // Save Cart
 const saveCart = asyncHandler(async (req, res) => {
-  const { cartItems } = req.body;
-
-  const { user } = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id);
 
   if (user) {
-    user.cartItems = cartItems;
-    user.save();
-    res.status(200).json({ message: "Cart Saved" });
+    user.cartItems = req.body.cartItems;
+    await user.save();
+    res.status(200).json(user.cartItems);
   } else {
     res.status(400);
-    throw new Error("User Not Found");
+    throw new Error("User not found");
   }
 });
 
@@ -765,6 +783,7 @@ const getCart = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
+    // const { _id, name, email, phone, address } = user;
     res.status(200).json(user.cartItems);
   } else {
     res.status(400);
@@ -809,5 +828,11 @@ module.exports = {
   sendLoginCode,
   loginWithCode,
   loginWithGoogle,
+  updatePhoto,
+  // addToWishlist,
+  // getWishlist,
+  // removeFromWishlist,
+  getCart,
   saveCart,
+  clearCart,
 };

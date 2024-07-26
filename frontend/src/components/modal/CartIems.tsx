@@ -12,6 +12,7 @@ import {
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { selectIsLoggedIn } from "../redux/slices/auth/authSlice";
+import { useSaveCartToDBMutation } from "../redux/api/cartApi";
 
 const CartItems = () => {
   const cartItems = useSelector(selectCartItems);
@@ -20,26 +21,28 @@ const CartItems = () => {
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const [saveCartDB, { isLoading: isLoadingCartDB }] =
+    useSaveCartToDBMutation();
 
   const increaseCart = (cart: any) => {
     dispatch(ADD_TO_CART(cart));
-    // dispatch(
-    //   saveCartDB({ cartItems: JSON.parse(localStorage.getItem("cartItems")) })
-    // );
+    saveCartDB({
+      cartItems: JSON.parse(localStorage.getItem("cartItems") as string) as [],
+    });
   };
 
   const decreaseCart = (cart: any) => {
     dispatch(DECREASE_CART(cart));
-    // dispatch(
-    //   saveCartDB({ cartItems: JSON.parse(localStorage.getItem("cartItems")) })
-    // );
+    saveCartDB({
+      cartItems: JSON.parse(localStorage.getItem("cartItems") as string) as [],
+    });
   };
 
   const removeFromCart = (cart: any) => {
     dispatch(REMOVE_FROM_CART(cart));
-    // dispatch(
-    //   saveCartDB({ cartItems: JSON.parse(localStorage.getItem("cartItems")) })
-    // );
+    saveCartDB({
+      cartItems: JSON.parse(localStorage.getItem("cartItems") as string) as [],
+    });
   };
 
   return (

@@ -6,7 +6,6 @@ import "react-datepicker/dist/react-datepicker.css";
 const Coupon = () => {
   const [startDate, setStartDate] = useState(new Date());
 
-  console.log("startDate==>", startDate);
   const handleCalendarClose = () => console.log("Calendar closed");
   const handleCalendarOpen = () => console.log("Calendar opened");
 

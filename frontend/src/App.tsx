@@ -31,6 +31,7 @@ import {
   selectUser,
 } from "./components/redux/slices/auth/authSlice.tsx";
 import NotFound from "./pages/404/NotFound.jsx";
+import { useGetCartQuery } from "./components/redux/api/cartApi.jsx";
 
 axios.defaults.withCredentials = true;
 

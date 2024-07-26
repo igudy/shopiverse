@@ -15,11 +15,7 @@ describe("PasswordInputNormal", () => {
 
     const input = utils.getByPlaceholderText("Enter Password");
     const toggleIcon = utils.getByRole("button");
-
-    console.log("toggleIcon===>", toggleIcon);
-    console.log("input===>", input);
     const spreadUtils = { ...utils };
-    console.log("spread Utils===>", spreadUtils);
 
     return {
       input,

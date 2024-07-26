@@ -21,24 +21,15 @@ function applyDiscount(cartTotalAmount: any, discountPercentage: any) {
   return updatedTotal;
 }
 
-// ADD_TO_CART(Add one item for one product)
-// setRemoveItemFromCart(Remove all items of one product)
-// setIncreaseItemQuantity(Increase cart quantity)
-// setDecreaseItemQuantity(Decrease the quantity)
-// setClearItems(Clear all items from cart)
-// setGetTotals(Total for all price)
-
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     ADD_TO_CART(state, action) {
-      // console.log(action.payload);
       const cartQuantity = getCartQuantityById(
         state.cartItems,
         action.payload._id
       );
-      console.log(cartQuantity, action.payload);
 
       const productIndex = state.cartItems.findIndex(
         (item: any) => item._id === action.payload._id
@@ -70,7 +61,6 @@ const cartSlice = createSlice({
     },
 
     DECREASE_CART(state, action) {
-      // console.log(action.payload);
       const productIndex = state.cartItems.findIndex(
         (item: any) => item._id === action.payload._id
       );
@@ -126,10 +116,10 @@ const cartSlice = createSlice({
       }, 0);
 
       state.fixedCartTotalAmount = totalAmount;
-      if (action.payload && action.payload.coupon !== null) {
+      if (action.payload && action?.payload?.coupon !== null) {
         const discountedTotalAmount = applyDiscount(
           totalAmount,
-          action.payload.coupon.discount
+          action?.payload?.coupon?.discount
         );
         state.cartTotalAmount = discountedTotalAmount;
       } else {
@@ -142,7 +132,7 @@ const cartSlice = createSlice({
       state.cartItems?.map((item) => {
         const { cartQuantity } = item;
         const quantity = cartQuantity;
-        return array.push(quantity);
+        return array?.push(quantity);
       });
       const totalQuantity = array.reduce((a: any, b: any) => {
         return a + b;

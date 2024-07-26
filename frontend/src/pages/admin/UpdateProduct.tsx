@@ -55,12 +55,8 @@ const UpdateProduct = () => {
   }, [productData]);
 
   const updateMutationOptions = {
-    onSuccess: () => {
-      console.log("Updated successfully");
-    },
-    onError: (error: any) => {
-      console.log(error.message, "Error product wasn't updated");
-    },
+    onSuccess: () => {},
+    onError: (error: any) => {},
   };
 
   const mutation = useMutation({

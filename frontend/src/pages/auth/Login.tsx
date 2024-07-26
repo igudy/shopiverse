@@ -3,7 +3,7 @@ import LoginImage from "../../../src/assets/login/shoe-login.png";
 import Navbar from "../../components/navbar/Navbar";
 // import Google from "../../../src/assets/icons/googleicon.svg";
 import Footer from "../../components/footer/Footer";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 import { GoogleLogin } from "@react-oauth/google";
+import { useGetCartQuery } from "../../components/redux/api/cartApi";
 
 const Login = () => {
   const [email, setEmail] = useState(null);
@@ -74,12 +75,40 @@ const Login = () => {
     dispatch(RESET());
   }, [isLoggedIn, isSuccess, dispatch, navigate, isError, twoFactor, email]);
 
-  const googleLogin = async (credentialResponse) => {
+  const googleLogin = async (credentialResponse: any) => {
     console.log(credentialResponse);
     await dispatch(
       loginWithGoogle({ userToken: credentialResponse.credential })
     );
   };
+
+  const useParams = useSearchParams();
+  console.log("useParams===>", useParams);
+
+  // console.log(urlParams.get("redirect"));
+  // const redirect = urlParams.get("redirect");
+
+  const {
+    data: getCartData,
+    isLoading: isLoadingCartData,
+    error: isErrorCartData,
+  } = useGetCartQuery({});
+
+  useEffect(() => {
+    if (isLoggedIn && isSuccess) {
+      // if (redirect === "cart") {
+      //   dispatch(
+      //     saveCartDB({
+      //       cartItems: JSON.parse(localStorage.getItem("cartItems")),
+      //     })
+      //   );
+      //   return navigate("/cart");
+      // }
+      // navigate("/");
+      // window.location.reload();
+      getCartData;
+    }
+  }, [isSuccess, isLoggedIn, navigate, getCartData]);
 
   return (
     <div>

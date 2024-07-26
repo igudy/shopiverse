@@ -41,10 +41,6 @@ const MainProducts = () => {
   const [category, setCategory] = useState("All");
   const [brand, setBrand] = useState("");
 
-  console.log("brandData==>", brandData);
-  console.log("category==>", category);
-  console.log("filtered Products==>", filteredProducts);
-
   //   Begin Pagination
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
@@ -90,7 +86,6 @@ const MainProducts = () => {
 
   useEffect(() => {
     dispatch(FILTER_BY_PRICE({ products: filteredProducts, price }));
-    console.log(price);
   }, [dispatch, data, price]);
 
   const filteredProductFunc = (cat: any) => {

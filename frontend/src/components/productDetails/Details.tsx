@@ -11,6 +11,7 @@ import {
   DECREASE_CART,
   selectCartItems,
 } from "../redux/slices/cart/CartSlice";
+import { useSaveCartToDBMutation } from "../redux/api/cartApi";
 
 const Details = () => {
   const { id } = useParams();
@@ -19,6 +20,8 @@ const Details = () => {
   const dispatch = useDispatch();
   const [imageIndex, setImageIndex] = useState(0);
   const { data: product, error, isLoading } = useGetProductQuery(id);
+  const [saveCartDB, { isLoading: isLoadingCartDB }] =
+    useSaveCartToDBMutation();
 
   const cartItems = useSelector(selectCartItems);
 
@@ -27,20 +30,24 @@ const Details = () => {
     return cart._id === id;
   });
 
-  console.log(product);
-
   const addToCart = (product: any) => {
     dispatch(ADD_TO_CART(product));
+    saveCartDB({
+      cartItems: JSON.parse(localStorage.getItem("cartItems") as string) as [],
+    });
   };
 
   const decreaseCart = (product: any) => {
     dispatch(DECREASE_CART(product));
+    saveCartDB({
+      cartItems: JSON.parse(localStorage.getItem("cartItems") as string) as [],
+    });
   };
 
   useEffect(() => {
     // dispatch(CALCULATE_SUBTOTAL({ coupon }));
-    dispatch(CALCULATE_SUBTOTAL());
-    dispatch(CALCULATE_TOTAL_QUANTITY());
+    dispatch(CALCULATE_SUBTOTAL({}));
+    dispatch(CALCULATE_TOTAL_QUANTITY({}));
   }, [cartItems, dispatch]);
 
   return (

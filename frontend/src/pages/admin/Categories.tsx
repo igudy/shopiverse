@@ -47,7 +47,6 @@ const Categories = () => {
         (error as any).message;
       ("An error occurred while creating the category");
       toast.error(errorMessage);
-      console.log("Error creating category:", error);
     }
   };
 
@@ -67,7 +66,6 @@ const Categories = () => {
                 (error as any).response?.data?.message ||
                 "An error occurred while deleting the category";
               toast.error(errorMessage);
-              console.log("Error deleting category:", error);
             }
           },
         },
