@@ -13,9 +13,10 @@ const {
 // router.get("/getCoupons", protect, adminOnly, getCoupons);
 // router.get("/:couponName", protect, getCoupon);
 // router.delete("/:id", protect, adminOnly, deleteCoupon);
-router.post("/createCoupon", protect, createCoupon);
-router.get("/getCoupons", protect, getCoupons);
-router.get("/:couponName", protect, getCoupon);
-router.delete("/:id", protect, deleteCoupon);
+
+router.post("/createCoupon", createCoupon);
+router.get("/getCoupons", getCoupons);
+router.get("/:couponName", getCoupon);
+router.delete("/:id", deleteCoupon);
 
 module.exports = router;

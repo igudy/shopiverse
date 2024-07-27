@@ -5,6 +5,7 @@ import {
   IDeleteCoupon,
 } from "./types/couponApi.types";
 import { BASE_URL, API_VERSION } from "../../constants/constants";
+import { Dispatch, SetStateAction } from "react";
 
 export const couponApi = createApi({
   reducerPath: "couponApi",
@@ -30,9 +31,9 @@ export const couponApi = createApi({
       }),
       invalidatesTags: ["couponTagTypes"],
     }),
-    deleteCoupon: builder.mutation<any, { id: string }>({
-      query: ({ id }) => ({
-        url: `couponRoute/${id}`,
+    deleteCoupon: builder.mutation<any, { couponName: string }>({
+      query: ({ couponName }) => ({
+        url: `couponRoute/${couponName}`,
         method: "DELETE",
       }),
       invalidatesTags: ["couponTagTypes"],

@@ -5,7 +5,10 @@ const jwt = require("jsonwebtoken");
 const protect = asyncHandler(async (req, res, next) => {
   try {
     const token = req.cookies.token;
-    // console.log(req);
+
+    console.log("request===>", req);
+    console.log("Tokenn====>", token);
+
     if (!token) {
       res.status(401);
       throw new Error("Not authorized, please login");
@@ -14,7 +17,7 @@ const protect = asyncHandler(async (req, res, next) => {
     // Verify token
     const verified = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Get user id from token
+    // Get User Id From Token
     const user = await User.findById(verified.id).select("-password");
 
     if (!user) {
