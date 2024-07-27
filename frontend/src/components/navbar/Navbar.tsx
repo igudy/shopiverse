@@ -115,14 +115,24 @@ const Navbar = () => {
           <p className="cursor-pointer hover:underline">Contact</p>
         </Link> */}
           <div onClick={handleNavigate}>
-            <div className="bg-purple-900 shadow-xl w-5 h-5 rounded-full flex justify-center mr-[-50px] mt-[-20px] z-[999]">
-              <span className="text-white text-[10px]">
+            <div
+              className="bg-white
+             shadow-xl w-5 h-5 
+          rounded-full flex justify-center mr-[-60px]
+          mt-[-14px] z-[999]"
+            >
+              <span
+                className="text-purple-800 
+            text-[10px]"
+              >
                 {cartTotalQuantity}
               </span>
             </div>
-            <ShoppingBagIcon type="button" className="w-8 h-6 cursor-pointer" />
+            <ShoppingBagIcon
+              type="button"
+              className="w-8 h-6 mt-[-9px] ml-[-10px] cursor-pointer"
+            />
           </div>
-
           {/* <CartModal
             openModal={openModal}
             closeModal={closeModal}

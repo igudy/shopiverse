@@ -9,7 +9,7 @@ import {
   selectCartTotalAmount,
   selectCartTotalQuantity,
 } from "../redux/slices/cart/CartSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { selectIsLoggedIn } from "../redux/slices/auth/authSlice";
 import { useSaveCartToDBMutation } from "../redux/api/cartApi";
@@ -17,6 +17,7 @@ import CartEmpty from "../modal/CartEmpty";
 import CartBottomSection from "./CartBottomSection";
 import { FaCcStripe, FaPaypal, FaBitcoin, FaWallet } from "react-icons/fa";
 import { MdOutlineWaves } from "react-icons/md";
+import { useGetCouponQuery, useGetCouponsQuery } from "../redux/api/couponApi";
 
 const CartItems = () => {
   const cartItems = useSelector(selectCartItems);
@@ -27,6 +28,8 @@ const CartItems = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const [saveCartDB, { isLoading: isLoadingCartDB }] =
     useSaveCartToDBMutation();
+
+  const { fixedCartTotalAmount } = useSelector((state: any) => state.cart);
 
   const increaseCart = (cart: any) => {
     dispatch(ADD_TO_CART(cart));
@@ -49,12 +52,29 @@ const CartItems = () => {
     });
   };
 
+  const [coupon, setCoupon] = useState<string>("");
+
+  const {
+    data: couponData,
+    isLoading: isLoadingCoupon,
+    error: isErrorCoupon,
+  } = useGetCouponQuery({ couponName: setCoupon });
+
+  const {
+    data: couponAllData,
+    isLoading: isLoadingAllCoupon,
+    error: isErrorAllCoupon,
+  } = useGetCouponsQuery({});
+
+  console.log("couponData===>", couponData);
+  console.log("couponAllData===>", couponAllData);
+
   return (
     <>
       {/* Cart Top Section */}
       <div className="">
         <div className="xsm:text-sm sm:text-sm">
-          {/* if cart is empty */}
+          {/* If ceart is empty */}
           {cartItems.length === 0 ? (
             <div className="h-screen">
               <div className="w-[80px] h-[80px]">
@@ -159,91 +179,6 @@ const CartItems = () => {
         </div>
       </div>
 
-      {/* Middle Section */}
-      {/* <div className="grid grid-cols-2 gap-4 my-5 mx-3">
-        <div className="grid grid-rows-3 border-2 rounded-xl">
-          <div className=" grid grid-cols-2 justify-between gap-2">
-            <div className="text-base font-semibold uppercase">Subtotal</div>
-            <div className="text-black">${cartTotalAmount}</div>
-          </div>
-
-          <div className="grid grid-cols-2 align-middle">
-            <div className="">Have a coupon?</div>
-            <div className="">Add Coupon</div>
-          </div>
-          <div>
-            <div className="grid grid-cols-2 align-middle">
-              <div>
-                <input
-                  type="text"
-                  className="p-2 border-2 rounded-xl outline-none"
-                  placeholder="Coupon name"
-                />
-              </div>
-              <div className="">Verify</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-2 rounded-xl">
-          <div className="grid grid-rows-6 gap-2">
-            <div className="font-semibold mb-2">
-              Please choose a payment method.
-            </div>
-
-            <label className="flex items-center cursor-pointer">
-              <input
-                type="radio"
-                name="payment"
-                value="stripe"
-                className="mr-2"
-              />
-              <FaCcStripe className="mr-2" />
-              Stripe
-            </label>
-
-            <label className="flex items-center cursor-pointer">
-              <input
-                type="radio"
-                name="payment"
-                value="flutterwave"
-                className="mr-2"
-              />
-              <MdOutlineWaves className="mr-2" />
-              Flutterwave
-            </label>
-
-            <label className="flex items-center cursor-pointer">
-              <input
-                type="radio"
-                name="payment"
-                value="paypal"
-                className="mr-2"
-              />
-              <FaPaypal className="mr-2" />
-              PayPal
-            </label>
-
-            <label className="flex items-center cursor-pointer">
-              <input type="radio" name="payment" value="btc" className="mr-2" />
-              <FaBitcoin className="mr-2" />
-              Bitcoin (BTC)
-            </label>
-
-            <label className="flex items-center cursor-pointer">
-              <input
-                type="radio"
-                name="payment"
-                value="wallet"
-                className="mr-2"
-              />
-              <FaWallet className="mr-2" />
-              Wallet
-            </label>
-          </div>
-        </div>
-      </div> */}
-
       <div className="grid grid-cols-2 gap-8 my-5 mx-3">
         <div className="p-4 border-2 rounded-xl shadow-md bg-white">
           <div className="my-5">
@@ -251,6 +186,12 @@ const CartItems = () => {
               <div>Subtotal</div>
               <div className="text-black">${cartTotalAmount}</div>
             </div>
+          </div>
+
+          <div className="font-medium border-2 border-purple-500 p-2 rounded-xl">
+            Initial Total: ${fixedCartTotalAmount} | Coupon: GRACIE
+            {/* {coupon.name} | */} | Discount: 10%
+            {/* {coupon.discount}% */}
           </div>
 
           <div className="my-10">
@@ -278,7 +219,7 @@ const CartItems = () => {
             Please choose a payment method.
           </div>
 
-          <label className="flex items-center cursor-pointer mb-2">
+          <label className="flex items-center bg-gray-100 p-2 shadow-md cursor-pointer mb-2 hover:translate-x-1 transition-all">
             <input
               type="radio"
               name="payment"
@@ -289,7 +230,7 @@ const CartItems = () => {
             <span>Stripe</span>
           </label>
 
-          <label className="flex items-center cursor-pointer mb-2">
+          <label className="flex items-center cursor-pointer mb-2 bg-gray-100 p-2 shadow-md hover:translate-x-1 transition-all">
             <input
               type="radio"
               name="payment"
@@ -300,24 +241,24 @@ const CartItems = () => {
             <span>Flutterwave</span>
           </label>
 
-          <label className="flex items-center cursor-pointer mb-2">
+          <label className="flex bg-gray-100 p-2 shadow-md items-center cursor-pointer mb-2 hover:translate-x-1 transition-all">
             <input
               type="radio"
               name="payment"
               value="paypal"
               className="mr-2"
             />
-            <FaPaypal className="text-purple-600 mr-2" />
+            <FaPaypal className="text-blue-600 mr-2" />
             <span>PayPal</span>
           </label>
 
-          <label className="flex items-center cursor-pointer mb-2">
+          <label className="flex bg-gray-100 p-2 shadow-md items-center cursor-pointer mb-2 hover:translate-x-1 transition-all">
             <input type="radio" name="payment" value="btc" className="mr-2" />
             <FaBitcoin className="text-orange-500 mr-2" />
             <span>Bitcoin (BTC)</span>
           </label>
 
-          <label className="flex items-center cursor-pointer mb-2">
+          <label className="flex bg-gray-100 p-2 shadow-md items-center cursor-pointer mb-2 hover:translate-x-1 transition-all">
             <input
               type="radio"
               name="payment"
