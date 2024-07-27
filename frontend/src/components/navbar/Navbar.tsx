@@ -118,12 +118,12 @@ const Navbar = () => {
             <div
               className="bg-white
              shadow-xl w-5 h-5 
-          rounded-full flex justify-center mr-[-60px]
-          mt-[-14px] z-[999]"
+          rounded-full flex items justify-center mr-[-60px]
+          mt-[-20px] z-[999]"
             >
               <span
-                className="text-purple-800 
-            text-[10px]"
+                className="text-purple-800 font-medium
+            text-[12px]"
               >
                 {cartTotalQuantity}
               </span>

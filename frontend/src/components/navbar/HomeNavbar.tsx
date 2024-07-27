@@ -103,17 +103,20 @@ const HomeNavbar = () => {
           <div
             className="bg-white
              shadow-xl w-5 h-5 
-          rounded-full flex justify-center mr-[-50px]
+          rounded-full flex items-center font-medium justify-center mr-[-50px]
           mt-[-20px] z-[999]"
           >
             <span
               className="text-purple-800 
-            text-[10px]"
+            text-[12px]"
             >
               {cartTotalQuantity}
             </span>
           </div>
-          <ShoppingBagIcon type="button" className="w-8 h-6 cursor-pointer" />
+          <ShoppingBagIcon
+            type="button"
+            className="w-8 h-6 mt-[-9px] ml-[-10px] cursor-pointer"
+          />
         </div>
 
         {/* <CartModal
