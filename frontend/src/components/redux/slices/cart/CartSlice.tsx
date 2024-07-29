@@ -89,7 +89,7 @@ const cartSlice = createSlice({
 
       state.cartItems = newCartItem;
       toast.success(`${action.payload.name} removed from cart`, {
-        position: "top-left",
+        position: "top-right",
       });
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
@@ -98,7 +98,7 @@ const cartSlice = createSlice({
     CLEAR_CART(state, action) {
       state.cartItems = [];
       toast.success(`Cart cleared`, {
-        position: "top-left",
+        position: "top-right",
       });
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));

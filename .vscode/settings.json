@@ -1,12 +1,12 @@
 {
   "editor.formatOnSave": true,
   "notebook.formatOnSave.enabled": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "ms-vscode.powershell",
   "editor.formatOnPaste": true,
-  "editor.formatOnSaveMode": "file",
+  "editor.formatOnSaveMode": "modifications",
   "editor.defaultFoldingRangeProvider": "esbenp.prettier-vscode",
   "editor.formatOnType": true,
-  "files.autoSave": "off",
+  "files.autoSave": "afterDelay",
   "[xml]": {
     "editor.defaultFormatter": "DotJoshJohnson.xml"
   },
