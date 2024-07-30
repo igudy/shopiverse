@@ -86,7 +86,6 @@ const CartItems = () => {
   } = useGetCouponsQuery({});
 
   // const [deleteCoupon, { isLoading: isLoadingDeleteCoupon, isSuccess: isSuccessDeleteCoupon }] = useDeleteCouponMutation();
-
 // The useCallback hook is used to memoize functions in React.
 //  This means that the function reference doesn't change between
 //   renders, which can be useful for optimizing performance and
@@ -116,8 +115,12 @@ const CartItems = () => {
     // });
   };
 
-  console.log("couponData===>", couponData);
-  console.log("couponAllData===>", couponAllData);
+
+  const [paymentMethod, setPaymentMethod] = useState<string>("");
+
+  const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPaymentMethod(event.target.value);
+  };
 
   return (
     <>
@@ -238,30 +241,6 @@ const CartItems = () => {
             </div>
           </div>
 
-        {/* <div className="my-10">
-          <div className="flex justify-between items-center mb-2">
-            <div className="font-medium">Have a coupon?</div>
-            <div className="text-white bg-purple-600 p-2 rounded-xl mb-4 shadow-lg cursor-pointer ">
-              Add Coupon
-            </div>
-            <div className="text-red-500 font-bold p-2 rounded-xl mb-4 hover:font-extrabold cursor-pointer ">
-              Remove Coupon
-            </div>
-          </div>
-          <div className="flex">
-            <input
-              type="text"
-              onChange={debouncedHandleCouponChange}
-              value={coupon}
-              className="flex-1 p-2 border rounded-l-xl outline-none"
-              placeholder="Coupon code"
-            />
-            <button className="bg-purple-500 text-white p-2 rounded-r-xl hover:bg-purple-600 transition">
-              Verify
-            </button>
-          </div>
-        </div> */}
-
       <div className="my-10">
       <div className="flex justify-between items-center mb-2">
           <div className="font-medium">Have a coupon?</div>
@@ -299,13 +278,12 @@ const CartItems = () => {
           <p>Coupon not valid😢</p>
         ) : (
         <div>
-                    {isSuccessCoupon && <>
-                      <div className="font-medium border-purple-500 border-2 p-2 rounded-xl">
-                                Initial Total: ${fixedCartTotalAmount} {" "}
-           | {couponData ? couponData.name : <> Coupon </>} | {" "}
+          {isSuccessCoupon && <>
+            <div className="font-medium border-purple-500 border-2 p-2 rounded-xl">
+            Initial Total: ${fixedCartTotalAmount} {" "}
+            | {couponData ? couponData.name : <> Coupon </>} | {" "}
             {couponData ? couponData.discount : <> Discount</>}
-                      </div>
-  
+          </div>
           </>}
         </div>
         )}
@@ -323,6 +301,8 @@ const CartItems = () => {
               name="payment"
               value="stripe"
               className="mr-2"
+              checked={paymentMethod === 'stripe'}
+              onChange={handlePaymentMethodChange}
             />
             <FaCcStripe className="text-blue-700 mr-2" />
             <span>Stripe</span>
@@ -334,6 +314,8 @@ const CartItems = () => {
               name="payment"
               value="flutterwave"
               className="mr-2"
+              checked={paymentMethod === 'flutterwave'}
+              onChange={handlePaymentMethodChange}
             />
             <MdOutlineWaves className="text-yellow-500 mr-2" />
             <span>Flutterwave</span>
@@ -345,13 +327,20 @@ const CartItems = () => {
               name="payment"
               value="paypal"
               className="mr-2"
+              checked={paymentMethod === 'paypal'}
+              onChange={handlePaymentMethodChange}
             />
             <FaPaypal className="text-blue-600 mr-2" />
             <span>PayPal</span>
           </label>
 
           <label className="flex bg-gray-100 p-2 shadow-md items-center cursor-pointer mb-2 hover:translate-x-1 transition-all">
-            <input type="radio" name="payment" value="btc" className="mr-2" />
+            <input type="radio"
+              name="payment"
+              value="btc"
+              checked={paymentMethod === 'btc'}
+              onChange={handlePaymentMethodChange}
+              className="mr-2" />
             <FaBitcoin className="text-orange-500 mr-2" />
             <span>Bitcoin (BTC)</span>
           </label>
@@ -361,6 +350,8 @@ const CartItems = () => {
               type="radio"
               name="payment"
               value="wallet"
+              checked={paymentMethod === 'wallet'}
+              onChange={handlePaymentMethodChange}
               className="mr-2"
             />
             <FaWallet className="text-green-500 mr-2" />
@@ -370,7 +361,10 @@ const CartItems = () => {
       </div>
 
       {/* Cart Bottom Section */}
-      <CartBottomSection />
+      <CartBottomSection
+        paymentMethod={paymentMethod}
+        handlePaymentMethodChange={handlePaymentMethodChange}
+      />
     </>
   );
 };

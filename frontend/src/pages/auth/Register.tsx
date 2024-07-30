@@ -114,14 +114,13 @@ const Register = () => {
                     {errors.name && (
                       <div className=" text-red-800 text-[12px] flex items-center mx-2">
                         <AiFillCloseCircle />
-                        {errors.name.message}
+                        {errors.name.message as string}
                       </div>
                     )}
                   </label>
                   <input
                     type="text"
                     className={`input-box `}
-                    name="name"
                     placeholder="Igudy"
                     {...register("name", { required: true })}
                   />
@@ -133,7 +132,7 @@ const Register = () => {
                   {errors.email && (
                     <div className=" text-red-800 text-[12px] flex items-center mx-2">
                       <AiFillCloseCircle />
-                      {errors.email.message}
+                      {errors.email.message as string}
                     </div>
                   )}
                 </label>
@@ -150,11 +149,21 @@ const Register = () => {
                   {errors.password && (
                     <div className=" text-red-800 text-[12px] flex items-center mx-2">
                       <AiFillCloseCircle />
-                      {errors.password.message}
+                      {errors.password.message as string}
                     </div>
                   )}
                 </label>
                 <span className="">
+              
+                {/* 
+                  placeholder: any,
+                  id: any;
+                  name: any,
+                  register: any,
+                  onPaste: any,
+                  value: any  
+                */}
+                  
                   <PasswordInputRHF
                     placeholder={"Password"}
                     name={"Password"}
@@ -179,15 +188,17 @@ const Register = () => {
                     <div className=" text-red-800 text-[12px] flex items-center mx-2">
                       <AiFillCloseCircle />
                       {errors.confirmPassword.message && (
-                        <div>{errors.confirmPassword.message}</div>
+                        <div>{errors.confirmPassword.message as string}</div>
                       )}
                     </div>
                   )}
                 </label>
+
                 <div className="">
                   <PasswordInputRHF
                     placeholder={"Confirm Password"}
                     name={"ConfirmPassword"}
+                    id={"confirmPassword"}
                     register={{
                       ...register("confirmPassword", {
                         required: true,
@@ -199,11 +210,12 @@ const Register = () => {
                         },
                       }),
                     }}
-                    onPaste={(e) => {
+                    onPaste={(e: any) => {
                       e.preventDefault();
                       toast.error("Cannot paste to input field");
                       return false;
                     }}
+                    // value={}
                   />
                 </div>
               </div>
@@ -254,7 +266,7 @@ const Register = () => {
               size="large"
               text="signup_with"
               width={500}
-              height={100}
+              // height={100}
             />
           </div>
         </div>

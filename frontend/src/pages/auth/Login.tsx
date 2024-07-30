@@ -21,14 +21,14 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 import { GoogleLogin } from "@react-oauth/google";
-import { useGetCartQuery } from "../../components/redux/api/cartApi";
+import { useGetCartQuery, useSaveCartToDBMutation } from "../../components/redux/api/cartApi";
 
 const Login = () => {
   const [email, setEmail] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading, isLoggedIn, isSuccess, isError, twoFactor } = useSelector(
-    (state) => state.auth
+    (state: any) => state.auth
   );
 
   const {
@@ -46,12 +46,11 @@ const Login = () => {
   };
 
   // Data coming from the refine section
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     const userData = {
       email: data?.email,
       password: data?.password,
     };
-
     setEmail(data?.email);
 
     console.log(email);
@@ -59,16 +58,15 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (isSuccess && isLoggedIn) {
-      navigate("/profile");
-    }
-
+    // if (isSuccess && isLoggedIn) {
+    //   navigate("/profile");
+    // }
+    
     if (isError && twoFactor) {
       // dispatch(sendLoginCode(email));
       // navigate(`/loginWithCode/${email}`);
-
       const encodedEmail = encodeURIComponent(email);
-      dispatch(sendLoginCode(encodedEmail));
+      dispatch((sendLoginCode(encodedEmail)));
       navigate(`/enter-access-code/${encodedEmail}`);
     }
 
@@ -82,11 +80,12 @@ const Login = () => {
     );
   };
 
-  const useParams = useSearchParams();
-  console.log("useParams===>", useParams);
-
-  // console.log(urlParams.get("redirect"));
-  // const redirect = urlParams.get("redirect");
+  const [urlParams] = useSearchParams();
+  
+  console.log(urlParams.get("redirect"));
+  const redirect = urlParams.get("redirect");
+  
+  console.log("redirect===>", redirect);
 
   const {
     data: getCartData,
@@ -94,19 +93,22 @@ const Login = () => {
     error: isErrorCartData,
   } = useGetCartQuery({});
 
+  const [saveCartDB, { isLoading: isLoadingCartDB }] =
+      useSaveCartToDBMutation();
+
   useEffect(() => {
     if (isLoggedIn && isSuccess) {
-      // if (redirect === "cart") {
-      //   dispatch(
-      //     saveCartDB({
-      //       cartItems: JSON.parse(localStorage.getItem("cartItems")),
-      //     })
-      //   );
-      //   return navigate("/cart");
-      // }
-      // navigate("/");
+      if (redirect === "cart")
+      {
+        // dispatch(
+        //   saveCartDB({ cartItems: JSON.parse(localStorage.getItem("cartItems")) })
+        // );
+      navigate("/cart");
+      } else{
+        navigate("/");
+      }
       // window.location.reload();
-      getCartData;
+      // getCartData;
     }
   }, [isSuccess, isLoggedIn, navigate, getCartData]);
 
@@ -114,18 +116,27 @@ const Login = () => {
     <div>
       <Navbar />
       {isLoading && <div>Loading...</div>}
-      <div className="flex sm:block gap-5 justify-between mx-16 xsm:mx-2 sm:mx-2">
-        {/* <div className='bg-gradient-to-t from-purple-500 to-purple-300 h-10 sm:w-full'></div> */}
-        <div className="basis-1/2 md:justify-center xsm:justify-center justify-center flex flex-col xsm:hidden sm:hidden md:hidden lg:hidden sm:justify-center left-0">
+      <div className="flex sm:block gap-5 justify-between 
+      mx-16 xsm:mx-2 sm:mx-2">
+        {/* <div className='bg-gradient-to-t from-purple-500 
+        to-purple-300 h-10 sm:w-full'></div> */}
+        <div className="basis-1/2 md:justify-center 
+        xsm:justify-center justify-center flex flex-col
+        xsm:hidden sm:hidden md:hidden lg:hidden
+        sm:justify-center left-0">
           <img
             src={LoginImage}
             alt="loginImage"
             className="object-fill
-            w-auto h-[50vh] lg:h-[35vh] justify-center md:h-[20vh] sm:my-3 md:my-3 sm:h-[21vh] xsm:h-[19vh] transitions-theme -rotate-[-15deg] hover:rotate-0 cursor-pointer z-20"
+            w-auto h-[50vh] lg:h-[35vh] justify-center 
+            md:h-[20vh] sm:my-3 md:my-3 sm:h-[21vh] 
+            xsm:h-[19vh] transitions-theme -rotate-[-15deg]
+             hover:rotate-0 cursor-pointer z-20"
           />
         </div>
 
-        <div className="flex flex-col mx-10 sm:mx-2 xsm:mx-2 p-5 my-7 shadow-2xl right-0  min-w-xl">
+        <div className="flex flex-col mx-10 sm:mx-2 xsm:mx-2 
+        p-5 my-7 shadow-2xl right-0 min-w-2xl">
           <div className="">
             {/* <img src={Logo} alt='logo' className='mt-10 h-10 xsm:h-7 sm:h-7' /> */}
             {/* SHOPIVERSE */}
@@ -143,7 +154,7 @@ const Login = () => {
                   {errors.email && (
                     <div className=" text-red-800 text-[12px] flex items-center mx-2">
                       <AiFillCloseCircle />
-                      {errors.email.message}
+                      {(errors.email.message) as string}
                     </div>
                   )}
                 </label>
@@ -161,7 +172,7 @@ const Login = () => {
                   {errors.password && (
                     <div className=" text-red-800 text-[12px] flex items-center mx-2">
                       <AiFillCloseCircle />
-                      {errors.password.message}
+                      {(errors.password.message) as string}
                     </div>
                   )}
                 </label>
