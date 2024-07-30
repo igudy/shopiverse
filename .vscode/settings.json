@@ -1,9 +1,9 @@
 {
   "editor.formatOnSave": true,
   "notebook.formatOnSave.enabled": true,
-  "editor.defaultFormatter": "ms-vscode.powershell",
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
   "editor.formatOnPaste": true,
-  "editor.formatOnSaveMode": "modifications",
+  "editor.formatOnSaveMode": "file",
   "editor.defaultFoldingRangeProvider": "esbenp.prettier-vscode",
   "editor.formatOnType": true,
   "files.autoSave": "afterDelay",

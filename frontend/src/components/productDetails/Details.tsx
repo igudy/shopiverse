@@ -16,7 +16,8 @@ import { useSaveCartToDBMutation } from "../redux/api/cartApi";
 const Details = () => {
   const { id } = useParams();
 
-  // ****Skipped image slider logic*****
+  // ****Skipped image slider logic**** //
+  
   const dispatch = useDispatch();
   const [imageIndex, setImageIndex] = useState(0);
   const { data: product, error, isLoading } = useGetProductQuery(id);
@@ -44,8 +45,8 @@ const Details = () => {
     });
   };
 
+
   useEffect(() => {
-    // dispatch(CALCULATE_SUBTOTAL({ coupon }));
     dispatch(CALCULATE_SUBTOTAL({}));
     dispatch(CALCULATE_TOTAL_QUANTITY({}));
   }, [cartItems, dispatch]);

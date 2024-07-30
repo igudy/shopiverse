@@ -85,35 +85,35 @@ const CartItems = () => {
     error: isErrorAllCoupon,
   } = useGetCouponsQuery({});
 
-  // const [deleteCoupon, { isLoading: isLoadingDeleteCoupon, isSuccess: isSuccessDeleteCoupon }] = useDeleteCouponMutation();
+// const [deleteCoupon, { isLoading: isLoadingDeleteCoupon, 
+// isSuccess: isSuccessDeleteCoupon }] = useDeleteCouponMutation();
 // The useCallback hook is used to memoize functions in React.
-//  This means that the function reference doesn't change between
-//   renders, which can be useful for optimizing performance and
-//    preventing unnecessary re - renders of child components that
-//     rely on the function.
+// This means that the function reference doesn't change between
+// renders, which can be useful for optimizing performance and
+// preventing unnecessary re - renders of child components that
+// rely on the function.
 
 // In the context of the removeCoupon function, using useCallback
 // ensures that the function reference is stable across renders, which
 //  can be beneficial if removeCoupon is passed down as a prop to child
-//  components or used in other hooks that depend on stable function references.
+//  components or used in other hooks that depend on 
+// stable function references.
 
-  // const removeCoupon = useCallback(() => {
-  //   deleteCoupon({ couponName: coupon }).then(() => {
-  //     setCoupon("");
-  //   });
-  // }, [coupon, deleteCoupon]);
+// const removeCoupon = useCallback(() => {
+//   deleteCoupon({ couponName: coupon }).then(() => {
+//     setCoupon("");
+//   });
+// }, [coupon, deleteCoupon]);
 
-  //   useEffect(() => {
-  //   if (isSuccessDeleteCoupon) {
-  //     console.log("Coupon deleted successfully");
-  //   }
-  // }, [isSuccessDeleteCoupon]);
+//   useEffect(() => {
+//   if (isSuccessDeleteCoupon) {
+//     console.log("Coupon deleted successfully");
+//   }
+// }, [isSuccessDeleteCoupon]);
 
-    const removeCoupon = () => {
-    // deleteCoupon({ couponName: coupon }).then(() => {
-      setCoupon("");
-    // });
-  };
+const removeCoupon = () => {
+  setCoupon("");
+};
 
 
   const [paymentMethod, setPaymentMethod] = useState<string>("");
@@ -271,6 +271,8 @@ const CartItems = () => {
         </div>
       </div>
 
+          {/* Coupon Discount */}
+          
       <div>
         {isLoadingCoupon ? (
           <p><LoaderIcon /></p>
