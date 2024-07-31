@@ -55,7 +55,6 @@ const CheckoutDetailsSection = () => {
     }
   };
 
-
   // Data coming from the refine section
   const onSubmit = async (data: any) => {
     await console.log("Logged In", data);
@@ -88,7 +87,7 @@ const CheckoutDetailsSection = () => {
                 </h1>
                 {/* Recipient name */}
                 <label htmlFor="name" className="flex">
-                  Name{" "}
+                  Name
                   {errors?.name && (
                     <div className=" text-red-800 text-[12px] flex items-center mx-2">
                       <AiFillCloseCircle />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LoaderIcon } from "react-hot-toast";
 import { useGetCouponQuery, useGetCouponsQuery } from "../redux/api/couponApi";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
 import { selectIsLoggedIn } from "../redux/slices/auth/authSlice";
 import { useSaveCartToDBMutation } from "../redux/api/cartApi";
+import { REMOVE_COUPON, SAVE_COUPON } from "../redux/slices/coupon/couponSlice";
 
 const CouponDiscount = () => {
   const cartItems = useSelector(selectCartItems);
@@ -60,8 +61,11 @@ const CouponDiscount = () => {
   // );
 
   const debouncedQuery = debounce((query) => {
-    setCoupon(query);
+      setCoupon(query);
+    //   dispatch(SAVE_COUPON({coupon: query}))
   }, 100);
+    
+
 
   const handleCouponChange = (event: any) => {
     debouncedQuery(event.target.value);
@@ -74,15 +78,18 @@ const CouponDiscount = () => {
     isSuccess: isSuccessCoupon,
   } = useGetCouponQuery({ couponName: coupon }, { skip: !coupon });
 
+    useEffect(() => {
+    if (isSuccessCoupon && couponData) {
+      dispatch(setCoupon(couponData?.name));
+    }
+    }, [isSuccessCoupon, couponData, dispatch]);
+    
   const {
     data: couponAllData,
     isLoading: isLoadingAllCoupon,
     error: isErrorAllCoupon,
   } = useGetCouponsQuery({});
 
-  const removeCoupon = () => {
-    setCoupon("");
-  };
 
   const [paymentMethod, setPaymentMethod] = useState<string>("");
 

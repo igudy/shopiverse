@@ -10,7 +10,10 @@ import { Link } from "react-router-dom";
 import CouponDiscount from "../coupon/CouponDiscount";
 
 const CheckoutSummary = () => {
-  const { coupon } = useSelector((state: any) => state.coupon);
+  const coupon = useSelector((state: any) => state.coupon.coupon);
+
+  console.log('coupon==>', coupon)
+
   const cartItems = useSelector(selectCartItems);
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
@@ -47,18 +50,19 @@ const CheckoutSummary = () => {
             </div>
           </div>
 
-            {/* Cart Discount if any */}
-            <CouponDiscount />
-          
+          {/* Cart Discount if any */}
+          <CouponDiscount />
 
           {cartItems.map((item: any, index: number) => (
             <div
               key={index}
               className="border-2 mt-2 border-purple-500 rounded-xl p-3 text-sm shadow-md bg-gray-100"
             >
-              <div className="font-bold">Product:</div>
-              <div className="font-medium">{item.name}</div>
               <div className="grid gap-2 p-2">
+                <div className="flex justify-between">
+                  <div className="text-left">Product:</div>
+                  <div className="text-right font-bold">{item.name}</div>
+                </div>
                 <div className="flex justify-between">
                   <div className="text-left">Quantity:</div>
                   <div className="text-right font-bold">{item.cartQuantity}</div>

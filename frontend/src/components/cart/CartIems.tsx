@@ -17,11 +17,16 @@ import CartEmpty from "../modal/CartEmpty";
 import CartBottomSection from "./CartBottomSection";
 import { FaCcStripe, FaPaypal, FaBitcoin, FaWallet } from "react-icons/fa";
 import { MdOutlineWaves } from "react-icons/md";
-import { useDeleteCouponMutation, useGetCouponQuery, useGetCouponsQuery } from "../redux/api/couponApi";
+import {
+  useDeleteCouponMutation,
+  useGetCouponQuery,
+  useGetCouponsQuery,
+} from "../redux/api/couponApi";
 import debounce from "lodash.debounce";
 // import debounce from "lodash/debounce";
 import { LoaderIcon } from "react-hot-toast";
-
+import CouponDiscount from "../coupon/CouponDiscount";
+import { REMOVE_COUPON } from "../redux/slices/coupon/couponSlice";
 
 const CartItems = () => {
   const cartItems = useSelector(selectCartItems);
@@ -30,7 +35,8 @@ const CartItems = () => {
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const [saveCartDB, { isLoading: isLoadingCartDB }] = useSaveCartToDBMutation();
+  const [saveCartDB, { isLoading: isLoadingCartDB }] =
+    useSaveCartToDBMutation();
 
   const { fixedCartTotalAmount } = useSelector((state: any) => state.cart);
 
@@ -65,8 +71,8 @@ const CartItems = () => {
   // );
 
   const debouncedQuery = debounce((query) => {
-      setCoupon(query);
-    }, 100)
+    setCoupon(query);
+  }, 100);
 
   const handleCouponChange = (event: any) => {
     debouncedQuery(event.target.value);
@@ -76,7 +82,7 @@ const CartItems = () => {
     data: couponData,
     isLoading: isLoadingCoupon,
     error: isErrorCoupon,
-    isSuccess: isSuccessCoupon
+    isSuccess: isSuccessCoupon,
   } = useGetCouponQuery({ couponName: coupon }, { skip: !coupon });
 
   const {
@@ -85,40 +91,42 @@ const CartItems = () => {
     error: isErrorAllCoupon,
   } = useGetCouponsQuery({});
 
-// const [deleteCoupon, { isLoading: isLoadingDeleteCoupon, 
-// isSuccess: isSuccessDeleteCoupon }] = useDeleteCouponMutation();
-// The useCallback hook is used to memoize functions in React.
-// This means that the function reference doesn't change between
-// renders, which can be useful for optimizing performance and
-// preventing unnecessary re - renders of child components that
-// rely on the function.
+  // const [deleteCoupon, { isLoading: isLoadingDeleteCoupon,
+  // isSuccess: isSuccessDeleteCoupon }] = useDeleteCouponMutation();
+  // The useCallback hook is used to memoize functions in React.
+  // This means that the function reference doesn't change between
+  // renders, which can be useful for optimizing performance and
+  // preventing unnecessary re - renders of child components that
+  // rely on the function.
 
-// In the context of the removeCoupon function, using useCallback
-// ensures that the function reference is stable across renders, which
-//  can be beneficial if removeCoupon is passed down as a prop to child
-//  components or used in other hooks that depend on 
-// stable function references.
+  // In the context of the removeCoupon function, using useCallback
+  // ensures that the function reference is stable across renders, which
+  //  can be beneficial if removeCoupon is passed down as a prop to child
+  //  components or used in other hooks that depend on
+  // stable function references.
 
-// const removeCoupon = useCallback(() => {
-//   deleteCoupon({ couponName: coupon }).then(() => {
-//     setCoupon("");
-//   });
-// }, [coupon, deleteCoupon]);
+  // const removeCoupon = useCallback(() => {
+  //   deleteCoupon({ couponName: coupon }).then(() => {
+  //     setCoupon("");
+  //   });
+  // }, [coupon, deleteCoupon]);
 
-//   useEffect(() => {
-//   if (isSuccessDeleteCoupon) {
-//     console.log("Coupon deleted successfully");
-//   }
-// }, [isSuccessDeleteCoupon]);
+  //   useEffect(() => {
+  //   if (isSuccessDeleteCoupon) {
+  //     console.log("Coupon deleted successfully");
+  //   }
+  // }, [isSuccessDeleteCoupon]);
 
-const removeCoupon = () => {
-  setCoupon("");
-};
-
+  const removeCoupon = () => {
+    setCoupon("");
+    dispatch(REMOVE_COUPON({}));
+  };
 
   const [paymentMethod, setPaymentMethod] = useState<string>("");
 
-  const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePaymentMethodChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setPaymentMethod(event.target.value);
   };
 
@@ -241,39 +249,44 @@ const removeCoupon = () => {
             </div>
           </div>
 
-      <div className="my-10">
-      <div className="flex justify-between items-center mb-2">
-          <div className="font-medium">Have a coupon?</div>
-            {couponData ? <>
-                <div className="text-red-500 font-bold p-2 rounded-xl 
-            mb-4 hover:font-extrabold cursor-pointer" 
-            onClick={removeCoupon}>
-                Remove Coupon
+          <div className="my-10">
+            <div className="flex justify-between items-center mb-2">
+              <div className="font-medium">Have a coupon?</div>
+              {couponData ? (
+                <>
+                  <div
+                    className="text-red-500 font-bold p-2 rounded-xl 
+            mb-4 hover:font-extrabold cursor-pointer"
+                    onClick={removeCoupon}
+                  >
+                    Remove Coupon
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="text-white bg-purple-600 p-2 rounded-xl mb-4 shadow-lg cursor-pointer">
+                    Add Coupon
+                  </div>
+                </>
+              )}
             </div>
-            </> : <>
-            <div className="text-white bg-purple-600 p-2 rounded-xl mb-4 shadow-lg cursor-pointer">
-                Add Coupon
+
+            <div className="flex">
+              <input
+                type="text"
+                onChange={handleCouponChange}
+                value={coupon}
+                className="flex-1 p-2 border rounded-l-xl outline-none"
+                placeholder="Coupon code"
+              />
+              <button className="bg-purple-500 text-white p-2 rounded-r-xl hover:bg-purple-600 transition">
+                Verify
+              </button>
             </div>
-            </>}
           </div>
-            
-        <div className="flex">
-          <input
-            type="text"
-            onChange={handleCouponChange}
-            value={coupon}
-            className="flex-1 p-2 border rounded-l-xl outline-none"
-            placeholder="Coupon code"
-          />
-          <button className="bg-purple-500 text-white p-2 rounded-r-xl hover:bg-purple-600 transition">
-            Verify
-          </button>
-        </div>
-      </div>
 
           {/* Coupon Discount */}
-          
-      <div>
+          {/* <div>
         {isLoadingCoupon ? (
           <p><LoaderIcon /></p>
         ) : isErrorCoupon ? (
@@ -289,7 +302,10 @@ const removeCoupon = () => {
           </>}
         </div>
         )}
-      </div>
+      </div> */}
+
+          {/* Cart Discount if any */}
+          <CouponDiscount />
         </div>
 
         <div className="p-4 border-2 rounded-xl shadow-md bg-white">
@@ -303,7 +319,7 @@ const removeCoupon = () => {
               name="payment"
               value="stripe"
               className="mr-2"
-              checked={paymentMethod === 'stripe'}
+              checked={paymentMethod === "stripe"}
               onChange={handlePaymentMethodChange}
             />
             <FaCcStripe className="text-blue-700 mr-2" />
@@ -316,7 +332,7 @@ const removeCoupon = () => {
               name="payment"
               value="flutterwave"
               className="mr-2"
-              checked={paymentMethod === 'flutterwave'}
+              checked={paymentMethod === "flutterwave"}
               onChange={handlePaymentMethodChange}
             />
             <MdOutlineWaves className="text-yellow-500 mr-2" />
@@ -329,7 +345,7 @@ const removeCoupon = () => {
               name="payment"
               value="paypal"
               className="mr-2"
-              checked={paymentMethod === 'paypal'}
+              checked={paymentMethod === "paypal"}
               onChange={handlePaymentMethodChange}
             />
             <FaPaypal className="text-blue-600 mr-2" />
@@ -337,12 +353,14 @@ const removeCoupon = () => {
           </label>
 
           <label className="flex bg-gray-100 p-2 shadow-md items-center cursor-pointer mb-2 hover:translate-x-1 transition-all">
-            <input type="radio"
+            <input
+              type="radio"
               name="payment"
               value="btc"
-              checked={paymentMethod === 'btc'}
+              checked={paymentMethod === "btc"}
               onChange={handlePaymentMethodChange}
-              className="mr-2" />
+              className="mr-2"
+            />
             <FaBitcoin className="text-orange-500 mr-2" />
             <span>Bitcoin (BTC)</span>
           </label>
@@ -352,7 +370,7 @@ const removeCoupon = () => {
               type="radio"
               name="payment"
               value="wallet"
-              checked={paymentMethod === 'wallet'}
+              checked={paymentMethod === "wallet"}
               onChange={handlePaymentMethodChange}
               className="mr-2"
             />

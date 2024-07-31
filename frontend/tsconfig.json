@@ -8,6 +8,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "allowImportingTsExtensions": false,
     "types": ["@testing-library/jest-dom"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/components/ui/progress.jsx"],
