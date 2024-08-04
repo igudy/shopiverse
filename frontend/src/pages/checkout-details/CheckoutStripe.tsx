@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../../components/navbar/Navbar'
-import CheckoutStripeComp from '../../components/checkoutdetails/CheckoutStripeComp'
+import CheckoutStripeComp from '../../components/checkout/CheckoutStripeComp'
 import Footer from '../../components/footer/Footer'
 
 const CheckoutStripe = () => {

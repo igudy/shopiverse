@@ -1,14 +1,15 @@
 const asyncHandler = require("express-async-handler");
 const Order = require("../models/orderModel");
-// const { calculateTotalPrice } = require("../utils");
+const { calculateTotalPrice } = require("../utils");
 const Product = require("../models/productModel");
-// const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 const axios = require("axios");
 const User = require("../models/userModel");
 // const Transaction = require("../models/transactionModel");
 // const { orderSuccessEmail } = require("../emailTemplates/orderTemplate");
 // const sendEmail = require("../utils/sendEmail");
 
+// Create order
 const createOrder = asyncHandler(async (req, res) => {
   const {
     orderDate,
@@ -54,6 +55,7 @@ const createOrder = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "Order Created" });
 });
 
+
 // Get all Orders
 const getOrders = asyncHandler(async (req, res) => {
   let orders;
@@ -65,6 +67,7 @@ const getOrders = asyncHandler(async (req, res) => {
   orders = await Order.find({ user: req.user._id }).sort("-createdAt");
   res.status(200).json(orders);
 });
+
 
 // Get single Order
 const getOrder = asyncHandler(async (req, res) => {
@@ -83,9 +86,10 @@ const getOrder = asyncHandler(async (req, res) => {
     throw new Error("User not authorized");
   }
   res.status(200).json(order);
-});
+})
 
-// Update Product
+
+// Update product
 const updateOrderStatus = asyncHandler(async (req, res) => {
   const { orderStatus } = req.body;
   const { id } = req.params;
@@ -113,9 +117,54 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Order status updated" });
 });
 
+
+// Pay with stripe
+const payWithStripe = asyncHandler(async (req, res) => {
+  const { items, shipping, description, coupon } = req.body;
+  const products = await Product.find();
+
+  let orderAmount;
+  orderAmount = calculateTotalPrice(products, items);
+  if (coupon !== null && coupon?.name !== "nil") {
+    let totalAfterDiscount =
+      orderAmount - (orderAmount * coupon.discount) / 100;
+    orderAmount = totalAfterDiscount;
+  }
+
+  // Create a PaymentIntent with the order amount and currency
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: orderAmount,
+    currency: "usd",
+    automatic_payment_methods: {
+      enabled: true,
+    }, 
+    description,
+    shipping: {
+      address: {
+        line1: shipping.line1,
+        line2: shipping.line2,
+        city: shipping.city,
+        country: shipping.country,
+        postal_code: shipping.postal_code,
+      },
+      name: shipping.name,
+      phone: shipping.phone,
+    },
+    // receipt_email: customerEmail
+  });
+
+  // console.log(paymentIntent);
+
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
+});
+
+
 module.exports = {
   createOrder,
   getOrders,
   getOrder,
   updateOrderStatus,
+  payWithStripe
 };

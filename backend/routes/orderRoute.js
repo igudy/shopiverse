@@ -6,20 +6,20 @@ const {
   getOrders,
   getOrder,
   updateOrderStatus,
-  // payWithStripe,
+  payWithStripe,
   // payWithFlutterwave,
-  // verifyFlwPayment,
+  // verfyFlwPayment,
   // payWithWallet,
 } = require("../controllers/orderController");
 
-// router.get("/response", verifyFlwPayment);
 router.post("/", protect, createOrder);
 router.patch("/:id", protect, adminOnly, updateOrderStatus);
 
 router.get("/", protect, getOrders);
 router.get("/:id", protect, getOrder);
 
-// router.post("/create-payment-intent", payWithStripe);
+router.post("/create-payment-intent", payWithStripe);
+// router.get("/response", verifyFlwPayment);
 // router.post("/payWithFlutterwave", payWithFlutterwave);
 // router.post("/payWithWallet", protect, payWithWallet);
 
