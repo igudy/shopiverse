@@ -29,7 +29,6 @@ const createOrder = asyncHandler(async (req, res) => {
   }
 
   const updatedProduct = await updateProductQuantity(cartItems);
-  // console.log("updated product", updatedProduct);
 
   // Create Order
   await Order.create({
@@ -55,7 +54,6 @@ const createOrder = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "Order Created" });
 });
 
-
 // Get all Orders
 const getOrders = asyncHandler(async (req, res) => {
   let orders;
@@ -67,7 +65,6 @@ const getOrders = asyncHandler(async (req, res) => {
   orders = await Order.find({ user: req.user._id }).sort("-createdAt");
   res.status(200).json(orders);
 });
-
 
 // Get single Order
 const getOrder = asyncHandler(async (req, res) => {
@@ -86,8 +83,7 @@ const getOrder = asyncHandler(async (req, res) => {
     throw new Error("User not authorized");
   }
   res.status(200).json(order);
-})
-
+});
 
 // Update product
 const updateOrderStatus = asyncHandler(async (req, res) => {
@@ -117,7 +113,6 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Order status updated" });
 });
 
-
 // Pay with stripe
 const payWithStripe = asyncHandler(async (req, res) => {
   const { items, shipping, description, coupon } = req.body;
@@ -137,7 +132,7 @@ const payWithStripe = asyncHandler(async (req, res) => {
     currency: "usd",
     automatic_payment_methods: {
       enabled: true,
-    }, 
+    },
     description,
     shipping: {
       address: {
@@ -153,18 +148,15 @@ const payWithStripe = asyncHandler(async (req, res) => {
     // receipt_email: customerEmail
   });
 
-  // console.log(paymentIntent);
-
   res.send({
     clientSecret: paymentIntent.client_secret,
   });
 });
-
 
 module.exports = {
   createOrder,
   getOrders,
   getOrder,
   updateOrderStatus,
-  payWithStripe
+  payWithStripe,
 };

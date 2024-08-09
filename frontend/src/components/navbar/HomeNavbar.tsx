@@ -19,7 +19,7 @@ const HomeNavbar = () => {
   // Logoout functionality
   const logoutUser = async () => {
     dispatch(RESET());
-    await dispatch(logout());
+    await dispatch(logout({}));
     navigate("/login");
   };
 
@@ -43,6 +43,7 @@ const HomeNavbar = () => {
     window.addEventListener("scroll", onNavScroll);
 
     return () => {
+
       window.removeEventListener("scroll", onNavScroll);
     };
   }, []);

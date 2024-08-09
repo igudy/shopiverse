@@ -3,7 +3,6 @@ const Coupon = require("../models/couponModel");
 
 // Create Coupon
 const createCoupon = asyncHandler(async (req, res) => {
-  console.log("request==>", req);
   const { name, expiresAt, discount } = req.body;
 
   if (!name || !expiresAt || !discount) {

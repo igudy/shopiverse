@@ -37,7 +37,6 @@ const CartBottomSection = ({
     useSaveCartToDBMutation();
 
   const clearCart = () => {
-
     dispatch(CLEAR_CART({}));
     saveCartDB({
       cartItems: JSON.parse(localStorage.getItem("cartItems") as string) as [],

@@ -10,7 +10,10 @@ import { Dispatch, SetStateAction } from "react";
 export const couponApi = createApi({
   reducerPath: "couponApi",
   tagTypes: ["couponTagTypes"],
-  baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}/${API_VERSION}` }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${BASE_URL}/${API_VERSION}`,
+    credentials: "include",
+  }),
   endpoints: (builder) => ({
     getCoupons: builder.query<IGetCoupon, any>({
       query: () => `couponRoute/getCoupons`,

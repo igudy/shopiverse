@@ -10,7 +10,10 @@ import { BASE_URL, API_VERSION } from "../../constants/constants";
 export const brandApi = createApi({
   reducerPath: "brandApi",
   tagTypes: ["brandTagTypes"],
-  baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}/${API_VERSION}` }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${BASE_URL}/${API_VERSION}`,
+    credentials: "include",
+  }),
   endpoints: (builder) => ({
     getBrand: builder.query<IGetBrands, any>({
       query: () => `brandRoute/getBrands`,

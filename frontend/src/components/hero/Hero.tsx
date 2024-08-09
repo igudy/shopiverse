@@ -18,7 +18,7 @@ const Hero = () => {
       </div>
       <div className="flex justify-between mx-10 xsm:mx-2 sm:mx-5 md:mx-5 sm:mt-[-300px] xsm:mt-[-300px] mt-[-250px]">
         <div className="left-0 cursor-pointer z-10">
-          {heroapi.videos?.map((item, i) => (
+          {heroapi.videos?.map((item: any, i) => (
             <div className="my-3" key={i}>
               <img
                 className="w-20 h-20 xsm:w-12 xsm:h-12 rounded-lg shadow-xl hover:z-0 hover:border-2 z-20"
@@ -39,7 +39,9 @@ const Hero = () => {
         </div>
 
         <div className="justify-center text-center z-20">
-          <button className="bg-slate-100 my-8 w-[200px] sm:w-[170px] h-12 shadow-xl rounded-3xl align-center cursor-pointer  hover:bg-slate-200 xsm:h-6 xsm:w-[150px]">
+          <button className="bg-slate-100 my-8 w-[200px] sm:w-[170px] h-12 
+          shadow-xl rounded-3xl align-center cursor-pointer
+           hover:bg-slate-200 xsm:h-6 xsm:w-[150px] mt-[6rem]">
             {heroapi.btntext}
           </button>
         </div>
@@ -48,7 +50,7 @@ const Hero = () => {
           {heroapi.sociallinks?.map((item, i) => (
             <div className="my-3 cursor-pointer" key={i}>
               <img
-                className="w-8 h-8 relative object-fill xsm:w-4 xsm:h-4"
+                className="w-8 mt-[2rem] h-8 relative object-fill xsm:w-4 xsm:h-4"
                 src={item.icon}
                 alt={item.icon}
               />

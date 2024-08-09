@@ -1,7 +1,7 @@
 {
   "editor.formatOnSave": true,
   "notebook.formatOnSave.enabled": true,
-  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnPaste": true,
   "editor.formatOnSaveMode": "file",
   "editor.defaultFoldingRangeProvider": "esbenp.prettier-vscode",

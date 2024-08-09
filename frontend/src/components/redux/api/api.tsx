@@ -6,7 +6,10 @@ const API_VERSION = "api";
 export const api = createApi({
   reducerPath: "api",
   tagTypes: ["productTagTypes"],
-  baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}/${API_VERSION}` }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${BASE_URL}/${API_VERSION}`,
+    credentials: "include",
+  }),
   endpoints: (builder) => ({
     getProducts: builder.query<any, any>({
       query: () => "products",
@@ -45,7 +48,7 @@ export const api = createApi({
 export const {
   useGetProductsQuery,
   useGetProductQuery,
-  useAddProductQuery,
-  useUpdateProductQuery,
-  useDeleteProductQuery,
+  useAddProductMutation,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
 } = api;

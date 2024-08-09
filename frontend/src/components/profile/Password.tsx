@@ -14,57 +14,23 @@ const Password = () => {
   const [formData, setFormData] = useState(initialState);
   const [oldPassword, password, password2] = formData;
 
-  const { isLoading, user } = useSelector((state) => state.auth);
+  const { isLoading, user } = useSelector((state: any) => state.auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // const updatePassword = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!oldPassword || !password || !password2) {
-  //     return toast.error("All fields are required");
-  //   }
-
-  //   if (password !== password2) {
-  //     return toast.error("Passwords do not match");
-  //   }
-
-  //   if (password !== password2) {
-  //     return toast.error("Passwords do not match");
-  //   }
-
-  //   const userData = {
-  //     oldPassword,
-  //     password,
-  //   };
-
-  //   const emailData = {
-  //     subject: "Password Changed - Shopiverse",
-  //     send_to: user.email,
-  //     reply_to: "noreply@igudy",
-  //     template: "changePassword",
-  //     url: "/forgot-password",
-  //   };
-
-  //   await dispatch(changePassword(userData));
-  //   await dispatch(sendAutomatedEmail(emailData));
-  //   await dispatch(logout());
-  //   await dispatch(RESET(userData));
-  //   navigate("/login");
-  // };
-
-  const updatePassword = async (e) => {
+  const updatePassword = async (e: any) => {
     e.preventDefault();
 
     if (!oldPassword || !password || !password2) {
       return toast.error("All fields are required");
     }
+    
     if (password !== password2) {
       return toast.error("Passwords do not match");
     }

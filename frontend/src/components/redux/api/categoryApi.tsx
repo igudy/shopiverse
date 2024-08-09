@@ -9,7 +9,10 @@ import { BASE_URL, API_VERSION } from "../../constants/constants";
 export const categoryApi = createApi({
   reducerPath: "categoryApi",
   tagTypes: ["categoryTagTypes"],
-  baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}/${API_VERSION}` }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${BASE_URL}/${API_VERSION}`,
+    credentials: "include",
+  }),
   endpoints: (builder) => ({
     getCategories: builder.query<IGetCategories, any>({
       query: () => `category/getCategories`,

@@ -109,7 +109,7 @@ const loginUser = asyncHandler(async (req, res) => {
   // Trigger 2FA for unknown UserAgent
   const ua = parser(req.headers["user-agent"]);
   const thisUserAgent = ua.ua;
-  console.log(thisUserAgent);
+  // console.log(thisUserAgent);
 
   // Check if the user agent is in the array
   const allowedAgent = user.userAgent.includes(thisUserAgent);
@@ -253,6 +253,10 @@ const getUsers = asyncHandler(async (req, res) => {
 
 const loginStatus = asyncHandler(async (req, res) => {
   const token = req.cookies.token;
+
+  console.log("req.cookies from loginstatus==>", req.cookies);
+  console.log("tooken from loginStatuss==>", token);
+
   if (!token) {
     return res.json(false);
   }
@@ -420,7 +424,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
 
   const user = await User.findOne({ email });
-  console.log(email);
+  // console.log(email);
 
   if (!user) {
     res.status(404);
@@ -479,8 +483,8 @@ const forgotPassword = asyncHandler(async (req, res) => {
 const resetPassword = asyncHandler(async (req, res) => {
   const { resetToken } = req.params;
   const { password } = req.body;
-  console.log(resetToken);
-  console.log(password);
+  // console.log(resetToken);
+  // console.log(password);
 
   const hashedToken = hashToken(resetToken);
 
@@ -560,7 +564,7 @@ const sendLoginCode = asyncHandler(async (req, res) => {
   const loginCode = userToken.lToken;
   const decryptedLoginCode = cryptr.decrypt(loginCode);
 
-  console.log(decryptedLoginCode);
+  // console.log(decryptedLoginCode);
 
   // Send Login Code
   const subject = "Login Access Code - Shopiverse";
@@ -682,7 +686,7 @@ const loginWithGoogle = asyncHandler(async (req, res) => {
   });
 
   const payload = ticket.getPayload();
-  console.log(payload);
+  // console.log(payload);
   const { name, email, picture, sub } = payload;
 
   // Create password
@@ -766,7 +770,12 @@ const loginWithGoogle = asyncHandler(async (req, res) => {
 
 // Save Cart
 const saveCart = asyncHandler(async (req, res) => {
+  // console.log("savecart===>", req);
+
+  console.log("log save cart");
+
   const user = await User.findById(req.user._id);
+  console.log("user==>", user);
 
   if (user) {
     user.cartItems = req.body.cartItems;

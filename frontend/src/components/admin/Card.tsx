@@ -1,9 +1,9 @@
 import React from "react";
 
 export interface CardProps {
-  top: string;
-  icon: React.ElementType;
-  amount: string;
+  top?: string;
+  icon?: React.ElementType;
+  amount?: string;
 }
 
 const Card = ({ top, icon: Icon, amount }: CardProps) => {

@@ -6,16 +6,17 @@ const protect = asyncHandler(async (req, res, next) => {
   try {
     const token = req.cookies.token;
 
-    console.log("request===>", req);
+    console.log("request.cookies==>", req.cookies);
     console.log("Tokenn====>", token);
 
     if (!token) {
       res.status(401);
-      throw new Error("Not authorized, please login");
+      console.log("e no dy");
     }
 
     // Verify token
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    const verified = await jwt.verify(token, process.env.JWT_SECRET);
+    console.log("verified", verified);
 
     // Get User Id From Token
     const user = await User.findById(verified.id).select("-password");
@@ -31,6 +32,7 @@ const protect = asyncHandler(async (req, res, next) => {
     }
 
     req.user = user;
+    console.log("req.user", req.user);
     next();
   } catch (error) {
     res.status(401);
