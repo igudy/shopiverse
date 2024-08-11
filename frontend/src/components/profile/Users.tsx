@@ -4,7 +4,7 @@ import Tables from "../validation-schema/tables";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  FITLER_USERS,
+  FILTER_USERS,
   selectFilterUsers,
 } from "../redux/slices/auth/filterSlice";
 import {
@@ -18,17 +18,17 @@ const Users = () => {
   const [search, setSearch] = useState("");
   const filteredUsers = useSelector(selectFilterUsers);
   const { users, verifiedUsers, suspendedUsers } = useSelector(
-    (state) => state.auth
+    (state: any) => state.auth
   );
   const unverifiedUsers = users.length - verifiedUsers;
 
   useEffect(() => {
-    dispatch(CALC_VERIFIED_USER());
-    dispatch(CALC_SUSPENDED_USER());
+    dispatch(CALC_VERIFIED_USER({}));
+    dispatch(CALC_SUSPENDED_USER({}));
   }, [dispatch, users]);
 
   useEffect(() => {
-    dispatch(FITLER_USERS({ users, search }));
+    dispatch(FILTER_USERS({ users, search }));
   }, [dispatch, users, search]);
 
   return (
@@ -64,7 +64,7 @@ const Users = () => {
       <div className="flex justify-between mx-2 my-4 items-center">
         <div className="text-3xl">All Users</div>
         <div className="w-[300px]">
-          <Search value={search} onChange={(e) => setSearch(e.target.value)} />
+          <Search value={search} onChange={(e: any) => setSearch(e.target.value)} />
         </div>
       </div>
       <div>

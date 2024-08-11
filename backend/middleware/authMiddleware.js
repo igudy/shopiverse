@@ -6,17 +6,16 @@ const protect = asyncHandler(async (req, res, next) => {
   try {
     const token = req.cookies.token;
 
-    console.log("request.cookies==>", req.cookies);
-    console.log("Tokenn====>", token);
+    // console.log("request.cookies==>", req.cookies);
+    // console.log("Tokenn====>", token);
 
     if (!token) {
       res.status(401);
-      console.log("e no dy");
     }
 
     // Verify token
     const verified = await jwt.verify(token, process.env.JWT_SECRET);
-    console.log("verified", verified);
+    // console.log("verified", verified);
 
     // Get User Id From Token
     const user = await User.findById(verified.id).select("-password");

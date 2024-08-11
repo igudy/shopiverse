@@ -770,17 +770,28 @@ const loginWithGoogle = asyncHandler(async (req, res) => {
 
 // Save Cart
 const saveCart = asyncHandler(async (req, res) => {
-  // console.log("savecart===>", req);
-
-  console.log("log save cart");
-
   const user = await User.findById(req.user._id);
-  console.log("user==>", user);
 
   if (user) {
     user.cartItems = req.body.cartItems;
+
+    console.log(
+      "Saved cart items:",
+      req.body.cartItems.map((item) => item.name)
+    );
+
     await user.save();
-    res.status(200).json(user.cartItems);
+
+    // Option 1: Send JSON response
+    res.status(200).json({
+      message: "Saved cart items successfully",
+      cartItems: req.body.cartItems.map((item) => item.name),
+    });
+
+    // Option 2: Send formatted string
+    // res.status(200).json(
+    //   `Saved ${req.body.cartItems.map((item) => item.name).join(", ")}`
+    // );
   } else {
     res.status(400);
     throw new Error("User not found");

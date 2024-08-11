@@ -16,7 +16,7 @@ const AllProducts = () => {
     onSuccess: () => {
       console.log("Delete");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.log(error.message, "Error product wasn't deleted");
     },
   };

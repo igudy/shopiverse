@@ -21,7 +21,7 @@ const filterSlice = createSlice({
       state.filteredProducts = tempProducts;
     },
 
-    FITLER_USERS(state, action) {
+    FILTER_USERS(state, action) {
       const { users, search } = action.payload;
       const tempUsers = users.filter(
         (user: any) =>
@@ -109,7 +109,7 @@ const filterSlice = createSlice({
 });
 
 export const {
-  FITLER_USERS,
+  FILTER_USERS,
   FILTER_BY_SEARCH,
   SORT_PRODUCTS,
   FILTER_BY_CATEGORY,

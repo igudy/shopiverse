@@ -43,8 +43,8 @@ const CartItems = () => {
   const increaseCart = (cart: any) => {
     dispatch(ADD_TO_CART(cart));
     saveCartDB({
-      cartItems: JSON.parse(localStorage.getItem("cartItems") as string) as [],
-    });
+  cartItems: JSON.parse(localStorage.getItem("cartItems") as string) || [],
+});
   };
 
   const decreaseCart = (cart: any) => {

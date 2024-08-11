@@ -23,7 +23,7 @@ export const cartApi = createApi({
       query: ({ cartItems }) => ({
         url: `users/saveCart`,
         method: "PATCH",
-        body: cartItems,
+        body: {cartItems},
       }),
       invalidatesTags: ["cartTagTypes"],
     }),

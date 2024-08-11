@@ -19,14 +19,12 @@ import { useGetBrandQuery } from "../redux/api/brandApi";
 import ReactPaginate from "react-paginate";
 
 const MainProducts = () => {
-  const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
-
+const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
   const {
     data: categoryData,
     isLoading: isLoadingCategory,
     isError: isCategoryError,
   } = useGetCategoriesQuery({});
-
   const {
     data: brandData,
     error: brandError,
@@ -41,7 +39,7 @@ const MainProducts = () => {
   const [category, setCategory] = useState("All");
   const [brand, setBrand] = useState("");
 
-  //   Begin Pagination
+  // Begin Pagination
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -50,7 +48,6 @@ const MainProducts = () => {
   // React paginate
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-
     setCurrentItems(filteredProducts.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(filteredProducts.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, filteredProducts]);
@@ -60,43 +57,68 @@ const MainProducts = () => {
     setItemOffset(newOffset);
   };
 
+  // Load all products on first render
+  useEffect(() => {
+    if (data) {
+      // Determine min and max price from products data
+      const minPrice = Math.min(...data.map((product: any) => product.price));
+      const maxPrice = Math.max(...data.map((product: any) => product.price));
+
+      // Set price range based on min and max prices
+      setPrice([minPrice, maxPrice]);
+
+      dispatch(FILTER_BY_SEARCH({ products: data, search: "" }));
+    }
+  }, [dispatch, data]);
+
+
   // Determine min and max price from products data
   const minPrice = data
-    ? Math.min(...data.map((product: any) => product.price))
+    ? Math.min(...data?.map((product: any) => product?.price))
     : 0;
   const maxPrice = data
-    ? Math.max(...data.map((product: any) => product.price))
+    ? Math.max(...data?.map((product: any) => product?.price))
     : 1000;
 
-  const onChange = (value: any) => {
-    setPrice(value);
-  };
+  // Load all products on first render
+  useEffect(() => {
+    if (data) {
+      dispatch(FILTER_BY_SEARCH({ products: data, search: "" }));
+    }
+  }, [dispatch, data]);
 
   useEffect(() => {
-    dispatch(FILTER_BY_SEARCH({ products: filteredProducts, search }));
+    dispatch(FILTER_BY_SEARCH({ products: data, search }));
   }, [dispatch, data, search]);
 
   useEffect(() => {
-    dispatch(SORT_PRODUCTS({ products: filteredProducts, sort }));
-  }, [dispatch, sort, data]);
+    dispatch(SORT_PRODUCTS({ products: data, sort }));
+  }, [dispatch, sort]);
 
   useEffect(() => {
-    dispatch(FILTER_BY_BRAND({ products: filteredProducts, brand }));
-  }, [dispatch, data, brand]);
+    dispatch(FILTER_BY_BRAND({ products: data, brand }));
+  }, [dispatch, brand]);
 
   useEffect(() => {
-    dispatch(FILTER_BY_PRICE({ products: filteredProducts, price }));
-  }, [dispatch, data, price]);
+    dispatch(FILTER_BY_PRICE({ products: data, price }));
+  }, [dispatch, price]);
 
   const filteredProductFunc = (cat: any) => {
     setCategory(cat);
     dispatch(
       FILTER_BY_CATEGORY({
-        products: filteredProducts,
+        products: data,
         category: cat,
       })
     );
   };
+  
+  
+    console.log("minPrice & maxPrice", {minPrice, maxPrice})
+
+  const onChange = (value: any) => {
+    setPrice(value);
+    };
 
   const clearFilters = async () => {
     setCategory("All");
@@ -106,10 +128,11 @@ const MainProducts = () => {
     dispatch(SORT_PRODUCTS({ products: data, sort: "latest" }));
   };
 
+
   return (
     <div>
       <p
-        className="relative text-5xl sm:text-4xl 
+        className="relative text-5xl sm:text-4xl
       sm:mb-2 font-extrabold my-10"
       >
         All Products
@@ -119,7 +142,7 @@ const MainProducts = () => {
       <div className="border-2 rounded-xl p-3">
         <div>
           <div
-            className="flex justify-between 
+            className="flex justify-between
           items-center px-5 py-2"
           >
             <div className="font-bold mr-20">
@@ -130,7 +153,7 @@ const MainProducts = () => {
             <div className="mx-2 flex-1">
               <label
                 htmlFor="default-search"
-                className="mb-2 text-sm font-medium 
+                className="mb-2 text-sm font-medium
                 text-gray-900 sr-only dark:text-white"
               >
                 Search
@@ -142,9 +165,9 @@ const MainProducts = () => {
                 <input
                   type="search"
                   id="default-search"
-                  className="p-4 pl-10 w-full text-sm text-purple-900 border border-gray-300 
-                  rounded-l-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 
-                  dark:border-purple-600 dark:text-black outline-none 
+                  className="p-4 pl-10 w-full text-sm text-purple-900 border border-gray-300
+                  rounded-l-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500
+                  dark:border-purple-600 dark:text-black outline-none
                   dark:focus:border-purple-500"
                   placeholder="Search ..."
                   required
@@ -153,8 +176,8 @@ const MainProducts = () => {
                 />
                 <button
                   type="button"
-                  className="text-white bg-purple-700 hover:bg-purple-800 font-medium 
-                  rounded-r-lg text-sm px-4 py-2 dark:bg-purple-600 
+                  className="text-white bg-purple-700 hover:bg-purple-800 font-medium
+                  rounded-r-lg text-sm px-4 py-2 dark:bg-purple-600
                   dark:hover:bg-purple-700 dark:focus:ring-purple-800"
                   onClick={() =>
                     dispatch(FILTER_BY_SEARCH({ products: data, search }))
@@ -168,7 +191,7 @@ const MainProducts = () => {
             {/* Sort */}
             <div className="mx-2 flex-1">
               <select
-                className="bg-gray-50 border border-gray-300 text-purple-900 
+                className="bg-gray-50 border border-gray-300 text-purple-900
                 text-sm rounded-lg block w-full dark:bg-purple-700 dark:border-purple-600
                  dark:placeholder-purple-400 dark:text-white dark:focus:ring-purple-500
                   dark:focus:border-purple-500 p-4"
@@ -218,7 +241,7 @@ const MainProducts = () => {
                 </div>
                 <div className="w-full">
                   <select
-                    className="bg-gray-50 border border-gray-300 
+                    className="bg-gray-50 border border-gray-300
                 text-sm rounded-lg block w-full
                  text-black  p-2"
                     onChange={(e) => setBrand(e.target.value)}
@@ -239,23 +262,23 @@ const MainProducts = () => {
                   <p className="font-bold text-purple-600">Price Range</p>
                 </div>
                 <div className="m-2">
-                  <Slider
-                    range
-                    marks={{
-                      [minPrice]: `$${minPrice}`,
-                      [maxPrice]: `$${maxPrice}`,
-                    }}
-                    min={minPrice}
-                    max={maxPrice}
-                    defaultValue={[minPrice, maxPrice]}
-                    // tipFormatter={(value: any) => `$${value}`}
-                    // tipProps={{
-                    //   placement: "top",
-                    //   visible: true,
-                    // }}
-                    value={price}
-                    onChange={onChange}
-                  />
+                <Slider
+                  range
+                  marks={{
+                    [price[0]]: `$${price[0]}`,
+                    [price[1]]: `$${price[1]}`,
+                  }}
+                    min={data && data.length > 0 ?
+                      Math.min(...data.map((product: any) =>
+                        product.price)) : 0}
+                    
+                    max={data && data.length > 0 ?
+                      Math.max(...data.map((product: any) =>
+                        product.price)) : 1000}
+                    
+                  value={price}
+                  onChange={onChange}
+                />
                 </div>
               </div>
 
