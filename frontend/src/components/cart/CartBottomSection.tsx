@@ -8,7 +8,7 @@ import {
 } from "../redux/slices/cart/CartSlice";
 import { useSaveCartToDBMutation } from "../redux/api/cartApi";
 import toast from "react-hot-toast";
-import { SAVE_PAYMENT_METHOD } from "../redux/slices/checkout/checkoutSlice";
+// import { SAVE_PAYMENT_METHOD } from "../redux/slices/checkout/checkoutSlice";
 import { selectIsLoggedIn } from "../redux/slices/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -49,7 +49,7 @@ const CartBottomSection = ({
     {
       return toast.error("Please select a payment method");
     }
-    dispatch(SAVE_PAYMENT_METHOD(paymentMethod)); 
+    // dispatch(SAVE_PAYMENT_METHOD(paymentMethod)); 
 
     if (isLoggedIn) {
       navigate("/checkout-details")

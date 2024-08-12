@@ -16,7 +16,6 @@ const hashToken = (token) => {
   return crypto.createHash("sha256").update(token.toString()).digest("hex");
 };
 
-
 // Calculate total price
 function calculateTotalPrice(products, cartItems) {
   let totalPrice = 0;
@@ -42,4 +41,10 @@ function applyDiscount(cartTotalAmount, discountPercentage) {
   var updatedTotal = cartTotalAmount - discountAmount;
   return updatedTotal;
 }
-module.exports = { generateToken, hashToken, stripe, calculateTotalPrice, applyDiscount };
+module.exports = {
+  generateToken,
+  hashToken,
+  stripe,
+  calculateTotalPrice,
+  applyDiscount,
+};

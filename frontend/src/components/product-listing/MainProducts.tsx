@@ -48,8 +48,8 @@ const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
   // React paginate
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(filteredProducts.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(filteredProducts.length / itemsPerPage));
+    setCurrentItems(filteredProducts?.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(filteredProducts?.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, filteredProducts]);
 
   const handlePageClick = (event: any) => {
@@ -93,15 +93,15 @@ const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
 
   useEffect(() => {
     dispatch(SORT_PRODUCTS({ products: data, sort }));
-  }, [dispatch, sort]);
+  }, [dispatch, data, sort]);
 
   useEffect(() => {
     dispatch(FILTER_BY_BRAND({ products: data, brand }));
-  }, [dispatch, brand]);
+  }, [dispatch, data, brand]);
 
   useEffect(() => {
     dispatch(FILTER_BY_PRICE({ products: data, price }));
-  }, [dispatch, price]);
+  }, [dispatch, data, price]);
 
   const filteredProductFunc = (cat: any) => {
     setCategory(cat);
@@ -113,9 +113,6 @@ const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
     );
   };
   
-  
-    console.log("minPrice & maxPrice", {minPrice, maxPrice})
-
   const onChange = (value: any) => {
     setPrice(value);
     };

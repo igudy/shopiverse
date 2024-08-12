@@ -22,6 +22,7 @@ import {
 import Card from "../admin/Card";
 import { FaSpinner } from "react-icons/fa";
 import { CardPayment } from "../cards/Card";
+import { useNavigate } from "react-router-dom";
 
 interface ICheckoutStripeComp{
   clientSecret: any,
@@ -32,6 +33,7 @@ interface ICheckoutStripeComp{
 const CheckoutStripeComp = ({ clientSecret, stripePromise, setClientSecret }: ICheckoutStripeComp) => {
   const [message, setMessage] = useState("Initializing checkout...");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate()
 
   const cartItems = useSelector(selectCartItems);
   const totalAmount = useSelector(selectCartTotalAmount);
@@ -39,10 +41,8 @@ const CheckoutStripeComp = ({ clientSecret, stripePromise, setClientSecret }: IC
   const customerEmail = "";
   // const customerEmail = user.email ?? "";
 
-  // const shippingAddress = useSelector(selectShippingAddress) || "";
-  const shippingAddress = "";
-  // const billingAddress = useSelector(selectBillingAddress) || "";
-  const billingAddress = "";
+  const shippingAddress = localStorage.getItem("shippingAddress")
+  const billingAddress = localStorage.getItem("billingAddress")
   const { coupon } = useSelector((state: any) => state.coupon);
   const dispatch = useDispatch();
 
@@ -58,14 +58,52 @@ const CheckoutStripeComp = ({ clientSecret, stripePromise, setClientSecret }: IC
   // const newCartTotalAmount = calculateTotalPrice(cartItems, productIDs);
   // console.log(newCartTotalAmount);
 
+  
   const stripe = useStripe();
   const elements = useElements();
  
-  const handleSubmit = () => {
-    console.log("Handle submit.")
-  }
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setMessage("");
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    const confirmPayment = await stripe
+      .confirmPayment({
+        elements,
+        confirmParams: {
+          // Make sure to change this to your payment completion page
+          return_url: `${import.meta.env.VITE_REACT_APP_FRONTEND_URL}/checkout-success`,
+        },
+        redirect: "if_required",
+      })
+      .then((result) => {
+        // ok - paymentIntent // bad - error
+        if (result.error) {
+          toast.error(result.error.message as any);
+          setMessage(result.error.message as any);
+          return;
+        }
+        if (result.paymentIntent) {
+          if (result.paymentIntent.status === "succeeded") {
+            setIsLoading(false);
+            toast.success("Payment successful");
+            // saveOrder();
+            navigate(`/checkout-success`);
+          }
+        }
+      });
+
+    setIsLoading(false);
+  };
+
   return (
     <div className="flex px-10 gap-10 mb-10">
+
       <div className="w-[50%]">
         <CheckoutSummary />
       </div>
@@ -78,15 +116,8 @@ const CheckoutStripeComp = ({ clientSecret, stripePromise, setClientSecret }: IC
         <div>
           {clientSecret && (
             <div>
-              <h2>Checkout</h2>
-
               {/****** SUMMARY ******/}
               <form onSubmit={handleSubmit}>
-                <div>
-                  <CardPayment>
-                    <CheckoutSummary />
-                  </CardPayment>
-                </div>
                 <div>
                   {/***** STRIPE CHECKOUT *****/}
                   <CardPayment>
@@ -100,7 +131,11 @@ const CheckoutStripeComp = ({ clientSecret, stripePromise, setClientSecret }: IC
                         {isLoading ? (
                           <FaSpinner />
                         ) : (
-                          "Pay now"
+                            <div className="p-2 hover:bg-blue-800 bg-blue-600 text-white rounded-xl flex justify-center my-6 w-full">
+                              Pay now
+                          </div>
+
+                          
                         )}
                       </span>
                     </button>

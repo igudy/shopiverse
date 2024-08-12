@@ -5,6 +5,8 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { checkout_details } from "../validation-schema/checkout-schema";
 import CheckoutSummary from "./CheckoutSummary";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { SAVE_BILLING_ADDRESS, SAVE_SHIPPING_ADDRESS } from "../redux/slices/checkout/checkoutSlice";
 
 const CheckoutDetailsSection = () => {
   const {
@@ -20,6 +22,7 @@ const CheckoutDetailsSection = () => {
 
   const [locationError, setLocationError] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
@@ -55,12 +58,20 @@ const CheckoutDetailsSection = () => {
     }
   };
 
-  // Data coming from the refine section
   const onSubmit = async (data: any) => {
-    await console.log("Logged In", data);
-    navigate("/checkout-stripe")
-  };
-
+  console.log("Form Data:", data);
+  
+  const shippingAddress = data?.address_line_1;
+  const billingAddress = data?.biller_address_line_1;
+  
+    
+  localStorage.setItem('shippingAddress', JSON.stringify(shippingAddress));
+  localStorage.setItem('billingAddress', JSON.stringify(billingAddress));
+  navigate("/checkout-stripe");
+  
+    
+};
+  
   return (
     <div>
       <div

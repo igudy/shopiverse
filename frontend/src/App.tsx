@@ -35,6 +35,7 @@ import { useGetCartQuery } from "./components/redux/api/cartApi.jsx";
 import Cart from "./pages/cart/Cart.jsx";
 import CheckoutDetails from "./pages/checkout-details/CheckoutDetails.jsx";
 import CheckoutStripe from "./pages/checkout-details/CheckoutStripe.jsx";
+import CheckoutSuccess from "./pages/checkout-success/CheckoutSuccess.jsx";
 
 axios.defaults.withCredentials = true;
 
@@ -70,6 +71,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout-details" element={<CheckoutDetails />} />
         <Route path="/checkout-stripe" element={<CheckoutStripe />} />
+        <Route path="/checkout-success" element={<CheckoutSuccess />} />
 
         {/* Admin section */}
         <Route path="/admin/*" element={<Admin />}>
