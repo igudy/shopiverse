@@ -12,7 +12,7 @@ const PasswordInputNormal = ({
   onChange,
   name,
   onPaste,
-}) => {
+}: any) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {

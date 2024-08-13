@@ -26,16 +26,16 @@ const AllProducts = () => {
     deleteMutationOptions,
   });
 
-  const deleteFunc = async (id) => {
+  const deleteFunc = async (id: any) => {
     try {
       await deleteMutation.mutateAsync(id);
       toast.success("Product Deleted");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error deleting product:", error.message);
     }
   };
 
-  const navigateEdit = (productId) => {
+  const navigateEdit = (productId: any) => {
     navigate(`update-product/${productId}`);
   };
 
@@ -85,7 +85,7 @@ const AllProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.map((item) => (
+            {data?.map((item: any) => (
               <tr
                 className="bg-white text-black hover:bg-gray-50"
                 key={item._id}

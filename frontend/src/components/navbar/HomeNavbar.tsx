@@ -11,7 +11,7 @@ import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 const HomeNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [navState, setNavState] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
@@ -19,7 +19,7 @@ const HomeNavbar = () => {
   // Logoout functionality
   const logoutUser = async () => {
     dispatch(RESET());
-    await dispatch(logout({}));
+    await dispatch(logout());
     navigate("/login");
   };
 

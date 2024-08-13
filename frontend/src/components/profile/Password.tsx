@@ -7,16 +7,16 @@ import { RESET, changePassword, logout } from "../redux/slices/auth/authSlice";
 import useRedirectLoggedOutUser from "../customHooks/useRedirectLoggedOutUser";
 import { sendAutomatedEmail } from "../redux/slices/email/emailSlice";
 
-const initialState = { oldPassword: "", newPassword: "", newPassword2: "" };
+const initialState: any = { oldPassword: "", newPassword: "", newPassword2: "" };
 
 const Password = () => {
   useRedirectLoggedOutUser("/login");
   const [formData, setFormData] = useState(initialState);
-  const [oldPassword, password, password2] = formData;
+  const {oldPassword, password, password2} = formData;
 
   const { isLoading, user } = useSelector((state: any) => state.auth);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
 
   const handleInputChange = (e: any) => {
@@ -30,7 +30,7 @@ const Password = () => {
     if (!oldPassword || !password || !password2) {
       return toast.error("All fields are required");
     }
-    
+
     if (password !== password2) {
       return toast.error("Passwords do not match");
     }

@@ -21,7 +21,7 @@ export const registerUser = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       return await authService.register(userData);
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -39,7 +39,7 @@ export const loginUser = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       return await authService.login(userData);
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -55,7 +55,7 @@ export const loginUser = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     return await authService.logout();
-  } catch (error) {
+  } catch (error: any) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
@@ -68,7 +68,7 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 export const getUser = createAsyncThunk("auth/getUser", async (_, thunkAPI) => {
   try {
     return await authService.getUser();
-  } catch (error) {
+  } catch (error: any) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
@@ -83,7 +83,7 @@ export const loginStatus = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       return await authService.loginStatus();
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -101,7 +101,7 @@ export const updateUser = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       return await authService.updateUser(userData);
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -119,7 +119,7 @@ export const sendVerificationEmail = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       return await authService.sendVerificationEmail();
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -137,7 +137,7 @@ export const verifyUser = createAsyncThunk(
   async (verificationToken, thunkAPI) => {
     try {
       return await authService.verifyUser(verificationToken);
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -155,7 +155,7 @@ export const changePassword = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       return await authService.changePassword(userData);
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -173,7 +173,7 @@ export const forgotPassword = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       return await authService.forgotPassword(userData);
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -191,7 +191,7 @@ export const resetPassword = createAsyncThunk(
   async ({ userData, resetToken }, thunkAPI) => {
     try {
       return await authService.resetPassword(userData, resetToken);
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -209,7 +209,7 @@ export const getUsers = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       return await authService.getUsers();
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -227,7 +227,7 @@ export const deleteUser = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       return await authService.deleteUser(id);
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -245,7 +245,7 @@ export const upgradeUser = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       return await authService.upgradeUser(userData);
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -263,7 +263,7 @@ export const sendLoginCode = createAsyncThunk(
   async (email, thunkAPI) => {
     try {
       return await authService.sendLoginCode(email);
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -281,7 +281,7 @@ export const loginWithCode = createAsyncThunk(
   async ({ code, email }, thunkAPI) => {
     try {
       return await authService.loginWithCode(code, email);
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -299,7 +299,7 @@ export const loginWithGoogle = createAsyncThunk(
   async (userToken, thunkAPI) => {
     try {
       return await authService.loginWithGoogle(userToken);
-    } catch (error) {
+    } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
@@ -322,28 +322,28 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.message = "";
     },
-    CALC_VERIFIED_USER(state, action) {
-      const array = [];
-      state.users.map((user) => {
+    CALC_VERIFIED_USER(state: any, action: any) {
+      const array: any = [];
+      state.users.map((user: any) => {
         const { isVerified } = user;
         return array.push(isVerified);
       });
       let count = 0;
-      array.forEach((item) => {
+      array.forEach((item: any) => {
         if (item === true) {
           count += 1;
         }
       });
       state.verifiedUsers = count;
     },
-    CALC_SUSPENDED_USER(state, action) {
-      const array = [];
-      state.users.map((user) => {
+    CALC_SUSPENDED_USER(state: any, action: any) {
+      const array: any = [];
+      state.users.map((user: any) => {
         const { role } = user;
         return array.push(role);
       });
       let count = 0;
-      array.forEach((item) => {
+      array.forEach((item: any) => {
         if (item === "suspended") {
           count += 1;
         }
@@ -357,14 +357,14 @@ const authSlice = createSlice({
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(registerUser.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isLoggedIn = true;
         state.user = action.payload;
         toast.success("Registration successful");
       })
-      .addCase(registerUser.rejected, (state, action) => {
+      .addCase(registerUser.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -376,14 +376,14 @@ const authSlice = createSlice({
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
+      .addCase(loginUser.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isLoggedIn = true;
         state.user = action.payload;
         toast.success("Login successful");
       })
-      .addCase(loginUser.rejected, (state, action) => {
+      .addCase(loginUser.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -405,7 +405,7 @@ const authSlice = createSlice({
         state.user = null;
         toast.success("Logout successful");
       })
-      .addCase(logout.rejected, (state, action) => {
+      .addCase(logout.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -417,12 +417,12 @@ const authSlice = createSlice({
       .addCase(loginStatus.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(loginStatus.fulfilled, (state, action) => {
+      .addCase(loginStatus.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isLoggedIn = action.payload;
       })
-      .addCase(loginStatus.rejected, (state, action) => {
+      .addCase(loginStatus.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -432,12 +432,12 @@ const authSlice = createSlice({
       .addCase(getUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getUser.fulfilled, (state, action) => {
+      .addCase(getUser.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
       })
-      .addCase(getUser.rejected, (state, action) => {
+      .addCase(getUser.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -447,13 +447,13 @@ const authSlice = createSlice({
       .addCase(updateUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateUser.fulfilled, (state, action) => {
+      .addCase(updateUser.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
         toast.success("User updated");
       })
-      .addCase(updateUser.rejected, (state, action) => {
+      .addCase(updateUser.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -463,13 +463,13 @@ const authSlice = createSlice({
       .addCase(sendVerificationEmail.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(sendVerificationEmail.fulfilled, (state, action) => {
+      .addCase(sendVerificationEmail.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
         toast.success("Verification Link Sent");
       })
-      .addCase(sendVerificationEmail.rejected, (state, action) => {
+      .addCase(sendVerificationEmail.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -479,13 +479,13 @@ const authSlice = createSlice({
       .addCase(verifyUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(verifyUser.fulfilled, (state, action) => {
+      .addCase(verifyUser.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
         toast.success("User verified");
       })
-      .addCase(verifyUser.rejected, (state, action) => {
+      .addCase(verifyUser.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -495,13 +495,13 @@ const authSlice = createSlice({
       .addCase(changePassword.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(changePassword.fulfilled, (state, action) => {
+      .addCase(changePassword.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
         toast.success("Password changed");
       })
-      .addCase(changePassword.rejected, (state, action) => {
+      .addCase(changePassword.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -511,13 +511,13 @@ const authSlice = createSlice({
       .addCase(forgotPassword.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(forgotPassword.fulfilled, (state, action) => {
+      .addCase(forgotPassword.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
         toast.success(action.payload);
       })
-      .addCase(forgotPassword.rejected, (state, action) => {
+      .addCase(forgotPassword.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -527,13 +527,13 @@ const authSlice = createSlice({
       .addCase(resetPassword.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(resetPassword.fulfilled, (state, action) => {
+      .addCase(resetPassword.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.message = action.payload;
         toast.success(action.payload);
       })
-      .addCase(resetPassword.rejected, (state, action) => {
+      .addCase(resetPassword.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -544,12 +544,12 @@ const authSlice = createSlice({
       .addCase(getUsers.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getUsers.fulfilled, (state, action) => {
+      .addCase(getUsers.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.users = action.payload;
       })
-      .addCase(getUsers.rejected, (state, action) => {
+      .addCase(getUsers.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -559,13 +559,13 @@ const authSlice = createSlice({
       .addCase(deleteUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(deleteUser.fulfilled, (state, action) => {
+      .addCase(deleteUser.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
         toast.success(action.payload);
       })
-      .addCase(deleteUser.rejected, (state, action) => {
+      .addCase(deleteUser.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -575,13 +575,13 @@ const authSlice = createSlice({
       .addCase(upgradeUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(upgradeUser.fulfilled, (state, action) => {
+      .addCase(upgradeUser.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
         toast.success(action.payload);
       })
-      .addCase(upgradeUser.rejected, (state, action) => {
+      .addCase(upgradeUser.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -591,13 +591,13 @@ const authSlice = createSlice({
       .addCase(sendLoginCode.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(sendLoginCode.fulfilled, (state, action) => {
+      .addCase(sendLoginCode.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
         toast.success(action.payload);
       })
-      .addCase(sendLoginCode.rejected, (state, action) => {
+      .addCase(sendLoginCode.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -607,7 +607,7 @@ const authSlice = createSlice({
       .addCase(loginWithCode.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(loginWithCode.fulfilled, (state, action) => {
+      .addCase(loginWithCode.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isLoggedIn = true;
@@ -615,7 +615,7 @@ const authSlice = createSlice({
         state.user = action.payload;
         toast.success(action.payload);
       })
-      .addCase(loginWithCode.rejected, (state, action) => {
+      .addCase(loginWithCode.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -627,14 +627,14 @@ const authSlice = createSlice({
       .addCase(loginWithGoogle.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(loginWithGoogle.fulfilled, (state, action) => {
+      .addCase(loginWithGoogle.fulfilled, (state: any, action: any) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isLoggedIn = true;
         state.user = action.payload;
         toast.success("Login Successful");
       })
-      .addCase(loginWithGoogle.rejected, (state, action) => {
+      .addCase(loginWithGoogle.rejected, (state: any, action: any) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -648,8 +648,8 @@ export const { RESET, CALC_SUSPENDED_USER, CALC_VERIFIED_USER } =
   authSlice.actions;
 
 // For useSelector
-export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
-export const selectUser = (state) => state.auth.user;
-export const selectAllUsers = (state) => state.auth.users;
+export const selectIsLoggedIn = (state: any) => state.auth.isLoggedIn;
+export const selectUser = (state: any) => state.auth.user;
+export const selectAllUsers = (state: any) => state.auth.users;
 
 export default authSlice.reducer;

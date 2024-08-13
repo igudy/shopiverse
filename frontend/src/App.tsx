@@ -1,27 +1,27 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/home/Home.tsx";
-import About from "./pages/about/About.tsx";
-import Contact from "./pages/contact/Contact.tsx";
-import Login from "./pages/auth/Login.tsx";
-import Register from "./pages/auth/Register.tsx";
-import ForgotPassword from "./pages/auth/ForgotPassword.tsx";
-import ResetPassword from "./pages/auth/ResetPassword.tsx";
-import EnterAccessCode from "./pages/auth/EnterAccessCode.tsx";
-import Profile from "./pages/profile/Profile.tsx";
-import Verify from "./pages/auth/Verify.tsx";
+import Home from "./pages/home/Home";
+import About from "./pages/about/About";
+import Contact from "./pages/contact/Contact";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
+import EnterAccessCode from "./pages/auth/EnterAccessCode";
+import Profile from "./pages/profile/Profile";
+import Verify from "./pages/auth/Verify";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import Admin from "./pages/admin/Admin.tsx";
-import Dashboard from "./pages/admin/Dashboard.tsx";
-import AllProducts from "./pages/admin/AllProducts.tsx";
-import Categories from "./pages/admin/Categories.tsx";
-import Brand from "./pages/admin/Brand.tsx";
-import Coupon from "./pages/admin/Coupon.tsx";
-import AddProduct from "./pages/admin/AddProduct.tsx";
-import Orders from "./pages/admin/Orders.tsx";
-import UpdateProduct from "./pages/admin/UpdateProduct.tsx";
-import ProductDetails from "./pages/productDetails/ProductDetails.tsx";
+import Admin from "./pages/admin/Admin";
+import Dashboard from "./pages/admin/Dashboard";
+import AllProducts from "./pages/admin/AllProducts";
+import Categories from "./pages/admin/Categories";
+import Brand from "./pages/admin/Brand";
+import Coupon from "./pages/admin/Coupon";
+import AddProduct from "./pages/admin/AddProduct";
+import Orders from "./pages/admin/Orders";
+import UpdateProduct from "./pages/admin/UpdateProduct";
+import ProductDetails from "./pages/productDetails/ProductDetails";
 import "rc-slider/assets/index.css";
 
 import {
@@ -29,18 +29,22 @@ import {
   loginStatus,
   selectIsLoggedIn,
   selectUser,
-} from "./components/redux/slices/auth/authSlice.tsx";
+} from "./components/redux/slices/auth/authSlice";
 import NotFound from "./pages/404/NotFound.jsx";
 import { useGetCartQuery } from "./components/redux/api/cartApi.jsx";
 import Cart from "./pages/cart/Cart.jsx";
 import CheckoutDetails from "./pages/checkout-details/CheckoutDetails.jsx";
 import CheckoutStripe from "./pages/checkout-details/CheckoutStripe.jsx";
 import CheckoutSuccess from "./pages/checkout-success/CheckoutSuccess.jsx";
+import OrderHistory from "./pages/orders/OrderHistory.jsx";
+import OrderDetails from "./pages/orders/OrderDetails.jsx";
+import { AppDispatch } from "./components/redux/store";
 
 axios.defaults.withCredentials = true;
 
 const App = () => {
-  const dispatch = useDispatch();
+  // Type for redux
+  const dispatch = useDispatch<AppDispatch>();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
 
@@ -72,6 +76,8 @@ const App = () => {
         <Route path="/checkout-details" element={<CheckoutDetails />} />
         <Route path="/checkout-stripe" element={<CheckoutStripe />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
+        <Route path="/order-history" element={<OrderHistory />} />
+        <Route path="/order-details" element={<OrderDetails />} />
 
         {/* Admin section */}
         <Route path="/admin/*" element={<Admin />}>

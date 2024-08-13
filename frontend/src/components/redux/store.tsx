@@ -1,13 +1,13 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import cartSlice from "./slices/cart/CartSlice.tsx";
-import authSlice from "./slices/auth/authSlice.tsx";
-import emailSlice from "./slices/email/emailSlice.tsx";
-import filterSlice from "./slices/auth/filterSlice.tsx";
-import couponSlice from "./slices/coupon/couponSlice.tsx";
-import { api } from "./api/api.tsx";
-import { categoryApi } from "./api/categoryApi.tsx";
+import cartSlice from "./slices/cart/CartSlice";
+import authSlice from "./slices/auth/authSlice";
+import emailSlice from "./slices/email/emailSlice";
+import filterSlice from "./slices/auth/filterSlice";
+import couponSlice from "./slices/coupon/couponSlice";
+import { api } from "./api/api";
+import { categoryApi } from "./api/categoryApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { brandApi } from "./api/brandApi.tsx";
+import { brandApi } from "./api/brandApi";
 import { cartApi } from "./api/cartApi.jsx";
 import { couponApi } from "./api/couponApi.jsx";
 
@@ -35,6 +35,9 @@ const store = configureStore({
     ),
 });
 
+export type AppDispatch = typeof store.dispatch;
+
+// Setting up listeners
 setupListeners(store.dispatch);
 
 export default store;

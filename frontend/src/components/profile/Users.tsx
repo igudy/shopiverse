@@ -14,7 +14,7 @@ import {
 import { FiUserCheck, FiUserMinus, FiUserPlus, FiUsers } from "react-icons/fi";
 
 const Users = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const [search, setSearch] = useState("");
   const filteredUsers = useSelector(selectFilterUsers);
   const { users, verifiedUsers, suspendedUsers } = useSelector(
@@ -23,8 +23,8 @@ const Users = () => {
   const unverifiedUsers = users.length - verifiedUsers;
 
   useEffect(() => {
-    dispatch(CALC_VERIFIED_USER({}));
-    dispatch(CALC_SUSPENDED_USER({}));
+    dispatch(CALC_VERIFIED_USER());
+    dispatch(CALC_SUSPENDED_USER());
   }, [dispatch, users]);
 
   useEffect(() => {

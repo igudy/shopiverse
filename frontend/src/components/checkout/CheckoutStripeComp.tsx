@@ -92,7 +92,7 @@ const CheckoutStripeComp = ({ clientSecret, stripePromise, setClientSecret }: IC
           if (result.paymentIntent.status === "succeeded") {
             setIsLoading(false);
             toast.success("Payment successful");
-            // saveOrder();
+            // saveOrder(); 
             navigate(`/checkout-success`);
           }
         }
