@@ -1,7 +1,7 @@
 import React from "react";
 import { BsSearch } from "react-icons/bs";
 
-const Search = ({ value, onChange }) => {
+const Search = ({ value, onChange }: any) => {
   return (
     <div>
       <>

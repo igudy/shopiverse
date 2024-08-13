@@ -9,7 +9,7 @@ const TopRatedSales = () => {
       </p>
       <div className="max-w-screen-xl mx-auto">
         <div className="grid md:grid-cols-2 sm:grid-cols-1 xsm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 grid-cols-4 gap-4 w-full">
-          {topratedsales?.items?.map((item) => (
+          {topratedsales?.items?.map((item: any) => (
             <div className="" key={item.id}>
               <ProductCards
                 id={item.id}

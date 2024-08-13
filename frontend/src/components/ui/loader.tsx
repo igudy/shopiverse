@@ -15,14 +15,14 @@ export function LoaderSkeleton() {
   );
 }
 
-export const LoaderPortal = () => {
-  return ReactDOM.createPortal(
-    <div>
-      <img src={Product7} alt="Loading..." />
-    </div>,
-    document.getElementById("loader")
-  );
-};
+// export const LoaderPortal = () => {
+//   return ReactDOM.createPortal(
+//     <div>
+//       <img src={Product7} alt="Loading..." />
+//     </div>,
+//     document.getElementById("loader")
+//   );
+// };
 
 export const CircularProgress = () => {
   return (

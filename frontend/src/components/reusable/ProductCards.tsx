@@ -6,15 +6,15 @@ import { ADD_TO_CART } from "../redux/slices/cart/CartSlice";
 import { truncate } from "lodash";
 import { Link } from "react-router-dom";
 
-interface IAllProductsCard {
-  id: string;
-  title: string;
-  text: string;
-  price: number;
-  rating: string;
-  img: string;
-  discountPrice: string;
-}
+// interface IAllProductsCard {
+//   id: string;
+//   title: string;
+//   text: string;
+//   price: number;
+//   rating: string;
+//   img: string;
+//   discountPrice: string;
+// }
 
 export const AllProductsCard = ({
   id,
@@ -24,7 +24,7 @@ export const AllProductsCard = ({
   rating,
   img,
   discountPrice,
-}: IAllProductsCard) => {
+}: any) => {
   const truncatedTitle = truncate(title, {
     length: 20,
     omission: "...",
@@ -80,17 +80,17 @@ export const AllProductsCard = ({
   );
 };
 
-interface IProductsCard {
-  id: string;
-  title: string;
-  text: string;
-  rating: string;
-  btn: string;
-  img: string;
-  price: number;
-  color: string;
-  shadow: string;
-}
+// interface IProductsCard {
+//   id: string;
+//   title: string;
+//   text: string;
+//   rating: string;
+//   btn: string;
+//   img: string;
+//   price: string;
+//   color: string;
+//   shadow: string;
+// }
 
 const ProductCards = ({
   id,
@@ -102,12 +102,14 @@ const ProductCards = ({
   price,
   color,
   shadow,
-}: IProductsCard) => {
-  const dispatch = useDispatch();
+}: any) => {
+  const dispatch = useDispatch<any>();
 
   const addTocart = () => {
-    const temp = { id, title, text, rating, btn, img, price, color, shadow };
-    dispatch(ADD_TO_CART(temp));
+    // const temp = { id, title, text, rating, btn, img, price, color, shadow };
+    // dispatch(ADD_TO_CART(temp));
+
+    console.log("Added to cart!")
   };
 
   return (
@@ -154,17 +156,6 @@ const ProductCards = ({
       </div>
     </>
   );
-};
-
-ProductCards.propTypes = {
-  title: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  rating: PropTypes.string.isRequired,
-  btn: PropTypes.string.isRequired,
-  img: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-  shadow: PropTypes.string.isRequired,
 };
 
 export default ProductCards;

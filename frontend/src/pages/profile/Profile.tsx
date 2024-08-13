@@ -29,10 +29,10 @@ const allTabs = [
 ];
 
 const Profile = () => {
-  const { isLoading, isError } = useSelector((state) => state.auth);
+  const { isLoading, isError } = useSelector((state: any) => state.auth);
   useRedirectLoggedOutUser("/login");
   const [tab, setTab] = useState("Profile");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
 
   useEffect(() => {
     dispatch(getUser());

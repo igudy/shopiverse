@@ -1,6 +1,6 @@
 import React from "react";
 
-const InfoBox = ({ className, icon, text, number }) => {
+const InfoBox = ({ className, icon, text, number }: any) => {
   return (
     <div
       className={`${className} flex justify-between text-white p-4

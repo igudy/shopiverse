@@ -35,8 +35,8 @@ const cloud_name = import.meta.env.VITE_REACT_APP_CLOUD_NAME as string;
 const UpdateProduct = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [productImage, setProductImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [productImage, setProductImage] = useState<any>(null);
+  const [imagePreview, setImagePreview] = useState<any>(null);
   const { id } = useParams();
   const [product, setProduct] = useState(initialState);
 
@@ -54,22 +54,18 @@ const UpdateProduct = () => {
     }
   }, [productData]);
 
-  const updateMutationOptions = {
-    onSuccess: () => {},
-    onError: (error: any) => {},
-  };
-
   const mutation = useMutation({
     mutationFn: updateProductAxios,
-    updateMutationOptions,
+        onSuccess: () => {},
+    onError: (error: any) => {},
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: any) => {
     const selectedFile = e.target.files[0];
     setProductImage(selectedFile);
 
@@ -92,7 +88,7 @@ const UpdateProduct = () => {
     }
   };
 
-  const saveUpdatedProduct = async (e) => {
+  const saveUpdatedProduct = async (e: any) => {
     e.preventDefault();
     let imageURL;
 
@@ -270,8 +266,8 @@ const UpdateProduct = () => {
               placeholder="Product Description"
               value={product.desc}
               onChange={(e) => handleInputChange(e)}
-              cols="30"
-              rows="10"
+              cols={30}
+              rows={10}
             />
 
             <button className="w-full bg-purple-600 text-white h-14 my-10 rounded-lg shadow-xl font-bold hover:bg-purple-700">

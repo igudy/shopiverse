@@ -17,9 +17,9 @@ const ProfileComponent = () => {
   //   dispatch(getUser());
   // }, [dispatch]);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const { isLoading, isLoggedIn, isSuccess, message, user } = useSelector(
-    (state) => state.auth
+    (state: any) => state.auth
   );
   const initialState = {
     name: user?.name || "",
@@ -32,10 +32,10 @@ const ProfileComponent = () => {
   };
 
   const [profile, setProfile] = useState(initialState);
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState<any>(null);
   const [imagePreview, setImagePreview] = useState(null);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: any) => {
     const selectedFile = e.target.files[0];
     setProfileImage(e.target.files[0]);
 
@@ -63,12 +63,12 @@ const ProfileComponent = () => {
     setImagePreview(URL.createObjectURL(e.target.files[0]));
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setProfile({ ...profile, [name]: value });
   };
 
-  const saveProfile = async (e) => {
+  const saveProfile = async (e: any) => {
     e.preventDefault();
     let imageURL;
     try {
@@ -94,16 +94,16 @@ const ProfileComponent = () => {
       }
 
       // Save profile to MongoDB
-      const userData = {
+      const userData: any = {
         name: profile.name,
         phone: profile.phone,
         bio: profile.bio,
         photo: profileImage ? imageURL : profile.photo,
       };
 
-      dispatch(updateUser(userData));
-    } catch (error) {
-      toast.error(error.message);
+      dispatch(updateUser({userData}));
+    } catch (error: any) {
+      toast.error(error.messageny);
     }
   };
 

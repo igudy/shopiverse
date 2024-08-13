@@ -24,8 +24,8 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useGetCartQuery, useSaveCartToDBMutation } from "../../components/redux/api/cartApi";
 
 const Login = () => {
-  const [email, setEmail] = useState(null);
-  const dispatch = useDispatch();
+  const [email, setEmail] = useState<any>(null);
+  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
   const { isLoading, isLoggedIn, isSuccess, isError, twoFactor } = useSelector(
     (state: any) => state.auth
@@ -54,7 +54,7 @@ const Login = () => {
     setEmail(data?.email);
 
     console.log(email);
-    await dispatch(loginUser(userData));
+    await dispatch(loginUser({userData}));
   };
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const Login = () => {
     if (isError && twoFactor) {
       // dispatch(sendLoginCode(email));
       // navigate(`/loginWithCode/${email}`);
-      const encodedEmail = encodeURIComponent(email);
+      const encodedEmail: any = encodeURIComponent(email);
       dispatch((sendLoginCode(encodedEmail)));
       navigate(`/enter-access-code/${encodedEmail}`);
     }
@@ -76,7 +76,7 @@ const Login = () => {
   const googleLogin = async (credentialResponse: any) => {
     console.log(credentialResponse);
     await dispatch(
-      loginWithGoogle({ userToken: credentialResponse.credential })
+      loginWithGoogle({userToken: credentialResponse.credential})
     );
   };
 

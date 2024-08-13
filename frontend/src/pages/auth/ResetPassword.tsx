@@ -33,7 +33,7 @@ const ResetPassword = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
   const { resetToken } = useParams();
 
@@ -55,7 +55,7 @@ const ResetPassword = () => {
   });
 
   // Data coming from the refine section
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     if (data?.password !== data?.confirmPassword) {
       toast.error("Password does not match");
       return;
@@ -63,7 +63,7 @@ const ResetPassword = () => {
     const userData = {
       password: data?.password,
     };
-    dispatch(resetPassword({ userData, resetToken }));
+    dispatch(resetPassword({userData, resetToken}));
     navigate("/login");
   };
 
@@ -99,7 +99,7 @@ const ResetPassword = () => {
                   {errors.password && (
                     <div className=" text-red-800 text-[12px] flex items-center mx-2">
                       <AiFillCloseCircle />
-                      {errors.password.message}
+                      {errors.password.message as any}
                     </div>
                   )}
                 </label>
@@ -135,7 +135,7 @@ const ResetPassword = () => {
                     <div className=" text-red-800 text-[12px] flex items-center mx-2">
                       <AiFillCloseCircle />
                       {errors.confirmPassword.message && (
-                        <div>{errors.confirmPassword.message}</div>
+                        <div>{errors.confirmPassword.message as any}</div>
                       )}
                     </div>
                   )}

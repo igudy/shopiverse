@@ -1,6 +1,10 @@
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 
-const SocialIcons = ({ socialLinks }) => {
+interface ISocialLinks {
+  socialLinks?: any
+}
+
+const SocialIcons = ({ socialLinks }: ISocialLinks) => {
   const icons = [
     {
       link: "https://instagram.com",

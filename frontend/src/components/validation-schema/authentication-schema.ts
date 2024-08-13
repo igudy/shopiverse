@@ -44,7 +44,7 @@ export const sign_up_user_validation_schema = z.object({
     .max(30, { message: "Not than 50 character" }),
   confirmPassword: z
     .string({ required_error: "Confirm password is required" })
-    .refine((data) => data.password === data.confirmPassword, {
+    .refine((data: any) => data.password === data.confirmPassword, {
       path: ["confirmPassword"],
       message: "Passwords do not match",
     }),
@@ -57,7 +57,7 @@ export const reset_password_validation_schema = z.object({
     .max(30, { message: "Not than 50 character" }),
   confirmPassword: z
     .string({ required_error: "Confirm password is required" })
-    .refine((data) => data.password === data.confirmPassword, {
+    .refine((data: any) => data.password === data.confirmPassword, {
       path: ["confirmPassword"],
       message: "Passwords do not match",
     }),
@@ -74,39 +74,39 @@ export const new_password_validator_schema = z.object({
     .nonempty("confirmation password is required"),
 });
 
-export const validatePassword = (password, stateAction) => {
+export const validatePassword = (password: any, stateAction: any) => {
   // has uppercase letter
   if (password.toLowerCase() !== password) {
-    stateAction((oldState) => ({ ...oldState, hasUppercase: true }));
+    stateAction((oldState: any) => ({ ...oldState, hasUppercase: true }));
   } else {
-    stateAction((oldState) => ({ ...oldState, hasUppercase: false }));
+    stateAction((oldState: any) => ({ ...oldState, hasUppercase: false }));
   }
 
   // has lowercase letter
   if (password.toUpperCase() !== password) {
-    stateAction((oldState) => ({ ...oldState, hasLowercase: true }));
+    stateAction((oldState: any) => ({ ...oldState, hasLowercase: true }));
   } else {
-    stateAction((oldState) => ({ ...oldState, hasLowercase: false }));
+    stateAction((oldState: any) => ({ ...oldState, hasLowercase: false }));
   }
 
   // has number
   if (/\d/.test(password)) {
-    stateAction((oldState) => ({ ...oldState, hasNumber: true }));
+    stateAction((oldState: any) => ({ ...oldState, hasNumber: true }));
   } else {
-    stateAction((oldState) => ({ ...oldState, hasNumber: false }));
+    stateAction((oldState: any) => ({ ...oldState, hasNumber: false }));
   }
 
   // has special character
   if (/[~`!._#@$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(password)) {
-    stateAction((oldState) => ({ ...oldState, hasSpecialChar: true }));
+    stateAction((oldState: any) => ({ ...oldState, hasSpecialChar: true }));
   } else {
-    stateAction((oldState) => ({ ...oldState, hasSpecialChar: false }));
+    stateAction((oldState: any) => ({ ...oldState, hasSpecialChar: false }));
   }
 
   // has 8 characters
   if (password.length >= 8) {
-    stateAction((oldState) => ({ ...oldState, hasAtLeast8Char: true }));
+    stateAction((oldState: any) => ({ ...oldState, hasAtLeast8Char: true }));
   } else {
-    stateAction((oldState) => ({ ...oldState, hasAtLeast8Char: false }));
+    stateAction((oldState: any) => ({ ...oldState, hasAtLeast8Char: false }));
   }
 };

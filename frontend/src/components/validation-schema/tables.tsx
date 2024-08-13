@@ -17,9 +17,9 @@ import {
 } from "../redux/slices/email/emailSlice";
 import ReactPaginate from "react-paginate";
 
-const Tables = ({ filteredUsers }) => {
+const Tables = ({ filteredUsers }: any) => {
   const users = useSelector(selectAllUsers);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const [userRoles, setUserRoles] = useState(Array(users.length).fill(""));
 
   // Get all users
@@ -27,12 +27,12 @@ const Tables = ({ filteredUsers }) => {
     dispatch(getUsers());
   }, [dispatch]);
 
-  const removeUser = async (id) => {
-    await dispatch(deleteUser(id));
+  const removeUser = async (id: any) => {
+    await dispatch(deleteUser({id}));
     dispatch(getUsers());
   };
 
-  const confirmDelete = (id) => {
+  const confirmDelete = (id: any) => {
     confirmAlert({
       title: "Confirm to submit",
       message: "Are you sure to do this.",
@@ -49,7 +49,7 @@ const Tables = ({ filteredUsers }) => {
     });
   };
 
-  const changeRole = async (e, index) => {
+  const changeRole = async (e: any, index: number) => {
     e.preventDefault();
 
     const selectedUser = users[index];
@@ -75,7 +75,7 @@ const Tables = ({ filteredUsers }) => {
       url: "/login",
     };
 
-    await dispatch(upgradeUser(userData));
+    await dispatch(upgradeUser({userData}));
     await dispatch(sendAutomatedEmail(emailData));
     await dispatch(getUsers());
     dispatch(EMAIL_RESET());
@@ -88,7 +88,7 @@ const Tables = ({ filteredUsers }) => {
   const currentItems = filteredUsers.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(filteredUsers.length / itemsPerPage);
 
-  const handlePageClick = (event) => {
+  const handlePageClick = (event: any) => {
     const newOffset = (event.selected * itemsPerPage) % filteredUsers.length;
     setItemOffset(newOffset);
   };
@@ -124,7 +124,7 @@ const Tables = ({ filteredUsers }) => {
             </tr>
           </thead>
           <tbody>
-            {currentItems?.map((user, index) => {
+            {currentItems?.map((user: any, index: any) => {
               const { _id, name, email, role } = user;
               return (
                 <tr key={_id} className="bg-gray-600 border-b border-gray-400">

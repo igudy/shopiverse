@@ -20,15 +20,15 @@ import {
 
 const EnterAccessCode = () => {
   const { email } = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
 
   const { isLoading, isLoggedIn, isSuccess } = useSelector(
-    (state) => state.auth
+    (state: any) => state.auth
   );
 
   const sendUserLoginCode = async () => {
-    await dispatch(sendLoginCode(email));
+    await dispatch(sendLoginCode({email}));
     await dispatch(RESET());
   };
 
@@ -41,7 +41,7 @@ const EnterAccessCode = () => {
   });
 
   // Data coming from the refine section
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     const code = {
       loginCode: data?.access,
     };
@@ -91,7 +91,7 @@ const EnterAccessCode = () => {
                   {errors.access && (
                     <div className=" text-red-800 text-[12px] flex items-center mx-2">
                       <AiFillCloseCircle />
-                      {errors.access.message}
+                      {(errors.access.message) as any}
                     </div>
                   )}
                 </label>

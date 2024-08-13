@@ -18,9 +18,9 @@ const initialState = {
 // Register User
 export const registerUser = createAsyncThunk(
   "auth/register",
-  async (userData, thunkAPI) => {
+  async ({userData, thunkAPI}: any) => {
     try {
-      return await authService.register(userData);
+      return await authService.register({userData});
     } catch (error: any) {
       const message =
         (error.response &&
@@ -36,9 +36,9 @@ export const registerUser = createAsyncThunk(
 // Login User
 export const loginUser = createAsyncThunk(
   "auth/login",
-  async (userData, thunkAPI) => {
+  async ({userData, thunkAPI}: any) => {
     try {
-      return await authService.login(userData);
+      return await authService.login({userData});
     } catch (error: any) {
       const message =
         (error.response &&
@@ -134,9 +134,9 @@ export const sendVerificationEmail = createAsyncThunk(
 // Verify User
 export const verifyUser = createAsyncThunk(
   "auth/verifyUser",
-  async (verificationToken, thunkAPI) => {
+  async ({verificationToken, thunkAPI}: any) => {
     try {
-      return await authService.verifyUser(verificationToken);
+      return await authService.verifyUser({verificationToken});
     } catch (error: any) {
       const message =
         (error.response &&
@@ -170,9 +170,9 @@ export const changePassword = createAsyncThunk(
 // Forgot password
 export const forgotPassword = createAsyncThunk(
   "auth/forgotPassword",
-  async (userData, thunkAPI) => {
+  async ({userData, thunkAPI}: any) => {
     try {
-      return await authService.forgotPassword(userData);
+      return await authService.forgotPassword({ userData });
     } catch (error: any) {
       const message =
         (error.response &&
@@ -188,7 +188,7 @@ export const forgotPassword = createAsyncThunk(
 // Reset password
 export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
-  async ({ userData, resetToken }, thunkAPI) => {
+  async ({ userData, resetToken }: any, thunkAPI) => {
     try {
       return await authService.resetPassword(userData, resetToken);
     } catch (error: any) {
@@ -224,7 +224,7 @@ export const getUsers = createAsyncThunk(
 // Delete User
 export const deleteUser = createAsyncThunk(
   "auth/deleteUser",
-  async (id, thunkAPI) => {
+  async ({id, thunkAPI}: any) => {
     try {
       return await authService.deleteUser(id);
     } catch (error: any) {
@@ -242,9 +242,9 @@ export const deleteUser = createAsyncThunk(
 // Upgrade User
 export const upgradeUser = createAsyncThunk(
   "auth/upgradeUser",
-  async (userData, thunkAPI) => {
+  async ({userData, thunkAPI}: any) => {
     try {
-      return await authService.upgradeUser(userData);
+      return await authService.upgradeUser({userData});
     } catch (error: any) {
       const message =
         (error.response &&
@@ -260,9 +260,9 @@ export const upgradeUser = createAsyncThunk(
 // Send login code
 export const sendLoginCode = createAsyncThunk(
   "auth/sendLoginCode",
-  async (email, thunkAPI) => {
+  async ({ email, thunkAPI }: any) => {
     try {
-      return await authService.sendLoginCode(email);
+      return await authService.sendLoginCode({email});
     } catch (error: any) {
       const message =
         (error.response &&
@@ -278,7 +278,7 @@ export const sendLoginCode = createAsyncThunk(
 // loginWithCode
 export const loginWithCode = createAsyncThunk(
   "auth/loginWithCode",
-  async ({ code, email }, thunkAPI) => {
+  async ({ code, email }: any, thunkAPI) => {
     try {
       return await authService.loginWithCode(code, email);
     } catch (error: any) {
@@ -296,9 +296,9 @@ export const loginWithCode = createAsyncThunk(
 // loginWithCode
 export const loginWithGoogle = createAsyncThunk(
   "auth/loginWithGoogle",
-  async (userToken, thunkAPI) => {
+  async ({userToken, thunkAPI}: any) => {
     try {
-      return await authService.loginWithGoogle(userToken);
+      return await authService.loginWithGoogle({userToken});
     } catch (error: any) {
       const message =
         (error.response &&
@@ -315,7 +315,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    RESET: (state) => {
+    RESET: (state: any) => {
       state.twoFactor = false;
       state.isError = false;
       state.isSuccess = false;

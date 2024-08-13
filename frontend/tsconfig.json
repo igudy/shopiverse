@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowImportingTsExtensions": false,
-    "types": ["@testing-library/jest-dom"]
+    "types": ["@testing-library/jest-dom", "node", "vite/client"]
   },
   "include": [
     "src/**/*.ts",

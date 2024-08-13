@@ -34,10 +34,10 @@ const Register = () => {
   });
 
   const { isLoading, isLoggedIn, isSuccess, message } = useSelector(
-    (state) => state.auth
+    (state: any) => state.auth
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
 
   const {
@@ -50,16 +50,16 @@ const Register = () => {
   });
 
   // Data coming from the refine section
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     if (data.password !== data.confirmPassword) {
       toast.error("Invalid, password does not match");
     } else {
       // Passwords match, continue with submission.
       // console.log(`data submitted`, data);
-      const userData = {
+      const userData: any = {
         name: data?.name,
         password: data?.password,
-        email: data?.email,
+        email: data?.email
       };
       await dispatch(registerUser(userData));
     }
@@ -73,7 +73,7 @@ const Register = () => {
     dispatch(RESET());
   }, [isLoggedIn, isSuccess, dispatch, navigate]);
 
-  const googleLogin = async (credentialResponse) => {
+  const googleLogin = async (credentialResponse: any) => {
     console.log(credentialResponse);
     await dispatch(
       loginWithGoogle({ userToken: credentialResponse.credential })

@@ -11,10 +11,10 @@ const initialState = {
 // Send Automated Emails
 export const sendAutomatedEmail = createAsyncThunk(
   "auth/sendAutomatedEmail",
-  async (emailData, thunkAPI) => {
+  async ({emailData, thunkAPI}: any) => {
     try {
-      return await emailService.sendAutomatedEmail(emailData);
-    } catch (error) {
+      return await emailService.sendAutomatedEmail({emailData});
+    } catch (error: any) {
       const message =
         ((error.response as any) &&
           (error.response.data as any) &&
@@ -48,7 +48,7 @@ const emailSlice = createSlice({
         state.msg = action.payload;
         toast.success(action.payload);
       })
-      .addCase(sendAutomatedEmail.rejected, (state, action) => {
+      .addCase(sendAutomatedEmail.rejected, (state: any, action: any) => {
         state.sendingEmail = false;
         state.emailSent = false;
         state.msg = action.payload;

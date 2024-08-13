@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 /// <reference types="vite/types/importMeta.d.ts" />
+import "vite/client";
 
 interface ImportMetaEnv {
   readonly VITE_REACT_APP_BACKEND_URL: string;

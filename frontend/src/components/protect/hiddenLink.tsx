@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn, selectUser } from "../redux/slices/auth/authSlice";
 
-export const ShowOnLogin = ({ children }) => {
+export const ShowOnLogin = ({ children }: any) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   if (isLoggedIn) {
     return <div>{children}</div>;
@@ -11,7 +11,7 @@ export const ShowOnLogin = ({ children }) => {
   }
 };
 
-export const ShowOnLogout = ({ children }) => {
+export const ShowOnLogout = ({ children }: any) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   if (!isLoggedIn) {
     return <div>{children}</div>;
@@ -20,7 +20,7 @@ export const ShowOnLogout = ({ children }) => {
   }
 };
 
-export const AdminAuthorLink = ({ children }) => {
+export const AdminAuthorLink = ({ children }: any) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
   if (isLoggedIn && (user.role === "admin" || user.role == "author")) {
@@ -30,7 +30,7 @@ export const AdminAuthorLink = ({ children }) => {
   }
 };
 
-export const AdminLink = ({ children }) => {
+export const AdminLink = ({ children }: any) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
   if (isLoggedIn && user.role === "admin") {

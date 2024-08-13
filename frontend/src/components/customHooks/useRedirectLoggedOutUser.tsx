@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { authService } from "../redux/slices/auth/authService";
 import toast from "react-hot-toast";
 
-const useRedirectLoggedOutUser = (path) => {
+const useRedirectLoggedOutUser = (path: any) => {
   const navigate = useNavigate();
 
   useEffect(() => {

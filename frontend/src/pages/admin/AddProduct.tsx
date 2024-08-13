@@ -31,26 +31,27 @@ const AddProduct = () => {
   const [product, setProduct] = useState(initialState);
   const navigate = useNavigate();
 
-  const mutationOptions = {
+  const mutation = useMutation({
+    mutationFn: createProduct,
     onSuccess: () => {
-      console.log("Registration successful");
+      // Handle success, e.g., show a success message
+    console.log("success")
     },
-    onError: (error) => {
-      console.log(error.message, "Error product wasn't added");
+    onError: (error: any) => {
+      // Handle error, e.g., show an error message
+      console.log("error", error)
     },
-  };
+  });
 
-  const mutation = useMutation({ mutationFn: createProduct, mutationOptions });
-
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
   };
 
-  const [productImage, setProductImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [productImage, setProductImage] = useState<any>(null);
+  const [imagePreview, setImagePreview] = useState<any>(null);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: any) => {
     const selectedFile = e.target.files[0];
     setProductImage(selectedFile);
 
@@ -76,7 +77,7 @@ const AddProduct = () => {
     }
   };
 
-  const saveProduct = async (e) => {
+  const saveProduct = async (e: any) => {
     e.preventDefault();
     let imageURL;
 
@@ -117,7 +118,7 @@ const AddProduct = () => {
       // console.log("addproduct", payload);
       toast.success("Product Added");
       navigate("/admin/all-products");
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message);
     }
   };
@@ -264,8 +265,8 @@ const AddProduct = () => {
               placeholder="Product Description"
               value={product.desc}
               onChange={(e) => handleInputChange(e)}
-              cols="30"
-              rows="10"
+              cols={30}
+              rows={10}
             />
 
             <button className="w-full bg-purple-600 text-white h-14 my-10 rounded-lg shadow-xl font-bold hover:bg-purple-700">

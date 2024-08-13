@@ -10,7 +10,7 @@ import {
 
 const Verify = () => {
   const { verificationToken } = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
 
   const verfiyUserFunction = () => {

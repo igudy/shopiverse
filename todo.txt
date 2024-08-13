@@ -22,13 +22,13 @@ FRONTEND
 - Pusher API
 
 BACKEND
-- User authentication & authorization
+- User authentication & authorization - Done
 - Google authentication - Done
 - 2FA - Done
 - Reset Password - Done
 - Products - Done
-- Category
-- Cart
+- Category - Done
+- Cart - Done
 - Related Product
 - Search functionality
 

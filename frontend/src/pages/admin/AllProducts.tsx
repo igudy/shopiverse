@@ -11,19 +11,14 @@ const AllProducts = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  // Delete Mutation
-  const deleteMutationOptions = {
-    onSuccess: () => {
+  const deleteMutation = useMutation({
+    mutationFn: deleteProduct,
+     onSuccess: () => {
       console.log("Delete");
     },
     onError: (error: any) => {
       console.log(error.message, "Error product wasn't deleted");
     },
-  };
-
-  const deleteMutation = useMutation({
-    mutationFn: deleteProduct,
-    deleteMutationOptions,
   });
 
   const deleteFunc = async (id: any) => {

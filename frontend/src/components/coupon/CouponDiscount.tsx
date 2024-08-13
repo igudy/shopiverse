@@ -19,7 +19,7 @@ import { REMOVE_COUPON, SAVE_COUPON } from "../redux/slices/coupon/couponSlice";
 const CouponDiscount = () => {
   const cartItems = useSelector(selectCartItems);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
 

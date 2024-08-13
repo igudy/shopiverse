@@ -28,13 +28,13 @@ const ForgotPassword = () => {
   });
 
   // Data coming from the refine section
-  const onSubmit = (data) => {
-    const userData = {
+  const onSubmit = (data: any) => {
+    const userData: any = {
       email: data?.email,
     };
 
-    dispatch(forgotPassword(userData));
-    dispatch(RESET(userData));
+    dispatch(forgotPassword({userData}));
+    dispatch(RESET());
   };
 
   return (
@@ -69,7 +69,7 @@ const ForgotPassword = () => {
                   {errors.email && (
                     <div className=" text-red-800 text-[12px] flex items-center mx-2">
                       <AiFillCloseCircle />
-                      {errors.email.message}
+                      {errors.email.message as any}
                     </div>
                   )}
                 </label>
