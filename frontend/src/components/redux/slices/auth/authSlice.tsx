@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { authService } from "./authService";
 import toast from "react-hot-toast";
+import { AnyARecord } from "dns";
 
 const initialState = {
   isLoggedIn: false,
@@ -98,9 +99,9 @@ export const loginStatus = createAsyncThunk(
 // Update User
 export const updateUser = createAsyncThunk(
   "auth/updateUser",
-  async (userData, thunkAPI) => {
+  async ({userData, thunkAPI}: any) => {
     try {
-      return await authService.updateUser(userData);
+      return await authService.updateUser({userData});
     } catch (error: any) {
       const message =
         (error.response &&
@@ -152,9 +153,9 @@ export const verifyUser = createAsyncThunk(
 // Change password
 export const changePassword = createAsyncThunk(
   "auth/changePassword",
-  async (userData, thunkAPI) => {
+  async ({userData, thunkAPI}: any) => {
     try {
-      return await authService.changePassword(userData);
+      return await authService.changePassword({userData});
     } catch (error: any) {
       const message =
         (error.response &&
@@ -322,33 +323,41 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.message = "";
     },
-    CALC_VERIFIED_USER(state: any, action: any) {
-      const array: any = [];
-      state.users.map((user: any) => {
-        const { isVerified } = user;
-        return array.push(isVerified);
-      });
-      let count = 0;
-      array.forEach((item: any) => {
-        if (item === true) {
-          count += 1;
-        }
-      });
-      state.verifiedUsers = count;
+    // CALC_VERIFIED_USER(state: any, action: any) {
+    //   const array: any = [];
+    //   state.users.map((user: any) => {
+    //     const { isVerified } = user;
+    //     return array.push(isVerified);
+    //   });
+    //   let count = 0;
+    //   array.forEach((item: any) => {
+    //     if (item === true) {
+    //       count += 1;
+    //     }
+    //   });
+    //   state.verifiedUsers = count;
+    // },
+    // CALC_SUSPENDED_USER(state: any, action: any) {
+    //   const array: any = [];
+    //   state.users.map((user: any) => {
+    //     const { role } = user;
+    //     return array.push(role);
+    //   });
+    //   let count = 0;
+    //   array.forEach((item: any) => {
+    //     if (item === "suspended") {
+    //       count += 1;
+    //     }
+    //   });
+    //   state.suspendedUsers = count;
+    // },
+    CALC_VERIFIED_USER(state) {
+      const array: boolean[] = state.users.map((user: any) => user.isVerified);
+      state.verifiedUsers = array.filter((item) => item === true).length;
     },
-    CALC_SUSPENDED_USER(state: any, action: any) {
-      const array: any = [];
-      state.users.map((user: any) => {
-        const { role } = user;
-        return array.push(role);
-      });
-      let count = 0;
-      array.forEach((item: any) => {
-        if (item === "suspended") {
-          count += 1;
-        }
-      });
-      state.suspendedUsers = count;
+    CALC_SUSPENDED_USER(state) {
+      const array: string[] = state.users.map((user: any) => user.role);
+      state.suspendedUsers = array.filter((item) => item === "suspended").length;
     },
   },
   extraReducers: (builder) => {

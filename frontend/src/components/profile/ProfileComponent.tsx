@@ -33,7 +33,7 @@ const ProfileComponent = () => {
 
   const [profile, setProfile] = useState(initialState);
   const [profileImage, setProfileImage] = useState<any>(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState<any>(null);
 
   const handleImageChange = (e: any) => {
     const selectedFile = e.target.files[0];
@@ -187,16 +187,14 @@ const ProfileComponent = () => {
             <p>
               <label>Bio:</label>
               <textarea
-                type="text"
                 name="bio"
                 className="input-box my-1"
                 value={profile?.bio}
                 onChange={handleInputChange}
-                cols="30"
-                rows="10"
+                cols={30}
+                rows={10}
               />
             </p>
-
             <button className="submit">Update Profile</button>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 const API_VERSION = "api";
@@ -13,7 +14,7 @@ export const publicRequest = axios.create({
   baseURL: `${BASE_URL}/${API_VERSION}`,
 });
 
-// Get Products
+// Get Product
 const fetchProducts = async () => {
   const response = await publicRequest.get("/products");
   return response?.data;
@@ -36,18 +37,14 @@ export const deleteProduct = async (id: any) => {
   await privateRequest.delete(`/products/${id}`);
 };
 
-// Custom hook to fetch products
 export const useProducts = () => {
   const queryClient = useQueryClient();
 
-  const queryTest = () => {
-    queryClient.invalidateQueries("products");
-  };
-
-  return useQuery(
-    ["products"],
-    fetchProducts,
-    onSuccess: queryTest
-    
-  );
+  return useQuery({
+    queryKey: ["products"],
+    queryFn: fetchProducts,
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries("products");
+    // },
+  });
 };

@@ -59,7 +59,7 @@ const Password = () => {
       if (sendAutomatedEmail.fulfilled.match(emailResponse)) {
         // Dispatch the logout and RESET actions only if the email is sent successfully
         await dispatch(logout());
-        await dispatch(RESET(userData));
+        await dispatch(RESET());
         navigate("/login");
       } else {
         toast.error("Failed to send email");
