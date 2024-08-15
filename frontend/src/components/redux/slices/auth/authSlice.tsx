@@ -398,7 +398,7 @@ const authSlice = createSlice({
         state.message = action.payload;
         state.user = null;
         toast.error(action.payload);
-        if (action.payload.includes("New broswer or device detected")) {
+        if (action?.payload?.includes("New broswer or device detected")) {
           state.twoFactor = true;
         }
       })

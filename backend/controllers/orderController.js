@@ -49,7 +49,6 @@ const createOrder = asyncHandler(async (req, res) => {
   //   const send_to = req.user.email;
   //   const template = orderSuccessEmail(req.user.name, cartItems);
   //   const reply_to = "donaldzee.ng@gmail.com";
-
   //   await sendEmail(subject, send_to, template, reply_to);
 
   res.status(201).json({ message: "Order Created" });
@@ -70,7 +69,11 @@ const getOrders = asyncHandler(async (req, res) => {
 // Get single Order
 const getOrder = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
-  // if product doesnt exist
+
+  console.log("--------------");
+  console.log("order", order);
+  console.log("--------------");
+  // if product doesn't exist
   if (!order) {
     res.status(404);
     throw new Error("Order not found");
@@ -113,46 +116,6 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "Order status updated" });
 });
-
-// Pay with stripe
-// const payWithStripe = asyncHandler(async (req, res) => {
-//   const { items, shipping, description, coupon } = req.body;
-//   const products = await Product.find();
-
-//   let orderAmount;
-//   orderAmount = calculateTotalPrice(products, items);
-//   if (coupon !== null && coupon?.name !== "nil") {
-//     let totalAfterDiscount =
-//       orderAmount - (orderAmount * coupon.discount) / 100;
-//     orderAmount = totalAfterDiscount;
-//   }
-
-//   // Create a PaymentIntent with the order amount and currency
-//   const paymentIntent = await stripe.paymentIntents.create({
-//     amount: orderAmount,
-//     currency: "usd",
-//     automatic_payment_methods: {
-//       enabled: true,
-//     },
-//     description,
-//     shipping: {
-//       address: {
-//         line1: shipping.line1,
-//         line2: shipping.line2,
-//         city: shipping.city,
-//         country: shipping.country,
-//         postal_code: shipping.postal_code,
-//       },
-//       name: shipping.name,
-//       phone: shipping.phone,
-//     },
-//     // receipt_email: customerEmail
-//   });
-
-//   res.send({
-//     clientSecret: paymentIntent.client_secret,
-//   });
-// });
 
 const payWithStripe = asyncHandler(async (req, res) => {
   const { items, shipping, description, coupon } = req.body;

@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 // import { SAVE_PAYMENT_METHOD } from "../redux/slices/checkout/checkoutSlice";
 import { selectIsLoggedIn } from "../redux/slices/auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import { SAVE_PAYMENT_METHOD } from "../redux/slices/checkout/checkoutSlice";
 
 interface ICartBottomSection {
   paymentMethod: any;
@@ -42,7 +43,6 @@ const CartBottomSection = ({
       cartItems: JSON.parse(localStorage.getItem("cartItems") as string) as [],
     });
   };
-
 
   const paymentFunc = (e: any) => {
     if (paymentMethod === "")

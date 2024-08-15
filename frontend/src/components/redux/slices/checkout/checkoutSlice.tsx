@@ -25,10 +25,25 @@ const checkoutSlice = createSlice({
       state.billingAddress = action.payload 
       localStorage.setItem('billingAddress', JSON.stringify(state.billingAddress));
     },
-    
-    SAVE_PAYMENT_METHOD(state: any, action) {
-      state.paymentMethod = action.payload
-      localStorage.setItem('paymentMethod', JSON.stringify(state.paymentMethod));
+    // SAVE_PAYMENT_METHOD(state: any, action) {
+    //   state.paymentMethod = action.payload
+    //   localStorage.setItem('paymentMethod', JSON.stringify(state.paymentMethod));
+    // },
+    // SAVE_PAYMENT_METHOD(state, action) {
+    //   state.paymentMethod = action.payload;
+    //   localStorage.setItem(
+    //     "paymentMethod",
+    //     JSON.stringify(state.paymentMethod)
+    //   );
+    // },
+    SAVE_PAYMENT_METHOD(state, action) {
+      console.log("Action Payload:", action.payload);
+      state.paymentMethod = action.payload;
+      console.log("Updated State Payment Method:", state.paymentMethod);
+      localStorage.setItem(
+        "paymentMethod",
+        JSON.stringify(state.paymentMethod)
+      );
     },
   }
 });

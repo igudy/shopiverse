@@ -10,6 +10,7 @@ import {
 import { selectUser } from "../redux/slices/auth/authSlice";
 import {
   selectBillingAddress,
+  selectPaymentMethod,
   selectShippingAddress,
 } from "../redux/slices/checkout/checkoutSlice";
 import { extractIdAndCartQuantity } from "../../utils";
@@ -24,16 +25,20 @@ import { FaSpinner } from "react-icons/fa";
 import { CardPayment } from "../cards/Card";
 import { useNavigate } from "react-router-dom";
 
-interface ICheckoutStripeComp{
-  clientSecret: any,
-  stripePromise: any,
-  setClientSecret: any
+interface ICheckoutStripeComp {
+  clientSecret: any;
+  stripePromise: any;
+  setClientSecret: any;
 }
 
-const CheckoutStripeComp = ({ clientSecret, stripePromise, setClientSecret }: ICheckoutStripeComp) => {
+const CheckoutStripeComp = ({
+  clientSecret,
+  stripePromise,
+  setClientSecret,
+}: ICheckoutStripeComp) => {
   const [message, setMessage] = useState("Initializing checkout...");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const cartItems = useSelector(selectCartItems);
   const totalAmount = useSelector(selectCartTotalAmount);
@@ -41,10 +46,14 @@ const CheckoutStripeComp = ({ clientSecret, stripePromise, setClientSecret }: IC
   const customerEmail = "";
   // const customerEmail = user.email ?? "";
 
-  const shippingAddress = localStorage.getItem("shippingAddress")
-  const billingAddress = localStorage.getItem("billingAddress")
+  const shippingAddress = localStorage.getItem("shippingAddress");
+  const billingAddress = localStorage.getItem("billingAddress");
   const { coupon } = useSelector((state: any) => state.coupon);
   const dispatch = useDispatch();
+  const cartTotalAmount = useSelector(selectCartTotalAmount);
+  const selectPayment = useSelector(selectPaymentMethod);
+
+  console.log("selectPayment==>", selectPayment);
 
   useEffect(() => {
     dispatch(CALCULATE_SUBTOTAL({ coupon: coupon }));
@@ -58,10 +67,34 @@ const CheckoutStripeComp = ({ clientSecret, stripePromise, setClientSecret }: IC
   // const newCartTotalAmount = calculateTotalPrice(cartItems, productIDs);
   // console.log(newCartTotalAmount);
 
-  
   const stripe = useStripe();
   const elements = useElements();
- 
+  const paymentMethodParsed = JSON.parse(
+    localStorage.getItem("paymentMethod") as string
+  );
+  const shippingAddressParsed = JSON.parse(
+    localStorage.getItem("shippingAddress") as string
+  );
+
+  console.log("paymentMethod:", paymentMethodParsed);
+  console.log("shippingMethod:", shippingAddressParsed);
+
+  const saveOrder = async () => {
+    const today = new Date();
+    const formData = {
+      orderDate: today.toDateString(),
+      orderTime: today.toLocaleDateString(),
+      orderAmount: cartTotalAmount,
+      orderStatus: "Order Placed...",
+      cartItems,
+      shippingAddress: shippingAddressParsed,
+      paymentMethod: paymentMethodParsed,
+      coupon: coupon != null ? coupon : { name: "nil" },
+    };
+
+    console.log("formData===>", formData);
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setMessage("");
@@ -77,7 +110,9 @@ const CheckoutStripeComp = ({ clientSecret, stripePromise, setClientSecret }: IC
         elements,
         confirmParams: {
           // Make sure to change this to your payment completion page
-          return_url: `${import.meta.env.VITE_REACT_APP_FRONTEND_URL}/checkout-success`,
+          return_url: `${
+            import.meta.env.VITE_REACT_APP_FRONTEND_URL
+          }/checkout-success`,
         },
         redirect: "if_required",
       })
@@ -92,7 +127,7 @@ const CheckoutStripeComp = ({ clientSecret, stripePromise, setClientSecret }: IC
           if (result.paymentIntent.status === "succeeded") {
             setIsLoading(false);
             toast.success("Payment successful");
-            // saveOrder(); 
+            saveOrder();
             navigate(`/checkout-success`);
           }
         }
@@ -103,7 +138,6 @@ const CheckoutStripeComp = ({ clientSecret, stripePromise, setClientSecret }: IC
 
   return (
     <div className="flex px-10 gap-10 mb-10">
-
       <div className="w-[50%]">
         <CheckoutSummary />
       </div>
@@ -131,18 +165,14 @@ const CheckoutStripeComp = ({ clientSecret, stripePromise, setClientSecret }: IC
                         {isLoading ? (
                           <FaSpinner />
                         ) : (
-                            <div className="p-2 hover:bg-blue-800 bg-blue-600 text-white rounded-xl flex justify-center my-6 w-full">
-                              Pay now
+                          <div className="p-2 hover:bg-blue-800 bg-blue-600 text-white rounded-xl flex justify-center my-6 w-full">
+                            Pay now
                           </div>
-
-                          
                         )}
                       </span>
                     </button>
                     {/* Show any error or success messages */}
-                    {message && (
-                      <div>{message}</div>
-                    )}
+                    {message && <div>{message}</div>}
                   </CardPayment>
                 </div>
               </form>

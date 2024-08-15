@@ -12,7 +12,7 @@ const {
   // payWithWallet,
 } = require("../controllers/orderController");
 
-router.post("/", protect, createOrder);
+router.post("/", createOrder);
 router.patch("/:id", protect, adminOnly, updateOrderStatus);
 
 router.get("/", protect, getOrders);

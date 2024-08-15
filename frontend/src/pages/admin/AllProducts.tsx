@@ -20,7 +20,7 @@ interface Product {
 }
 
 const AllProducts = () => {
-  const { data, error, isLoading } = useProducts()
+  const { data: productData, error, isLoading } = useProducts()
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -74,7 +74,7 @@ const AllProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.map((item: any) => (
+            {productData?.map((item: any) => (
               <tr
                 className="bg-white text-black hover:bg-gray-50"
                 key={item._id}

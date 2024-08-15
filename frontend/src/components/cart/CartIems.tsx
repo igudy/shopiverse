@@ -27,11 +27,12 @@ import debounce from "lodash.debounce";
 import { LoaderIcon } from "react-hot-toast";
 import CouponDiscount from "../coupon/CouponDiscount";
 import { REMOVE_COUPON } from "../redux/slices/coupon/couponSlice";
+import { SAVE_PAYMENT_METHOD } from "../redux/slices/checkout/checkoutSlice";
 
 const CartItems = () => {
   const cartItems = useSelector(selectCartItems);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -127,7 +128,9 @@ const CartItems = () => {
   const handlePaymentMethodChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setPaymentMethod(event.target.value);
+    const selectedPaymentMethod = event.target.value
+    setPaymentMethod(selectedPaymentMethod);
+    localStorage.setItem("paymentMethod", JSON.stringify(selectedPaymentMethod));
   };
 
   return (
@@ -285,8 +288,8 @@ const CartItems = () => {
             </div>
           </div>
 
-          {/* Coupon Discount */}
-          {/* <div>
+    {/* Coupon Discount */}
+      {/* <div>
         {isLoadingCoupon ? (
           <p><LoaderIcon /></p>
         ) : isErrorCoupon ? (
@@ -302,7 +305,8 @@ const CartItems = () => {
           </>}
         </div>
         )}
-      </div> */}
+      </div> 
+      */}
 
           {/* Cart Discount if any */}
           <CouponDiscount />
