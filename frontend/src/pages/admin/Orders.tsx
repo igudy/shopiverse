@@ -1,4 +1,5 @@
 import React from "react";
+import AdminOrders from "../../components/orders/AdminOrders";
 
 const Orders = () => {
   return (
@@ -7,7 +8,9 @@ const Orders = () => {
       <p className="text-sm text-[#707EAE] font-medium mt-3 ">
         Pages / View Orders
       </p>
-      <p className="text-2xl font-[700] text-[#2B3674]">Orders</p>
+      <p className="text-2xl font-[700] text-[#2B3674]">All Orders</p>
+
+      <AdminOrders/>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { IconButton, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useGetOrdersQuery } from '../redux/api/orderApi';
 import { GiHamburgerMenu } from "react-icons/gi";
+import { IGetOrders } from '../redux/api/types/orderApi.types';
 
 const OrderHistoryComp = () => {
   const { data: orderData, isLoading: isLoadingOrder, isError: isErrorOrder } = useGetOrdersQuery({});
@@ -68,16 +69,17 @@ const OrderHistoryComp = () => {
     },
   ];
 
-  const rows = orderData ? orderData.map((order: any, index: number) => ({
-    id: order._id, // Pass the order _id directly from the backend
-    index: index + 1,
-    orderDate: order.orderDate,
-    orderAmount: order.orderAmount,
-    paymentMethod: order.paymentMethod,
-    orderStatus: order.orderStatus,
-    shippingAddress: order.shippingAddress?.street ? `${order.shippingAddress.street}, ${order.shippingAddress.city}` : order.shippingAddress || '',
-    cartItems: order.cartItems.map((item: any) => `${item.name} (${item.brand})`).join(', '),
-  })) : [];
+  // The below is how to fix the map type issue
+  const rows = Array.isArray(orderData) ? orderData.map((order: IGetOrders, index: number) => ({
+  id: order._id, // Pass the order _id directly from the backend
+  index: index + 1,
+  orderDate: order.orderDate,
+  orderAmount: order.orderAmount,
+  paymentMethod: order.paymentMethod,
+  orderStatus: order.orderStatus,
+  shippingAddress: order.shippingAddress?.street ? `${order.shippingAddress.street}, ${order.shippingAddress.city}` : 'NO shipping address',
+  cartItems: order.cartItems.map((item: any) => `${item.name} (${item.brand})`).join(', '),
+})) : [];
 
   return (
     <>

@@ -9,21 +9,20 @@ import { BASE_URL, API_VERSION } from "../../constants/constants";
 
 export const orderApi = createApi({
   reducerPath: "orderApi",
-  tagTypes: ["orderTagTypes"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${BASE_URL}/${API_VERSION}`,
     credentials: "include",
   }),
+  tagTypes: ["Order", "Orders"],
   endpoints: (builder) => ({
     // Single Order
-getOrder: builder.query<IGetOrder, string | null>({
-  query: (id) => `orderRoute/${id}`, 
-  providesTags: ["orderTagTypes"],
-}),
+    getOrder: builder.query<IGetOrder, string | null>({
+      query: (id) => `orderRoute/${id}`, 
+ providesTags: ["Order"],    }),
     // All Orders
-    getOrders: builder.query<IGetOrders, any>({
+    getOrders: builder.query<IGetOrders, void>({
       query: () => `orderRoute/`,
-      providesTags: ["orderTagTypes"],
+      providesTags: ["Orders"],
     }),
     // Create Order
     createOrder: builder.mutation<ICreateOrder, any>({
@@ -32,15 +31,19 @@ getOrder: builder.query<IGetOrder, string | null>({
         method: "POST",
         body: payload,
       }),
-      invalidatesTags: ["orderTagTypes"],
+      invalidatesTags: ["Orders"],
     }),
     // Update Order
     updateOrder: builder.mutation<IUpdateOrder, any>({
-      query: (id) => ({
+      query: ({ id, ...payload }) => ({
         url: `orderRoute/${id}`,
         method: "PATCH",
+        body: payload,
       }),
-      invalidatesTags: ["orderTagTypes"],
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Order", id },
+        "Orders",
+      ],
     }),
   }),
 });

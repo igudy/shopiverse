@@ -121,7 +121,7 @@ const OrderDetailsComponent = () => {
                       )}
                     </>
                   ) : (
-                    "NO shipping address"
+                    "No shipping address"
                   )}
                 </td>
               </tr>
