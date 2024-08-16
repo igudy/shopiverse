@@ -109,7 +109,7 @@ const ProductCards = ({
     // const temp = { id, title, text, rating, btn, img, price, color, shadow };
     // dispatch(ADD_TO_CART(temp));
 
-    console.log("Added to cart!")
+    // console.log("Added to cart!")
   };
 
   return (

@@ -17,7 +17,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [navState, setNavState] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const user = useSelector(selectUser);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
 
@@ -91,11 +91,11 @@ const Navbar = () => {
               </p>
             </Link>
           </ShowOnLogin>
-          <ShowOnLogin>
-            <Link to="/profile">
-              <p className="cursor-pointer hover:underline">Profile</p>
-            </Link>
-          </ShowOnLogin>
+        <ShowOnLogin>
+          <Link to="/order-history">
+            <p className="cursor-pointer hover:underline">My Orders</p>
+          </Link>
+        </ShowOnLogin>
           <ShowOnLogout>
             <Link to="/login">
               <p className="cursor-pointer hover:underline">Login</p>

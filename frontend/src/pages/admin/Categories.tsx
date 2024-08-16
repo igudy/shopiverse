@@ -33,7 +33,6 @@ const Categories = () => {
         name: categoryName,
         slug: categorySlug,
       };
-      console.log(payload);
       await createCategory(payload);
       toast.success(`Category ${categoryName} created successfully`);
 

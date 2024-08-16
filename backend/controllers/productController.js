@@ -154,7 +154,6 @@ const deleteReview = asyncHandler(async (req, res) => {
   const newRatings = product.ratings.filter((rating) => {
     return rating.userID.toString() !== userID.toString();
   });
-  // console.log(newRatings);
   product.ratings = newRatings;
   product.save();
   res.status(200).json({ message: "Product rating deleted!!!." });

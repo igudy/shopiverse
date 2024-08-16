@@ -85,12 +85,12 @@ const HomeNavbar = () => {
           </Link>
         </ShowOnLogout>
         <ShowOnLogin>
-          <Link to="/profile">
-            <p className="cursor-pointer hover:underline">Hi {user?.name}</p>
+          <Link to="/order-history">
+            <p className="cursor-pointer hover:underline">My Orders</p>
           </Link>
         </ShowOnLogin>
         <ShowOnLogin>
-          <Link to="/profile">
+          <Link to="/orders">
             <p className="cursor-pointer hover:underline">Profile</p>
           </Link>
         </ShowOnLogin>

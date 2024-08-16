@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   CALCULATE_SUBTOTAL,
   CALCULATE_TOTAL_QUANTITY,
+  CLEAR_CART,
   selectCartItems,
   selectCartTotalAmount,
 } from "../redux/slices/cart/CartSlice";
@@ -24,6 +25,7 @@ import Card from "../admin/Card";
 import { FaSpinner } from "react-icons/fa";
 import { CardPayment } from "../cards/Card";
 import { useNavigate } from "react-router-dom";
+import { useCreateOrderMutation } from "../redux/api/orderApi";
 
 interface ICheckoutStripeComp {
   clientSecret: any;
@@ -39,19 +41,17 @@ const CheckoutStripeComp = ({
   const [message, setMessage] = useState("Initializing checkout...");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
   const cartItems = useSelector(selectCartItems);
   const totalAmount = useSelector(selectCartTotalAmount);
   const user = useSelector(selectUser);
   const customerEmail = "";
   // const customerEmail = user.email ?? "";
-
-  const shippingAddress = localStorage.getItem("shippingAddress");
-  const billingAddress = localStorage.getItem("billingAddress");
   const { coupon } = useSelector((state: any) => state.coupon);
   const dispatch = useDispatch();
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const selectPayment = useSelector(selectPaymentMethod);
+
+  const [createOrder, { isLoading: isLoadingCreateOrder }] = useCreateOrderMutation({});
 
   console.log("selectPayment==>", selectPayment);
 
@@ -76,6 +76,10 @@ const CheckoutStripeComp = ({
     localStorage.getItem("shippingAddress") as string
   );
 
+    const clearCart = () => {
+    dispatch(CLEAR_CART({}));
+  };
+
   console.log("paymentMethod:", paymentMethodParsed);
   console.log("shippingMethod:", shippingAddressParsed);
 
@@ -92,7 +96,14 @@ const CheckoutStripeComp = ({
       coupon: coupon != null ? coupon : { name: "nil" },
     };
 
-    console.log("formData===>", formData);
+try {
+  const res = await createOrder(formData).unwrap();
+  console.log("res==>", res)
+  toast.success(res.message || "Order created successfully");
+} catch (error) {
+  console.error("Error creating order:", error);
+  toast.error("Failed to create order");
+}
   };
 
   const handleSubmit = async (e: any) => {
@@ -128,6 +139,7 @@ const CheckoutStripeComp = ({
             setIsLoading(false);
             toast.success("Payment successful");
             saveOrder();
+            clearCart()
             navigate(`/checkout-success`);
           }
         }

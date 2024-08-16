@@ -12,9 +12,6 @@ const User = require("../models/userModel");
 
 // Create order
 const createOrder = asyncHandler(async (req, res) => {
-  console.log("req res and others===>", req.user);
-  console.log("--------------->");
-
   const {
     orderDate,
     orderTime,
@@ -36,9 +33,6 @@ const createOrder = asyncHandler(async (req, res) => {
 
   const user = await User.findById(req.user._id);
 
-  console.log("userrrrr===>", user);
-
-  // Create Order
   await Order.create({
     user: user,
     orderDate,
@@ -63,13 +57,10 @@ const createOrder = asyncHandler(async (req, res) => {
 
 // Get all Orders
 const getOrders = asyncHandler(async (req, res) => {
-  // console.log("req.user==>", req.user);
-
   let orders;
 
   if (req.user.role === "admin") {
     orders = await Order.find().sort("-createdAt");
-    // console.log("Admin orders found:", orders);
     return res.status(200).json(orders);
   }
 
@@ -79,7 +70,6 @@ const getOrders = asyncHandler(async (req, res) => {
   }
 
   orders = await Order.find({ user: req.user._id }).sort("-createdAt");
-  // console.log("User orders found:", orders);
   res.status(200).json(orders);
 });
 

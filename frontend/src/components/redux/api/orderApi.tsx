@@ -14,30 +14,30 @@ export const orderApi = createApi({
     baseUrl: `${BASE_URL}/${API_VERSION}`,
     credentials: "include",
   }),
-    endpoints: (builder) => ({
-    //   Single
-    getOrder: builder.query<IGetOrder, any>({
-      query: () => `orderRoute/getOrder`,
-      providesTags: ["orderTagTypes"],
-    }),
-        // All Orders
+  endpoints: (builder) => ({
+    // Single Order
+getOrder: builder.query<IGetOrder, string | null>({
+  query: (id) => `orderRoute/${id}`, 
+  providesTags: ["orderTagTypes"],
+}),
+    // All Orders
     getOrders: builder.query<IGetOrders, any>({
-      query: () => `orderRoute/getOrders`,
+      query: () => `orderRoute/`,
       providesTags: ["orderTagTypes"],
     }),
-    // Create Orders
+    // Create Order
     createOrder: builder.mutation<ICreateOrder, any>({
       query: (payload) => ({
-        url: `orderRoute/createBrand`,
+        url: `orderRoute/`,
         method: "POST",
         body: payload,
       }),
       invalidatesTags: ["orderTagTypes"],
     }),
-    // Update Orders
+    // Update Order
     updateOrder: builder.mutation<IUpdateOrder, any>({
       query: (id) => ({
-        url: `orederRoute/${id}`,
+        url: `orderRoute/${id}`,
         method: "PATCH",
       }),
       invalidatesTags: ["orderTagTypes"],
@@ -49,5 +49,5 @@ export const {
   useGetOrderQuery,
   useGetOrdersQuery,
   useCreateOrderMutation,
-  useUpdateOrderMutation
+  useUpdateOrderMutation,
 } = orderApi;

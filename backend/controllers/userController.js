@@ -254,9 +254,6 @@ const getUsers = asyncHandler(async (req, res) => {
 const loginStatus = asyncHandler(async (req, res) => {
   const token = req.cookies.token;
 
-  console.log("req.cookies from loginstatus==>", req.cookies);
-  console.log("tooken from loginStatuss==>", token);
-
   if (!token) {
     return res.json(false);
   }
@@ -424,7 +421,6 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
 
   const user = await User.findOne({ email });
-  // console.log(email);
 
   if (!user) {
     res.status(404);
@@ -483,9 +479,6 @@ const forgotPassword = asyncHandler(async (req, res) => {
 const resetPassword = asyncHandler(async (req, res) => {
   const { resetToken } = req.params;
   const { password } = req.body;
-  // console.log(resetToken);
-  // console.log(password);
-
   const hashedToken = hashToken(resetToken);
 
   const userToken = await Token.findOne({
@@ -678,15 +671,12 @@ const updatePhoto = asyncHandler(async (req, res) => {
 // Login with google
 const loginWithGoogle = asyncHandler(async (req, res) => {
   const { userToken } = req.body;
-  // console.log(userToken);
-
   const ticket = await client.verifyIdToken({
     idToken: userToken,
     audience: process.env.GOOGLE_CLIENT_ID,
   });
 
   const payload = ticket.getPayload();
-  // console.log(payload);
   const { name, email, picture, sub } = payload;
 
   // Create password
