@@ -12,6 +12,9 @@ const User = require("../models/userModel");
 
 // Create order
 const createOrder = asyncHandler(async (req, res) => {
+  console.log("req res and others===>", req.user);
+  console.log("--------------->");
+
   const {
     orderDate,
     orderTime,
@@ -31,14 +34,18 @@ const createOrder = asyncHandler(async (req, res) => {
 
   const updatedProduct = await updateProductQuantity(cartItems);
 
+  const user = await User.findById(req.user._id);
+
+  console.log("userrrrr===>", user);
+
   // Create Order
   await Order.create({
-    user: req.user.id,
+    user: user,
     orderDate,
     orderTime,
     orderAmount,
     orderStatus,
-    cartItems,
+    cartItems: updatedProduct,
     shippingAddress,
     paymentMethod,
     coupon,
@@ -56,13 +63,23 @@ const createOrder = asyncHandler(async (req, res) => {
 
 // Get all Orders
 const getOrders = asyncHandler(async (req, res) => {
+  // console.log("req.user==>", req.user);
+
   let orders;
 
   if (req.user.role === "admin") {
     orders = await Order.find().sort("-createdAt");
+    // console.log("Admin orders found:", orders);
     return res.status(200).json(orders);
   }
+
+  if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
+    res.status(400);
+    throw new Error("Invalid User ID");
+  }
+
   orders = await Order.find({ user: req.user._id }).sort("-createdAt");
+  // console.log("User orders found:", orders);
   res.status(200).json(orders);
 });
 
@@ -70,9 +87,6 @@ const getOrders = asyncHandler(async (req, res) => {
 const getOrder = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
-  console.log("--------------");
-  console.log("order", order);
-  console.log("--------------");
   // if product doesn't exist
   if (!order) {
     res.status(404);
@@ -157,6 +171,27 @@ const payWithStripe = asyncHandler(async (req, res) => {
     clientSecret: paymentIntent.client_secret,
   });
 });
+
+const updateProductQuantity = async (cartItems) => {
+  let bulkOption = cartItems.map((product) => {
+    return {
+      updateOne: {
+        filter: { _id: product._id },
+        update: {
+          $inc: {
+            quantity: -product.cartQuantity,
+            sold: +product.cartQuantity,
+          },
+        },
+      },
+    };
+  });
+
+  await Product.bulkWrite(bulkOption, {});
+
+  // Return the updated product information or cartItems
+  return cartItems; // Or you can return updated product information if needed
+};
 
 module.exports = {
   createOrder,

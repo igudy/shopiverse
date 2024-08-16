@@ -5,10 +5,6 @@ const jwt = require("jsonwebtoken");
 const protect = asyncHandler(async (req, res, next) => {
   try {
     const token = req.cookies.token;
-
-    // console.log("request.cookies==>", req.cookies);
-    // console.log("Tokenn====>", token);
-
     if (!token) {
       res.status(401);
     }
@@ -31,7 +27,7 @@ const protect = asyncHandler(async (req, res, next) => {
     }
 
     req.user = user;
-    console.log("req.user", req.user);
+    console.log("req.user=====>", req.user);
     next();
   } catch (error) {
     res.status(401);

@@ -3,7 +3,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useGetOrdersQuery } from '../redux/api/orderApi';
 
 const OrderHistoryComp = () => {
-  const { data: isOrderData, isLoading: isLoadingOrder, isError: isErrorOrder } = useGetOrdersQuery()
+  const { data: isOrderData, isLoading: isLoadingOrder, isError: isErrorOrder } = useGetOrdersQuery({})
   console.log("orderdata==>", isOrderData)
 
 

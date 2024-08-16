@@ -10,6 +10,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { brandApi } from "./api/brandApi";
 import { cartApi } from "./api/cartApi.jsx";
 import { couponApi } from "./api/couponApi.jsx";
+import { orderApi } from "./api/orderApi";
 
 const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ const store = configureStore({
     [brandApi.reducerPath]: brandApi.reducer,
     [cartApi.reducerPath]: cartApi.reducer,
     [couponApi.reducerPath]: couponApi.reducer,
+    [orderApi.reducerPath]: orderApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     // remember to add the middlewares and concat them
@@ -31,7 +33,8 @@ const store = configureStore({
       categoryApi.middleware,
       brandApi.middleware,
       cartApi.middleware,
-      couponApi.middleware
+      couponApi.middleware,
+      orderApi.middleware
     ),
 });
 
