@@ -7,8 +7,8 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const axios = require("axios");
 const User = require("../models/userModel");
 // const Transaction = require("../models/transactionModel");
-// const { orderSuccessEmail } = require("../emailTemplates/orderTemplate");
-// const sendEmail = require("../utils/sendEmail");
+const { orderSuccessEmail } = require("../emailTemplates/orderTemplate");
+const sendGmail = require("../utils/sendGmail");
 
 // Create order
 const createOrder = asyncHandler(async (req, res) => {
@@ -46,11 +46,11 @@ const createOrder = asyncHandler(async (req, res) => {
   });
 
   // Send Order Email to the user
-  //   const subject = "Shopito Order Placed";
-  //   const send_to = req.user.email;
-  //   const template = orderSuccessEmail(req.user.name, cartItems);
-  //   const reply_to = "donaldzee.ng@gmail.com";
-  //   await sendEmail(subject, send_to, template, reply_to);
+  const subject = "Shopiverse Order Placed";
+  const send_to = req.user.email;
+  const template = orderSuccessEmail(req.user.name, cartItems);
+  const reply_to = "goodnessigunma1@gmail.com";
+  await sendGmail(subject, send_to, template, reply_to);
 
   res.status(201).json({ message: "Order Created" });
 });

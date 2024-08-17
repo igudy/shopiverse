@@ -55,7 +55,6 @@ const Register = () => {
       toast.error("Invalid, password does not match");
     } else {
       // Passwords match, continue with submission.
-      // console.log(`data submitted`, data);
       const userData: any = {
         name: data?.name,
         password: data?.password,
@@ -74,7 +73,6 @@ const Register = () => {
   }, [isLoggedIn, isSuccess, dispatch, navigate]);
 
   const googleLogin = async (credentialResponse: any) => {
-    console.log(credentialResponse);
     await dispatch(
       loginWithGoogle({ userToken: credentialResponse.credential })
     );

@@ -82,7 +82,6 @@ const Login = () => {
 
   const [urlParams] = useSearchParams();
   
-  console.log(urlParams.get("redirect"));
   const redirect = urlParams.get("redirect");
   
   console.log("redirect===>", redirect);
@@ -227,7 +226,6 @@ const Login = () => {
               <GoogleLogin
                 onSuccess={googleLogin}
                 onError={() => {
-                  console.log("Login Failed");
                   toast.error("Login Failed");
                 }}
                 size="large"

@@ -24,7 +24,6 @@ const CheckoutStripe = () => {
 
   const [message, setMessage] = useState("Initializing checkout...");
 
-  console.log("backend url==>", backendUrl);
 
   const shippingAddress = localStorage.getItem("shippingAddress")
     ? JSON.parse(localStorage.getItem("shippingAddress") as string)
@@ -51,18 +50,15 @@ const CheckoutStripe = () => {
       }),
     })
       .then((res) => {
-        console.log("res", res)
         if (res.ok) {
           return res.json();
         }
         return res.json().then((json) => Promise.reject(json));
       })
       .then((data) => {
-        console.log("data==>", data)
         setClientSecret(data?.clientSecret);
       })
       .catch((error) => {
-         console.log("error", error)
         setMessage("Failed to initialize checkout");
         toast.error("Something went wrong!!!");
       });
