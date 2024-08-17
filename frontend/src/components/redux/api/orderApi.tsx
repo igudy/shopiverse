@@ -17,8 +17,9 @@ export const orderApi = createApi({
   endpoints: (builder) => ({
     // Single Order
     getOrder: builder.query<IGetOrder, string | null>({
-      query: (id) => `orderRoute/${id}`, 
- providesTags: ["Order"],    }),
+      query: (id) => `orderRoute/${id}`,
+      providesTags: ["Order"],
+    }),
     // All Orders
     getOrders: builder.query<IGetOrders, void>({
       query: () => `orderRoute/`,

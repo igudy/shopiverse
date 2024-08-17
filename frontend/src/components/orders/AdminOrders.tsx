@@ -103,18 +103,18 @@ const AdminOrders = () => {
     handleClose();
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Order Placed":
-        return "red";
-      case "Processing":
-        return "orange";
-      case "Successful":
-        return "green";
-      default:
-        return "";
-    }
-  };
+  // const getStatusColor = (status: string) => {
+  //   switch (status) {
+  //     case "Order Placed":
+  //       return "red";
+  //     case "Processing":
+  //       return "orange";
+  //     case "Successful":
+  //       return "green";
+  //     default:
+  //       return "";
+  //   }
+  // };
 
   const columns: GridColDef[] = [
     { field: "index", headerName: "S/N", width: 70 },
