@@ -34,14 +34,14 @@ import NotFound from "./pages/404/NotFound.jsx";
 import { useGetCartQuery } from "./components/redux/api/cartApi.jsx";
 import Cart from "./pages/cart/Cart.jsx";
 import CheckoutDetails from "./pages/checkout-details/CheckoutDetails.jsx";
-import CheckoutStripe from "./pages/checkout-details/CheckoutStripe.jsx";
+import CheckoutStripe from "./pages/checkout/CheckoutStripe.jsx";
 import CheckoutSuccess from "./pages/checkout-success/CheckoutSuccess.jsx";
 import OrderHistory from "./pages/orders/OrderHistory.jsx";
 import OrderDetails from "./pages/orders/OrderDetails.jsx";
 import { AppDispatch } from "./components/redux/store";
-import CheckoutFlutterwave from "./pages/checkout-details/CheckoutFlutterwave";
-import CheckoutPaypal from "./pages/checkout-details/CheckoutPaypal";
-import CheckoutWallet from "./pages/checkout-details/CheckoutWallet";
+import CheckoutFlutterwave from "./pages/checkout/CheckoutFlutterwave";
+import CheckoutPaypal from "./pages/checkout/CheckoutPaypal";
+import CheckoutWallet from "./pages/checkout/CheckoutWallet";
 
 axios.defaults.withCredentials = true;
 

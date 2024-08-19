@@ -158,7 +158,8 @@ const CheckoutDetailsSection = () => {
                 <label htmlFor="address" className="flex mt-4">
                   Address Line 2{" "}
                   {errors.address_line_2 && (
-                    <div className=" text-red-800 text-[12px] flex items-center mx-2">
+                    <div className=" text-red-800 text-[12px] 
+                    flex items-center mx-2">
                       <AiFillCloseCircle />
                       {errors.address_line_2.message as string}
                     </div>
@@ -176,7 +177,8 @@ const CheckoutDetailsSection = () => {
                 <label htmlFor="city" className="flex mt-4">
                   City{" "}
                   {errors.city && (
-                    <div className=" text-red-800 text-[12px] flex items-center mx-2">
+                    <div className=" text-red-800 text-[12px] 
+                    flex items-center mx-2">
                       <AiFillCloseCircle />
                       {errors.city.message as string}
                     </div>
@@ -194,7 +196,8 @@ const CheckoutDetailsSection = () => {
                 <label htmlFor="address" className="flex mt-4">
                   State
                   {errors.state && (
-                    <div className=" text-red-800 text-[12px] flex items-center mx-2">
+                    <div className=" text-red-800 text-[12px] flex 
+                    items-center mx-2">
                       <AiFillCloseCircle />
                       {errors.state.message as string}
                     </div>
@@ -212,7 +215,8 @@ const CheckoutDetailsSection = () => {
                 <label htmlFor="address" className="flex mt-4">
                   Postal Code{" "}
                   {errors.postal_code && (
-                    <div className=" text-red-800 text-[12px] flex items-center mx-2">
+                    <div className=" text-red-800 text-[12px] flex
+                     items-center mx-2">
                       <AiFillCloseCircle />
                       {errors.postal_code.message as string}
                     </div>
@@ -430,8 +434,7 @@ const CheckoutDetailsSection = () => {
           // xsm:justify-center justify-center flex flex-col
           // xsm:hidden sm:hidden md:hidden lg:hidden
           // sm:justify-center left-0
-          className="
-        flex flex-col mx-10 sm:mx-2 xsm:mx-2 p-5 
+          className="flex flex-col mx-10 sm:mx-2 xsm:mx-2 p-5 
         my-7 shadow-2xl right-0  min-w-xl w-full
         "
         >
