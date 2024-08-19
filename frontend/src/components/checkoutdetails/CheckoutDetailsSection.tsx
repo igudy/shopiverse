@@ -6,7 +6,10 @@ import { checkout_details } from "../validation-schema/checkout-schema";
 import CheckoutSummary from "./CheckoutSummary";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { SAVE_BILLING_ADDRESS, SAVE_SHIPPING_ADDRESS } from "../redux/slices/checkout/checkoutSlice";
+import {
+  SAVE_BILLING_ADDRESS,
+  SAVE_SHIPPING_ADDRESS,
+} from "../redux/slices/checkout/checkoutSlice";
 
 const CheckoutDetailsSection = () => {
   const {
@@ -18,7 +21,7 @@ const CheckoutDetailsSection = () => {
     resolver: zodResolver(checkout_details),
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [locationError, setLocationError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -59,19 +62,26 @@ const CheckoutDetailsSection = () => {
   };
 
   const onSubmit = async (data: any) => {
-  console.log("Form Data:", data);
-  
-  const shippingAddress = data?.address_line_1;
-  const billingAddress = data?.biller_address_line_1;
-  
-    
-  localStorage.setItem('shippingAddress', JSON.stringify(shippingAddress));
-  localStorage.setItem('billingAddress', JSON.stringify(billingAddress));
-  navigate("/checkout-stripe");
-  
-    
-};
-  
+    console.log("Form Data:", data);
+    const paymentMethod = JSON.parse(localStorage.getItem("paymentMethod") as string) || "";
+
+    const shippingAddress = data?.address_line_1;
+    const billingAddress = data?.biller_address_line_1;
+
+    localStorage.setItem("shippingAddress", JSON.stringify(shippingAddress));
+    localStorage.setItem("billingAddress", JSON.stringify(billingAddress));
+
+    if (paymentMethod === "stripe") {
+      navigate("/checkout-stripe");
+    } else if (paymentMethod === "flutterwave") {
+      navigate("/checkout-flutterwave");
+    } else if (paymentMethod === "paypal") {
+      navigate("/checkout-paypal");
+    } else {
+      navigate("/checkout-wallet");
+    }
+  };
+
   return (
     <div>
       <div
@@ -426,7 +436,7 @@ const CheckoutDetailsSection = () => {
         "
         >
           {/* Checkout Summary */}
-       <CheckoutSummary />
+          <CheckoutSummary />
         </div>
       </div>
     </div>

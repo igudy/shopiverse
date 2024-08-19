@@ -16,8 +16,7 @@ import { useSaveCartToDBMutation } from "../redux/api/cartApi";
 const Details = () => {
   const { id } = useParams();
 
-  // ****Skipped image slider logic**** //
-  
+  // ***** Skipped image slider logic ***** //
   const dispatch = useDispatch();
   const [imageIndex, setImageIndex] = useState(0);
   const { data: product, error, isLoading } = useGetProductQuery(id);
@@ -82,6 +81,9 @@ const Details = () => {
             <div className="text-sm text-gray-600">
               {product?.quantity} units availiable
             </div>
+            <div className="text-sm text-gray-600">
+              {product?.sold || "0"} sold
+            </div>
             <HorizontalLine />
             <div className="flex items-center gap-1 font-bold">
               5
@@ -98,7 +100,8 @@ const Details = () => {
                   <div className="mt-3 font-bold text-2xl text-gray-500">
                     Quantity
                   </div>
-                  <div className="border-2 p-1 rounded-lg gap-5 flex items-center justify-center font-semibold">
+                  <div className="border-2 p-1 rounded-lg gap-5 flex 
+                  items-center justify-center font-semibold">
                     <div
                       className="w-10 h-10 cursor-pointer 
                       hover:bg-gray-100 bg-white rounded-lg 
@@ -127,7 +130,10 @@ const Details = () => {
             {product?.quantity > 0 ? (
               <>
                 <button
-                  className="bg-purple-500 hover:bg-purple-600 cursor-pointer text-white w-full flex justify-center items-center rounded-lg font-bold text-sm h-10 border-1 mt-5"
+                  className="bg-purple-500 hover:bg-purple-600 
+                  cursor-pointer text-white w-full flex 
+                  justify-center items-center rounded-lg 
+                  font-bold text-sm h-10 border-1 mt-5"
                   onClick={() => addToCart(product)}
                 >
                   Add to Cart
@@ -137,7 +143,11 @@ const Details = () => {
               <>
                 <button
                   disabled
-                  className="bg-purple-500 hover:bg-purple-600 cursor-pointer text-white w-full flex justify-center items-center rounded-lg font-bold text-sm h-10 border-1 mt-5"
+                    className="bg-purple-500 
+                    hover:bg-purple-600 cursor-pointer 
+                  text-white w-full flex justify-center 
+                  items-center rounded-lg font-bold text-sm 
+                  h-10 border-1 mt-5"
                 >
                   Out of Stock
                 </button>

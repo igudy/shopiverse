@@ -356,7 +356,7 @@ const CartItems = () => {
             <span>PayPal</span>
           </label>
 
-          <label className="flex bg-gray-100 p-2 shadow-md items-center cursor-pointer mb-2 hover:translate-x-1 transition-all">
+          {/* <label className="flex bg-gray-100 p-2 shadow-md items-center cursor-pointer mb-2 hover:translate-x-1 transition-all">
             <input
               type="radio"
               name="payment"
@@ -367,7 +367,7 @@ const CartItems = () => {
             />
             <FaBitcoin className="text-orange-500 mr-2" />
             <span>Bitcoin (BTC)</span>
-          </label>
+          </label> */}
 
           <label className="flex bg-gray-100 p-2 shadow-md items-center cursor-pointer mb-2 hover:translate-x-1 transition-all">
             <input

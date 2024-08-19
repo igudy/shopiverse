@@ -6,7 +6,7 @@
   "editor.formatOnSaveMode": "file",
   "editor.defaultFoldingRangeProvider": "esbenp.prettier-vscode",
   "editor.formatOnType": true,
-  "files.autoSave": "afterDelay",
+  "files.autoSave": "off",
   "[xml]": {
     "editor.defaultFormatter": "DotJoshJohnson.xml"
   },

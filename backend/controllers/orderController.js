@@ -29,8 +29,6 @@ const createOrder = asyncHandler(async (req, res) => {
     throw new Error("Order data missing!!!");
   }
 
-  const updatedProduct = await updateProductQuantity(cartItems);
-
   const user = await User.findById(req.user._id);
 
   await Order.create({
@@ -39,11 +37,13 @@ const createOrder = asyncHandler(async (req, res) => {
     orderTime,
     orderAmount,
     orderStatus,
-    cartItems: updatedProduct,
+    cartItems,
     shippingAddress,
     paymentMethod,
     coupon,
   });
+
+  await updateProductQuantity(cartItems);
 
   // Send Order Email to the user
   const subject = "Shopiverse Order Placed";
@@ -181,6 +181,53 @@ const updateProductQuantity = async (cartItems) => {
 
   // Return the updated product information or cartItems
   return cartItems; // Or you can return updated product information if needed
+};
+
+const payWithFlutterwave = async (req, res) => {
+  const { items, userID } = req.body;
+  const products = await Product.find();
+  const user = await User.findById(userID);
+  const orderAmount = calculateTotalPrice(products, items);
+  const url = "https://api.flutterwave.com/v3/payments";
+
+  const json = {
+    tx_ref: "shopito-48981487343MDI0NzMx",
+    amount: orderAmount,
+    currency: "USD",
+    payment_options: "card, banktransfer, ussd",
+    redirect_url: "http://localhost:3000/response",
+    //   meta: {
+    //     consumer_id: 23,
+    //     consumer_mac: "92a3-912ba-1192a",
+    //   },
+    customer: {
+      email: user?.email,
+      phone_number: user.phone,
+      name: user.name,
+    },
+    customizations: {
+      title: "Shopiverse Online Store",
+      description: "Payment for products",
+      logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
+    },
+  };
+
+  axios
+    .post(url, json, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${process.env.FLW_SECRET_KEY}`,
+      },
+    })
+    .then(({ data }) => {
+      // console.log(data);
+      return res.status(200).json(data);
+    })
+    .catch((err) => {
+      // console.log(err.message);
+      return res.json(err.message);
+    });
 };
 
 module.exports = {

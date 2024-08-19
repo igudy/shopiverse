@@ -39,6 +39,9 @@ import CheckoutSuccess from "./pages/checkout-success/CheckoutSuccess.jsx";
 import OrderHistory from "./pages/orders/OrderHistory.jsx";
 import OrderDetails from "./pages/orders/OrderDetails.jsx";
 import { AppDispatch } from "./components/redux/store";
+import CheckoutFlutterwave from "./pages/checkout-details/CheckoutFlutterwave";
+import CheckoutPaypal from "./pages/checkout-details/CheckoutPaypal";
+import CheckoutWallet from "./pages/checkout-details/CheckoutWallet";
 
 axios.defaults.withCredentials = true;
 
@@ -74,7 +77,12 @@ const App = () => {
         <Route path="/verify/:verificationToken" element={<Verify />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout-details" element={<CheckoutDetails />} />
+        
         <Route path="/checkout-stripe" element={<CheckoutStripe />} />
+        <Route path="/checkout-flutterwave" element={<CheckoutFlutterwave />} />
+        <Route path="/checkout-paypal" element={<CheckoutPaypal />} />
+        <Route path="/checkout-wallet" element={<CheckoutWallet />} />
+
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/order-details" element={<OrderDetails />} />

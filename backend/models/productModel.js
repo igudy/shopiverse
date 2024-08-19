@@ -15,6 +15,11 @@ const productSchema = mongoose.Schema(
       type: Number,
       required: [false, "Please enter the quantity"],
     },
+    sold: {
+      type: Number,
+      default: 0,
+      trim: true,
+    },
     price: {
       type: Number,
       required: [false, "Please enter your real price"],
