@@ -17,6 +17,23 @@ const hashToken = (token) => {
 };
 
 // Calculate total price
+// function calculateTotalPrice(products, cartItems) {
+//   let totalPrice = 0;
+
+//   cartItems.forEach(function (cartItem) {
+//     const product = products.find(function (product) {
+//       return product._id?.toString() === cartItem._id;
+//     });
+
+//     if (product) {
+//       const quantity = cartItem.cartQuantity;
+//       const price = parseFloat(product.price);
+//       totalPrice += quantity * price;
+//     }
+//   });
+//   return totalPrice;
+// }
+
 function calculateTotalPrice(products, cartItems) {
   let totalPrice = 0;
 
@@ -26,12 +43,20 @@ function calculateTotalPrice(products, cartItems) {
     });
 
     if (product) {
+      console.log("Product is available");
       const quantity = cartItem.cartQuantity;
+      console.log("quantity", quantity);
       const price = parseFloat(product.price);
-      totalPrice += quantity * price;
+      console.log("price", price);
+
+      if (!isNaN(price) && quantity > 0) {
+        totalPrice += quantity * price;
+        console.log(`Adding ${quantity} * ${price} = ${quantity * price}`);
+      }
     }
   });
 
+  console.log("Total Price:", totalPrice);
   return totalPrice;
 }
 

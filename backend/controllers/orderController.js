@@ -9,6 +9,7 @@ const User = require("../models/userModel");
 // const Transaction = require("../models/transactionModel");
 const { orderSuccessEmail } = require("../emailTemplates/orderTemplate");
 const sendGmail = require("../utils/sendGmail");
+const crypto = require("crypto");
 
 // Create order
 const createOrder = asyncHandler(async (req, res) => {
@@ -136,7 +137,7 @@ const payWithStripe = asyncHandler(async (req, res) => {
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
     amount: orderAmount,
-    currency: "usd",
+    currency: "ngn",
     automatic_payment_methods: {
       enabled: true,
     },
@@ -188,22 +189,28 @@ const payWithFlutterwave = async (req, res) => {
   const products = await Product.find();
   const user = await User.findById(userID);
   const orderAmount = calculateTotalPrice(products, items);
+
+  console.log("orderAmount==>", orderAmount);
+
   const url = "https://api.flutterwave.com/v3/payments";
 
+  const tx_ref = crypto.randomUUID();
+  // const tx_ref = process.env.TX_REF;
+
   const json = {
-    tx_ref: "shopito-48981487343MDI0NzMx",
+    tx_ref: tx_ref,
     amount: orderAmount,
-    currency: "USD",
-    payment_options: "card, banktransfer, ussd",
-    redirect_url: "http://localhost:3000/response",
+    currency: "NGN",
+    // payment_options: "card, banktransfer, ussd",
+    redirect_url: "http://localhost:5173/chekout-success",
     //   meta: {
     //     consumer_id: 23,
     //     consumer_mac: "92a3-912ba-1192a",
     //   },
     customer: {
       email: user?.email,
-      phone_number: user.phone,
-      name: user.name,
+      phone_number: user?.phone,
+      name: user?.name,
     },
     customizations: {
       title: "Shopiverse Online Store",
@@ -221,11 +228,10 @@ const payWithFlutterwave = async (req, res) => {
       },
     })
     .then(({ data }) => {
-      // console.log(data);
+      console.log("data===>", data);
       return res.status(200).json(data);
     })
     .catch((err) => {
-      // console.log(err.message);
       return res.json(err.message);
     });
 };
@@ -236,4 +242,5 @@ module.exports = {
   getOrder,
   updateOrderStatus,
   payWithStripe,
+  payWithFlutterwave,
 };
