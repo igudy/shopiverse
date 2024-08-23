@@ -17,7 +17,7 @@ import {
 import { extractIdAndCartQuantity } from "../../utils";
 const CheckoutStripe = () => {
   const backendUrl: string = import.meta.env.VITE_REACT_APP_BACKEND_URL as string;
-  const hello: string = import.meta.env.VITE_REACT_APP_STRIPE_PK as string;
+  // const hello: string = import.meta.env.VITE_REACT_APP_STRIPE_PK as string;
   const stripePromise = loadStripe(import.meta.env.VITE_REACT_APP_STRIPE_PK);
 
   const [clientSecret, setClientSecret] = useState("");
@@ -79,9 +79,6 @@ const CheckoutStripe = () => {
   const description = `eShop payment: email: ${customerEmail}, Amount: ${totalAmount}`;
 
   const productIDs = extractIdAndCartQuantity(cartItems);
-  // console.log(newCartItems);
-  // const newCartTotalAmount = calculateTotalPrice(cartItems, productIDs);
-  // console.log(newCartTotalAmount);
 
   return (
     <div>

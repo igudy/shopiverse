@@ -78,6 +78,7 @@ const AdminOrders = () => {
       handleClose();
     }
   };
+  
   const [urlParams] = useSearchParams();
   const orderId = urlParams.get("id");
   console.log("orderId", orderId);
@@ -241,7 +242,8 @@ const AdminOrders = () => {
               </FormControl>
               <TextField
                 label="Shipping Address"
-                value={`${selectedOrder.shippingAddress?.street}, ${selectedOrder.shippingAddress?.city}`}
+                value={`${selectedOrder.shippingAddress?.street}, 
+                ${selectedOrder.shippingAddress?.city}`}
                 fullWidth
                 margin="dense"
                 disabled

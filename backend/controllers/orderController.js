@@ -10,6 +10,7 @@ const User = require("../models/userModel");
 const { orderSuccessEmail } = require("../emailTemplates/orderTemplate");
 const sendGmail = require("../utils/sendGmail");
 const crypto = require("crypto");
+const paypalClient = require("../services/paypalService");
 
 // Create order
 const createOrder = asyncHandler(async (req, res) => {
@@ -236,6 +237,59 @@ const payWithFlutterwave = async (req, res) => {
     });
 };
 
+const createPayPalOrder = asyncHandler(async (req, res) => {
+  const { items, userID } = req.body;
+  const products = await Product.find();
+  const user = await User.findById(userID);
+  // const orderAmount = calculateTotalPrice(products, items);
+
+  const request = new paypal.orders.OrdersCreateRequest();
+  request.requestBody({
+    intent: "CAPTURE",
+    purchase_units: [
+      {
+        amount: {
+          currency_code: "USD",
+          value: orderAmount,
+        },
+        description: "Payment for items",
+      },
+    ],
+  });
+
+  try {
+    const order = await paypalClient.execute(request);
+    res.status(201).json({ id: order.result.id });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// const capturePayPalOrder = asyncHandler(async (req, res) => {
+//   const { orderID, userID, items } = req.body;
+
+//   const request = new paypal.orders.OrdersCaptureRequest(orderID);
+//   request.requestBody({});
+
+//   try {
+//     const capture = await paypalClient.execute(request);
+
+//     // Fetch user details
+//     const user = await User.findById(userID);
+
+//     // Send Order Email to the user
+//     const subject = "Shopiverse Order Placed";
+//     const send_to = user.email;
+//     const template = orderSuccessEmail(user.name, items);
+//     const reply_to = "goodnessigunma1@gmail.com";
+//     await sendGmail(subject, send_to, template, reply_to);
+
+//     res.status(200).json(capture.result);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
 module.exports = {
   createOrder,
   getOrders,
@@ -243,4 +297,7 @@ module.exports = {
   updateOrderStatus,
   payWithStripe,
   payWithFlutterwave,
+  createPayPalOrder,
+  // capturePayPalOrder,
+  // payWithPaystack,
 };

@@ -52,8 +52,6 @@ const Login = () => {
       password: data?.password,
     };
     setEmail(data?.email);
-
-    console.log(email);
     await dispatch(loginUser({userData}));
   };
 

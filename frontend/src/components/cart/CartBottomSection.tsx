@@ -31,9 +31,6 @@ const CartBottomSection = ({
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-
-  console.log("The selected item", paymentMethod)
-
   const [saveCartDB, { isLoading: isLoadingCartDB }] =
     useSaveCartToDBMutation();
 
@@ -50,7 +47,6 @@ const CartBottomSection = ({
       return toast.error("Please select a payment method");
     }
     // dispatch(SAVE_PAYMENT_METHOD(paymentMethod)); 
-
     if (isLoggedIn) {
       navigate("/checkout-details")
     } else {

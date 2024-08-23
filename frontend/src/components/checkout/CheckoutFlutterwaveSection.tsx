@@ -24,7 +24,6 @@ const CheckoutFlutterwaveSection = () => {
   const cartItems = useSelector(selectCartItems);
   const totalAmount = useSelector(selectCartTotalAmount);
   const user = useSelector(selectUser);
-  console.log("user===>", user);
   const { coupon } = useSelector((state: any) => state.coupon);
 
   const [createOrder, { isLoading: isLoadingCreateOrder }] =

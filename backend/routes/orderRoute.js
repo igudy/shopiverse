@@ -8,6 +8,9 @@ const {
   updateOrderStatus,
   payWithStripe,
   payWithFlutterwave,
+  // payWithPaystack,
+  createPayPalOrder,
+  capturePayPalOrder,
   // verfyFlwPayment,
   // payWithWallet,
 } = require("../controllers/orderController");
@@ -18,8 +21,14 @@ router.patch("/:id", protect, adminOnly, updateOrderStatus);
 router.get("/", protect, getOrders);
 router.get("/:id", protect, getOrder);
 
-router.post("/create-payment-intent", payWithStripe);
-router.post("/payWithFlutterwave", payWithFlutterwave);
+router.post("/create-payment-intent", protect, payWithStripe);
+router.post("/payWithFlutterwave", protect, payWithFlutterwave);
+// router.post("/payWithPaystack", protect, payWithPaystack);
+
+router.post("/paypal/create-order", protect, createPayPalOrder);
+
+// router.post("/paypal/capture-order", protect, capturePayPalOrder);
+
 // router.get("/response", verifyFlwPayment);
 // router.post("/payWithWallet", protect, payWithWallet);
 

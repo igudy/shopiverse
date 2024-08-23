@@ -46,9 +46,7 @@ const EnterAccessCode = () => {
       loginCode: data?.access,
     };
 
-    await dispatch(loginWithCode({ code, email }));
-    // console.log(`Data submitted`, data);
-    // toast.success("Data submitted");
+    await dispatch(loginWithCode({ code, email }))
   };
 
   useEffect(() => {

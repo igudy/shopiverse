@@ -95,7 +95,6 @@ const Details = () => {
 
             {isCartAdded < 0 ? null : (
               <>
-                {" "}
                 <div className="flex items-center gap-2">
                   <div className="mt-3 font-bold text-2xl text-gray-500">
                     Quantity
