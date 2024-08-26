@@ -11,11 +11,11 @@ const categoryRoute = require("./routes/categoryRoute");
 const brandRoute = require("./routes/brandRoute");
 const couponRoute = require("./routes/couponRoute");
 const orderRoute = require("./routes/orderRoute");
+const transactionRoute = require("./routes/transactionRoute");
 
 const app = express();
 
 // Middlewares
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -30,6 +30,9 @@ app.use(
     credentials: true,
   })
 );
+
+app.use("/api/transactionRoute", transactionRoute);
+app.use(express.json());
 
 // Routes
 app.use("/api/users", userRoute);

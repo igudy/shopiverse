@@ -151,7 +151,11 @@ const loginUser = asyncHandler(async (req, res) => {
       secure: true,
     });
 
-    const { _id, name, email, phone, bio, photo, role, isVerified } = user;
+    const { _id, name, email, phone, bio, photo, role, isVerified, balance } =
+      user;
+
+    console.log("Balance==>", { balance, email });
+
     res.status(200).json({
       _id,
       name,
@@ -162,6 +166,7 @@ const loginUser = asyncHandler(async (req, res) => {
       role,
       isVerified,
       token,
+      balance,
     });
   } else {
     res.status(500);

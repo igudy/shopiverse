@@ -36,6 +36,10 @@ const userSchema = mongoose.Schema(
       default: "subscriber",
       //   subscriber, author and admin
     },
+    balance: {
+      type: Number,
+      default: 0,
+    },
     isVerified: {
       type: Boolean,
       default: false,
