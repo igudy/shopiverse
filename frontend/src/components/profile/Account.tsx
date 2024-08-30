@@ -2,8 +2,7 @@ import React from "react";
 import { CiDollar } from "react-icons/ci";
 import { FaCcMastercard } from "react-icons/fa";
 import { IoIosSend } from "react-icons/io";
-import Mastercard from '../../assets/mastercard.png';
-
+import Mastercard from "../../assets/mastercard.png";
 
 const Account = () => {
   return (
@@ -16,13 +15,12 @@ const Account = () => {
         <div className="w-full bg-gray-500 h-[0.3px] mt-3"></div>
         <div className="flex justify-between items-center">
           <div>
-
-        <div className="text-xl font-medium mt-3">Account Balance</div>
-        <div className="text-md font-bold mt-2">$1000.00</div>
-
+            <div className="text-xl font-medium mt-3">Account Balance</div>
+            <div className="text-md font-bold mt-2">$1000.00</div>
           </div>
           <div>
-            
+            {/* Mastercard image */}
+            <img src={Mastercard} alt="mastercard_image" className="h-14"/>
           </div>
         </div>
 
@@ -35,7 +33,6 @@ const Account = () => {
             <IoIosSend />
             Transfer
           </div>
-
         </div>
       </div>
     </div>
