@@ -15,17 +15,17 @@ import {
   selectUser,
   sendVerificationEmail,
 } from "../../components/redux/slices/auth/authSlice";
+import { CiViewList } from "react-icons/ci";
+import { CiWallet } from "react-icons/ci";
+import Wishlist from "../../components/profile/Wishlist";
+import Wallet from "../../components/profile/MyWallet";
 
 const allTabs = [
-  {
-    tabName: "Profile",
-    icon: <BiUser />,
-  },
-  {
-    tabName: "Password",
-    icon: <RiLockPasswordLine />,
-  },
+  { tabName: "Profile", icon: <BiUser /> },
+  { tabName: "My Wallet", icon: <CiWallet /> },
+  { tabName: "Wishlist", icon: <CiViewList /> },
   { tabName: "Users", icon: <HiOutlineUserCircle /> },
+  { tabName: "Password", icon: <RiLockPasswordLine /> },
 ];
 
 const Profile = () => {
@@ -85,6 +85,8 @@ const Profile = () => {
           )}
           <div className="my-5 mx-10 sm:mx-2 xsm:mx-2 lg:mx-3">
             <div>{tab === "Profile" && <ProfileComponent />}</div>
+            <div>{tab === "My Wallet" && <Wallet />}</div>
+            <div>{tab === "Wishlist" && <Wishlist />}</div>
             <div>{tab === "Password" && <Password />}</div>
             <AdminLink>
               <div>{tab === "Users" && <Users />}</div>

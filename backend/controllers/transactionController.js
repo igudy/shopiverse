@@ -81,29 +81,99 @@ const depositFundStripe = asyncHandler(async (req, res) => {
           currency: "usd",
           product_data: {
             name: "Shopiverse wallet deposit",
-            descriptioni: `Make a deposit of $${amount} to shopiverse wallet`,
+            description: `Make a deposit of $${amount} to shopiverse wallet`,
           },
           unit_amount: amount * 100,
         },
         quantity: 1,
       },
     ],
+    customer: user.stripeCusomerId,
+    success_url:
+      process.env.FRONTEND_URL + `/wallet?payment=successful&amount=${amount}`,
+    cancel_url: process.env.FRONTEND_URL + "/wallet?payment=failed",
   });
-});
 
-const depositFund = asyncHandler(async (req, res) => {
-  res.status(200).json("Deposit fund");
-  console.log("Deposit Fund");
+  console.log(session.amount_total);
+  return res.json(session);
 });
 
 const webhook = asyncHandler(async (req, res) => {
-  res.status(200).json("Webhook");
   console.log("WebHook");
+
+  const sig = req.headers["stripe-signature"];
+
+  let event;
+  let data;
+  let eventType;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    console.log("Webhook verified");
+  } catch (err) {
+    console.log("Verif Error ZT", err);
+    res.status(400).send(`Webhook Error: ${err.message}`);
+    return;
+  }
+
+  data = event.data.object;
+  eventType = event.type;
+
+  // Handle the event
+  if ((eventType = "checkout.session.completed")) {
+    stripe.customers
+      .retrieve(data.customer)
+      .then(async (customer) => {
+        console.log("customer email===>", customer.email);
+        console.log("data:", data.amount_total);
+
+        const description = "Stripe Deposit";
+        const source = "stripe";
+
+        // save the transaction
+        try {
+          depositFund(customer, data, description, source);
+        } catch (error) {
+          console.log(error);
+        }
+      })
+      .catch((err) => console.log(err.message));
+  }
+  res.send().end();
 });
 
 const depositFundFLW = asyncHandler(async (req, res) => {
-  res.status(200).json("Deposit fund flutterwave");
-  console.log("Deposit Fund Flutterwave");
+  const { transaction_id } = req.query;
+
+  // Confirm transaction
+  const url = `https://api.flutterwave.com/v3/transactions/${transaction_id}/verify`;
+
+  const response = await axios({
+    url,
+    method: "get",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: process.env.FLW_SECRET_KEY,
+    },
+  });
+
+  // console.log(response.data.data);
+  const { amount, customer, tx_ref } = response.data.data;
+
+  const successURL = process.env.FRONTEND_URL + "/wallet?payment=successful";
+  const failureURL = process.env.FRONTEND_URL + "/wallet?payment=failed";
+  if (req.query.status === "successful") {
+    const data = {
+      amount_subtotal: amount,
+    };
+    const description = "Flutterwave Deposit";
+    const source = "flutterwave";
+    depositFund(customer, data, description, source);
+    res.redirect(successURL);
+  } else {
+    res.redirect(failureURL);
+  }
 });
 
 module.exports = {
