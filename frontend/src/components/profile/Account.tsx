@@ -1,6 +1,5 @@
 import React from "react";
 import { CiDollar } from "react-icons/ci";
-import { FaCcMastercard } from "react-icons/fa";
 import { IoIosSend } from "react-icons/io";
 import Mastercard from "../../assets/mastercard.png";
 

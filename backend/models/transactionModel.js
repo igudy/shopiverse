@@ -9,7 +9,7 @@ const transactionSchema = mongoose.Schema(
     sender: {
       type: String,
       required: true,
-      // ref: "User"
+      // ref: "User",
     },
     receiver: {
       type: String,

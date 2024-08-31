@@ -7,8 +7,8 @@ const axios = require("axios");
 // Transfer funds
 const transferFund = asyncHandler(async (req, res) => {
   // Validation
-
   const { amount, sender, receiver, description, status } = req.body;
+
   if (!amount || !sender || !receiver) {
     res.status(400);
     throw new Error("Please fill in all fields");
@@ -16,20 +16,34 @@ const transferFund = asyncHandler(async (req, res) => {
 
   // Check sender's account balance
   const user = await User.findOne({ email: sender });
+
   if (user.balance < amount) {
     res.status(400);
     throw new Error("Insufficient balance");
   }
 
-  // Save the transaction
+  // Deduct the amount from the sender's account
   await User.findOneAndUpdate(
-    {
-      email: sender,
-    },
-    {
-      $inc: { balance: -amount },
-    }
+    { email: sender },
+    { $inc: { balance: -amount } }
   );
+
+  // Add the amount to the receiver's account (if needed)
+  await User.findOneAndUpdate(
+    { email: receiver },
+    { $inc: { balance: amount } }
+  );
+
+  // Save the transaction to the database
+  const transaction = new Transaction({
+    amount,
+    sender,
+    receiver,
+    description,
+    status,
+  });
+
+  await transaction.save();
 
   res.status(200).json({ message: "Transaction Successful" });
 });
@@ -45,15 +59,32 @@ const verifyAccount = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Account verification successful" });
 });
 
-// Get user transaction
+// Get user transactions
 const getUserTransactions = asyncHandler(async (req, res) => {
-  const transactions = await Transaction.find({
-    $or: [{ sender: req.body.email }, { reciever: req.body.email }],
-  })
-    .sort({ createdAt: -1 })
-    .populate("sender")
-    .populate("receiver");
+  const user = await User.findById(req.user._id);
 
+  console.log("user--->", user.email);
+  console.log("req.body", req.body);
+
+  // const transactions = await Transaction.find({
+  //   $or: [{ sender: req.body.email }, { receiver: req.body.email }],
+  // })
+  //   .sort({ createdAt: -1 })
+  //   .populate("sender")
+  //   .populate("receiver");
+
+  const transactions = await Transaction
+    .find
+    // {
+    // $or: [{ sender: user.email }, { receiver: user.email }],
+    // }
+    ()
+    // .sort({ createdAt: -1 })
+    .sort("-createdAt");
+  // .populate("sender")
+  // .populate("receiver");
+
+  console.log("transactions====>", transactions);
   res.status(200).json(transactions);
 });
 
@@ -111,7 +142,7 @@ const webhook = asyncHandler(async (req, res) => {
     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
     console.log("Webhook verified");
   } catch (err) {
-    console.log("Verif Error ZT", err);
+    console.log("Verify Error ZT", err);
     res.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }

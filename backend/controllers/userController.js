@@ -190,7 +190,8 @@ const getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    const { _id, name, email, phone, bio, photo, role, isVerified } = user;
+    const { _id, name, email, phone, bio, photo, role, isVerified, balance } =
+      user;
     res.status(200).json({
       _id,
       name,
@@ -200,6 +201,7 @@ const getUser = asyncHandler(async (req, res) => {
       photo,
       role,
       isVerified,
+      balance,
     });
   } else {
     res.status(404);

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { IconButton, Menu, MenuItem } from '@mui/material';
+import { CircularProgress, IconButton, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useGetOrdersQuery } from '../redux/api/orderApi';
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -77,19 +77,21 @@ const OrderHistoryComp = () => {
   orderAmount: order.orderAmount,
   paymentMethod: order.paymentMethod,
   orderStatus: order.orderStatus,
-  shippingAddress: order.shippingAddress?.street ? `${order.shippingAddress.street}, ${order.shippingAddress.city}` : 'NO shipping address',
+  shippingAddress: order.shippingAddress?.street ? `${order.shippingAddress.street}, ${order.shippingAddress.city}` : 'No shipping address',
   cartItems: order.cartItems.map((item: any) => `${item.name} (${item.brand})`).join(', '),
 })) : [];
 
   return (
     <>
-      <div className='text-3xl mt-3'>Your Order History</div>
-      <div className='text-md'>
-        Open an order to leave a Product Review
-      </div>
+      <div className="text-3xl mt-3">Your Order History</div>
+      <div className="text-md">Open an order to leave a Product Review</div>
 
-      {orderData?.length > 0 ? (
-        <div style={{ height: 400, width: '100%' }} className='mt-5 text-xsm'>
+      {isLoadingOrder ? (
+        <div className="mt-5">
+          <CircularProgress />
+        </div>
+      ) : orderData && orderData.length > 0 ? (
+        <div style={{ height: 400, width: "100%" }} className="mt-5 text-xsm">
           <DataGrid
             rows={rows}
             columns={columns}
@@ -102,7 +104,7 @@ const OrderHistoryComp = () => {
           />
         </div>
       ) : (
-        <h1>No data found</h1>
+        <div className="mt-5">No orders found</div>
       )}
     </>
   );

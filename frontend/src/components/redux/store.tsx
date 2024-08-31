@@ -11,6 +11,7 @@ import { brandApi } from "./api/brandApi";
 import { cartApi } from "./api/cartApi.jsx";
 import { couponApi } from "./api/couponApi.jsx";
 import { orderApi } from "./api/orderApi";
+import { transactionApi } from "./api/transactionApi";
 
 const store = configureStore({
   reducer: {
@@ -24,7 +25,8 @@ const store = configureStore({
     [brandApi.reducerPath]: brandApi.reducer,
     [cartApi.reducerPath]: cartApi.reducer,
     [couponApi.reducerPath]: couponApi.reducer,
-    [orderApi.reducerPath]: orderApi.reducer
+    [orderApi.reducerPath]: orderApi.reducer,
+    [transactionApi.reducerPath]: transactionApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     // remember to add the middlewares and concat them
@@ -34,7 +36,8 @@ const store = configureStore({
       brandApi.middleware,
       cartApi.middleware,
       couponApi.middleware,
-      orderApi.middleware
+      orderApi.middleware,
+      transactionApi.middleware
     ),
 });
 
