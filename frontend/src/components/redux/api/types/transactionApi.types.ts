@@ -1,13 +1,23 @@
 export interface IGetTransactions {
   _id: string;
+  amount: number;
+  sender: string;
+  receiver: string;
+  description: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
+[];
 
 export interface ITransferFund {
-  _id: string;
+  message: string;
 }
 
 export interface IVerifyAccount {
-  _id: string;
+  message: string;
+  name: string;
 }
 
 export interface IDepositFundStripe {

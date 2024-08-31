@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { CiDollar } from "react-icons/ci";
 import { IoIosSend } from "react-icons/io";
 import Mastercard from "../../assets/mastercard.png";
+import TransferModal from "./TransferModal";
 
 const Account = () => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
     <div className="border-2 rounded-xl border-purple-500 shadow-md p-3 h-[14rem] max-h-[14rem]">
       <div className="flex flex-col">
@@ -19,7 +25,7 @@ const Account = () => {
           </div>
           <div>
             {/* Mastercard image */}
-            <img src={Mastercard} alt="mastercard_image" className="h-14"/>
+            <img src={Mastercard} alt="mastercard_image" className="h-14" />
           </div>
         </div>
 
@@ -28,12 +34,19 @@ const Account = () => {
             <CiDollar />
             Deposit Money
           </div>
-          <div className="flex gap-1 font-medium items-center p-2 bg-orange-500 text-white rounded-xl shadow-md hover:bg-orange-600 cursor-pointer w-[10rem] justify-center">
+          <div
+            onClick={openModal}
+            className="flex gap-1 font-medium items-center p-2 bg-orange-500 text-white rounded-xl shadow-md hover:bg-orange-600 cursor-pointer w-[10rem] justify-center"
+          >
             <IoIosSend />
             Transfer
           </div>
         </div>
       </div>
+
+      {/* Transfer Modal */}
+      <TransferModal isOpen={isModalOpen} onClose={closeModal} />
+
     </div>
   );
 };

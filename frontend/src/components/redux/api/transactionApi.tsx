@@ -5,8 +5,8 @@ import {
   IVerifyAccount,
   IDepositFundStripe,
   IWebhook,
-  IDepositFundFLW
- } from "./types/transactionApi.types";
+  IDepositFundFLW,
+} from "./types/transactionApi.types";
 import { BASE_URL, API_VERSION } from "../../constants/constants";
 
 export const transactionApi = createApi({
@@ -31,15 +31,16 @@ export const transactionApi = createApi({
       query: (payload) => ({
         url: `transactionRoute/transferFund/`,
         method: "POST",
-        body: payload
+        body: payload,
       }),
     }),
 
     // Verify Account
-    verifyAccount: builder.query<IVerifyAccount, void>({
-      query: () => ({
-        url: `transactionRoute/transferFund/`,
+    verifyAccount: builder.mutation<IVerifyAccount, { receiver: string }>({
+      query: (payload) => ({
+        url: `transactionRoute/verifyAccount/`,
         method: "POST",
+        body: payload,
       }),
     }),
 
@@ -48,7 +49,7 @@ export const transactionApi = createApi({
       query: (payload) => ({
         url: `transactionRoute/depositFundStripe/`,
         method: "POST",
-        body: payload
+        body: payload,
       }),
     }),
 
@@ -65,7 +66,7 @@ export const transactionApi = createApi({
       query: (payload) => ({
         url: `transactionRoute/depositFundFLW/`,
         method: "POST",
-        body: payload
+        body: payload,
       }),
     }),
   }),
@@ -74,8 +75,8 @@ export const transactionApi = createApi({
 export const {
   useGetTransactionsQuery,
   useTransferFundMutation,
-  useVerifyAccountQuery,
+  useVerifyAccountMutation,
   useDepositFundStripeMutation,
   useWebhookQuery,
-  useDepositFundFLWQuery
+  useDepositFundFLWQuery,
 } = transactionApi;

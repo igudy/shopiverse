@@ -50,21 +50,27 @@ const transferFund = asyncHandler(async (req, res) => {
 
 // Verify account you're transferring to
 const verifyAccount = asyncHandler(async (req, res) => {
-  const user = await User.findOne({ email: req.body.receiver });
+  const { receiver } = req.body;
+
+  console.log("req.body==>", req.body);
+  const user = await User.findOne({ email: receiver });
+
+  console.log("user==>", user);
+
   if (!user) {
     res.status(404);
     throw new Error("User Account not found");
   }
 
-  res.status(200).json({ message: "Account verification successful" });
+  res.status(200).json({
+    name: user.name,
+    message: "Account verification successful",
+  });
 });
 
 // Get user transactions
 const getUserTransactions = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-
-  console.log("user--->", user.email);
-  console.log("req.body", req.body);
 
   const transactions = await Transaction.find({
     $or: [{ sender: user.email }, { receiver: user.email }],
@@ -73,14 +79,12 @@ const getUserTransactions = asyncHandler(async (req, res) => {
     .populate("sender")
     .populate("receiver");
 
-  console.log("transactions====>", transactions);
   res.status(200).json(transactions);
 });
 
 // Deposit fund
 const depositFundStripe = asyncHandler(async (req, res) => {
   const { amount } = req.body;
-  console.log(amount);
 
   const user = await User.findById(req.user._id);
 
@@ -114,13 +118,10 @@ const depositFundStripe = asyncHandler(async (req, res) => {
     cancel_url: process.env.FRONTEND_URL + "/wallet?payment=failed",
   });
 
-  console.log(session.amount_total);
   return res.json(session);
 });
 
 const webhook = asyncHandler(async (req, res) => {
-  console.log("WebHook");
-
   const sig = req.headers["stripe-signature"];
 
   let event;

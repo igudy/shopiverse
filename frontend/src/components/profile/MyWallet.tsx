@@ -4,19 +4,18 @@ import WalletAds from "./WalletAds";
 import WalletTable from "./WalletTable";
 
 const Wallet = () => {
-    return (<>
+  return (
+    <>
       <div className="flex gap-5">
-      <div className="w-[50%]">
-        <Account />
-      </div>
-      <div className="w-[50%]">
-        <WalletAds />
-      </div>
+        <div className="w-[50%]">
+          <Account />
         </div>
-        
-        <WalletTable />
-  </>
-
+        <div className="w-[50%]">
+          <WalletAds />
+        </div>
+      </div>
+      <WalletTable />
+    </>
   );
 };
 
