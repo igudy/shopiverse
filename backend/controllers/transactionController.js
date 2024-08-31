@@ -66,23 +66,12 @@ const getUserTransactions = asyncHandler(async (req, res) => {
   console.log("user--->", user.email);
   console.log("req.body", req.body);
 
-  // const transactions = await Transaction.find({
-  //   $or: [{ sender: req.body.email }, { receiver: req.body.email }],
-  // })
-  //   .sort({ createdAt: -1 })
-  //   .populate("sender")
-  //   .populate("receiver");
-
-  const transactions = await Transaction
-    .find
-    // {
-    // $or: [{ sender: user.email }, { receiver: user.email }],
-    // }
-    ()
-    // .sort({ createdAt: -1 })
-    .sort("-createdAt");
-  // .populate("sender")
-  // .populate("receiver");
+  const transactions = await Transaction.find({
+    $or: [{ sender: user.email }, { receiver: user.email }],
+  })
+    .sort({ createdAt: -1 })
+    .populate("sender")
+    .populate("receiver");
 
   console.log("transactions====>", transactions);
   res.status(200).json(transactions);

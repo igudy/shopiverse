@@ -12,7 +12,6 @@ const router = express.Router();
 
 router.post("/transferFund", express.json(), protect, transferFund);
 router.post("/verifyAccount", express.json(), protect, verifyAccount);
-// router.get(
 router.post(
   "/getUserTransactions",
   express.json(),
