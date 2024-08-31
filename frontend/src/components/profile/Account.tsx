@@ -5,12 +5,22 @@ import Mastercard from "../../assets/mastercard.png";
 import TransferModal from "./TransferModal";
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/slices/auth/authSlice";
+import DepositModal from "./DepositModal";
 
 const Account = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isDepositModal, setIsDepositModal] = useState<boolean>(false);
+
   // const user = useSelector(selectUser);
+
+    // Transfer Modal
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  
+    // Deposit Modal
+  const openDepositModal = () => setIsDepositModal(true);
+  const closeDepositModal = () => setIsDepositModal(false);
+
 
   return (
     <div className="border-2 rounded-xl border-purple-500 shadow-md p-3 h-[14rem] max-h-[14rem]">
@@ -33,7 +43,11 @@ const Account = () => {
         </div>
 
         <div className="flex justify-center items-center my-2 gap-3">
-          <div className="flex gap-1 font-medium items-center p-2 bg-purple-700 text-white rounded-xl shadow-md hover:bg-purple-900 cursor-pointer w-[10rem] justify-center">
+          <div className="flex gap-1 font-medium items-center p-2 bg-purple-700 
+          text-white rounded-xl shadow-md hover:bg-purple-900
+          cursor-pointer w-[10rem] justify-center"
+           onClick={openDepositModal}
+          >
             <CiDollar />
             Deposit Money
           </div>
@@ -49,6 +63,9 @@ const Account = () => {
 
       {/* Transfer Modal */}
       <TransferModal isOpen={isModalOpen} onClose={closeModal} />
+
+      {/* Deposit Modal */}
+      <DepositModal isOpen={isDepositModal} onClose={closeDepositModal} />
 
     </div>
   );

@@ -12,7 +12,7 @@ const TransferModal = ({ isOpen, onClose }: any) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset, // Add reset method from useForm
+    reset,
   } = useForm();
 
   const [
@@ -81,7 +81,7 @@ const TransferModal = ({ isOpen, onClose }: any) => {
           <h2 className="text-xl font-bold mb-4">Transfer Funds</h2>
           <h2
             className="text-xl mb-4 font-bold cursor-pointer"
-            onClick={handleClose} // Use handleClose here
+            onClick={handleClose}
           >
             <MdCancel />
           </h2>
@@ -160,7 +160,7 @@ const TransferModal = ({ isOpen, onClose }: any) => {
           <div className="flex justify-end gap-2">
             <button
               type="button"
-              onClick={handleClose} // Use handleClose here
+              onClick={handleClose}
               className="bg-gray-500 text-white p-2 rounded"
             >
               Cancel
