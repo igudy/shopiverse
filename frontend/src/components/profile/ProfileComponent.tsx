@@ -29,6 +29,7 @@ const ProfileComponent = () => {
     photo: user?.photo || "",
     role: user?.role || "",
     isVerified: user?.isVerified || false,
+    balance: user?.balance || ""
   };
 
   const [profile, setProfile] = useState(initialState);

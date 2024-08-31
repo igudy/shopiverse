@@ -3,10 +3,12 @@ import { CiDollar } from "react-icons/ci";
 import { IoIosSend } from "react-icons/io";
 import Mastercard from "../../assets/mastercard.png";
 import TransferModal from "./TransferModal";
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/slices/auth/authSlice";
 
 const Account = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
+  // const user = useSelector(selectUser);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
@@ -14,6 +16,7 @@ const Account = () => {
     <div className="border-2 rounded-xl border-purple-500 shadow-md p-3 h-[14rem] max-h-[14rem]">
       <div className="flex flex-col">
         <div>Hello,</div>
+        {/* <div className="text-xl font-bold cursor-pointer">{user}</div> */}
         <div className="text-xl font-bold cursor-pointer">Igudy</div>
 
         {/* Horizontal line */}

@@ -2,19 +2,33 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { MdCancel } from "react-icons/md";
-import { useVerifyAccountMutation } from "../redux/api/transactionApi";
+import {
+  useTransferFundMutation,
+  useVerifyAccountMutation,
+} from "../redux/api/transactionApi";
 
 const TransferModal = ({ isOpen, onClose }: any) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset, // Add reset method from useForm
   } = useForm();
 
   const [
     verifyAccount,
     { data: dataVerify, isLoading: isLoadingVerify, isError: isErrorVerify },
   ] = useVerifyAccountMutation();
+
+  const [
+    transferFund,
+    {
+      data: transferFundData,
+      isLoading: isLoadingTransferFund,
+      isError: isErrorTransferFund,
+    },
+  ] = useTransferFundMutation();
+
   const [receiverEmail, setReceiverEmail] = useState("");
 
   const handleVerify = async () => {
@@ -33,9 +47,29 @@ const TransferModal = ({ isOpen, onClose }: any) => {
     }
   };
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    // Handle the transfer logic here
+  const onSubmit = async (data: any) => {
+    console.log("data==>", data);
+    try {
+      const result = await transferFund({
+        amount: data?.amount,
+        receiver: data?.receiver,
+        description: data?.description || "",
+      }).unwrap();
+      
+      console.log("result-===>", result);
+      if (result) {
+        toast.success(result?.message || "Transaction Successful");
+        reset();
+        onClose();
+      } 
+    } catch (error) {
+      toast.error("Transaction Failed");
+    }
+  };
+
+  const handleClose = () => {
+    reset();
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -47,7 +81,7 @@ const TransferModal = ({ isOpen, onClose }: any) => {
           <h2 className="text-xl font-bold mb-4">Transfer Funds</h2>
           <h2
             className="text-xl mb-4 font-bold cursor-pointer"
-            onClick={onClose}
+            onClick={handleClose} // Use handleClose here
           >
             <MdCancel />
           </h2>
@@ -107,12 +141,10 @@ const TransferModal = ({ isOpen, onClose }: any) => {
             <label className="block text-sm font-medium mb-1">
               Description (optional)
             </label>
-            <textarea className="border border-gray-300 rounded p-2 w-full"></textarea>
-            {errors.description && (
-              <p className="text-red-500 text-sm">
-                {errors.description.message as string}
-              </p>
-            )}
+            <textarea
+              {...register("description")}
+              className="border border-gray-300 rounded p-2 w-full"
+            ></textarea>
           </div>
           <div>
             {!dataVerify ? (
@@ -128,7 +160,7 @@ const TransferModal = ({ isOpen, onClose }: any) => {
           <div className="flex justify-end gap-2">
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose} // Use handleClose here
               className="bg-gray-500 text-white p-2 rounded"
             >
               Cancel

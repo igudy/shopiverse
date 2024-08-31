@@ -15,6 +15,14 @@ export interface ITransferFund {
   message: string;
 }
 
+export interface ITransferFundRequest {
+  amount: number;
+  receiver: string;
+  sender?: string;
+  description?: string;
+  status?: string;
+}
+
 export interface IVerifyAccount {
   message: string;
   name: string;

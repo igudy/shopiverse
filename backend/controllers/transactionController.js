@@ -6,18 +6,27 @@ const axios = require("axios");
 
 // Transfer funds
 const transferFund = asyncHandler(async (req, res) => {
-  // Validation
-  const { amount, sender, receiver, description, status } = req.body;
+  // Extract the sender from the authenticated user
+  const sender = req.user.email;
+  const { amount, receiver, description = "" } = req.body;
 
-  if (!amount || !sender || !receiver) {
+  // Validate required fields
+  if (!amount || !receiver) {
     res.status(400);
-    throw new Error("Please fill in all fields");
+    throw new Error(
+      "Please provide all required fields (amount and receiver)."
+    );
   }
 
   // Check sender's account balance
-  const user = await User.findOne({ email: sender });
+  const senderUser = await User.findOne({ email: sender });
 
-  if (user.balance < amount) {
+  if (!senderUser) {
+    res.status(404);
+    throw new Error("Sender not found");
+  }
+
+  if (senderUser.balance < amount) {
     res.status(400);
     throw new Error("Insufficient balance");
   }
@@ -28,11 +37,16 @@ const transferFund = asyncHandler(async (req, res) => {
     { $inc: { balance: -amount } }
   );
 
-  // Add the amount to the receiver's account (if needed)
-  await User.findOneAndUpdate(
+  // Add the amount to the receiver's account
+  const receiverUser = await User.findOneAndUpdate(
     { email: receiver },
     { $inc: { balance: amount } }
   );
+
+  if (!receiverUser) {
+    res.status(404);
+    throw new Error("Receiver not found");
+  }
 
   // Save the transaction to the database
   const transaction = new Transaction({
@@ -40,7 +54,7 @@ const transferFund = asyncHandler(async (req, res) => {
     sender,
     receiver,
     description,
-    status,
+    status: "successful",
   });
 
   await transaction.save();

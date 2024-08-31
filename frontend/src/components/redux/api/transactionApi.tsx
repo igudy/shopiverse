@@ -6,6 +6,7 @@ import {
   IDepositFundStripe,
   IWebhook,
   IDepositFundFLW,
+  ITransferFundRequest,
 } from "./types/transactionApi.types";
 import { BASE_URL, API_VERSION } from "../../constants/constants";
 
@@ -27,12 +28,13 @@ export const transactionApi = createApi({
     }),
 
     // Transfer Fund
-    transferFund: builder.mutation<ITransferFund, void>({
+    transferFund: builder.mutation<ITransferFund, ITransferFundRequest>({
       query: (payload) => ({
         url: `transactionRoute/transferFund/`,
         method: "POST",
         body: payload,
       }),
+      invalidatesTags: ["Transactions"],
     }),
 
     // Verify Account
@@ -51,6 +53,7 @@ export const transactionApi = createApi({
         method: "POST",
         body: payload,
       }),
+      invalidatesTags: ["Transactions"],
     }),
 
     // Webhook
@@ -68,6 +71,7 @@ export const transactionApi = createApi({
         method: "POST",
         body: payload,
       }),
+      invalidatesTags: ["Transactions"],
     }),
   }),
 });
