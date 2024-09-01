@@ -18,5 +18,8 @@
   },
   "[shellscript]": {
     "editor.defaultFormatter": "shakram02.bash-beautify"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
   }
 }

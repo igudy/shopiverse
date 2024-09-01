@@ -1,7 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { MdCancel, MdOutlineWaves } from "react-icons/md";
-import { FaCcStripe, FaPaypal, FaBitcoin, FaWallet } from "react-icons/fa";
+import { FaCcStripe } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/slices/auth/authSlice";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const DepositModal = ({ isOpen, onClose }: any) => {
   const {
@@ -11,9 +15,65 @@ const DepositModal = ({ isOpen, onClose }: any) => {
     reset,
   } = useForm();
 
+  const user = useSelector(selectUser);
+  const backendUrl: string = import.meta.env
+        .VITE_REACT_APP_BACKEND_URL as string;
+    
+    console.log("user-->", user);
+
+  const generateTxRef = () => {
+    const randomNumber = Math.floor(Math.random() * 1000000000);
+    return `Shopiverse-${randomNumber}`;
+  };
+
   const onSubmit = async (data: any) => {
     console.log("data==>", data);
-    // Handle form submission with the selected payment method and amount
+      
+    if (data?.amount < 1) {
+      return toast.error("Please enter an amount greater than 0");
+    }
+
+    if (data?.paymentMethod === "stripe") {
+      const response = await axios.post(
+        `${backendUrl}/api/transaction/depositFundStripe`,
+        {
+          amount: data?.amount,
+        }
+      );
+      window.location.href = response.data.url;
+      return;
+    }
+
+    console.log("window==>", window.FlutterwaveCheckout);
+
+    if (data?.paymentMethod === "flutterwave") {
+      // Ensure FlutterwaveCheckout is available
+      if (typeof window !== "undefined" && window.FlutterwaveCheckout) {
+        window.FlutterwaveCheckout({
+          public_key: import.meta.env.VITE_REACT_APP_FLW_PK,
+          tx_ref: generateTxRef(),
+          amount: data?.amount,
+          currency: "USD",
+          payment_options: "card, banktransfer, ussd",
+          redirect_url: `${backendUrl}/api/transaction/depositFundFLW`,
+          customer: {
+            email: user?.email,
+            phone_number: user?.phone,
+            name: user?.name,
+          },
+          customizations: {
+            title: "Shopiverse Wallet Deposit",
+            description: "Deposit funds to your Shopiverse wallet",
+            logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
+          },
+        });
+      } else {
+        toast.error("Flutterwave SDK not loaded");
+      }
+      return;
+    }
+
+    toast.error("Please select a payment method.");
   };
 
   const handleClose = () => {
@@ -58,7 +118,9 @@ const DepositModal = ({ isOpen, onClose }: any) => {
               <label className="flex items-center bg-gray-100 p-2 shadow-md cursor-pointer mb-2 hover:translate-x-1 transition-all">
                 <input
                   type="radio"
-                  {...register("paymentMethod", { required: "Payment method is required" })}
+                  {...register("paymentMethod", {
+                    required: "Payment method is required",
+                  })}
                   value="stripe"
                   className="mr-2"
                 />
@@ -69,7 +131,9 @@ const DepositModal = ({ isOpen, onClose }: any) => {
               <label className="flex items-center cursor-pointer mb-2 bg-gray-100 p-2 shadow-md hover:translate-x-1 transition-all">
                 <input
                   type="radio"
-                  {...register("paymentMethod", { required: "Payment method is required" })}
+                  {...register("paymentMethod", {
+                    required: "Payment method is required",
+                  })}
                   value="flutterwave"
                   className="mr-2"
                 />

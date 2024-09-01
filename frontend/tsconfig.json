@@ -15,7 +15,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "./env.d.ts",
-    "src/components/ui/progress.jsx"
+    "src/components/ui/progress.jsx",
+    "global.d.ts"
   ],
   "exclude": ["node_modules"]
 }

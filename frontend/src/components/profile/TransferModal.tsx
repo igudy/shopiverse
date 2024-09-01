@@ -17,7 +17,10 @@ const TransferModal = ({ isOpen, onClose }: any) => {
 
   const [
     verifyAccount,
-    { data: dataVerify, isLoading: isLoadingVerify, isError: isErrorVerify },
+      { data: dataVerify,
+          isLoading: isLoadingVerify,
+          isError: isErrorVerify
+      },
   ] = useVerifyAccountMutation();
 
   const [
