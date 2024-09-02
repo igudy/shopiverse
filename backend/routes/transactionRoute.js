@@ -20,6 +20,6 @@ router.post(
 );
 router.post("/depositFundStripe", express.json(), protect, depositFundStripe);
 router.post("/webhook", express.raw({ type: "application/json" }), webhook);
-router.post("/depositFundFLW", express.json(), depositFundFLW);
+router.get("/depositFundFLW", express.json(), depositFundFLW);
 
 module.exports = router;

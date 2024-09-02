@@ -177,6 +177,31 @@ const webhook = asyncHandler(async (req, res) => {
   res.send().end();
 });
 
+// Deposit Fund Function
+const depositFund = async (customer, data, description, source) => {
+  await Transaction.create({
+    amount:
+      source === "stripe" ? data.amount_subtotal / 100 : data.amount_subtotal,
+    sender: "Self",
+    receiver: customer.email,
+    description: description,
+    status: "success",
+  });
+
+  // increase the receiver's balance
+  await User.findOneAndUpdate(
+    { email: customer.email },
+    {
+      $inc: {
+        balance:
+          source === "stripe"
+            ? data.amount_subtotal / 100
+            : data.amount_subtotal,
+      },
+    }
+  );
+};
+
 const depositFundFLW = asyncHandler(async (req, res) => {
   const { transaction_id } = req.query;
 
@@ -196,8 +221,10 @@ const depositFundFLW = asyncHandler(async (req, res) => {
   // console.log(response.data.data);
   const { amount, customer, tx_ref } = response.data.data;
 
-  const successURL = process.env.FRONTEND_URL + "/wallet?payment=successful";
-  const failureURL = process.env.FRONTEND_URL + "/wallet?payment=failed";
+  const successURL =
+    process.env.FRONTEND_URL + "/profile?wallet&payment=successful";
+  const failureURL =
+    process.env.FRONTEND_URL + "/profile?wallet&payment=failed";
   if (req.query.status === "successful") {
     const data = {
       amount_subtotal: amount,

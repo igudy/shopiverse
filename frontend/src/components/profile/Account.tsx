@@ -11,7 +11,9 @@ const Account = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDepositModal, setIsDepositModal] = useState<boolean>(false);
 
-  // const user = useSelector(selectUser);
+  const user = useSelector(selectUser);
+
+  console.log("user===>>", user)
 
     // Transfer Modal
   const openModal = () => setIsModalOpen(true);
@@ -27,14 +29,16 @@ const Account = () => {
       <div className="flex flex-col">
         <div>Hello,</div>
         {/* <div className="text-xl font-bold cursor-pointer">{user}</div> */}
-        <div className="text-xl font-bold cursor-pointer">Igudy</div>
+        <div className="text-xl font-bold cursor-pointer">{user?.name}</div>
 
         {/* Horizontal line */}
         <div className="w-full bg-gray-500 h-[0.3px] mt-3"></div>
         <div className="flex justify-between items-center">
           <div>
             <div className="text-xl font-medium mt-3">Account Balance</div>
-            <div className="text-md font-bold mt-2">$1000.00</div>
+          <div className="text-md font-bold mt-2">
+            N{new Intl.NumberFormat('en-NG', { minimumFractionDigits: 2 }).format(user?.balance || 0)}
+          </div>
           </div>
           <div>
             {/* Mastercard image */}

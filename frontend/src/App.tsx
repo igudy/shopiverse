@@ -108,7 +108,7 @@ const App = () => {
         
         <Route path="/chekout-success/*" element={<RedirectToCheckout />} />
 
-        <Route path="*" element={<NotFound />} />
+        {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </BrowserRouter>
   );

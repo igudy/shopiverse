@@ -10,15 +10,12 @@ import Footer from "../../components/footer/Footer";
 import useRedirectLoggedOutUser from "../../components/customHooks/useRedirectLoggedOutUser";
 import { useDispatch, useSelector } from "react-redux";
 import { AdminLink } from "../../components/protect/hiddenLink";
-import {
-  getUser,
-  selectUser,
-  sendVerificationEmail,
-} from "../../components/redux/slices/auth/authSlice";
+import { getUser, selectUser, sendVerificationEmail } from "../../components/redux/slices/auth/authSlice";
 import { CiViewList } from "react-icons/ci";
 import { CiWallet } from "react-icons/ci";
 import Wishlist from "../../components/profile/Wishlist";
 import Wallet from "../../components/profile/MyWallet";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 const allTabs = [
   { tabName: "Profile", icon: <BiUser /> },
@@ -33,16 +30,57 @@ const Profile = () => {
   useRedirectLoggedOutUser("/login");
   const [tab, setTab] = useState("Profile");
   const dispatch = useDispatch<any>();
+  const [urlParams] = useSearchParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
 
+  useEffect(() => {
+    // Check the URL parameter to set the appropriate tab
+    if (urlParams.has("wallet")) {
+      setTab("My Wallet");
+    } else if (urlParams.has("wishlist")) {
+      setTab("Wishlist");
+    } else if (urlParams.has("users")) {
+      setTab("Users");
+    } else if (urlParams.has("password")) {
+      setTab("Password");
+    } else {
+      setTab("Profile");
+    }
+  }, [urlParams]);
+
   const sendVerifyMail = () => {
     dispatch(sendVerificationEmail());
   };
 
+  const handleTabClick = (tabName: string) => {
+    setTab(tabName);
+    let param = "";
+    switch (tabName) {
+      case "My Wallet":
+        param = "wallet";
+        break;
+      case "Wishlist":
+        param = "wishlist";
+        break;
+      case "Users":
+        param = "users";
+        break;
+      case "Password":
+        param = "password";
+        break;
+      default:
+        param = "profile";
+        break;
+    }
+    navigate(`/profile?${param}`);
+  };
+
   const user = useSelector(selectUser);
+
   return (
     <div>
       <Navbar />
@@ -53,7 +91,7 @@ const Profile = () => {
               {allTabs.map((item, i) => (
                 <div key={i} className="cursor-pointer">
                   <div
-                    onClick={() => setTab(item.tabName)}
+                    onClick={() => handleTabClick(item.tabName)}
                     className={`flex items-center px-3 ${
                       item.tabName === tab ? "font-bold" : "text-gray-700"
                     }`}

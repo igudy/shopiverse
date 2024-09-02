@@ -17,9 +17,9 @@ const DepositModal = ({ isOpen, onClose }: any) => {
 
   const user = useSelector(selectUser);
   const backendUrl: string = import.meta.env
-        .VITE_REACT_APP_BACKEND_URL as string;
-    
-    console.log("user-->", user);
+    .VITE_REACT_APP_BACKEND_URL as string;
+
+  console.log("user-->", user);
 
   const generateTxRef = () => {
     const randomNumber = Math.floor(Math.random() * 1000000000);
@@ -28,7 +28,7 @@ const DepositModal = ({ isOpen, onClose }: any) => {
 
   const onSubmit = async (data: any) => {
     console.log("data==>", data);
-      
+
     if (data?.amount < 1) {
       return toast.error("Please enter an amount greater than 0");
     }
@@ -53,9 +53,10 @@ const DepositModal = ({ isOpen, onClose }: any) => {
           public_key: import.meta.env.VITE_REACT_APP_FLW_PK,
           tx_ref: generateTxRef(),
           amount: data?.amount,
-          currency: "USD",
+          currency: "NGN",
           payment_options: "card, banktransfer, ussd",
-          redirect_url: `${backendUrl}/api/transaction/depositFundFLW`,
+          redirect_url: `${backendUrl}/api/transactionRoute/depositFundFLW`,
+          // redirect_url: `${backendUrl}/api/order/response`,
           customer: {
             email: user?.email,
             phone_number: user?.phone,
