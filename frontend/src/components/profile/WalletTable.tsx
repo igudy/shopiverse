@@ -42,7 +42,6 @@ const WalletTable = () => {
 
   const handleDelete = () => {
     // Implement your delete logic here
-    console.log(`Deleting transaction with ID: ${selectedTransactionId}`);
     handleClose();
   };
 

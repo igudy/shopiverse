@@ -106,7 +106,6 @@ const CheckoutFlutterwaveSection = () => {
           userID: user._id,
         }
       );
-      console.log("response", response);
       window.location.href = response.data.data.link;
     } catch (error) {
       console.error("Error initiating payment:", error);

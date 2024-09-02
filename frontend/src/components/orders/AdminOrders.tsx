@@ -81,15 +81,12 @@ const AdminOrders = () => {
   
   const [urlParams] = useSearchParams();
   const orderId = urlParams.get("id");
-  console.log("orderId", orderId);
-  console.log('orderstatus', orderStatus);
 
   const handleSave = async () => {
     if (orderId && orderStatus) {
       try {
         await updateOrderStatus({ id: orderId, orderStatus });
         setSelectedOrder((prev) => (prev ? { ...prev, orderStatus } : null));
-        console.log("Order status updated:", orderStatus);
         toast.success("Updated successfully");
       } catch (error) {
         console.error("Failed to update order status:", error);

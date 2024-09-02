@@ -90,7 +90,6 @@ const ProfileComponent = () => {
           { method: "post", body: image }
         );
         const imgData = await response.json();
-        console.log(imgData);
         imageURL = imgData.url ? imgData.url.toString() : null;
       }
 

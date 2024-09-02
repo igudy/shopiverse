@@ -44,7 +44,6 @@ const RedirectToCheckout = () => {
 
   useEffect(() => {
     if (location.pathname.startsWith("/chekout-success")) {
-      console.log('location===>', location)
       navigate("/checkout-success" + location.search);
     }
   }, [location, navigate]);

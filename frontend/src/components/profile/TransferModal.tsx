@@ -41,7 +41,6 @@ const TransferModal = ({ isOpen, onClose }: any) => {
           receiver: receiverEmail,
         }).unwrap();
         toast.success(result.message || "Account verified successfully");
-        console.log("Verification Result===>", result);
       } catch (error) {
         toast.error("Account not verified");
       }
@@ -59,7 +58,6 @@ const TransferModal = ({ isOpen, onClose }: any) => {
         description: data?.description || "",
       }).unwrap();
       
-      console.log("result-===>", result);
       if (result) {
         toast.success(result?.message || "Transaction Successful");
         reset();

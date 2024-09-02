@@ -2,6 +2,9 @@ const asyncHandler = require("express-async-handler");
 const Transaction = require("../models/transactionModel");
 const User = require("../models/userModel");
 const { stripe } = require("../utils");
+
+console.log("stripe", stripe);
+
 const axios = require("axios");
 
 // Transfer funds
@@ -66,10 +69,7 @@ const transferFund = asyncHandler(async (req, res) => {
 const verifyAccount = asyncHandler(async (req, res) => {
   const { receiver } = req.body;
 
-  console.log("req.body==>", req.body);
   const user = await User.findOne({ email: receiver });
-
-  console.log("user==>", user);
 
   if (!user) {
     res.status(404);
@@ -116,20 +116,22 @@ const depositFundStripe = asyncHandler(async (req, res) => {
     line_items: [
       {
         price_data: {
-          currency: "usd",
+          currency: "NGN",
           product_data: {
             name: "Shopiverse wallet deposit",
             description: `Make a deposit of $${amount} to shopiverse wallet`,
           },
           unit_amount: amount * 100,
+          // unit_amount: amount,
         },
         quantity: 1,
       },
     ],
     customer: user.stripeCusomerId,
     success_url:
-      process.env.FRONTEND_URL + `/wallet?payment=successful&amount=${amount}`,
-    cancel_url: process.env.FRONTEND_URL + "/wallet?payment=failed",
+      process.env.FRONTEND_URL +
+      `/profile?wallet&payment=successful&amount=${amount}`,
+    cancel_url: process.env.FRONTEND_URL + "/profile?wallet&payment=failed",
   });
 
   return res.json(session);

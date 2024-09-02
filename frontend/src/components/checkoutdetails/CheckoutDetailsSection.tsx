@@ -38,7 +38,6 @@ const CheckoutDetailsSection = () => {
               `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
             );
             const data = await response.json();
-            console.log("data from map==>", data);
             if (data && data.address) {
               // const address = `${data.address.road || ""} ${data.address.city || ""} ${data.address.state || ""} ${data.address.country || ""}`;
               const address = data?.display_name;
@@ -62,7 +61,6 @@ const CheckoutDetailsSection = () => {
   };
 
   const onSubmit = async (data: any) => {
-    console.log("Form Data:", data);
     const paymentMethod = JSON.parse(localStorage.getItem("paymentMethod") as string) || "";
 
     const shippingAddress = data?.address_line_1;

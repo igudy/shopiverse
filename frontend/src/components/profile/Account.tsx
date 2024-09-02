@@ -13,8 +13,6 @@ const Account = () => {
 
   const user = useSelector(selectUser);
 
-  console.log("user===>>", user)
-
     // Transfer Modal
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);

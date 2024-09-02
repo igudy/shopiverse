@@ -82,7 +82,6 @@ const Login = () => {
   
   const redirect = urlParams.get("redirect");
   
-  console.log("redirect===>", redirect);
 
   const {
     data: getCartData,

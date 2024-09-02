@@ -24,7 +24,6 @@ const CheckoutPaypalSection = () => {
         orderID: data.orderID,
       })
       .then((res) => {
-        console.log("Order Captured:", res);
         navigate("/checkout-success");
         toast.success("Successful")
       })

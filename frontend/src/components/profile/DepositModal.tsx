@@ -19,32 +19,28 @@ const DepositModal = ({ isOpen, onClose }: any) => {
   const backendUrl: string = import.meta.env
     .VITE_REACT_APP_BACKEND_URL as string;
 
-  console.log("user-->", user);
-
   const generateTxRef = () => {
     const randomNumber = Math.floor(Math.random() * 1000000000);
     return `Shopiverse-${randomNumber}`;
   };
 
   const onSubmit = async (data: any) => {
-    console.log("data==>", data);
-
     if (data?.amount < 1) {
       return toast.error("Please enter an amount greater than 0");
     }
 
     if (data?.paymentMethod === "stripe") {
       const response = await axios.post(
-        `${backendUrl}/api/transaction/depositFundStripe`,
+        `${backendUrl}/api/transactionRoute/depositFundStripe`,
         {
           amount: data?.amount,
         }
       );
+
+      console.log('response==>', response)
       window.location.href = response.data.url;
       return;
     }
-
-    console.log("window==>", window.FlutterwaveCheckout);
 
     if (data?.paymentMethod === "flutterwave") {
       // Ensure FlutterwaveCheckout is available

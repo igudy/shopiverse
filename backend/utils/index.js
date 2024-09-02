@@ -1,9 +1,8 @@
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const Stripe = require("stripe");
 
 // Instantiate stripe
-const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {

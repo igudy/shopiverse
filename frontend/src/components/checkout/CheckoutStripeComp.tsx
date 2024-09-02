@@ -53,8 +53,6 @@ const CheckoutStripeComp = ({
 
   const [createOrder, { isLoading: isLoadingCreateOrder }] = useCreateOrderMutation({});
 
-  console.log("selectPayment==>", selectPayment);
-
   useEffect(() => {
     dispatch(CALCULATE_SUBTOTAL({ coupon: coupon }));
     dispatch(CALCULATE_TOTAL_QUANTITY({}));
@@ -63,9 +61,7 @@ const CheckoutStripeComp = ({
   const description = `eShop payment: email: ${customerEmail}, Amount: ${totalAmount}`;
 
   const productIDs = extractIdAndCartQuantity(cartItems);
-  // console.log(newCartItems);
   // const newCartTotalAmount = calculateTotalPrice(cartItems, productIDs);
-  // console.log(newCartTotalAmount);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -79,9 +75,6 @@ const CheckoutStripeComp = ({
     const clearCart = () => {
     dispatch(CLEAR_CART({}));
   };
-
-  console.log("paymentMethod:", paymentMethodParsed);
-  console.log("shippingMethod:", shippingAddressParsed);
 
   const saveOrder = async () => {
     const today = new Date();
@@ -98,7 +91,6 @@ const CheckoutStripeComp = ({
 
 try {
   const res = await createOrder(formData).unwrap();
-  console.log("res==>", res)
   toast.success(res.message || "Order created successfully");
 } catch (error) {
   console.error("Error creating order:", error);
