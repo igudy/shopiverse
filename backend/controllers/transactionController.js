@@ -106,7 +106,22 @@ const depositFundStripe = asyncHandler(async (req, res) => {
   if (!user.stripeCusomerId) {
     const customer = await stripe.customers.create({ email: user.email });
     user.stripeCusomerId = customer.id;
-    user.save();
+    await user.save(); // Add await to ensure the user is saved before proceeding
+  }
+
+  // Determine success and cancel URLs based on environment
+  let success_url;
+  let cancel_url;
+
+  if (process.env.NODE_ENV === "production") {
+    success_url =
+      process.env.FRONTEND_URL + `/wallet?payment=successful&amount=${amount}`;
+    cancel_url = process.env.FRONTEND_URL + "/wallet?payment=failed";
+  } else {
+    success_url =
+      process.env.FRONTEND_URL +
+      `/profile?wallet&payment=successful&amount=${amount}`;
+    cancel_url = process.env.FRONTEND_URL + "/profile?wallet&payment=failed";
   }
 
   // Create stripe session
@@ -119,23 +134,22 @@ const depositFundStripe = asyncHandler(async (req, res) => {
           currency: "NGN",
           product_data: {
             name: "Shopiverse wallet deposit",
-            description: `Make a deposit of $${amount} to shopiverse wallet`,
+            description: `Make a deposit of ₦${amount} to Shopiverse wallet`,
           },
-          unit_amount: amount * 100,
-          // unit_amount: amount,
+          unit_amount: amount * 100, // Stripe expects amount in kobo
         },
         quantity: 1,
       },
     ],
     customer: user.stripeCusomerId,
-    success_url:
-      process.env.FRONTEND_URL +
-      `/profile?wallet&payment=successful&amount=${amount}`,
-    cancel_url: process.env.FRONTEND_URL + "/profile?wallet&payment=failed",
+    success_url: success_url,
+    cancel_url: cancel_url,
   });
 
   return res.json(session);
 });
+
+const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 
 const webhook = asyncHandler(async (req, res) => {
   const sig = req.headers["stripe-signature"];
