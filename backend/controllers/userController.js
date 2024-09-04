@@ -821,6 +821,35 @@ const clearCart = asyncHandler(async (req, res) => {
   }
 });
 
+const addToWishlist = asyncHandler(async (req, res) => {
+  const { productId } = req.body;
+
+  await User.findOneAndUpdate(
+    { email: req.user.email },
+    { $addToSet: { wishlist: productId } }
+  );
+
+  res.json({ message: "Product added to wishlist" });
+});
+
+const getWishlist = asyncHandler(async (req, res) => {
+  const list = await User.findOne({ email: req.user.email })
+    .select("wishlist")
+    .populate("wishlist");
+
+  res.json(list);
+});
+
+const removeFromWishlist = asyncHandler(async (req, res) => {
+  const { productId } = req.params;
+  await User.findOneAndUpdate(
+    { email: req.user.email },
+    { $pull: { wishlist: productId } }
+  );
+
+  res.json({ message: "Product removed from wishlist" });
+});
+
 module.exports = {
   registerUser,
   loginUser,
@@ -841,9 +870,9 @@ module.exports = {
   loginWithCode,
   loginWithGoogle,
   updatePhoto,
-  // addToWishlist,
-  // getWishlist,
-  // removeFromWishlist,
+  addToWishlist,
+  getWishlist,
+  removeFromWishlist,
   getCart,
   saveCart,
   clearCart,

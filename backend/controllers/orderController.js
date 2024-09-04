@@ -2,11 +2,9 @@ const asyncHandler = require("express-async-handler");
 const Order = require("../models/orderModel");
 const { calculateTotalPrice } = require("../utils");
 const Product = require("../models/productModel");
-// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const axios = require("axios");
 const User = require("../models/userModel");
-// const Transaction = require("../models/transactionModel");
 const { orderSuccessEmail } = require("../emailTemplates/orderTemplate");
 const sendGmail = require("../utils/sendGmail");
 const crypto = require("crypto");
@@ -184,7 +182,7 @@ const payWithFlutterwave = async (req, res) => {
     amount: orderAmount,
     currency: "NGN",
     // payment_options: "card, banktransfer, ussd",
-    redirect_url: "http://localhost:5173/chekout-success",
+    redirect_url: `${process.env.FRONTEND_URL}/chekout-success`,
     //   meta: {
     //     consumer_id: 23,
     //     consumer_mac: "92a3-912ba-1192a",
@@ -344,7 +342,6 @@ const createPayPalOrder = asyncHandler(async (req, res) => {
 //     .json({ message: "Something went wrong, please contact admin" });
 // });
 
-
 const payWithWallet = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   const { items, cartItems, shippingAddress, coupon } = req.body;
@@ -373,7 +370,7 @@ const payWithWallet = asyncHandler(async (req, res) => {
   const newTransaction = await Transaction.create({
     amount: orderAmount,
     sender: user.email,
-    receiver: "Shopito store",
+    receiver: "Shopiverse store",
     description: "Payment for products.",
     status: "success",
   });
@@ -414,7 +411,6 @@ const payWithWallet = asyncHandler(async (req, res) => {
       .json({ message: "Something went wrong, please contact admin" });
   }
 });
-
 
 const updateProductQuantity = async (cartItems) => {
   let bulkOption = cartItems.map((product) => {

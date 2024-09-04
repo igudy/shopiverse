@@ -50,8 +50,8 @@ const payWithWallet = async () => {
   try {
     const res = await payWallet(payload).unwrap();
     if (res.url) {
-      toast.success("Successful")
-      // navigate(res.url); // Redirect to success page
+      console.log("Successful")
+      // navigate(res.url)
     } else {
       console.log("Payment failed", res);
     }

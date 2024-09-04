@@ -36,6 +36,12 @@ const userSchema = mongoose.Schema(
       default: "subscriber",
       //   subscriber, author and admin
     },
+    wishlist: [
+      {
+        type: ObjectId,
+        ref: "Product",
+      },
+    ],
     balance: {
       type: Number,
       default: 0,

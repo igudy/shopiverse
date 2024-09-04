@@ -52,7 +52,7 @@ const Login = () => {
       password: data?.password,
     };
     setEmail(data?.email);
-    await dispatch(loginUser({userData}));
+    await dispatch(loginUser({ userData }));
   };
 
   useEffect(() => {

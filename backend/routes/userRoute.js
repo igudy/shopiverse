@@ -19,9 +19,9 @@ const {
   loginWithCode,
   loginWithGoogle,
   updatePhoto,
-  // addToWishlist,
-  // getWishlist,
-  // removeFromWishlist,
+  addToWishlist,
+  getWishlist,
+  removeFromWishlist,
   getCart,
   saveCart,
   clearCart,
@@ -57,9 +57,9 @@ router.post("/google/callback", loginWithGoogle);
 router.patch("/updatePhoto", protect, updatePhoto);
 
 // Wishlist
-// router.post("/addToWishlist", protect, addToWishlist);
-// router.get("/getWishlist", protect, getWishlist);
-// router.put("/wishlist/:productId", protect, removeFromWishlist);
+router.post("/addToWishlist", protect, addToWishlist);
+router.get("/getWishlist", protect, getWishlist);
+router.put("/wishlist/:productId", protect, removeFromWishlist);
 
 // Cart
 router.get("/getCart", protect, getCart);
