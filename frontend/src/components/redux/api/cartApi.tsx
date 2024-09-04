@@ -9,7 +9,7 @@ import { BASE_URL, API_VERSION } from "../../constants/constants";
 
 export const cartApi = createApi({
   reducerPath: "cartApi",
-  tagTypes: ["cartTagTypes"],
+  tagTypes: ["cartTagTypes", "wishList"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${BASE_URL}/${API_VERSION}`,
     credentials: "include",
@@ -35,6 +35,7 @@ export const cartApi = createApi({
         url: `users/getWishlist`,
         method: "GET",
       }),
+      providesTags: ["wishList"],
     }),
 
     addToWishList: builder.mutation<any, any>({
@@ -47,10 +48,11 @@ export const cartApi = createApi({
 
     removeFromWishlist: builder.mutation<any, any>({
       query: (productId) => ({
-        url: `users/addToWishlist`,
+        url: `users/wishlist/${productId}`,
         method: "PUT",
-        body: productId,
+        // body: productId,
       }),
+      invalidatesTags: ["wishList"],
     }),
 
   }),
