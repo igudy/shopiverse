@@ -3,22 +3,22 @@ TODO
 FRONTEND
 - Design product details page - Done
 - Add product details page - Done
-- Sticky navbar
+- Sticky navbar - Done
 - Small cart items on homepage for cart
-- Buy now to open modal
-- Popular sales responsive styling
+- Buy now to open modal - Done
+- Popular sales responsive styling - Done
 - Normal sign in and sign up - Done
-- Checkout section
-- Admin page
-- PayStack Integration
-- Flutterwave Integration
-- Checkout Page
-- Filtering(Price, Category)
-- Longitude & Latitude(Location for checkout page)
-- Product Details
-- Contact Us Page
-- API's integration
-- Search
+- Checkout section - Done
+- Admin page - Done
+- PayStack Integration - 
+- Flutterwave Integration - Done
+- Checkout Page - Done
+- Filtering(Price, Category) - Done
+- Longitude & Latitude(Location for checkout page) - Done
+- Product Details - Done
+- Contact Us Page - Done
+- API's integration - Done
+- Search - Done
 - Pusher API
 
 BACKEND
@@ -29,9 +29,11 @@ BACKEND
 - Products - Done
 - Category - Done
 - Cart - Done
+- Search functionality - Done
 - Related Product
-- Search functionality
-
+- Wallet
+- Wishlist
+- Review
 
 
 

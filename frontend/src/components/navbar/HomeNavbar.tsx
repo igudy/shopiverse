@@ -16,7 +16,7 @@ const HomeNavbar = () => {
   const user = useSelector(selectUser);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
 
-  // Logoout functionality
+  // Logout functionality
   const logoutUser = async () => {
     dispatch(RESET());
     await dispatch(logout());

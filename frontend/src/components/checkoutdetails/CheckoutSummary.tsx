@@ -11,9 +11,6 @@ import CouponDiscount from "../coupon/CouponDiscount";
 
 const CheckoutSummary = () => {
   const coupon = useSelector((state: any) => state.coupon.coupon);
-
-  console.log('coupon==>', coupon)
-
   const cartItems = useSelector(selectCartItems);
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);

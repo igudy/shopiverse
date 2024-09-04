@@ -11,6 +11,8 @@ const { orderSuccessEmail } = require("../emailTemplates/orderTemplate");
 const sendGmail = require("../utils/sendGmail");
 const crypto = require("crypto");
 const paypalClient = require("../services/paypalService");
+const Transaction = require("../models/transactionModel");
+const sendEmail = require("../utils/sendEmail");
 
 // Create order
 const createOrder = asyncHandler(async (req, res) => {
@@ -164,27 +166,6 @@ const payWithStripe = asyncHandler(async (req, res) => {
   });
 });
 
-const updateProductQuantity = async (cartItems) => {
-  let bulkOption = cartItems.map((product) => {
-    return {
-      updateOne: {
-        filter: { _id: product._id },
-        update: {
-          $inc: {
-            quantity: -product.cartQuantity,
-            sold: +product.cartQuantity,
-          },
-        },
-      },
-    };
-  });
-
-  await Product.bulkWrite(bulkOption, {});
-
-  // Return the updated product information or cartItems
-  return cartItems; // Or you can return updated product information if needed
-};
-
 const payWithFlutterwave = async (req, res) => {
   const { items, userID } = req.body;
   const products = await Product.find();
@@ -290,6 +271,172 @@ const createPayPalOrder = asyncHandler(async (req, res) => {
 //   }
 // });
 
+// const payWithWallet = asyncHandler(async (req, res) => {
+//   const user = await User.findById(req.user._id);
+//   const { items, cartItems, shippingAddress, coupon } = req.body;
+//   // console.log(coupon);
+//   const products = await Product.find();
+//   const today = new Date();
+
+//   let orderAmount;
+//   orderAmount = calculateTotalPrice(products, items);
+//   if (coupon !== null && coupon?.name !== "nil") {
+//     let totalAfterDiscount =
+//       orderAmount - (orderAmount * coupon.discount) / 100;
+//     orderAmount = totalAfterDiscount;
+//   }
+//   // console.log(orderAmount);
+//   // console.log(user.balance);
+
+//   if (user.balance < orderAmount) {
+//     res.status(400);
+//     throw new Error("Insufficient balance");
+//   }
+
+//   const newTransaction = await Transaction.create({
+//     amount: orderAmount,
+//     sender: user.email,
+//     receiver: "Shopito store",
+//     description: "Payment for products.",
+//     status: "success",
+//   });
+
+//   // decrease the sender's balance
+//   const newBalance = await User.findOneAndUpdate(
+//     { email: user.email },
+//     {
+//       $inc: { balance: -orderAmount },
+//     }
+//   );
+
+//   const newOrder = await Order.create({
+//     user: user._id,
+//     orderDate: today.toDateString(),
+//     orderTime: today.toLocaleTimeString(),
+//     orderAmount,
+//     orderStatus: "Order Placed...",
+//     cartItems,
+//     shippingAddress,
+//     paymentMethod: "Shopiverse Wallet",
+//     coupon,
+//   });
+
+//   // Update Product quantity
+//   const updatedProduct = await updateProductQuantity(cartItems);
+//   // console.log("updated product", updatedProduct);
+
+//   // Send Order Email to the user
+//   const subject = "Shopiverse Order Placed";
+//   const send_to = user.email;
+//   const template = orderSuccessEmail(user.name, cartItems);
+//   const reply_to = "goodnessigunma1@gmail.com";
+
+//   await sendEmail(subject, send_to, template, reply_to);
+
+//   if (newTransaction && newBalance && newOrder) {
+//     return res.status(200).json({
+//       message: "Payment successful",
+//       url: `${process.env.FRONTEND_URL}/checkout-success`,
+//     });
+//   }
+//   res
+//     .status(400)
+//     .json({ message: "Something went wrong, please contact admin" });
+// });
+
+
+const payWithWallet = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  const { items, cartItems, shippingAddress, coupon } = req.body;
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const products = await Product.find();
+
+  let orderAmount = calculateTotalPrice(products, items);
+
+  if (isNaN(orderAmount)) {
+    return res.status(400).json({ message: "Invalid order amount" });
+  }
+
+  if (coupon && coupon !== "nil") {
+    const discount = coupon.discount || 0;
+    orderAmount = orderAmount - (orderAmount * discount) / 100;
+  }
+
+  if (user.balance < orderAmount) {
+    return res.status(400).json({ message: "Insufficient balance" });
+  }
+
+  const newTransaction = await Transaction.create({
+    amount: orderAmount,
+    sender: user.email,
+    receiver: "Shopito store",
+    description: "Payment for products.",
+    status: "success",
+  });
+
+  await User.findByIdAndUpdate(user._id, {
+    $inc: { balance: -orderAmount },
+  });
+
+  const newOrder = await Order.create({
+    user: user._id,
+    orderDate: new Date().toDateString(),
+    orderTime: new Date().toLocaleTimeString(),
+    orderAmount,
+    orderStatus: "Order Placed...",
+    cartItems,
+    shippingAddress,
+    paymentMethod: "Shopiverse Wallet",
+    coupon,
+  });
+
+  await updateProductQuantity(cartItems);
+
+  const subject = "Shopiverse Order Placed";
+  const send_to = user.email;
+  const template = orderSuccessEmail(user.name, cartItems);
+  const reply_to = "goodnessigunma1@gmail.com";
+
+  await sendEmail(subject, send_to, template, reply_to);
+
+  if (newTransaction && newOrder) {
+    return res.status(200).json({
+      message: "Payment successful",
+      url: `${process.env.FRONTEND_URL}/checkout-success`,
+    });
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Something went wrong, please contact admin" });
+  }
+});
+
+
+const updateProductQuantity = async (cartItems) => {
+  let bulkOption = cartItems.map((product) => {
+    return {
+      updateOne: {
+        filter: { _id: product._id },
+        update: {
+          $inc: {
+            quantity: -product.cartQuantity,
+            sold: +product.cartQuantity,
+          },
+        },
+      },
+    };
+  });
+
+  await Product.bulkWrite(bulkOption, {});
+
+  // Return the updated product information or cartItems
+  return cartItems; // Or you can return updated product information if needed
+};
+
 module.exports = {
   createOrder,
   getOrders,
@@ -298,6 +445,7 @@ module.exports = {
   payWithStripe,
   payWithFlutterwave,
   createPayPalOrder,
+  payWithWallet,
   // capturePayPalOrder,
   // payWithPaystack,
 };

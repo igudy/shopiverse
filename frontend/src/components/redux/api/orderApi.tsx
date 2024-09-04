@@ -46,6 +46,16 @@ export const orderApi = createApi({
         "Orders",
       ],
     }),
+
+    // Pay with Wallet
+    payWithWallet: builder.mutation<any, any>({
+      query: (payload) => ({
+        url: `orderRoute/payWithWallet`,
+        method: "POST",
+        body: payload,
+      }),
+      // invalidatesTags: ["Orders"],
+    }),
   }),
 });
 
@@ -54,4 +64,5 @@ export const {
   useGetOrdersQuery,
   useCreateOrderMutation,
   useUpdateOrderMutation,
+  usePayWithWalletMutation
 } = orderApi;

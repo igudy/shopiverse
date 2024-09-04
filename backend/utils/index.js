@@ -43,6 +43,7 @@ function calculateTotalPrice(products, cartItems) {
 
     if (product) {
       console.log("Product is available");
+      // const quantity = cartItem.cartQuantity;
       const quantity = cartItem.cartQuantity;
       console.log("quantity", quantity);
       const price = parseFloat(product.price);

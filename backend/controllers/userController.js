@@ -154,8 +154,6 @@ const loginUser = asyncHandler(async (req, res) => {
     const { _id, name, email, phone, bio, photo, role, isVerified, balance } =
       user;
 
-    console.log("Balance==>", { balance, email });
-
     res.status(200).json({
       _id,
       name,
@@ -772,10 +770,7 @@ const saveCart = asyncHandler(async (req, res) => {
   if (user) {
     user.cartItems = req.body.cartItems;
 
-    console.log(
-      "Saved cart items:",
-      req.body.cartItems.map((item) => item.name)
-    );
+    console.log(req.body.cartItems.map((item) => item.name));
 
     await user.save();
 
