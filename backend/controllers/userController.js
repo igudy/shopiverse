@@ -821,6 +821,7 @@ const clearCart = asyncHandler(async (req, res) => {
   }
 });
 
+// Add product to wishlist
 const addToWishlist = asyncHandler(async (req, res) => {
   const { productId } = req.body;
 
@@ -832,14 +833,7 @@ const addToWishlist = asyncHandler(async (req, res) => {
   res.json({ message: "Product added to wishlist" });
 });
 
-const getWishlist = asyncHandler(async (req, res) => {
-  const list = await User.findOne({ email: req.user.email })
-    .select("wishlist")
-    .populate("wishlist");
-
-  res.json(list);
-});
-
+//
 const removeFromWishlist = asyncHandler(async (req, res) => {
   const { productId } = req.params;
   await User.findOneAndUpdate(
@@ -847,7 +841,16 @@ const removeFromWishlist = asyncHandler(async (req, res) => {
     { $pull: { wishlist: productId } }
   );
 
-  res.json({ message: "Product removed from wishlist" });
+  res.json({ message: "Product removed to wishlist" });
+});
+
+// Get Wishlist
+const getWishlist = asyncHandler(async (req, res) => {
+  const list = await User.findOne({ email: req.user.email })
+    .select("wishlist")
+    .populate("wishlist");
+
+  res.json(list);
 });
 
 module.exports = {

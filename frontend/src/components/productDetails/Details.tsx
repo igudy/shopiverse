@@ -11,7 +11,11 @@ import {
   DECREASE_CART,
   selectCartItems,
 } from "../redux/slices/cart/CartSlice";
-import { useSaveCartToDBMutation } from "../redux/api/cartApi";
+import {
+  useAddToWishListMutation,
+  useSaveCartToDBMutation,
+} from "../redux/api/cartApi";
+import toast from "react-hot-toast";
 
 const Details = () => {
   const { id } = useParams();
@@ -44,6 +48,22 @@ const Details = () => {
     });
   };
 
+  const [
+    addToWish,
+    { isLoading: isLoadingAddWishList, isError: isErrorAddWishList },
+  ] = useAddToWishListMutation();
+
+  const addToWishList = async () => {
+    try {
+      const res = await addToWish({ productId: id }).unwrap();
+      toast.success(res.message || 
+        "Product added to wishlist"
+      );
+    } catch (error: any)
+    {
+      toast.error("Error: ", error);
+    }
+  };
 
   useEffect(() => {
     dispatch(CALCULATE_SUBTOTAL({}));
@@ -99,8 +119,10 @@ const Details = () => {
                   <div className="mt-3 font-bold text-2xl text-gray-500">
                     Quantity
                   </div>
-                  <div className="border-2 p-1 rounded-lg gap-5 flex 
-                  items-center justify-center font-semibold">
+                  <div
+                    className="border-2 p-1 rounded-lg gap-5 flex 
+                  items-center justify-center font-semibold"
+                  >
                     <div
                       className="w-10 h-10 cursor-pointer 
                       hover:bg-gray-100 bg-white rounded-lg 
@@ -127,22 +149,31 @@ const Details = () => {
 
             {/* Product Quantity */}
             {product?.quantity > 0 ? (
-              <>
+              <div className="flex gap-5 items-center mt-5">
                 <button
                   className="bg-purple-500 hover:bg-purple-600 
                   cursor-pointer text-white w-full flex 
                   justify-center items-center rounded-lg 
-                  font-bold text-sm h-10 border-1 mt-5"
+                  font-bold text-sm h-14 border-1"
                   onClick={() => addToCart(product)}
                 >
                   Add to Cart
                 </button>
-              </>
+                <button
+                  className="bg-orange-500 hover:bg-orange-600 
+                  cursor-pointer text-white w-full flex 
+                  justify-center items-center rounded-lg 
+                  font-bold text-sm h-14 border-1"
+                  onClick={addToWishList}
+                >
+                  Add to Wishlist
+                </button>
+              </div>
             ) : (
               <>
                 <button
                   disabled
-                    className="bg-purple-500 
+                  className="bg-purple-500 
                     hover:bg-purple-600 cursor-pointer 
                   text-white w-full flex justify-center 
                   items-center rounded-lg font-bold text-sm 
