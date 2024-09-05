@@ -41,6 +41,10 @@ const productSchema = mongoose.Schema(
       type: String,
       required: [false, "Please a product description"],
     },
+    // Image Slider
+    // image: {
+    //   type: [String],
+    // },
     ratings: {
       type: [Object],
     },
@@ -51,8 +55,8 @@ const productSchema = mongoose.Schema(
   }
 );
 
-// how it is been saved to the db
+// Save to DB
 const Product = mongoose.model("Product", productSchema);
 
-// how it is been exported to be used in other places
+// Exported for use in other files.
 module.exports = Product;

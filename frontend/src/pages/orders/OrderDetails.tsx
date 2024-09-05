@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../../components/navbar/Navbar";
-import OrderDetialsComponent from "../../components/orders/OrderDetialsComponent";
+import OrderDetailsComponent from "../../components/orders/OrderDetailsComponent";
 import Footer from "../../components/footer/Footer";
 
 const OrderDetails = () => {
@@ -8,7 +8,7 @@ const OrderDetails = () => {
     <div>
       <Navbar />
       <div className="mx-14">
-        <OrderDetialsComponent />
+        <OrderDetailsComponent />
       </div>
       <Footer />
     </div>

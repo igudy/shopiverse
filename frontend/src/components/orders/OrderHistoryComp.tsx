@@ -61,7 +61,7 @@ const OrderHistoryComp = () => {
             open={open}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleView}>View</MenuItem>
+            <MenuItem onClick={handleView}>View & Review</MenuItem>
             <MenuItem onClick={handleDelete}>Delete</MenuItem>
           </Menu>
         </>

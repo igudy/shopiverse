@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
+const mongoose = require("mongoose");
 
 const getAllProducts = asyncHandler(async (req, res) => {
   const products = await Product.find().sort("-createdAt").select("-password");
@@ -25,6 +26,7 @@ const getProduct = asyncHandler(async (req, res) => {
       category,
       brand,
       desc,
+      rating,
     } = product;
     res.status(200).json({
       _id,
@@ -36,6 +38,7 @@ const getProduct = asyncHandler(async (req, res) => {
       category,
       brand,
       desc,
+      rating,
     });
   } else {
     res.status(404);
@@ -145,7 +148,6 @@ const deleteReview = asyncHandler(async (req, res) => {
   const { userID } = req.body;
 
   const product = await Product.findById(req.params.id);
-  // if product doesnt exist
   if (!product) {
     res.status(404);
     throw new Error("Product not found");
@@ -162,6 +164,7 @@ const deleteReview = asyncHandler(async (req, res) => {
 const updateReview = asyncHandler(async (req, res) => {
   const { star, review, reviewDate, userID } = req.body;
   const { id } = req.params;
+  // const userID = req.user._id;
 
   // validation
   if (star < 1 || !review) {
@@ -182,6 +185,7 @@ const updateReview = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("User not authorized");
   }
+
   const updatedReview = await Product.findOneAndUpdate(
     { _id: product._id, "ratings.userID": mongoose.Types.ObjectId(userID) },
     {
@@ -196,7 +200,7 @@ const updateReview = asyncHandler(async (req, res) => {
   if (updatedReview) {
     res.status(200).json({ message: "Product review updated." });
   } else {
-    res.status(400).json({ message: "Product review NOT updated." });
+    res.status(400).json({ message: "Product review failed to update." });
   }
 });
 

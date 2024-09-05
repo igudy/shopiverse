@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useGetOrderQuery } from "../redux/api/orderApi";
 import { LoaderIcon } from "react-hot-toast";
 import html2canvas from "html2canvas";
@@ -6,6 +6,9 @@ import jsPDF from "jspdf";
 import { useRef } from "react";
 
 const OrderDetailsComponent = () => {
+  // const { id } = useParams();
+  // console.log("id==>", id)
+
   const [urlParams] = useSearchParams();
   const orderId = urlParams.get("id");
 

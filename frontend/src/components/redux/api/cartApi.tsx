@@ -44,6 +44,7 @@ export const cartApi = createApi({
         method: "POST",
         body: productId
       }),
+      invalidatesTags: ["wishList"],
     }),
 
     removeFromWishlist: builder.mutation<any, any>({

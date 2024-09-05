@@ -21,12 +21,10 @@ const Account = () => {
   const openDepositModal = () => setIsDepositModal(true);
   const closeDepositModal = () => setIsDepositModal(false);
 
-
   return (
     <div className="border-2 rounded-xl border-purple-500 shadow-md p-3 h-[14rem] max-h-[14rem]">
       <div className="flex flex-col">
         <div>Hello,</div>
-        {/* <div className="text-xl font-bold cursor-pointer">{user}</div> */}
         <div className="text-xl font-bold cursor-pointer">{user?.name}</div>
 
         {/* Horizontal line */}
