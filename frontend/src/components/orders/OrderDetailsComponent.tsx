@@ -1,4 +1,4 @@
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useGetOrderQuery } from "../redux/api/orderApi";
 import { LoaderIcon } from "react-hot-toast";
 import html2canvas from "html2canvas";
@@ -9,6 +9,7 @@ const OrderDetailsComponent = () => {
   // const { id } = useParams();
   // console.log("id==>", id)
 
+  const navigate = useNavigate();
   const [urlParams] = useSearchParams();
   const orderId = urlParams.get("id");
 
@@ -138,51 +139,56 @@ const OrderDetailsComponent = () => {
                 <td className="border px-4 py-2 font-semibold">Cart Items:</td>
                 <td className="border px-4 py-2">
                   <div className="flex gap-5">
-                  {orderDetails.cartItems.map((item) => (
-                    <div key={item._id} className="text-[12px] mb-4 border-2 rounded-xl p-2 w-[60%]">
-                      <div className="flex gap-5">
-                        <div>
-                          <img
-                            src={item.productImg}
-                            alt={item.name}
-                            className="w-32 h-32 rounded-xl object-cover mb-2"
-                          />
+                    {orderDetails.cartItems.map((item) => (
+                      <div key={item._id} className="text-[12px] mb-4">
+                        <div className="flex gap-5">
+                          <div>
+                            <img
+                              src={item.productImg}
+                              alt={item.name}
+                              className="w-32 h-32 rounded-xl object-cover mb-2"
+                            />
+                          </div>
+
+                          <div>
+                            <p>
+                              <strong>Name:</strong> {item.name}
+                            </p>
+                            <p>
+                              <strong>Brand:</strong> {item.brand}
+                            </p>
+                            <p>
+                              <strong>Category:</strong> {item.category}
+                            </p>
+                            <p>
+                              <strong>Description:</strong> {item.desc}
+                            </p>
+                            {/* <p><strong>Quantity:</strong> {item.quantity}</p> */}
+                            <p>
+                              <strong>Price:</strong> {item.price}
+                            </p>
+                            {/* <p><strong>False Price:</strong> {item.falsePrice}</p> */}
+                            <p>
+                              <strong>Cart Quantity:</strong>{" "}
+                              {item.cartQuantity}
+                            </p>
+                          </div>
                         </div>
 
-                        <div>
-                          <p>
-                            <strong>Name:</strong> {item.name}
-                          </p>
-                          <p>
-                            <strong>Brand:</strong> {item.brand}
-                          </p>
-                          <p>
-                            <strong>Category:</strong> {item.category}
-                          </p>
-                          <p>
-                            <strong>Description:</strong> {item.desc}
-                          </p>
-                          {/* <p><strong>Quantity:</strong> {item.quantity}</p> */}
-                          <p>
-                            <strong>Price:</strong> {item.price}
-                          </p>
-                          {/* <p><strong>False Price:</strong> {item.falsePrice}</p> */}
-                          <p>
-                            <strong>Cart Quantity:</strong> {item.cartQuantity}
-                          </p>
+                        <div
+                          className="text-[12px] my-3"
+                          onClick={() =>
+                            navigate(`/review-product/${item._id}`)}
+                        >
+                          <div
+                            className="bg-purple-600 p-4 rounded-lg text-white font-medium 
+                      cursor-pointer hover:bg-purple-700"
+                          >
+                            Review Product
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-
-                    
-                    <div className="text-[12px] mb-4 border-2 rounded-xl p-2 w-[40%] 
-                  flex justify-center text-center items-center">
-                      <div className="bg-purple-600 p-4 rounded-lg text-white font-medium 
-                      cursor-pointer hover:bg-purple-700">
-                      Review Product
-                      </div>  
-                    </div>
+                    ))}
                   </div>
                 </td>
               </tr>

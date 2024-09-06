@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import StarRatingComponent from "react-star-rating-component";
 import Mastercard from "../../assets/mastercard.png";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useReviewProductMutation } from "../redux/api/productApi";
+import { useGetProductQuery } from "../redux/api/api";
+import toast from "react-hot-toast";
 
-// Define the validation schema using zod
 const schema = z.object({
   review: z.string().min(1, "Review is required"),
 });
 
 const ReviewProductComp = () => {
+  const [rating, setRating] = useState(0);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -18,9 +25,30 @@ const ReviewProductComp = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    // Handle form submission (e.g., send data to the backend)
+  const { id } = useParams<{ id: string }>();
+
+  const [
+    reviewProduct,
+    { isLoading: isLoadingReview, isError: isLoadingError },
+  ] = useReviewProductMutation();
+
+  const { data: product, error, isLoading } = useGetProductQuery(id);
+  console.log("product==>", { product, rating });
+
+  const onStarClick = (nextValue: number) => {
+    setRating(nextValue);
+  };
+
+  const onSubmit = async (data: any) => {
+    const payload = {
+      id: id,
+      star: rating,
+      review: data.review,
+      reviewDate: new Date().toISOString(),
+    };
+    const res = await reviewProduct({ ...payload }).unwrap();
+    toast.success(res.message || "Review Submitted");
+    navigate(`/productDetails/${product?._id}`)
   };
 
   return (
@@ -30,12 +58,41 @@ const ReviewProductComp = () => {
       </div>
       <div className="flex justify-between gap-10 my-3">
         <div className="w-[50%] border-[2px] shadow-2xl border-purple-600 p-2 rounded-xl">
-          <div className="font-medium">
-            Product Name: <span className="font-medium">Master Card</span>
+          <div className="">
+            <span className="text-[12px]">Product Name:</span>{" "}
+            <span className="font-medium mb-4 flex flex-col">
+              {product?.name}
+            </span>
           </div>
-          <img src={Mastercard} alt="product-review-image" className="h-32" />
-                    <div className="font-medium">
-            Product Description: <span className="font-medium">Master Card</span>
+          <div>
+            <span className="text-[12px]">Product Image: </span>
+
+            <img
+              src={product?.productImg}
+              alt="product-review-image"
+              className="h-32 rounded-xl mb-4"
+            />
+          </div>
+
+          <div className="">
+            <span className="text-[12px]">Product Description:</span>
+
+            <span className="flex font-medium  mb-4 flex-col">
+              {product?.desc}
+            </span>
+          </div>
+          <div className="">
+            <span className="text-[12px]">Product Price:</span>
+            <span className="font-medium flex flex-col text-3xl mb-4">
+              N{product?.falsePrice}
+            </span>
+          </div>
+          <div className="">
+            <span className="text-[12px]">Product Quantity:</span>
+
+            <span className="font-medium flex flex-col">
+              {product?.quantity}
+            </span>
           </div>
         </div>
 
@@ -43,8 +100,15 @@ const ReviewProductComp = () => {
           <div className="flex flex-col gap-2 mt-4">
             <div className="font-medium">Rating:</div>
             <div>
-              {/* Add your Star Rating component here */}
-              **Star Rating Here**
+              <StarRatingComponent
+                name="rating"
+                starCount={5}
+                value={rating}
+                onStarClick={onStarClick}
+                renderStarIcon={() => (
+                  <span style={{ fontSize: "3rem" }}>★</span>
+                )}
+              />
             </div>
             <div className="font-medium">Review:</div>
 
@@ -55,11 +119,13 @@ const ReviewProductComp = () => {
               <textarea
                 {...register("review")}
                 placeholder="Write your review here..."
-                className="border rounded-md p-2 w-full"
+                className="rounded-md p-2 w-full border-2"
                 rows={8}
               />
               {errors.review && (
-                <p className="text-red-500">{errors.review.message}</p>
+                <p className="text-red-500">
+                  {errors.review.message as string}
+                </p>
               )}
 
               <button

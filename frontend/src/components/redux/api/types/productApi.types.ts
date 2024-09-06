@@ -7,7 +7,7 @@ export interface IDeleteReview {
 }
 
 export interface IReviewProductReq {
-  id: string;
+  id: string | undefined;
   star: number;
   review: string;
   reviewDate: string;
