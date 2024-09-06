@@ -93,7 +93,7 @@ const App = () => {
         <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/order-details" element={<OrderDetails />} />
 
-        <Route path="/review-product" element={<ReviewProduct />} />
+        <Route path="/review-product/:id" element={<ReviewProduct />} />
 
         {/* Admin section */}
         <Route path="/admin/*" element={<Admin />}>
