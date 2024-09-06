@@ -55,8 +55,5 @@ const productSchema = mongoose.Schema(
   }
 );
 
-// Save to DB
 const Product = mongoose.model("Product", productSchema);
-
-// Exported for use in other files.
 module.exports = Product;

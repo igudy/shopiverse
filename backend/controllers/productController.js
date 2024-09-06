@@ -162,7 +162,10 @@ const deleteReview = asyncHandler(async (req, res) => {
 });
 
 const updateReview = asyncHandler(async (req, res) => {
+  // ID of the user
   const { star, review, reviewDate, userID } = req.body;
+
+  // Product ID
   const { id } = req.params;
   // const userID = req.user._id;
 

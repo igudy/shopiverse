@@ -7,6 +7,11 @@ const orderSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Product",
+    },
     orderDate: {
       type: String,
       required: [true, "Please add an order date"],

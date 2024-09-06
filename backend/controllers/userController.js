@@ -9,7 +9,6 @@ const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const Cryptr = require("cryptr");
 const { OAuth2Client } = require("google-auth-library");
-
 const cryptr = new Cryptr(process.env.CRYPTR_KEY);
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);

@@ -35,6 +35,7 @@ import CheckoutFlutterwave from "./pages/checkout/CheckoutFlutterwave";
 import CheckoutPaypal from "./pages/checkout/CheckoutPaypal";
 import CheckoutWallet from "./pages/checkout/CheckoutWallet";
 import { AppDispatch } from "./components/redux/store";
+import ReviewProduct from "./pages/review/ReviewProduct";
 
 axios.defaults.withCredentials = true;
 
@@ -91,6 +92,8 @@ const App = () => {
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/order-details" element={<OrderDetails />} />
+
+        <Route path="/review-product" element={<ReviewProduct />} />
 
         {/* Admin section */}
         <Route path="/admin/*" element={<Admin />}>

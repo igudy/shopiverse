@@ -137,8 +137,9 @@ const OrderDetailsComponent = () => {
               <tr>
                 <td className="border px-4 py-2 font-semibold">Cart Items:</td>
                 <td className="border px-4 py-2">
+                  <div className="flex gap-5">
                   {orderDetails.cartItems.map((item) => (
-                    <div key={item._id} className="text-[12px] mb-4">
+                    <div key={item._id} className="text-[12px] mb-4 border-2 rounded-xl p-2 w-[60%]">
                       <div className="flex gap-5">
                         <div>
                           <img
@@ -173,6 +174,16 @@ const OrderDetailsComponent = () => {
                       </div>
                     </div>
                   ))}
+
+                    
+                    <div className="text-[12px] mb-4 border-2 rounded-xl p-2 w-[40%] 
+                  flex justify-center text-center items-center">
+                      <div className="bg-purple-600 p-4 rounded-lg text-white font-medium 
+                      cursor-pointer hover:bg-purple-700">
+                      Review Product
+                      </div>  
+                    </div>
+                  </div>
                 </td>
               </tr>
             </tbody>

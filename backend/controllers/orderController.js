@@ -32,9 +32,11 @@ const createOrder = asyncHandler(async (req, res) => {
   }
 
   const user = await User.findById(req.user._id);
+  const products = cartItems.map((item) => item._id);
 
   await Order.create({
     user: user,
+    product: products,
     orderDate,
     orderTime,
     orderAmount,
@@ -77,32 +79,39 @@ const getOrders = asyncHandler(async (req, res) => {
 
 // Get single Order
 const getOrder = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id);
+  console.log("req.params.id===>", req.params.id);
 
-  // if product doesn't exist
+  const order = await Order.findById(req.params.id).populate("product");
+  // const order = await Order.findById(req.params.id).populate(
+  //   "product",
+  //   "_id name"
+  // );
+
   if (!order) {
     res.status(404);
     throw new Error("Order not found");
   }
+
   if (req.user.role === "admin") {
     return res.status(200).json(order);
   }
-  // Match Order to its user
-  if (order.user.toString() !== req.user.id) {
+
+  if (order.user.toString() !== req.user._id) {
     res.status(401);
     throw new Error("User not authorized");
   }
+
   res.status(200).json(order);
 });
 
-// Update product
+// Update product.
 const updateOrderStatus = asyncHandler(async (req, res) => {
   const { orderStatus } = req.body;
   const { id } = req.params;
 
   const order = await Order.findById(id);
 
-  // if product doesnt exist
+  // if product doesn't exist
   if (!order) {
     res.status(404);
     throw new Error("Order not found");
