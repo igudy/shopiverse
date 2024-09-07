@@ -80,7 +80,8 @@ const Details = () => {
           <div className="p-1 rounded-xl w-[50%]">
             <img
               src={product?.productImg}
-              className="rounded-lg object-cover cursor-pointer w-[60%] h-[400px] shadow-lg"
+              className="rounded-lg object-cover 
+              cursor-pointer w-[60%] h-[400px] shadow-lg"
             />
           </div>
           <div className="w-[50%]">

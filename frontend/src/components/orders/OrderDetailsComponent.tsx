@@ -6,9 +6,6 @@ import jsPDF from "jspdf";
 import { useRef } from "react";
 
 const OrderDetailsComponent = () => {
-  // const { id } = useParams();
-  // console.log("id==>", id)
-
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
   const orderId = urlParams.get("id");
@@ -23,13 +20,6 @@ const OrderDetailsComponent = () => {
 
   const handleDownload = () => {
     if (orderDetailsRef.current) {
-      // html2canvas(orderDetailsRef.current).then((canvas) => {
-      //   const imgData = canvas.toDataURL("image/png");
-      //   const pdf = new jsPDF();
-      //   pdf.addImage(imgData, "PNG", 0, 0, 210, 297); // A4 size in mm
-      //   pdf.save("order-details.pdf");
-      // });
-
       const input = orderDetailsRef.current;
       html2canvas(input).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
@@ -138,53 +128,57 @@ const OrderDetailsComponent = () => {
               <tr>
                 <td className="border px-4 py-2 font-semibold">Cart Items:</td>
                 <td className="border px-4 py-2">
-                  <div className="flex gap-5">
-                    {orderDetails.cartItems.map((item) => (
+                  <div className="flex flex-col w-[50%] gap-5">
+                    {orderDetails.cartItems.map((item: any) => (
                       <div key={item._id} className="text-[12px] mb-4">
-                        <div className="flex gap-5">
-                          <div>
-                            <img
-                              src={item.productImg}
-                              alt={item.name}
-                              className="w-32 h-32 rounded-xl object-cover mb-2"
-                            />
-                          </div>
+                        <div>
+                          <div className="flex gap-5">
+                            <div>
+                              <img
+                                src={item.productImg}
+                                alt={item.name}
+                                className="w-32 h-32 rounded-xl object-cover mb-2"
+                              />
+                            </div>
 
-                          <div>
-                            <p>
-                              <strong>Name:</strong> {item.name}
-                            </p>
-                            <p>
-                              <strong>Brand:</strong> {item.brand}
-                            </p>
-                            <p>
-                              <strong>Category:</strong> {item.category}
-                            </p>
-                            <p>
-                              <strong>Description:</strong> {item.desc}
-                            </p>
-                            {/* <p><strong>Quantity:</strong> {item.quantity}</p> */}
-                            <p>
-                              <strong>Price:</strong> {item.price}
-                            </p>
-                            {/* <p><strong>False Price:</strong> {item.falsePrice}</p> */}
-                            <p>
-                              <strong>Cart Quantity:</strong>{" "}
-                              {item.cartQuantity}
-                            </p>
+                            <div>
+                              <p>
+                                <strong>Name:</strong> {item.name}
+                              </p>
+                              <p>
+                                <strong>Brand:</strong> {item.brand}
+                              </p>
+                              <p>
+                                <strong>Category:</strong> {item.category}
+                              </p>
+                              <p>
+                                <strong>Description:</strong> {item.desc}
+                              </p>
+                              {/* <p><strong>Quantity:</strong> {item.quantity}</p> */}
+                              <p>
+                                <strong>Price:</strong> {item.price}
+                              </p>
+                              {/* <p><strong>False Price:</strong> {item.falsePrice}</p> */}
+                              <p>
+                                <strong>Cart Quantity:</strong>{" "}
+                                {item.cartQuantity}
+                              </p>
+                            </div>
                           </div>
                         </div>
 
-                        <div
-                          className="text-[12px] my-3"
-                          onClick={() =>
-                            navigate(`/review-product/${item._id}`)}
-                        >
+                        <div>
                           <div
-                            className="bg-purple-600 p-4 rounded-lg text-white font-medium 
-                      cursor-pointer hover:bg-purple-700"
+                            className="text-[12px] my-3"
+                            onClick={() =>
+ navigate(`/review-product/${item._id}?order-details=${orderId}`)                            }
                           >
-                            Review Product
+                            <div
+                              className="bg-purple-600 p-4 rounded-lg text-white font-medium 
+                                    cursor-pointer hover:bg-purple-700"
+                            >
+                              Review Product
+                            </div>
                           </div>
                         </div>
                       </div>

@@ -28,6 +28,8 @@ const getProduct = asyncHandler(async (req, res) => {
       desc,
       rating,
     } = product;
+
+    console.log("product rating==>", rating);
     res.status(200).json({
       _id,
       name,

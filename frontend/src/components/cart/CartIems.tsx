@@ -140,10 +140,8 @@ const CartItems = () => {
         <div className="xsm:text-sm sm:text-sm">
           {/* If cart is empty */}
           {cartItems.length === 0 ? (
-            <div className="h-screen">
-              <div className="w-[80px] h-[80px]">
+            <div className="h-screen flex justify-center items-center">
                 <CartEmpty />
-              </div>
             </div>
           ) : (
             <div
@@ -343,7 +341,9 @@ const CartItems = () => {
             <span>Flutterwave</span>
           </label>
 
-          <label className="flex bg-gray-100 p-2 shadow-md items-center cursor-pointer mb-2 hover:translate-x-1 transition-all">
+          <label className="flex bg-gray-100 p-2 shadow-md 
+          items-center cursor-pointer mb-2
+          hover:translate-x-1 transition-all">
             <input
               type="radio"
               name="payment"

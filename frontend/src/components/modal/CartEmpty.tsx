@@ -3,14 +3,12 @@ import ShoppingBag from "../../assets/emptybag.png";
 
 const CartEmpty = () => {
   return (
-    <div>
       <div className="">
         <img
           src={ShoppingBag}
-          className="flex justify-center text-center mx-auto opacity-60 w-[40%] h-[40%]"
+          className="w-[50%] h-[50%] opacity-60"
           alt="shopping_bag"
         />
-      </div>
     </div>
   );
 };
