@@ -39,6 +39,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/nodemailer": "^6.4.15",
+    "@types/nodemailer-express-handlebars": "^4.0.5",
     "@types/ua-parser-js": "^0.7.39"
   }
 }

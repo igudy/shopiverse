@@ -49,13 +49,10 @@ const Password = () => {
     };
 
     try {
-      // Dispatch the changePassword action
       await dispatch(changePassword(userData));
 
-      // Dispatch the sendAutomatedEmail action
       const emailResponse = await dispatch(sendAutomatedEmail(emailData));
 
-      // Check the response from sendAutomatedEmail
       if (sendAutomatedEmail.fulfilled.match(emailResponse)) {
         // Dispatch the logout and RESET actions only if the email is sent successfully
         await dispatch(logout());

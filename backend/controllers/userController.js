@@ -87,7 +87,6 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   // req.body is the data coming from the front end
   const { email, password } = req.body;
-  // console.log(email, password, "Log in");
 
   // Validation
   if (!email || !password) {
@@ -515,7 +514,10 @@ const resetPassword = asyncHandler(async (req, res) => {
 // Change Password
 const changePassword = asyncHandler(async (req, res) => {
   const { oldPassword, password } = req.body;
+
   const user = await User.findById(req.user._id);
+
+  console.log("user===>", user);
 
   if (!user) {
     res.status(404);

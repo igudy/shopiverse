@@ -34,24 +34,7 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-// Login User
-// export const loginUser = createAsyncThunk(
-//   "auth/login",
-//   async ({userData, thunkAPI}: any) => {
-//     try {
-//       return await authService.login( userData );
-//     } catch (error: any) {
-//       const message =
-//         (error.response &&
-//           error.response.data &&
-//           error.response.data.message) ||
-//         error.message ||
-//         error.renderToString;
-//       return thunkAPI.rejectWithValue(message);
-//     }
-//   }
-// );
-
+// Login user
 export const loginUser = createAsyncThunk(
   "auth/login",
   async ({ userData }: any, thunkAPI) => {
@@ -72,7 +55,8 @@ export const loginUser = createAsyncThunk(
 )
 
 // Logout User
-export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
+export const logout = createAsyncThunk("auth/logout",
+  async (_, thunkAPI) => {
   try {
     return await authService.logout();
   } catch (error: any) {
@@ -156,7 +140,7 @@ export const verifyUser = createAsyncThunk(
   "auth/verifyUser",
   async ({verificationToken, thunkAPI}: any) => {
     try {
-      return await authService.verifyUser({verificationToken});
+      return await authService.verifyUser(verificationToken);
     } catch (error: any) {
       const message =
         (error.response &&
@@ -174,7 +158,7 @@ export const changePassword = createAsyncThunk(
   "auth/changePassword",
   async ({userData, thunkAPI}: any) => {
     try {
-      return await authService.changePassword({userData});
+      return await authService.changePassword(userData);
     } catch (error: any) {
       const message =
         (error.response &&
@@ -264,7 +248,7 @@ export const upgradeUser = createAsyncThunk(
   "auth/upgradeUser",
   async ({userData, thunkAPI}: any) => {
     try {
-      return await authService.upgradeUser({userData});
+      return await authService.upgradeUser(userData);
     } catch (error: any) {
       const message =
         (error.response &&
@@ -675,7 +659,6 @@ const authSlice = createSlice({
 export const { RESET, CALC_SUSPENDED_USER, CALC_VERIFIED_USER } =
   authSlice.actions;
 
-// For useSelector
 export const selectIsLoggedIn = (state: any) => state.auth.isLoggedIn;
 export const selectUser = (state: any) => state.auth.user;
 export const selectAllUsers = (state: any) => state.auth.users;
