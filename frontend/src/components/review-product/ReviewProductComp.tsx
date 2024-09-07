@@ -4,12 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import StarRatingComponent from "react-star-rating-component";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { useReviewProductMutation } from "../redux/api/productApi";
+import { useDeleteReviewMutation, useReviewProductMutation } from "../redux/api/productApi";
 import { useGetProductQuery } from "../redux/api/api";
 import toast from "react-hot-toast";
 import { useGetOrderQuery } from "../redux/api/orderApi";
 import { MdDeleteForever } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/slices/auth/authSlice";
 
 const schema = z.object({
   review: z.string().min(1, "Review is required"),
@@ -18,6 +20,9 @@ const schema = z.object({
 const ReviewProductComp = () => {
   const [rating, setRating] = useState(0);
   const navigate = useNavigate();
+  const [urlParams] = useSearchParams();
+  const orderId = urlParams.get("order-details");
+  const { id } = useParams<{ id: string }>();
 
   const {
     register,
@@ -27,9 +32,6 @@ const ReviewProductComp = () => {
     resolver: zodResolver(schema),
   });
 
-  const [urlParams] = useSearchParams();
-  const orderId = urlParams.get("order-details");
-
   const {
     data: orderDetails,
     isLoading: isLoadingOrderDetails,
@@ -37,19 +39,35 @@ const ReviewProductComp = () => {
   } = useGetOrderQuery(orderId);
 
   const ratings = orderDetails?.product?.ratings;
-  console.log("ratings==>", ratings);
-  console.log("ratings.length==>", ratings?.length);
 
-  const { id } = useParams<{ id: string }>();
+
+  const [deleteReview, { isLoading: isLoadingDeleteReview,
+    isError: isLoadingDeleteError }] = useDeleteReviewMutation()
+
 
   const [
     reviewProduct,
     { isLoading: isLoadingReview, isError: isLoadingError },
   ] = useReviewProductMutation();
 
-  const { data: product, error, isLoading } = useGetProductQuery(id);
+  const { data: product, error: isErrorProduct, isLoading: isLoadingProduct } = useGetProductQuery(id);
   const onStarClick = (nextValue: number) => {
     setRating(nextValue);
+  }
+  
+  const user = useSelector(selectUser);
+
+  console.log("user==>", user);
+
+    const handleDeleteReview = async () => {
+    try {
+      const res = await deleteReview({ productId: id, userId: user._id }).unwrap();
+      toast.success(res.message || "Review deleted successfully");
+      // Optionally, refresh the page or handle state update to remove the deleted review
+      navigate(`/productDetails/${product?._id}`);
+    } catch (error) {
+      toast.error("Failed to delete review");
+    }
   };
 
   const onSubmit = async (data: any) => {
@@ -149,13 +167,14 @@ const ReviewProductComp = () => {
                   </div>
                 </div>
               ))}
-              
+
               <div className="flex gap-10 items-center">
                 <div
                   className="bg-purple-600 p-2 text-white w-32 
                   justify-center flex rounded-xl shadow-lg 
                   hover:bg-purple-700 cursor-pointer 
                   items-center gap-1"
+                  onClick={() => navigate(`/edit-review/${id}`)}
                 >
                   <div>
                     <CiEdit className="h-5 w-5" />
@@ -166,7 +185,8 @@ const ReviewProductComp = () => {
                   className="bg-purple-600 p-2 text-white 
                   hover:bg-purple-700 cursor-pointer w-32 
                   justify-center flex rounded-xl shadow-lg 
-                  items-center gap-1" 
+                  items-center gap-1"
+                  onClick={handleDeleteReview}
                 ><div>
                      <MdDeleteForever className="h-5 w-5" />
                   </div>

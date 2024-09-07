@@ -36,6 +36,7 @@ import CheckoutPaypal from "./pages/checkout/CheckoutPaypal";
 import CheckoutWallet from "./pages/checkout/CheckoutWallet";
 import { AppDispatch } from "./components/redux/store";
 import ReviewProduct from "./pages/review/ReviewProduct";
+import EditProduct from "./pages/review/EditProduct";
 
 axios.defaults.withCredentials = true;
 
@@ -94,6 +95,7 @@ const App = () => {
         <Route path="/order-details" element={<OrderDetails />} />
 
         <Route path="/review-product/:id" element={<ReviewProduct />} />
+        <Route path="/edit-review/:id" element={<EditProduct />} />
 
         {/* Admin section */}
         <Route path="/admin/*" element={<Admin />}>

@@ -111,7 +111,6 @@ const deleteProduct = asyncHandler(async (req, res) => {
 });
 
 const reviewProduct = asyncHandler(async (req, res) => {
-  // Star, review
   const { star, review, reviewDate } = req.body;
   const { id } = req.params;
 
@@ -123,14 +122,20 @@ const reviewProduct = asyncHandler(async (req, res) => {
 
   const product = await Product.findById(id);
 
-  // if product doesnt exist
+  // Check if product exists
   if (!product) {
     res.status(404);
     throw new Error("Product not found");
   }
-  if (!product) {
-    res.status(404);
-    throw new Error("Product not found");
+
+  // Check if the user has already reviewed this product
+  const alreadyReviewed = product.ratings.find(
+    (rating) => rating.userID.toString() === req.user._id.toString()
+  );
+
+  if (alreadyReviewed) {
+    res.status(400);
+    throw new Error("You have already reviewed this product");
   }
 
   // Update Product
@@ -141,7 +146,8 @@ const reviewProduct = asyncHandler(async (req, res) => {
     name: req.user.name,
     userID: req.user._id,
   });
-  product.save();
+
+  await product.save();
 
   res.status(200).json({ message: "Product review added." });
 });
@@ -164,14 +170,13 @@ const deleteReview = asyncHandler(async (req, res) => {
 });
 
 const updateReview = asyncHandler(async (req, res) => {
-  // ID of the user
-  const { star, review, reviewDate, userID } = req.body;
+  // Extract data from request body
+  const { star, review, reviewDate, userID } = req.body; // Include userID
 
   // Product ID
   const { id } = req.params;
-  // const userID = req.user._id;
 
-  // validation
+  // Validation
   if (star < 1 || !review) {
     res.status(400);
     throw new Error("Please add star and review");
@@ -179,13 +184,14 @@ const updateReview = asyncHandler(async (req, res) => {
 
   const product = await Product.findById(id);
 
-  // if product doesn't exist
+  // If product doesn't exist
   if (!product) {
     res.status(404);
     throw new Error("Product not found");
   }
 
   // Match user to review
+  console.log("req.user._id==>", req.user._id.toString());
   if (req.user._id.toString() !== userID) {
     res.status(401);
     throw new Error("User not authorized");
