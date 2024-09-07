@@ -19,12 +19,13 @@ import { useGetBrandQuery } from "../redux/api/brandApi";
 import ReactPaginate from "react-paginate";
 
 const MainProducts = () => {
-const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
+  const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
   const {
     data: categoryData,
     isLoading: isLoadingCategory,
     isError: isCategoryError,
   } = useGetCategoriesQuery({});
+
   const {
     data: brandData,
     error: brandError,
@@ -39,13 +40,11 @@ const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
   const [category, setCategory] = useState("All");
   const [brand, setBrand] = useState("");
 
-  // Begin Pagination
-  const [currentItems, setCurrentItems] = useState([]);
+  const [currentItems, setCurrentItems] = useState<any>([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = 12;
 
-  // React paginate
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
     setCurrentItems(filteredProducts?.slice(itemOffset, endOffset));
@@ -57,22 +56,17 @@ const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
     setItemOffset(newOffset);
   };
 
-  // Load all products on first render
   useEffect(() => {
     if (data) {
-      // Determine min and max price from products data
       const minPrice = Math.min(...data.map((product: any) => product.price));
       const maxPrice = Math.max(...data.map((product: any) => product.price));
 
-      // Set price range based on min and max prices
       setPrice([minPrice, maxPrice]);
 
       dispatch(FILTER_BY_SEARCH({ products: data, search: "" }));
     }
   }, [dispatch, data]);
 
-
-  // Determine min and max price from products data
   const minPrice = data
     ? Math.min(...data?.map((product: any) => product?.price))
     : 0;
@@ -80,7 +74,6 @@ const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
     ? Math.max(...data?.map((product: any) => product?.price))
     : 1000;
 
-  // Load all products on first render
   useEffect(() => {
     if (data) {
       dispatch(FILTER_BY_SEARCH({ products: data, search: "" }));
@@ -112,10 +105,10 @@ const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
       })
     );
   };
-  
+
   const onChange = (value: any) => {
     setPrice(value);
-    };
+  };
 
   const clearFilters = async () => {
     setCategory("All");
@@ -125,6 +118,31 @@ const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
     dispatch(SORT_PRODUCTS({ products: data, sort: "latest" }));
   };
 
+  console.log("currentItems==>", currentItems);
+
+  const [rating, setRating] = useState(0);
+
+  useEffect(() => {
+    if (currentItems?.ratings?.length) {
+      const totalStars = currentItems.ratings.reduce(
+        (sum: number, review: any) => sum + review.star,
+        0
+      );
+      const averageRating = totalStars / currentItems.ratings.length;
+      setRating(averageRating);
+    }
+  }, [currentItems]);
+
+  const calculateAverageRating = (ratings: any) => {
+    if (ratings?.length) {
+      const totalStars = ratings.reduce(
+        (sum: number, review: any) => sum + review.star,
+        0
+      );
+      return (totalStars / ratings.length).toFixed(1);
+    }
+    return 0;
+  };
 
   return (
     <div>
@@ -259,23 +277,25 @@ const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
                   <p className="font-bold text-purple-600">Price Range</p>
                 </div>
                 <div className="m-2">
-                <Slider
-                  range
-                  marks={{
-                    [price[0]]: `$${price[0]}`,
-                    [price[1]]: `$${price[1]}`,
-                  }}
-                    min={data && data.length > 0 ?
-                      Math.min(...data.map((product: any) =>
-                        product.price)) : 0}
-                    
-                    max={data && data.length > 0 ?
-                      Math.max(...data.map((product: any) =>
-                        product.price)) : 1000}
-                    
-                  value={price}
-                  onChange={onChange}
-                />
+                  <Slider
+                    range
+                    marks={{
+                      [price[0]]: `$${price[0]}`,
+                      [price[1]]: `$${price[1]}`,
+                    }}
+                    min={
+                      data && data.length > 0
+                        ? Math.min(...data.map((product: any) => product.price))
+                        : 0
+                    }
+                    max={
+                      data && data.length > 0
+                        ? Math.max(...data.map((product: any) => product.price))
+                        : 1000
+                    }
+                    value={price}
+                    onChange={onChange}
+                  />
                 </div>
               </div>
 
@@ -305,7 +325,7 @@ const { data, error, isLoading: isLoadingProducts } = useGetProductsQuery({});
                       title={item.name}
                       text={item.brand}
                       discountPrice={item.price}
-                      rating={"5"}
+                      rating={calculateAverageRating(item.ratings)}
                       img={item.productImg}
                       price={item.falsePrice}
                     />

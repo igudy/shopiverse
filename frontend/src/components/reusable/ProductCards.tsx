@@ -6,16 +6,6 @@ import { ADD_TO_CART } from "../redux/slices/cart/CartSlice";
 import { truncate } from "lodash";
 import { Link } from "react-router-dom";
 
-// interface IAllProductsCard {
-//   id: string;
-//   title: string;
-//   text: string;
-//   price: number;
-//   rating: string;
-//   img: string;
-//   discountPrice: string;
-// }
-
 export const AllProductsCard = ({
   id,
   title,
@@ -99,18 +89,6 @@ export const AllProductsCard = ({
     </>
   );
 };
-
-// interface IProductsCard {
-//   id: string;
-//   title: string;
-//   text: string;
-//   rating: string;
-//   btn: string;
-//   img: string;
-//   price: string;
-//   color: string;
-//   shadow: string;
-// }
 
 const ProductCards = ({
   id,

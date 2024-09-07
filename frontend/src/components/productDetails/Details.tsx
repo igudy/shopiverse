@@ -4,6 +4,7 @@ import { useGetProductQuery, useGetProductsQuery } from "../redux/api/api";
 import { HorizontalLine } from "../reusable/HorizontalLine";
 import { AiFillStar } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
+import StarRatingComponent from "react-star-rating-component";
 import {
   ADD_TO_CART,
   CALCULATE_SUBTOTAL,
@@ -56,11 +57,8 @@ const Details = () => {
   const addToWishList = async () => {
     try {
       const res = await addToWish({ productId: id }).unwrap();
-      toast.success(res.message || 
-        "Product added to wishlist"
-      );
-    } catch (error: any)
-    {
+      toast.success(res.message || "Product added to wishlist");
+    } catch (error: any) {
       toast.error("Error: ", error);
     }
   };
@@ -69,6 +67,19 @@ const Details = () => {
     dispatch(CALCULATE_SUBTOTAL({}));
     dispatch(CALCULATE_TOTAL_QUANTITY({}));
   }, [cartItems, dispatch]);
+
+  const [rating, setRating] = useState(0);
+
+  useEffect(() => {
+    if (product?.ratings?.length) {
+      const totalStars = product.ratings.reduce(
+        (sum: number, review: any) => sum + review.star,
+        0
+      );
+      const averageRating = totalStars / product.ratings.length;
+      setRating(averageRating);
+    }
+  }, [product]);
 
   return (
     <div className="my-5 mx-10">
@@ -89,7 +100,8 @@ const Details = () => {
             <div>
               Brand:
               <span className="font-bold text-purple-700 cursor-pointer">
-                {" "}{product?.brand}
+                {" "}
+                {product?.brand}
               </span>
             </div>
             <HorizontalLine />
@@ -107,10 +119,11 @@ const Details = () => {
             </div>
             <HorizontalLine />
             <div className="flex items-center gap-1 font-bold">
-              5
-              <AiFillStar className="text-yellow-500" size={23} />
-              <div className="text-sm font-medium text-gray-500">
-                (5 verified ratings)
+              <div>{Math.round(rating)}</div>
+
+              <AiFillStar className="text-yellow-400" size={23} />
+              <div>
+                <span className="font-normal">(Verified Review)</span>
               </div>
             </div>
 

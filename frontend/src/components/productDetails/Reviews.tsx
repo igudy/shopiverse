@@ -25,9 +25,9 @@ const Reviews = () => {
     }
   }, [productData]);
 
-  const onStarClick = (nextValue: number) => {
-    setRating(nextValue);
-  };
+  // const onStarClick = (nextValue: number) => {
+  //   setRating(nextValue);
+  // };
 
   console.log("productData==>", productData);
 
@@ -39,11 +39,11 @@ const Reviews = () => {
             name="rating"
             starCount={5}
             value={rating}
-            onStarClick={onStarClick}
+            // onStarClick={onStarClick}
             renderStarIcon={() => <span style={{ fontSize: "2rem" }}>★</span>}
           />
         </div>
-        <div>({productData?.ratings?.length})</div>
+        <div>{productData?.ratings?.length}</div>
       </div>
       <div>
         {productData?.ratings?.length < 1 ? (
