@@ -73,6 +73,16 @@ const Navbar = () => {
         <div className="flex items-center gap-4 xsm:gap-0 sm:gap-1 right-0">
           {/* <HeartIcon className="w-8 h-6 cursor-pointer" />
         <MagnifyingGlassIcon className="w-8 h-6 cursor-pointer" /> */}
+          <Link to="/profile">
+            <p
+              className="cursor-pointer 
+              hover:underline"
+            >
+              <p className="cursor-pointer hover:underline">
+                {user?.name ? <>Hi {user.name.split(" ")[0]}</> : <>Profile</>}
+              </p>
+            </p>
+          </Link>
           <Link to="/admin">
             <p
               className="cursor-pointer 
@@ -81,21 +91,12 @@ const Navbar = () => {
               Admin
             </p>
           </Link>
+          <ShowOnLogin></ShowOnLogin>
           <ShowOnLogin>
-            <Link to="/profile">
-              <p
-                className="cursor-pointer 
-              hover:underline"
-              >
-                Hi {user?.name}
-              </p>
+            <Link to="/order-history">
+              <p className="cursor-pointer hover:underline">My Orders</p>
             </Link>
           </ShowOnLogin>
-        <ShowOnLogin>
-          <Link to="/order-history">
-            <p className="cursor-pointer hover:underline">My Orders</p>
-          </Link>
-        </ShowOnLogin>
           <ShowOnLogout>
             <Link to="/login">
               <p className="cursor-pointer hover:underline">Login</p>

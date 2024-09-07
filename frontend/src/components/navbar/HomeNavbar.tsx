@@ -43,7 +43,6 @@ const HomeNavbar = () => {
     window.addEventListener("scroll", onNavScroll);
 
     return () => {
-
       window.removeEventListener("scroll", onNavScroll);
     };
   }, []);
@@ -71,6 +70,12 @@ const HomeNavbar = () => {
         className="flex text-white items-center gap-4 
       xsm:gap-0 sm:gap-1 right-0 z-[999999]"
       >
+        <Link to="/profile">
+          <p className="cursor-pointer hover:underline">
+            {user?.name ? <>Hi {user.name.split(" ")[0]}</> : <>Profile</>}
+          </p>{" "}
+        </Link>
+
         <Link to="/admin">
           <p className="cursor-pointer hover:underline">Admin</p>
         </Link>
@@ -89,11 +94,7 @@ const HomeNavbar = () => {
             <p className="cursor-pointer hover:underline">My Orders</p>
           </Link>
         </ShowOnLogin>
-        <ShowOnLogin>
-          <Link to="/profile">
-            <p className="cursor-pointer hover:underline">Profile</p>
-          </Link>
-        </ShowOnLogin>
+        <ShowOnLogin></ShowOnLogin>
         <ShowOnLogin>
           <p className="cursor-pointer hover:underline" onClick={logoutUser}>
             Logout
