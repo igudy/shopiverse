@@ -6,6 +6,7 @@ const { generateToken, hashToken } = require("../utils/index");
 const jwt = require("jsonwebtoken");
 const parser = require("ua-parser-js");
 const sendEmail = require("../utils/sendEmail");
+const sendGmail = require("../utils/sendGmail");
 const crypto = require("crypto");
 const Cryptr = require("cryptr");
 const { OAuth2Client } = require("google-auth-library");
@@ -15,6 +16,8 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
+
+  console.log("name=>", { name, email, password });
 
   // Validation
   if (!name || !password || !email) {
@@ -89,7 +92,7 @@ const loginUser = asyncHandler(async (req, res) => {
   // Validation
   if (!email || !password) {
     res.status(400);
-    throw new Error("Please add email password");
+    throw new Error("Please add email and password");
   }
   const user = await User.findOne({ email });
 
@@ -117,14 +120,18 @@ const loginUser = asyncHandler(async (req, res) => {
     // Generate 6 digit code
     const loginCode = Math.floor(100000 + Math.random() * 900000);
 
+    console.log("login code", loginCode);
     // Enrypt login code before saving to DB
     const encryptedLoginCode = cryptr.encrypt(loginCode.toString());
+    console.log("encryptedLoginCode", encryptedLoginCode);
 
     // Delete Token if it exists in DB
     let userToken = await Token.findOne({ userId: user._id });
     if (userToken) {
       await userToken.deleteOne();
     }
+
+    console.log("userToken", userToken);
 
     // Save token to DB
     await new Token({
@@ -307,7 +314,7 @@ const sendAutomatedEmail = asyncHandler(async (req, res) => {
 
   const sent_from = process.env.EMAIL_USER;
   const name = user.name;
-  const link = `${process.env.FRONTEND_URL}${url}`;
+  const link = `${process.env.FRONTEND_URL}/${url}`;
 
   try {
     await sendEmail(
@@ -451,14 +458,14 @@ const forgotPassword = asyncHandler(async (req, res) => {
   }).save();
 
   // Construct Reset URL
-  const resetUrl = `${process.env.FRONTEND_URL}/resetPassword/${resetToken}`;
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
   // Send Email
   const subject = "Password Reset Request - Shopiverse";
   const send_to = user.email;
   const sent_from = process.env.EMAIL_USER;
   const reply_to = "noreply@igudy.com";
-  const template = "forgotPassword";
+  const template = "../views/forgotPassword.handlebars";
   const name = user.name;
   const link = resetUrl;
 

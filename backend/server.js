@@ -32,6 +32,7 @@ app.use(
 );
 
 app.use("/api/transactionRoute", transactionRoute);
+
 app.use(express.json());
 
 // Routes

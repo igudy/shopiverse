@@ -50,7 +50,7 @@ router.post("/sendVerificationEmail", protect, sendVerificationEmail);
 router.patch("/verifyUser/:verificationToken", verifyUser);
 router.post("/forgotPassword", forgotPassword);
 router.patch("/resetPassword/:resetToken", resetPassword);
-router.patch("/changePassword", protect, changePassword);
+router.patch("/changePassword", changePassword);
 router.post("/sendLoginCode/:email", sendLoginCode);
 router.post("/loginWithCode/:email", loginWithCode);
 router.post("/google/callback", loginWithGoogle);

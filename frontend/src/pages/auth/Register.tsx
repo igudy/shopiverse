@@ -49,20 +49,20 @@ const Register = () => {
     resolver: zodResolver(sign_up_user_validation_schema),
   });
 
-  // Data coming from the refine section
-  const onSubmit = async (data: any) => {
-    if (data.password !== data.confirmPassword) {
-      toast.error("Invalid, password does not match");
-    } else {
-      // Passwords match, continue with submission.
-      const userData: any = {
-        name: data?.name,
-        password: data?.password,
-        email: data?.email
-      };
-      await dispatch(registerUser(userData));
-    }
-  };
+const onSubmit = async (data: any) => {
+  if (data.password !== data.confirmPassword) {
+    toast.error("Invalid, password does not match");
+  } else {
+    // Passwords match, continue with submission.
+    const userData = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    };
+    await dispatch(registerUser({ userData }));
+  }
+};
+
 
   useEffect(() => {
     if (isSuccess && isLoggedIn) {

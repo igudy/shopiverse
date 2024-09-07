@@ -45,15 +45,23 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  // Data coming from the refine section
-  const onSubmit = async (data: any) => {
-    const userData = {
-      email: data?.email,
-      password: data?.password,
-    };
-    setEmail(data?.email);
-    await dispatch(loginUser({ userData }));
+const onSubmit = async (data: any) => {
+  const userData = {
+    email: data?.email,
+    password: data?.password,
   };
+  setEmail(data?.email);
+
+  console.log("data", data);
+
+  try {
+    const response = await dispatch(loginUser({ userData })).unwrap();
+    console.log("Login successful:", response);
+  } catch (error: any) {
+    console.error("Login failed:", error);
+    toast.error(error.message || "Login failed");
+  }
+};
 
   useEffect(() => {
     // if (isSuccess && isLoggedIn) {
@@ -96,15 +104,10 @@ const Login = () => {
     if (isLoggedIn && isSuccess) {
       if (redirect === "cart")
       {
-        // dispatch(
-        //   saveCartDB({ cartItems: JSON.parse(localStorage.getItem("cartItems")) })
-        // );
       navigate("/cart");
       } else{
         navigate("/");
       }
-      // window.location.reload();
-      // getCartData;
     }
   }, [isSuccess, isLoggedIn, navigate, getCartData]);
 
@@ -114,8 +117,6 @@ const Login = () => {
       {isLoading && <div>Loading...</div>}
       <div className="flex sm:block gap-5 justify-between 
       mx-16 xsm:mx-2 sm:mx-2">
-        {/* <div className='bg-gradient-to-t from-purple-500 
-        to-purple-300 h-10 sm:w-full'></div> */}
         <div className="basis-1/2 md:justify-center 
         xsm:justify-center justify-center flex flex-col
         xsm:hidden sm:hidden md:hidden lg:hidden
@@ -133,10 +134,6 @@ const Login = () => {
 
         <div className="flex flex-col mx-10 sm:mx-2 xsm:mx-2 
         p-5 my-7 shadow-2xl right-0 min-w-2xl">
-          <div className="">
-            {/* <img src={Logo} alt='logo' className='mt-10 h-10 xsm:h-7 sm:h-7' /> */}
-            {/* SHOPIVERSE */}
-          </div>
           <div>
             <h1 className="text-5xl font-bold font-serif my-3 mb-6 text-purple-00 xsm:text-xl sm:text-xl mt-10 md:text-2xl sm:mt-1">
               Login to your account.
@@ -214,12 +211,6 @@ const Login = () => {
           </div>
           <div className="flex-row flex justify-center cursor-pointer sm:w-full">
             <div className="my-3">
-              {/*<img
-                src={Google}
-                className="w-6 h-16 mx-2 sm:w-4 sm:h-4 sm:text-sm"
-                alt="google_image"
-              />{" "}
-                    Login with google*/}
               <GoogleLogin
                 onSuccess={googleLogin}
                 onError={() => {

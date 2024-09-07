@@ -21,7 +21,7 @@ export const registerUser = createAsyncThunk(
   "auth/register",
   async ({userData, thunkAPI}: any) => {
     try {
-      return await authService.register({userData});
+      return await authService.register( userData );
     } catch (error: any) {
       const message =
         (error.response &&
@@ -35,22 +35,41 @@ export const registerUser = createAsyncThunk(
 );
 
 // Login User
+// export const loginUser = createAsyncThunk(
+//   "auth/login",
+//   async ({userData, thunkAPI}: any) => {
+//     try {
+//       return await authService.login( userData );
+//     } catch (error: any) {
+//       const message =
+//         (error.response &&
+//           error.response.data &&
+//           error.response.data.message) ||
+//         error.message ||
+//         error.renderToString;
+//       return thunkAPI.rejectWithValue(message);
+//     }
+//   }
+// );
+
 export const loginUser = createAsyncThunk(
   "auth/login",
-  async ({userData, thunkAPI}: any) => {
+  async ({ userData }: any, thunkAPI) => {
     try {
-      return await authService.login({userData});
+      const response = await authService.login(userData);
+      return response;
     } catch (error: any) {
       const message =
         (error.response &&
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.renderToString;
+        error.toString();
+      console.error("Login error:", message); // Log the error
       return thunkAPI.rejectWithValue(message);
     }
   }
-);
+)
 
 // Logout User
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
@@ -101,7 +120,7 @@ export const updateUser = createAsyncThunk(
   "auth/updateUser",
   async ({userData, thunkAPI}: any) => {
     try {
-      return await authService.updateUser({userData});
+      return await authService.updateUser(userData);
     } catch (error: any) {
       const message =
         (error.response &&
@@ -173,7 +192,7 @@ export const forgotPassword = createAsyncThunk(
   "auth/forgotPassword",
   async ({userData, thunkAPI}: any) => {
     try {
-      return await authService.forgotPassword({ userData });
+      return await authService.forgotPassword( userData );
     } catch (error: any) {
       const message =
         (error.response &&

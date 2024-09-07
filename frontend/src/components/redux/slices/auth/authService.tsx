@@ -10,9 +10,12 @@ export const validateEmail = (email: any) => {
 const BACKEND_URL = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 const API_URL = `${BACKEND_URL}/api/users/`;
 
-// Register User
 const register = async (userData: any) => {
-  const response = await axios.post(API_URL + "register", userData);
+  const response = await axios.post(API_URL + "register", userData, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
   return response.data;
 };
 

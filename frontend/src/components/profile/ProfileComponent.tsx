@@ -108,30 +108,31 @@ const ProfileComponent = () => {
   };
 
   useLayoutEffect(() => {
-    if (user) {
-      setProfile({
-        ...profile,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        photo: user.photo,
-        bio: user.bio,
-        role: user.role,
-        isVerified: user.isVerified,
-      });
-    }
-  }, [user]);
+  if (user) {
+    setProfile(prevProfile => ({
+      ...prevProfile,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      photo: user.photo,
+      bio: user.bio,
+      role: user.role,
+      isVerified: user.isVerified,
+    }));
+  }
+}, [user]);
 
   return (
     <div>
       <form onSubmit={saveProfile}>
         <div className="flex sm:flex-col gap-10">
           <div className="basis-[20%] max-w-md bg-slate-100 rounded-lg shadow-md">
-            <img
-              src={imagePreview === null ? user?.photo : imagePreview}
-              alt="profile_picture"
-              className="rounded-full px-5 py-5"
-            />
+           <img
+  src={imagePreview === null ? user?.photo : imagePreview}
+  alt="profile_picture"
+  className="rounded-full px-5 py-5"
+/>
+
             <div className="justify-center text-center">
               <p className="mx-2 text-lg font-bold">{user?.name}</p>
               <p className="mx-2 text-sm text-gray-500">Role: {user.role}</p>

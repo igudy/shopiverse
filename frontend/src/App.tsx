@@ -39,6 +39,7 @@ import ReviewProduct from "./pages/review/ReviewProduct";
 import EditProduct from "./pages/review/EditProduct";
 
 axios.defaults.withCredentials = true;
+axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 const RedirectToCheckout = () => {
   const navigate = useNavigate();

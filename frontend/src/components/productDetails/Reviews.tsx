@@ -43,7 +43,7 @@ const Reviews = () => {
             renderStarIcon={() => <span style={{ fontSize: "2rem" }}>★</span>}
           />
         </div>
-        <div>{productData?.ratings?.length}</div>
+        <div>({productData?.ratings?.length})</div>
       </div>
       <div>
         {productData?.ratings?.length < 1 ? (
