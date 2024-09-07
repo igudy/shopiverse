@@ -3,51 +3,21 @@ const Product = require("../models/productModel");
 const mongoose = require("mongoose");
 
 const getAllProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find().sort("-createdAt").select("-password");
-
-  if (!products) {
-    res.status(500);
-    throw new Error("Cannot find products");
-  }
+  const products = await Product.find().sort("-createdAt");
   res.status(200).json(products);
 });
 
+// Get single product
 const getProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
-
-  if (product) {
-    const {
-      _id,
-      name,
-      productImg,
-      quantity,
-      price,
-      falsePrice,
-      category,
-      brand,
-      desc,
-      rating,
-    } = product;
-
-    console.log("product rating==>", rating);
-    res.status(200).json({
-      _id,
-      name,
-      productImg,
-      quantity,
-      price,
-      falsePrice,
-      category,
-      brand,
-      desc,
-      rating,
-    });
-  } else {
+  // if product doesnt exist
+  if (!product) {
     res.status(404);
     throw new Error("Product not found");
   }
-});
 
+  res.status(200).json(product);
+});
 const addProduct = asyncHandler(async (req, res) => {
   const {
     name,

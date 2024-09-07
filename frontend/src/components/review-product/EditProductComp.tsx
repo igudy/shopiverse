@@ -52,7 +52,8 @@ const EditProductComp = () => {
     data: product,
     error: isErrorProduct,
     isLoading: isLoadingProduct,
-  } = useGetProductQuery(productId);
+    } = useGetProductQuery(productId);
+    
   const onStarClick = (nextValue: number) => {
     setRating(nextValue);
   };

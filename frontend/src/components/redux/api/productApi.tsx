@@ -27,7 +27,7 @@ export const productApi = createApi({
 
     deleteReview: builder.mutation<
       IDeleteReview,
-      { productId: any, userId: string }
+      { productId: any; userId: string }
     >({
       query: ({ productId, userId }) => ({
         url: `/products/deleteReview/${productId}`,
@@ -36,13 +36,13 @@ export const productApi = createApi({
       }),
     }),
 
-updateReview: builder.mutation<IDeleteReview, IReviewProductReq>({
-  query: ({ id, ...payload }) => ({
-    url: `products/updateReview/${id}`, 
-    method: "PATCH",
-    body: payload, 
-  }),
-}),
+    updateReview: builder.mutation<IDeleteReview, IReviewProductReq>({
+      query: ({ id, ...payload }) => ({
+        url: `products/updateReview/${id}`,
+        method: "PATCH",
+        body: payload,
+      }),
+    }),
   }),
 });
 

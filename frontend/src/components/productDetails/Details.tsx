@@ -89,7 +89,7 @@ const Details = () => {
             <div>
               Brand:
               <span className="font-bold text-purple-700 cursor-pointer">
-                {product?.brand}
+                {" "}{product?.brand}
               </span>
             </div>
             <HorizontalLine />

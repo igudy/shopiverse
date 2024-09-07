@@ -146,7 +146,7 @@ const OrderDetailsComponent = () => {
                                 <strong>Name:</strong> {item.name}
                               </p>
                               <p>
-                                <strong>Brand:</strong> {item.brand}
+                                <strong>Brand:</strong>{item.brand}
                               </p>
                               <p>
                                 <strong>Category:</strong> {item.category}

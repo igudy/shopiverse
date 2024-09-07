@@ -8,13 +8,13 @@ import {
 } from "../reusable/HorizontalLine";
 
 const allTabs = [
-  { tabName: "Reviews" },
-  { tabName: "Other product information" },
-  { tabName: "More product" },
+  { tabName: "Product Reviews" },
+  // { tabName: "Other product information" },
+  { tabName: "Related Product" },
 ];
 
 const ProductDetailsBottomTabs = () => {
-  const [tab, setTab] = useState("Reviews");
+  const [tab, setTab] = useState("Product Reviews");
   return (
     <>
       <div className="mt-10 flex px-10 text-lg gap-12 text-gray-500">
@@ -36,11 +36,11 @@ const ProductDetailsBottomTabs = () => {
         <HorizontalReviewLine />
 
         <div className="my-5 mx-10 sm:mx-2 xsm:mx-2 lg:mx-3">
-          <div>{tab === "Reviews" && <Reviews />}</div>
+          <div>{tab === "Product Reviews" && <Reviews />}</div>
           <div>
             {tab === "Other product information" && <ProductInformation />}
           </div>
-          <div>{tab === "More product" && <MoreProduct />}</div>
+          <div>{tab === "Related Product" && <MoreProduct />}</div>
         </div>
       </div>
     </>
