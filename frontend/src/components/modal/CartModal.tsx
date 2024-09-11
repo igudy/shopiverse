@@ -117,7 +117,7 @@
 //                                 SubTotal
 //                               </h1>
 //                               <h1 className="text-sm rounded bg-theme-cart justify-center text-center w-20 text-slate-100 py-0.5">
-//                                 ${cartTotalAmount}
+//                                 ₦{cartTotalAmount}
 //                               </h1>
 //                             </div>
 //                             <div className="grid items-center gap-2">

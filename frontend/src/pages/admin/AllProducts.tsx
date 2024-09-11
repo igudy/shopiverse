@@ -89,8 +89,8 @@ const AllProducts = () => {
                   {item.quantity}
                   <Progress value={item.quantity} className="h-2" />
                 </td>
-                <td className="px-6 py-4 text-gray-800">N{item.price}</td>
-                <td className="px-6 py-4 text-gray-800">N{item.falsePrice}</td>
+                <td className="px-6 py-4 text-gray-800">₦{item.price}</td>
+                <td className="px-6 py-4 text-gray-800">₦{item.falsePrice}</td>
                 <td className="px-6 py-4 text-gray-800">{item.category}</td>
                 <td className="px-6 py-4 text-gray-800 ">{item.brand}</td>
                 <td className="px-6 py-4 text-gray-800 ">{item.desc}</td>

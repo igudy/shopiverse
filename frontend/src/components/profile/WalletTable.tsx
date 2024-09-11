@@ -10,7 +10,7 @@ const WalletTable = () => {
     data: getTransactionsData,
     isLoading: isLoadingTransactions,
     isError: isErrorTransactions,
-  } = useGetTransactionsQuery({});
+  } = useGetTransactionsQuery();
 
   console.log("getTransactionData==>", getTransactionsData);
 

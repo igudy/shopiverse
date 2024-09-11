@@ -43,7 +43,7 @@ const CheckoutSummary = () => {
             </div>
             <div className="flex justify-between">
               <div>Subtotal</div>
-              <div className="font-bold">${cartTotalAmount.toFixed(2)}</div>
+              <div className="font-bold">₦{cartTotalAmount.toFixed(2)}</div>
             </div>
           </div>
 
@@ -66,12 +66,12 @@ const CheckoutSummary = () => {
                 </div>
                 <div className="flex justify-between">
                   <div className="text-left">Unit Price:</div>
-                  <div className="text-right font-bold">${item.price}</div>
+                  <div className="text-right font-bold">₦{item.price}</div>
                 </div>
                 <div className="flex justify-between">
                   <div className="text-left">Set Price:</div>
                   <div className="text-right font-bold">
-                    ${item.price * item.cartQuantity}
+                    ₦{item.price * item.cartQuantity}
                   </div>
                 </div>
               </div>

@@ -170,8 +170,7 @@ const OrderDetailsComponent = () => {
                         <div>
                           <div
                             className="text-[12px] my-3"
-                            onClick={() =>
- navigate(`/review-product/${item._id}?order-details=${orderId}`)                            }
+                            onClick={() => navigate(`/review-product/${item._id}?order-details=${orderId}`)                            }
                           >
                             <div
                               className="bg-purple-600 p-4 rounded-lg text-white font-medium 

@@ -81,7 +81,7 @@ const payWithWallet = async () => {
               <div className="flex flex-col">
                 <div className="text-sm font-medium">Account Balance</div>
                 <div className="text-md font-bold mt-2">
-                  N
+                  ₦
                   {new Intl.NumberFormat("en-NG", {
                     minimumFractionDigits: 2,
                   }).format(user?.balance || 0)}

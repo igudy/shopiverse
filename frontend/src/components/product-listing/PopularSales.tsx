@@ -23,7 +23,7 @@ const PopularSales = () => {
                   <p className="text-xs my-1">{item.text}</p>
                   <div className="flex gap-2 my-2">
                     <p className="font-bold sm:text-sm xsm:text-sm lg:font-bold xl:font-bold md:font-bold md:text-xl lg:text-lg">
-                      ${item.price}
+                      ₦{item.price}
                     </p>
                     <span className="bg-slate-200 w-12 sm:w-8 md:w-16 lg:w-10 rounded-lg drop-shadow-xl text-black">
                       <p className="flex text font-medium sm:text-sm justify-center items-center md:font-bold md:text-md md:mt-[2px]">

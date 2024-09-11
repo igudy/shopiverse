@@ -116,7 +116,7 @@ const onSubmit = async (data: any) => {
           <div className="">
             <span className="text-[12px]">Product Price:</span>
             <span className="font-medium flex flex-col text-3xl mb-4">
-              N{product?.falsePrice}
+              ₦{product?.falsePrice}
             </span>
           </div>
           <div className="">

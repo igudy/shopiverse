@@ -114,7 +114,7 @@ const CouponDiscount = () => {
             {isSuccessCoupon && (
               <>
                 <div className="font-medium border-purple-500 border-2 p-2 rounded-xl">
-                  Initial Total: ${fixedCartTotalAmount} |{" "}
+                  Initial Total: ₦{fixedCartTotalAmount} |{" "}
                   {couponData ? couponData.name : <> Coupon </>} |{" "}
                   {couponData ? couponData.discount : <> Discount</>}
                 </div>

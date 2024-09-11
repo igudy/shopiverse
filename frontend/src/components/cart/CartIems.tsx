@@ -166,7 +166,7 @@ const CartItems = () => {
                         </div>
                         <div className="ml-[-50px] mt-2 z-20 bg-gray-300 w-12 h-5 xsm:w-10 xsm:h-4 rounded-xl">
                           <p className="text-sm text-center justify-center xsm:text-[12px] xsm:mt-[-2px]">
-                            ${price}
+                            ₦{price}
                           </p>
                         </div>
                         <div className="mx-2 xsm:ml-4 flex-col">
@@ -223,7 +223,7 @@ const CartItems = () => {
                     <div className="right-0">
                       <div className="grid gap-y-3 justify-items-center">
                         <p className="font-bold">
-                          ${(price * cartQuantity).toFixed(2)}
+                          ₦{(price * cartQuantity).toFixed(2)}
                         </p>
                         <div
                           className="bg-theme-cart bg-theme-cart rounded w-6 h-6 flex items-center justify-center active:scale-90 cursor-pointer"
@@ -296,7 +296,7 @@ const CartItems = () => {
         <div>
           {isSuccessCoupon && <>
             <div className="font-medium border-purple-500 border-2 p-2 rounded-xl">
-            Initial Total: ${fixedCartTotalAmount} {" "}
+            Initial Total: ₦{fixedCartTotalAmount} {" "}
             | {couponData ? couponData.name : <> Coupon </>} | {" "}
             {couponData ? couponData.discount : <> Discount</>}
           </div>

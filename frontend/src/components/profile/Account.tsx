@@ -33,7 +33,7 @@ const Account = () => {
           <div>
             <div className="text-xl font-medium mt-3">Account Balance</div>
           <div className="text-md font-bold mt-2">
-            N{new Intl.NumberFormat('en-NG', { minimumFractionDigits: 2 }).format(user?.balance || 0)}
+            ₦{new Intl.NumberFormat('en-NG', { minimumFractionDigits: 2 }).format(user?.balance || 0)}
           </div>
           </div>
           <div>

@@ -22,7 +22,7 @@ router.get("/", protect, getOrders);
 router.get("/:id", protect, getOrder);
 
 // Pay with stripe
-router.post("/create-payment-intent", protect, payWithStripe);
+router.post("/create-payment-intent", payWithStripe);
 
 // Flutterwave
 router.post("/payWithFlutterwave", protect, payWithFlutterwave);
