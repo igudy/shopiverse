@@ -20,11 +20,12 @@ import { MdOutlineWaves } from "react-icons/md";
 import {
   useDeleteCouponMutation,
   useGetCouponQuery,
+  useLazyGetCouponQuery,
   useGetCouponsQuery,
 } from "../redux/api/couponApi";
 import debounce from "lodash.debounce";
 // import debounce from "lodash/debounce";
-import { LoaderIcon } from "react-hot-toast";
+import toast, { LoaderIcon } from "react-hot-toast";
 import CouponDiscount from "../coupon/CouponDiscount";
 import { REMOVE_COUPON } from "../redux/slices/coupon/couponSlice";
 import { SAVE_PAYMENT_METHOD } from "../redux/slices/checkout/checkoutSlice";
@@ -44,8 +45,8 @@ const CartItems = () => {
   const increaseCart = (cart: any) => {
     dispatch(ADD_TO_CART(cart));
     saveCartDB({
-  cartItems: JSON.parse(localStorage.getItem("cartItems") as string) || [],
-});
+      cartItems: JSON.parse(localStorage.getItem("cartItems") as string) || [],
+    });
   };
 
   const decreaseCart = (cart: any) => {
@@ -62,29 +63,28 @@ const CartItems = () => {
     });
   };
 
-  const [coupon, setCoupon] = useState<any>("");
+  const [coupon, setCoupon] = useState("");
 
-  // const debouncedQuery = useCallback(
-  //   debounce((query) => {
-  //     setCoupon(query);
-  //   }, 500),
-  //   [coupon]
-  // );
+  const [triggerCouponQuery,
+    { data: couponData, isLoading: isLoadingCoupon,
+      isError: isErrorCoupon, isSuccess: isSuccessCoupon }
+  ] = useLazyGetCouponQuery();
 
-  const debouncedQuery = debounce((query) => {
-    setCoupon(query);
-  }, 100);
-
+  // Function to handle coupon input
   const handleCouponChange = (event: any) => {
-    debouncedQuery(event.target.value);
+    setCoupon(event.target.value);
   };
 
-  const {
-    data: couponData,
-    isLoading: isLoadingCoupon,
-    error: isErrorCoupon,
-    isSuccess: isSuccessCoupon,
-  } = useGetCouponQuery({ couponName: coupon }, { skip: !coupon });
+
+  const verifyCoupon = () => {
+    if (!coupon) {
+      toast.error("Please enter a coupon code.");
+    } else {
+      triggerCouponQuery({ couponName: coupon });
+      console.log("Coupon Data: ", couponData);
+    }
+  };
+
 
   const {
     data: couponAllData,
@@ -92,45 +92,23 @@ const CartItems = () => {
     error: isErrorAllCoupon,
   } = useGetCouponsQuery({});
 
-  // const [deleteCoupon, { isLoading: isLoadingDeleteCoupon,
-  // isSuccess: isSuccessDeleteCoupon }] = useDeleteCouponMutation();
-  // The useCallback hook is used to memoize functions in React.
-  // This means that the function reference doesn't change between
-  // renders, which can be useful for optimizing performance and
-  // preventing unnecessary re - renders of child components that
-  // rely on the function.
 
-  // In the context of the removeCoupon function, using useCallback
-  // ensures that the function reference is stable across renders, which
-  //  can be beneficial if removeCoupon is passed down as a prop to child
-  //  components or used in other hooks that depend on
-  // stable function references.
-
-  // const removeCoupon = useCallback(() => {
-  //   deleteCoupon({ couponName: coupon }).then(() => {
-  //     setCoupon("");
-  //   });
-  // }, [coupon, deleteCoupon]);
-
-  //   useEffect(() => {
-  //   if (isSuccessDeleteCoupon) {
-  //     console.log("Coupon deleted successfully");
-  //   }
-  // }, [isSuccessDeleteCoupon]);
-
-  const removeCoupon = () => {
-    setCoupon("");
-    dispatch(REMOVE_COUPON({}));
-  };
+const removeCoupon = () => {
+  setCoupon(""); 
+  dispatch(REMOVE_COUPON({}));
+};
 
   const [paymentMethod, setPaymentMethod] = useState<string>("");
 
   const handlePaymentMethodChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const selectedPaymentMethod = event.target.value
+    const selectedPaymentMethod = event.target.value;
     setPaymentMethod(selectedPaymentMethod);
-    localStorage.setItem("paymentMethod", JSON.stringify(selectedPaymentMethod));
+    localStorage.setItem(
+      "paymentMethod",
+      JSON.stringify(selectedPaymentMethod)
+    );
   };
 
   return (
@@ -141,7 +119,7 @@ const CartItems = () => {
           {/* If cart is empty */}
           {cartItems.length === 0 ? (
             <div className="h-screen flex justify-center items-center">
-                <CartEmpty />
+              <CartEmpty />
             </div>
           ) : (
             <div
@@ -246,30 +224,27 @@ const CartItems = () => {
           <div className="my-5">
             <div className="flex justify-between items-center text-base font-semibold uppercase border-b pb-2">
               <div>Subtotal</div>
-              <div className="text-black">${cartTotalAmount}</div>
+              <div className="text-black">
+                ₦{!isNaN(cartTotalAmount) ? cartTotalAmount : 0}
+              </div>
             </div>
           </div>
 
           <div className="my-10">
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex justify-between items-center mb-4">
               <div className="font-medium">Have a coupon?</div>
-              {couponData ? (
+              {coupon && (
                 <>
                   <div
                     className="text-red-500 font-bold p-2 rounded-xl 
-            mb-4 hover:font-extrabold cursor-pointer"
+                    mb-4 hover:font-extrabold cursor-pointer"
                     onClick={removeCoupon}
                   >
                     Remove Coupon
                   </div>
                 </>
-              ) : (
-                <>
-                  <div className="text-white bg-purple-600 p-2 rounded-xl mb-4 shadow-lg cursor-pointer">
-                    Add Coupon
-                  </div>
-                </>
-              )}
+              ) 
+              }
             </div>
 
             <div className="flex">
@@ -280,34 +255,30 @@ const CartItems = () => {
                 className="flex-1 p-2 border rounded-l-xl outline-none"
                 placeholder="Coupon code"
               />
-              <button className="bg-purple-500 text-white p-2 rounded-r-xl hover:bg-purple-600 transition">
+              <button className="bg-purple-500 text-white p-2 rounded-r-xl
+              hover:bg-purple-600 transition"
+                onClick={verifyCoupon}
+              >
                 Verify
               </button>
             </div>
           </div>
 
-    {/* Coupon Discount */}
-      {/* <div>
-        {isLoadingCoupon ? (
-          <p><LoaderIcon /></p>
-        ) : isErrorCoupon ? (
-          <p>Coupon not valid😢</p>
-        ) : (
-        <div>
-          {isSuccessCoupon && <>
+          {/* Coupon Discount */}
+      <div>
+          {isLoadingCoupon ? (
+            <p>Loading...</p>
+          ) : isErrorCoupon ? (
+            <p>Coupon not valid 😢</p>
+          ) : isSuccessCoupon && couponData ? (
             <div className="font-medium border-purple-500 border-2 p-2 rounded-xl">
-            Initial Total: ₦{fixedCartTotalAmount} {" "}
-            | {couponData ? couponData.name : <> Coupon </>} | {" "}
-            {couponData ? couponData.discount : <> Discount</>}
-          </div>
-          </>}
+             Coupon Applied: {couponData.name} | Discount: {couponData.discount}%
+            </div>
+          ) : null}
         </div>
-        )}
-      </div> 
-      */}
 
           {/* Cart Discount if any */}
-          <CouponDiscount />
+          {/* <CouponDiscount /> */}
         </div>
 
         <div className="p-4 border-2 rounded-xl shadow-md bg-white">
@@ -341,9 +312,11 @@ const CartItems = () => {
             <span>Flutterwave</span>
           </label>
 
-          <label className="flex bg-gray-100 p-2 shadow-md 
+          <label
+            className="flex bg-gray-100 p-2 shadow-md 
           items-center cursor-pointer mb-2
-          hover:translate-x-1 transition-all">
+          hover:translate-x-1 transition-all"
+          >
             <input
               type="radio"
               name="payment"

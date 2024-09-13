@@ -47,6 +47,7 @@ export const couponApi = createApi({
 export const {
   useGetCouponsQuery,
   useGetCouponQuery,
+  useLazyGetCouponQuery, // Add the lazy query hook here
   useCreateCouponMutation,
   useDeleteCouponMutation,
 } = couponApi;
