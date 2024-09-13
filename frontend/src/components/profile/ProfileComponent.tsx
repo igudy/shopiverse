@@ -21,6 +21,7 @@ const ProfileComponent = () => {
   const { isLoading, isLoggedIn, isSuccess, message, user } = useSelector(
     (state: any) => state.auth
   );
+  
   const initialState = {
     name: user?.name || "",
     email: user?.email || "",
@@ -127,11 +128,11 @@ const ProfileComponent = () => {
       <form onSubmit={saveProfile}>
         <div className="flex sm:flex-col gap-10">
           <div className="basis-[20%] max-w-md bg-slate-100 rounded-lg shadow-md">
-           <img
-  src={imagePreview === null ? user?.photo : imagePreview}
-  alt="profile_picture"
-  className="rounded-full px-5 py-5"
-/>
+          <img
+          src={imagePreview === null ? user?.photo : imagePreview}
+          alt="profile_picture"
+          className="rounded-full px-5 py-5 w-32 h-32 max-h-32 max-w-32"
+          />
 
             <div className="justify-center text-center">
               <p className="mx-2 text-lg font-bold">{user?.name}</p>
