@@ -40,7 +40,7 @@ const cartSlice = createSlice({
         // Increase the cartQuantity
         if (cartQuantity === action.payload.quantity) {
           state.cartItems[productIndex].cartQuantity += 0;
-          toast.success("Max number of product reached!!!");
+          toast.error("Max number of product reached!!!");
         } else {
           state.cartItems[productIndex].cartQuantity += 1;
           toast.success(`${action.payload.name} increased by one`, {

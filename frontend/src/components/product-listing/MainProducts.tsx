@@ -231,13 +231,15 @@ const MainProducts = () => {
                 <div className="font-bold text-purple-600 cursor-pointer">
                   Categories
                 </div>
-                <div
-                  className="font-medium cursor-pointer"
-                  onClick={() => filteredProductFunc("All")}
-                >
-                  All
-                </div>
-                <div className="flex gap-2 flex-wrap text-white text-sm ">
+                {/* <div className="flex gap-1"> */}
+
+                  <div className="flex gap-2 p-1 flex-wrap text-white text-sm ">
+                                      <div
+  className="p-1 bg-purple-500 h- hover:bg-purple-700 w-[30px] text-center rounded-xl capitalize gap-2 cursor-pointer text-white text-sm"
+  onClick={() => filteredProductFunc("All")}
+>
+  All
+</div>
                   {categoryData?.map((cat: any) => (
                     <div
                       className="p-1 bg-purple-500 hover:bg-purple-700 rounded-xl capitalize gap-2 cursor-pointer"
@@ -248,6 +250,8 @@ const MainProducts = () => {
                     </div>
                   ))}
                 </div>
+                {/* </div> */}
+
               </div>
 
               <div>
@@ -276,7 +280,7 @@ const MainProducts = () => {
                 <div className="mt-5">
                   <p className="font-bold text-purple-600">Price Range</p>
                 </div>
-                <div className="m-2">
+                <div className="py-2 m-2 pr-5">
                   <Slider
                     range
                     marks={{

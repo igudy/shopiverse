@@ -2,6 +2,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ADD_TO_CART,
+  CALCULATE_TOTAL_QUANTITY,
   CLEAR_CART,
   DECREASE_CART,
   REMOVE_FROM_CART,
@@ -56,12 +57,13 @@ const CartItems = () => {
     });
   };
 
-  const removeFromCart = (cart: any) => {
-    dispatch(REMOVE_FROM_CART(cart));
-    saveCartDB({
-      cartItems: JSON.parse(localStorage.getItem("cartItems") as string) as [],
-    });
-  };
+const removeFromCart = (cart: any) => {
+  dispatch(REMOVE_FROM_CART(cart));
+  dispatch(CALCULATE_TOTAL_QUANTITY({}));
+  saveCartDB({
+    cartItems: JSON.parse(localStorage.getItem("cartItems") as string) as [],
+  });
+};
 
   const [coupon, setCoupon] = useState("");
 

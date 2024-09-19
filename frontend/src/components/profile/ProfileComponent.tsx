@@ -21,7 +21,7 @@ const ProfileComponent = () => {
   const { isLoading, isLoggedIn, isSuccess, message, user } = useSelector(
     (state: any) => state.auth
   );
-  
+
   const initialState = {
     name: user?.name || "",
     email: user?.email || "",
@@ -30,7 +30,7 @@ const ProfileComponent = () => {
     photo: user?.photo || "",
     role: user?.role || "",
     isVerified: user?.isVerified || false,
-    balance: user?.balance || ""
+    balance: user?.balance || "",
   };
 
   const [profile, setProfile] = useState(initialState);
@@ -102,43 +102,48 @@ const ProfileComponent = () => {
         photo: profileImage ? imageURL : profile.photo,
       };
 
-      dispatch(updateUser({userData}));
+      dispatch(updateUser({ userData }));
     } catch (error: any) {
       toast.error(error.messageny);
     }
   };
 
   useLayoutEffect(() => {
-  if (user) {
-    setProfile(prevProfile => ({
-      ...prevProfile,
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-      photo: user.photo,
-      bio: user.bio,
-      role: user.role,
-      isVerified: user.isVerified,
-    }));
-  }
-}, [user]);
+    if (user) {
+      setProfile((prevProfile) => ({
+        ...prevProfile,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        photo: user.photo,
+        bio: user.bio,
+        role: user.role,
+        isVerified: user.isVerified,
+      }));
+    }
+  }, [user]);
 
   return (
     <div>
       <form onSubmit={saveProfile}>
         <div className="flex sm:flex-col gap-10">
-          <div className="basis-[20%] max-w-md bg-slate-100 rounded-lg shadow-md">
-          <img
-          src={imagePreview === null ? user?.photo : imagePreview}
-          alt="profile_picture"
-          className="rounded-full px-5 py-5 w-32 h-32 max-h-32 max-w-32"
-          />
+          <div
+            className="basis-[20%]
+          bg-slate-100 rounded-lg shadow-md"
+          >
+            <div className="flex justify-center">
+              <img
+                src={imagePreview === null ? user?.photo : imagePreview}
+                alt="profile_picture"
+                className="rounded-full px-5 py-5 h-[300px] w-[300px] max-h-[300px] max-w-[300px]"
+              />
+            </div>
 
             <div className="justify-center text-center">
               <p className="mx-2 text-lg font-bold">{user?.name}</p>
               <p className="mx-2 text-sm text-gray-500">Role: {user.role}</p>
             </div>
-            <div className="px-3 py-2">
+            <div className="px-3 py-2 flex justify-center">
               <p className="my-3">
                 <label className="text-sm">Change Photo:</label>
                 <input

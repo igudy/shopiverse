@@ -15,15 +15,18 @@ import {
   selectCartTotalAmount,
 } from "../../components/redux/slices/cart/CartSlice";
 import { extractIdAndCartQuantity } from "../../utils";
+import { selectUser } from "../../components/redux/slices/auth/authSlice";
+import CircularProgress from "@mui/material/CircularProgress";  // Import CircularProgress
+import Box from "@mui/material/Box";  // Import Box for centering
+
 const CheckoutStripe = () => {
   const backendUrl: string = import.meta.env.VITE_REACT_APP_BACKEND_URL as string;
-  // const hello: string = import.meta.env.VITE_REACT_APP_STRIPE_PK as string;
   const stripePromise = loadStripe(import.meta.env.VITE_REACT_APP_STRIPE_PK);
 
   const [clientSecret, setClientSecret] = useState("");
-
+  const user = useSelector(selectUser);
+  console.log("🚀 ~ CheckoutStripe ~ user:", user)
   const [message, setMessage] = useState("Initializing checkout...");
-
 
   const shippingAddress = localStorage.getItem("shippingAddress")
     ? JSON.parse(localStorage.getItem("shippingAddress") as string)
@@ -42,7 +45,7 @@ const CheckoutStripe = () => {
       },
       body: JSON.stringify({
         items: productIDs,
-        // userEmail: customerEmail,
+        userEmail: user?.email,
         shipping: shippingAddress,
         billing: billingAddress,
         description,
@@ -66,8 +69,6 @@ const CheckoutStripe = () => {
 
   const cartItems = useSelector(selectCartItems);
   const totalAmount = useSelector(selectCartTotalAmount);
-  const customerEmail = "";
-  // const customerEmail = user.email ?? "";
   const { coupon } = useSelector((state: any) => state.coupon);
   const dispatch = useDispatch();
 
@@ -76,14 +77,25 @@ const CheckoutStripe = () => {
     dispatch(CALCULATE_TOTAL_QUANTITY({}));
   }, [dispatch, cartItems, coupon]);
 
-  const description = `eShop payment: email: ${customerEmail}, Amount: ${totalAmount}`;
+  const description = `eShop payment: email: ${user?.email}, Amount: ${totalAmount}`;
 
   const productIDs = extractIdAndCartQuantity(cartItems);
 
   return (
     <div>
       <Navbar />
-      {clientSecret && (
+      {!clientSecret ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "50vh"
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <CheckoutStripeComp
             clientSecret={clientSecret}

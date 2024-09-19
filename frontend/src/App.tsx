@@ -66,6 +66,11 @@ const App = () => {
     }
   }, [dispatch, isLoggedIn, user]);
 
+  useEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
+
+  
   return (
     <BrowserRouter>
       <Routes>
