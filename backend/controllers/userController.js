@@ -17,8 +17,6 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
-  console.log("name=>", { name, email, password });
-
   // Validation
   if (!name || !password || !email) {
     res.status(400);
@@ -40,7 +38,6 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // Get UserAgent
   const ua = parser(req.headers["user-agent"]);
-  // console.log(ua);
   const userAgent = [ua.ua];
 
   // Create new user
@@ -110,7 +107,6 @@ const loginUser = asyncHandler(async (req, res) => {
   // Trigger 2FA for unknown UserAgent
   const ua = parser(req.headers["user-agent"]);
   const thisUserAgent = ua.ua;
-  // console.log(thisUserAgent);
 
   // Check if the user agent is in the array
   const allowedAgent = user.userAgent.includes(thisUserAgent);
@@ -777,9 +773,6 @@ const saveCart = asyncHandler(async (req, res) => {
 
   if (user) {
     user.cartItems = req.body.cartItems;
-
-    console.log(req.body.cartItems.map((item) => item.name));
-
     await user.save();
 
     // Option 1: Send JSON response

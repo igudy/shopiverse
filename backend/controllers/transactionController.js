@@ -231,7 +231,6 @@ const depositFundFLW = asyncHandler(async (req, res) => {
     },
   });
 
-  // console.log(response.data.data);
   const { amount, customer, tx_ref } = response.data.data;
 
   const successURL =

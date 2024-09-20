@@ -79,13 +79,7 @@ const getOrders = asyncHandler(async (req, res) => {
 
 // Get single Order
 const getOrder = asyncHandler(async (req, res) => {
-  console.log("req.params.id===>", req.params.id);
-
   const order = await Order.findById(req.params.id).populate("product");
-  // const order = await Order.findById(req.params.id).populate(
-  //   "product",
-  //   "_id name"
-  // );
 
   if (!order) {
     res.status(404);
@@ -166,8 +160,6 @@ const payWithStripe = asyncHandler(async (req, res) => {
     // receipt_email: customerEmail
   });
 
-  // console.log(paymentIntent);
-
   res.send({
     clientSecret: paymentIntent.client_secret,
   });
@@ -217,7 +209,6 @@ const payWithFlutterwave = async (req, res) => {
       },
     })
     .then(({ data }) => {
-      console.log("data===>", data);
       return res.status(200).json(data);
     })
     .catch((err) => {
@@ -252,104 +243,6 @@ const createPayPalOrder = asyncHandler(async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-// const capturePayPalOrder = asyncHandler(async (req, res) => {
-//   const { orderID, userID, items } = req.body;
-
-//   const request = new paypal.orders.OrdersCaptureRequest(orderID);
-//   request.requestBody({});
-
-//   try {
-//     const capture = await paypalClient.execute(request);
-
-//     // Fetch user details
-//     const user = await User.findById(userID);
-
-//     // Send Order Email to the user
-//     const subject = "Shopiverse Order Placed";
-//     const send_to = user.email;
-//     const template = orderSuccessEmail(user.name, items);
-//     const reply_to = "goodnessigunma1@gmail.com";
-//     await sendGmail(subject, send_to, template, reply_to);
-
-//     res.status(200).json(capture.result);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
-
-// const payWithWallet = asyncHandler(async (req, res) => {
-//   const user = await User.findById(req.user._id);
-//   const { items, cartItems, shippingAddress, coupon } = req.body;
-//   // console.log(coupon);
-//   const products = await Product.find();
-//   const today = new Date();
-
-//   let orderAmount;
-//   orderAmount = calculateTotalPrice(products, items);
-//   if (coupon !== null && coupon?.name !== "nil") {
-//     let totalAfterDiscount =
-//       orderAmount - (orderAmount * coupon.discount) / 100;
-//     orderAmount = totalAfterDiscount;
-//   }
-//   // console.log(orderAmount);
-//   // console.log(user.balance);
-
-//   if (user.balance < orderAmount) {
-//     res.status(400);
-//     throw new Error("Insufficient balance");
-//   }
-
-//   const newTransaction = await Transaction.create({
-//     amount: orderAmount,
-//     sender: user.email,
-//     receiver: "Shopito store",
-//     description: "Payment for products.",
-//     status: "success",
-//   });
-
-//   // decrease the sender's balance
-//   const newBalance = await User.findOneAndUpdate(
-//     { email: user.email },
-//     {
-//       $inc: { balance: -orderAmount },
-//     }
-//   );
-
-//   const newOrder = await Order.create({
-//     user: user._id,
-//     orderDate: today.toDateString(),
-//     orderTime: today.toLocaleTimeString(),
-//     orderAmount,
-//     orderStatus: "Order Placed...",
-//     cartItems,
-//     shippingAddress,
-//     paymentMethod: "Shopiverse Wallet",
-//     coupon,
-//   });
-
-//   // Update Product quantity
-//   const updatedProduct = await updateProductQuantity(cartItems);
-//   // console.log("updated product", updatedProduct);
-
-//   // Send Order Email to the user
-//   const subject = "Shopiverse Order Placed";
-//   const send_to = user.email;
-//   const template = orderSuccessEmail(user.name, cartItems);
-//   const reply_to = "goodnessigunma1@gmail.com";
-
-//   await sendEmail(subject, send_to, template, reply_to);
-
-//   if (newTransaction && newBalance && newOrder) {
-//     return res.status(200).json({
-//       message: "Payment successful",
-//       url: `${process.env.FRONTEND_URL}/checkout-success`,
-//     });
-//   }
-//   res
-//     .status(400)
-//     .json({ message: "Something went wrong, please contact admin" });
-// });
 
 const payWithWallet = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
@@ -393,7 +286,7 @@ const payWithWallet = asyncHandler(async (req, res) => {
     orderDate: new Date().toDateString(),
     orderTime: new Date().toLocaleTimeString(),
     orderAmount,
-    orderStatus: "Order Placed...",
+    orderStatus: "Order Placed",
     cartItems,
     shippingAddress,
     paymentMethod: "Shopiverse Wallet",

@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import CheckoutStripeComp from "../../components/checkout/CheckoutStripeComp";
 import Footer from "../../components/footer/Footer";
-import {
-  Elements,
-} from "@stripe/react-stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,16 +14,16 @@ import {
 } from "../../components/redux/slices/cart/CartSlice";
 import { extractIdAndCartQuantity } from "../../utils";
 import { selectUser } from "../../components/redux/slices/auth/authSlice";
-import CircularProgress from "@mui/material/CircularProgress";  // Import CircularProgress
-import Box from "@mui/material/Box";  // Import Box for centering
+import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress
+import Box from "@mui/material/Box"; // Import Box for centering
+import { useCreateOrderMutation } from "../../components/redux/api/orderApi";
 
 const CheckoutStripe = () => {
-  const backendUrl: string = import.meta.env.VITE_REACT_APP_BACKEND_URL as string;
+  const backendUrl: string = import.meta.env
+    .VITE_REACT_APP_BACKEND_URL as string;
   const stripePromise = loadStripe(import.meta.env.VITE_REACT_APP_STRIPE_PK);
-
   const [clientSecret, setClientSecret] = useState("");
   const user = useSelector(selectUser);
-  console.log("🚀 ~ CheckoutStripe ~ user:", user)
   const [message, setMessage] = useState("Initializing checkout...");
 
   const shippingAddress = localStorage.getItem("shippingAddress")
@@ -81,6 +79,43 @@ const CheckoutStripe = () => {
 
   const productIDs = extractIdAndCartQuantity(cartItems);
 
+  const paymentMethodParsed = JSON.parse(
+    localStorage.getItem("paymentMethod") as string
+  );
+
+  const shippingAddressParsed = JSON.parse(
+    localStorage.getItem("shippingAddress") as string
+  );
+
+  const [createOrder, { isLoading: isLoadingCreateOrder }] =
+    useCreateOrderMutation({});
+
+  // Save order to Order History
+  const saveOrder = async () => {
+    const today = new Date();
+    const formData = {
+      orderDate: today.toDateString(),
+      orderTime: today.toLocaleDateString(),
+      orderAmount: totalAmount,
+      orderStatus: "Order Placed",
+      cartItems: cartItems.map((item: any) => ({
+      _id: item._id,
+      cartQuantity: item.quantity,
+    })),
+      shippingAddress: shippingAddressParsed,
+      paymentMethod: paymentMethodParsed,
+      coupon: coupon != null ? coupon : { name: "nil" },
+    };
+
+    try {
+      const res = await createOrder(formData).unwrap();
+      toast.success(res.message || "Order created successfully");
+    } catch (error) {
+      console.error("Error creating order:", error);
+      toast.error("Failed to create order");
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -90,14 +125,15 @@ const CheckoutStripe = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "50vh"
+            height: "50vh",
           }}
         >
           <CircularProgress />
         </Box>
       ) : (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
-          <CheckoutStripeComp
+            <CheckoutStripeComp
+              saveOrder={saveOrder}
             clientSecret={clientSecret}
             stripePromise={stripePromise}
             setClientSecret={setClientSecret}

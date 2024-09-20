@@ -1,67 +1,101 @@
 import React from "react";
 import CheckoutSummary from "../checkoutdetails/CheckoutSummary";
 import Mastercard from "../../assets/mastercard.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../redux/slices/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import {
+  CLEAR_CART,
   selectCartItems,
   selectCartTotalAmount,
 } from "../redux/slices/cart/CartSlice";
-import { usePayWithWalletMutation } from "../redux/api/orderApi";
+import {
+  useCreateOrderMutation,
+  usePayWithWalletMutation,
+} from "../redux/api/orderApi";
 import toast from "react-hot-toast";
 
 const CheckoutWalletSection = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<any>()
   const user = useSelector(selectUser);
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   // const cartItems = JSON.parse(localStorage.getItem("cartItems") as string) || [];
-  const shippingAddress = JSON.parse(localStorage.getItem("shippingAddress") as string) || {};
+  const shippingAddress =
+    JSON.parse(localStorage.getItem("shippingAddress") as string) || {};
 
-    const cartItems = useSelector(selectCartItems);
-
-  console.log("cartItems==>", cartItems)
-
-  console.log("user==>", user)
-  console.log("cartItems==>",
-    cartItems.map((item: any) => ({
-      _id: item._id,
-      cartQuantity: item.quantity,
-    })))
+  const cartItems = useSelector(selectCartItems);
 
   const [
     payWallet,
     { isLoading: isLoadingPayWallet, isError: isErrorPayWallet },
   ] = usePayWithWalletMutation();
 
+  // Save order
+  const [createOrder, { isLoading: isLoadingCreateOrder }] =
+    useCreateOrderMutation({});
 
-const payWithWallet = async () => {
+  const paymentMethodParsed = JSON.parse(
+    localStorage.getItem("paymentMethod") as string
+  );
 
-  const payload = {
-    items: cartItems.map((item: any) => ({
-      _id: item._id,
-      cartQuantity: item.quantity,
-    })),
-    cartItems,
-    shippingAddress,
-    coupon: "",
+  const shippingAddressParsed = JSON.parse(
+    localStorage.getItem("shippingAddress") as string
+  );
+
+  const { coupon } = useSelector((state: any) => state.coupon);
+
+  const saveOrder = async () => {
+    const today = new Date();
+    const formData = {
+      orderDate: today.toDateString(),
+      orderTime: today.toLocaleDateString(),
+      orderAmount: cartTotalAmount,
+      orderStatus: "Order Placed",
+      cartItems,
+      shippingAddress: shippingAddressParsed,
+      paymentMethod: paymentMethodParsed,
+      coupon: coupon != null ? coupon : { name: "nil" },
+    };
+
+    try {
+      const res = await createOrder(formData).unwrap();
+      toast.success(res.message || "Order created successfully");
+    } catch (error) {
+      console.error("Error creating order:", error);
+      toast.error("Failed to create order");
+    }
   };
 
-  try {
-    const res = await payWallet(payload).unwrap();
-    if (res.url) {
-      console.log("Successful")
-      // navigate(res.url)
-    } else {
-      console.log("Payment failed", res);
+      const clearCart = () => {
+    dispatch(CLEAR_CART({}));
+  };
+
+  const payWithWallet = async () => {
+    const payload = {
+      items: cartItems.map((item: any) => ({
+        _id: item._id,
+        cartQuantity: item.quantity,
+      })),
+      cartItems,
+      shippingAddress,
+      coupon: "",
+    };
+
+    try {
+      const res = await payWallet(payload).unwrap();
+        clearCart();
+      saveOrder();
+      if (res.url) {
+        console.log("Successful");
+        // navigate(res.url)
+      } else {
+        console.log("Payment failed", res);
+      }
+    } catch (error) {
+      console.error("Payment error", error);
     }
-  } catch (error) {
-    console.error("Payment error", error);
-  }
-};
-
-
-  console.log("cartTotalAmount==>", cartTotalAmount);
+  };
 
   return (
     <div>

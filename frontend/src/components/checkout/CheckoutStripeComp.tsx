@@ -31,12 +31,14 @@ interface ICheckoutStripeComp {
   clientSecret: any;
   stripePromise: any;
   setClientSecret: any;
+  saveOrder: any
 }
 
 const CheckoutStripeComp = ({
   clientSecret,
   stripePromise,
   setClientSecret,
+  saveOrder
 }: ICheckoutStripeComp) => {
   const [message, setMessage] = useState("Initializing checkout...");
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +53,8 @@ const CheckoutStripeComp = ({
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const selectPayment = useSelector(selectPaymentMethod);
 
-  const [createOrder, { isLoading: isLoadingCreateOrder }] = useCreateOrderMutation({});
+  const [createOrder, { isLoading: isLoadingCreateOrder }] =
+    useCreateOrderMutation({});
 
   useEffect(() => {
     dispatch(CALCULATE_SUBTOTAL({ coupon: coupon }));
@@ -72,31 +75,10 @@ const CheckoutStripeComp = ({
     localStorage.getItem("shippingAddress") as string
   );
 
-    const clearCart = () => {
+  const clearCart = () => {
     dispatch(CLEAR_CART({}));
   };
 
-  const saveOrder = async () => {
-    const today = new Date();
-    const formData = {
-      orderDate: today.toDateString(),
-      orderTime: today.toLocaleDateString(),
-      orderAmount: cartTotalAmount,
-      orderStatus: "Order Placed...",
-      cartItems,
-      shippingAddress: shippingAddressParsed,
-      paymentMethod: paymentMethodParsed,
-      coupon: coupon != null ? coupon : { name: "nil" },
-    };
-
-try {
-  const res = await createOrder(formData).unwrap();
-  toast.success(res.message || "Order created successfully");
-} catch (error) {
-  console.error("Error creating order:", error);
-  toast.error("Failed to create order");
-}
-  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -131,7 +113,7 @@ try {
             setIsLoading(false);
             toast.success("Payment successful");
             saveOrder();
-            clearCart()
+            clearCart();
             navigate(`/checkout-success`);
           }
         }

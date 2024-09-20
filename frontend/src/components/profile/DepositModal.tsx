@@ -36,8 +36,6 @@ const DepositModal = ({ isOpen, onClose }: any) => {
           amount: data?.amount,
         }
       );
-
-      console.log('response==>', response)
       window.location.href = response.data.url;
       return;
     }

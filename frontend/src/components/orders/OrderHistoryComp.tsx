@@ -34,7 +34,6 @@ const OrderHistoryComp = () => {
 
   const handleDelete = () => {
     // Implement your delete logic here
-    // console.log(`Deleting order with ID: ${selectedOrderId}`);
     handleClose();
   };
 

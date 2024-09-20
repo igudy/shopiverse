@@ -57,7 +57,7 @@ const Navbar = () => {
 
   // Recalculate total quantity when cart items change
   useEffect(() => {
-    dispatch(CALCULATE_TOTAL_QUANTITY());
+    dispatch(CALCULATE_TOTAL_QUANTITY({}));
   }, [cartItems, dispatch]);
 
   const handleNavigate = () => {

@@ -13,6 +13,11 @@ const couponRoute = require("./routes/couponRoute");
 const orderRoute = require("./routes/orderRoute");
 const transactionRoute = require("./routes/transactionRoute");
 
+const {
+  createOrder,
+  capturePayment,
+} = require("../backend/services/paypalService");
+
 const app = express();
 
 // Middlewares
@@ -45,6 +50,26 @@ app.use("/api/orderRoute", orderRoute);
 
 app.get("/", (req, res) => {
   res.send("Home page");
+});
+
+// Paypay Payment
+app.post("/my-server/create-paypal-order", async (req, res) => {
+  try {
+    const order = await createOrder(req.body);
+    res.json(order);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+app.post("/my-server/capture-paypal-order", async (req, res) => {
+  const { orderID } = req.body;
+  try {
+    const captureData = await capturePayment(orderID);
+    res.json(captureData);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
 // Error Handler

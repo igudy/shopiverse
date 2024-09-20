@@ -24,9 +24,7 @@ const protect = asyncHandler(async (req, res, next) => {
       res.status(400);
       throw new Error("User suspended, please contact support");
     }
-
     req.user = user;
-    // console.log("req.user from middleware=====>", req.user);
     next();
   } catch (error) {
     res.status(401);

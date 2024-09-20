@@ -7,11 +7,6 @@ const orderSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "Product",
-    },
     orderDate: {
       type: String,
       required: [true, "Please add an order date"],
@@ -36,12 +31,55 @@ const orderSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
-    cartItems: {
-      type: [Object],
-      required: [true],
-    },
+    cartItems: [
+      {
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
+        name: {
+          type: String,
+          required: true,
+        },
+        productImg: {
+          type: String,
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
+        falsePrice: {
+          type: Number,
+        },
+        category: {
+          type: String,
+        },
+        brand: {
+          type: String,
+        },
+        desc: {
+          type: String,
+        },
+        cartQuantity: {
+          type: Number,
+          required: true,
+        },
+        ratings: {
+          type: [String],
+        },
+        sold: {
+          type: Number,
+        },
+      },
+    ],
     shippingAddress: {
-      type: Object,
+      type: String,
       required: true,
     },
     coupon: {

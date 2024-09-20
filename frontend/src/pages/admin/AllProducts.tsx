@@ -27,10 +27,8 @@ const AllProducts = () => {
   const deleteMutation = useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
-      console.log("Delete");
     },
     onError: (error: any) => {
-      console.log(error.message, "Error product wasn't deleted");
     },
   });
 

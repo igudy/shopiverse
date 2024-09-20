@@ -51,8 +51,8 @@ const CheckoutFlutterwaveSection = () => {
       orderDate: today.toDateString(),
       orderTime: today.toLocaleTimeString(),
       orderAmount: totalAmount,
-      orderStatus: "Order Placed...",
-      cartItems,
+      orderStatus: "Order Placed",
+      cartItems: cartItems,
       shippingAddress: shippingAddressParsed,
       paymentMethod: paymentMethodParsed,
       coupon: coupon || { name: "nil" },
@@ -86,8 +86,7 @@ const CheckoutFlutterwaveSection = () => {
     ) {
       toast.success("Payment successful");
       saveOrder();
-    } else if (status === "failed")
-    {
+    } else if (status === "failed") {
       toast.error("Payment Failed, please try again later");
     }
   }, [status, tx_ref, transaction_id]);
@@ -107,6 +106,9 @@ const CheckoutFlutterwaveSection = () => {
         }
       );
       window.location.href = response.data.data.link;
+      if (response.data.data.link) {
+        clearCart();
+      }
     } catch (error) {
       console.error("Error initiating payment:", error);
       toast.error("Failed to initiate payment");

@@ -42,21 +42,15 @@ function calculateTotalPrice(products, cartItems) {
     });
 
     if (product) {
-      console.log("Product is available");
       // const quantity = cartItem.cartQuantity;
       const quantity = cartItem.cartQuantity;
-      console.log("quantity", quantity);
       const price = parseFloat(product.price);
-      console.log("price", price);
 
       if (!isNaN(price) && quantity > 0) {
         totalPrice += quantity * price;
-        console.log(`Adding ${quantity} * ${price} = ${quantity * price}`);
       }
     }
   });
-
-  console.log("Total Price:", totalPrice);
   return totalPrice;
 }
 

@@ -52,11 +52,8 @@ const onSubmit = async (data: any) => {
   };
   setEmail(data?.email);
 
-  console.log("data", data);
-
   try {
     const response = await dispatch(loginUser({ userData })).unwrap();
-    console.log("Login successful:", response);
   } catch (error: any) {
     console.error("Login failed:", error);
     toast.error(error.message || "Login failed");
@@ -80,7 +77,7 @@ const onSubmit = async (data: any) => {
   }, [isLoggedIn, isSuccess, dispatch, navigate, isError, twoFactor, email]);
 
   const googleLogin = async (credentialResponse: any) => {
-    console.log(credentialResponse);
+    console.log("🚀 ~ googleLogin ~ credentialResponse:", credentialResponse)
     await dispatch(
       loginWithGoogle({userToken: credentialResponse.credential})
     );
