@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 export const shortenText = (text: string, n: any) => {
   if (text.length > n) {
     const shoretenedText = text.substring(0, n).concat("...");
@@ -43,3 +45,14 @@ export function getCartQuantityById(products: any, id: any) {
   }
   return 0; // If the _id is not found, return 0 or any default value
 }
+
+export const comingSoon = () => {
+  return toast.success("Coming soon...");
+};
+
+export const beComingSoon = () => {
+  toast.success("Direct 'Buy Now' coming soon...");
+  toast.success("Please click on product image...");
+
+  return null;
+};

@@ -1,9 +1,12 @@
 import { popularsales } from "../../data/data";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
+import toast from "react-hot-toast";
+import { comingSoon } from "../../utils";
 
 const PopularSales = () => {
-  return (
+
+   return (
     <div>
       <p className="relative text-5xl sm:text-4xl sm:mb-2 font-extrabold my-10">
         {popularsales.title}
@@ -33,11 +36,11 @@ const PopularSales = () => {
                   </div>
                   <div className="flex items-center">
                     <div className="border-[2px] w-7 h-6 cursor-pointer rounded-full drop-shadow-xl text-inherit items-center">
-                      <span className="flex text-center items-center justify-center">
+                      <span className="flex text-center items-center justify-center" onClick={comingSoon}>
                         <BsFillCartCheckFill className="pt-1" />
                       </span>
                     </div>
-                    <span className="mt-1 pl-2 xl:text-md text-sm shadow-md cursor-pointer">
+                    <span className="mt-1 pl-2 xl:text-md text-sm shadow-md cursor-pointer" onClick={comingSoon}>
                       {item.btn}
                     </span>
                   </div>
