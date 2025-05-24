@@ -25,15 +25,17 @@ const Hero = () => {
                 src={item.imgsrc}
                 alt={item.icon}
               />
-              {/* <video
-                autoPlay={true}
-                loop={true}
-                muted={true}
-                playsInline={true}
-                className="w-20 h-20 rounded-lg mt-[-80px] hover:z-20 z-0"
-              >
-                <source type="video/mp4" src={item.clip} />
-              </video> */}
+              {/* 
+                <video
+                  autoPlay={true}
+                  loop={true}
+                  muted={true}
+                  playsInline={true}
+                  className="w-20 h-20 rounded-lg mt-[-80px] hover:z-20 z-0"
+                >
+                  <source type="video/mp4" src={item.clip} />
+                </video> 
+              */}
             </div>
           ))}
         </div>

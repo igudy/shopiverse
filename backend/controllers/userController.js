@@ -81,8 +81,99 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+// const loginUser = asyncHandler(async (req, res) => {
+//   // req.body is the data coming from the front end
+//   const { email, password } = req.body;
+
+//   // Validation
+//   if (!email || !password) {
+//     res.status(400);
+//     throw new Error("Please add email and password");
+//   }
+//   const user = await User.findOne({ email });
+
+//   if (!user) {
+//     res.status(404);
+//     throw new Error("User not found, please sign up");
+//   }
+
+//   const passwordIsCorrect = await bcrypt.compare(password, user.password);
+
+//   if (!passwordIsCorrect) {
+//     res.status(400);
+//     throw new Error("Email or Password not correct");
+//   }
+
+//   // Trigger 2FA for unknown UserAgent
+//   const ua = parser(req.headers["user-agent"]);
+//   const thisUserAgent = ua.ua;
+
+//   // Check if the user agent is in the array
+//   const allowedAgent = user.userAgent.includes(thisUserAgent);
+
+//   if (!allowedAgent) {
+//     // Generate 6 digit code
+//     const loginCode = Math.floor(100000 + Math.random() * 900000);
+
+//     console.log("login code", loginCode);
+//     // Enrypt login code before saving to DB
+//     const encryptedLoginCode = cryptr.encrypt(loginCode.toString());
+//     console.log("encryptedLoginCode", encryptedLoginCode);
+
+//     // Delete Token if it exists in DB
+//     let userToken = await Token.findOne({ userId: user._id });
+//     if (userToken) {
+//       await userToken.deleteOne();
+//     }
+
+//     console.log("userToken", userToken);
+
+//     // Save token to DB
+//     await new Token({
+//       userId: user._id,
+//       lToken: encryptedLoginCode,
+//       createdAt: Date.now(),
+//       expiresAt: Date.now() + 60 * (60 * 1000), //60mins
+//     }).save();
+
+//     res.status(400);
+//     throw new Error("New broswer or device detected");
+//   }
+
+//   // Generate token
+//   const token = generateToken(user._id);
+
+//   if (user && passwordIsCorrect) {
+//     res.cookie("token", token, {
+//       path: "/",
+//       httpOnly: true,
+//       expires: new Date(Date.now() + 1000 * 86400), //1Day
+//       sameSite: "none",
+//       secure: true,
+//     });
+
+//     const { _id, name, email, phone, bio, photo, role, isVerified, balance } =
+//       user;
+
+//     res.status(200).json({
+//       _id,
+//       name,
+//       email,
+//       phone,
+//       bio,
+//       photo,
+//       role,
+//       isVerified,
+//       token,
+//       balance,
+//     });
+//   } else {
+//     res.status(500);
+//     throw new Error("Something went wrong, please try again");
+//   }
+// });
+
 const loginUser = asyncHandler(async (req, res) => {
-  // req.body is the data coming from the front end
   const { email, password } = req.body;
 
   // Validation
@@ -90,6 +181,7 @@ const loginUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Please add email and password");
   }
+
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -104,41 +196,7 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new Error("Email or Password not correct");
   }
 
-  // Trigger 2FA for unknown UserAgent
-  const ua = parser(req.headers["user-agent"]);
-  const thisUserAgent = ua.ua;
-
-  // Check if the user agent is in the array
-  const allowedAgent = user.userAgent.includes(thisUserAgent);
-
-  if (!allowedAgent) {
-    // Generate 6 digit code
-    const loginCode = Math.floor(100000 + Math.random() * 900000);
-
-    console.log("login code", loginCode);
-    // Enrypt login code before saving to DB
-    const encryptedLoginCode = cryptr.encrypt(loginCode.toString());
-    console.log("encryptedLoginCode", encryptedLoginCode);
-
-    // Delete Token if it exists in DB
-    let userToken = await Token.findOne({ userId: user._id });
-    if (userToken) {
-      await userToken.deleteOne();
-    }
-
-    console.log("userToken", userToken);
-
-    // Save token to DB
-    await new Token({
-      userId: user._id,
-      lToken: encryptedLoginCode,
-      createdAt: Date.now(),
-      expiresAt: Date.now() + 60 * (60 * 1000), //60mins
-    }).save();
-
-    res.status(400);
-    throw new Error("New broswer or device detected");
-  }
+  // ✅ REMOVED user-agent validation logic
 
   // Generate token
   const token = generateToken(user._id);
@@ -147,7 +205,7 @@ const loginUser = asyncHandler(async (req, res) => {
     res.cookie("token", token, {
       path: "/",
       httpOnly: true,
-      expires: new Date(Date.now() + 1000 * 86400), //1Day
+      expires: new Date(Date.now() + 1000 * 86400), // 1 day
       sameSite: "none",
       secure: true,
     });
