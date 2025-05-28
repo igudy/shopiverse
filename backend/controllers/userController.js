@@ -81,6 +81,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+// User agent code commented out.
 // const loginUser = asyncHandler(async (req, res) => {
 //   // req.body is the data coming from the front end
 //   const { email, password } = req.body;
@@ -195,8 +196,6 @@ const loginUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Email or Password not correct");
   }
-
-  // ✅ REMOVED user-agent validation logic
 
   // Generate token
   const token = generateToken(user._id);
@@ -736,8 +735,98 @@ const updatePhoto = asyncHandler(async (req, res) => {
 });
 
 // Login with google
+// const loginWithGoogle = asyncHandler(async (req, res) => {
+//   const { userToken } = req.body;
+//   const ticket = await client.verifyIdToken({
+//     idToken: userToken,
+//     audience: process.env.GOOGLE_CLIENT_ID,
+//   });
+
+//   const payload = ticket.getPayload();
+//   const { name, email, picture, sub } = payload;
+
+//   // Create password
+//   const password = Date.now() + sub;
+
+//   // Get UserAgent
+//   // const ua = parser(req.headers["user-agent"]);
+//   // const userAgent = [ua.ua];
+
+//   // Check if user exists
+//   const user = await User.findOne({ email });
+
+//   if (!user) {
+//     // Create new user
+//     const newUser = await User.create({
+//       name,
+//       email,
+//       password,
+//       photo: picture,
+//       isVerified: true,
+//       // userAgent,
+//     });
+
+//     if (newUser) {
+//       // Generate Token
+//       const token = generateToken(newUser._id);
+
+//       // Send HTTP-only cookie
+//       res.cookie("token", token, {
+//         path: "/",
+//         httpOnly: true,
+//         expires: new Date(Date.now() + 1000 * 86400), // 1 day
+//         sameSite: "none",
+//         secure: true,
+//       });
+
+//       const { _id, name, email, phone, bio, photo, role, isVerified } = newUser;
+
+//       res.status(201).json({
+//         _id,
+//         name,
+//         email,
+//         phone,
+//         bio,
+//         photo,
+//         role,
+//         isVerified,
+//         token,
+//       });
+//     }
+//   }
+
+//   // User exists, login
+//   if (user) {
+//     const token = generateToken(user._id);
+
+//     // Send HTTP-only cookie
+//     res.cookie("token", token, {
+//       path: "/",
+//       httpOnly: true,
+//       expires: new Date(Date.now() + 1000 * 86400), // 1 day
+//       sameSite: "none",
+//       secure: true,
+//     });
+
+//     const { _id, name, email, phone, bio, photo, role, isVerified } = user;
+
+//     res.status(201).json({
+//       _id,
+//       name,
+//       email,
+//       phone,
+//       bio,
+//       photo,
+//       role,
+//       isVerified,
+//       token,
+//     });
+//   }
+// });
+
+// Login with google
 const loginWithGoogle = asyncHandler(async (req, res) => {
-  const { userToken } = req.body;
+  const { userToken, isMobile } = req.body;
   const ticket = await client.verifyIdToken({
     idToken: userToken,
     audience: process.env.GOOGLE_CLIENT_ID,
@@ -748,10 +837,6 @@ const loginWithGoogle = asyncHandler(async (req, res) => {
 
   // Create password
   const password = Date.now() + sub;
-
-  // Get UserAgent
-  const ua = parser(req.headers["user-agent"]);
-  const userAgent = [ua.ua];
 
   // Check if user exists
   const user = await User.findOne({ email });
@@ -764,21 +849,23 @@ const loginWithGoogle = asyncHandler(async (req, res) => {
       password,
       photo: picture,
       isVerified: true,
-      userAgent,
+      // Only add userAgent for web
+      ...(!isMobile && { userAgent: [parser(req.headers["user-agent"]).ua] }),
     });
 
     if (newUser) {
-      // Generate Token
       const token = generateToken(newUser._id);
 
-      // Send HTTP-only cookie
-      res.cookie("token", token, {
-        path: "/",
-        httpOnly: true,
-        expires: new Date(Date.now() + 1000 * 86400), // 1 day
-        sameSite: "none",
-        secure: true,
-      });
+      // For web: set cookie
+      if (!isMobile) {
+        res.cookie("token", token, {
+          path: "/",
+          httpOnly: true,
+          expires: new Date(Date.now() + 1000 * 86400), // 1 day
+          sameSite: "none",
+          secure: true,
+        });
+      }
 
       const { _id, name, email, phone, bio, photo, role, isVerified } = newUser;
 
@@ -791,7 +878,7 @@ const loginWithGoogle = asyncHandler(async (req, res) => {
         photo,
         role,
         isVerified,
-        token,
+        token: isMobile ? token : undefined, // Only send token in response for mobile
       });
     }
   }
@@ -800,14 +887,16 @@ const loginWithGoogle = asyncHandler(async (req, res) => {
   if (user) {
     const token = generateToken(user._id);
 
-    // Send HTTP-only cookie
-    res.cookie("token", token, {
-      path: "/",
-      httpOnly: true,
-      expires: new Date(Date.now() + 1000 * 86400), // 1 day
-      sameSite: "none",
-      secure: true,
-    });
+    // For web: set cookie
+    if (!isMobile) {
+      res.cookie("token", token, {
+        path: "/",
+        httpOnly: true,
+        expires: new Date(Date.now() + 1000 * 86400), // 1 day
+        sameSite: "none",
+        secure: true,
+      });
+    }
 
     const { _id, name, email, phone, bio, photo, role, isVerified } = user;
 
@@ -820,7 +909,7 @@ const loginWithGoogle = asyncHandler(async (req, res) => {
       photo,
       role,
       isVerified,
-      token,
+      token: isMobile ? token : undefined, // Only send token in response for mobile
     });
   }
 });

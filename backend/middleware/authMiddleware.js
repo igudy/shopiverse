@@ -33,7 +33,7 @@ const jwt = require("jsonwebtoken");
 //   }
 // });
 
-// Other one
+// Other One
 const protect = asyncHandler(async (req, res, next) => {
   let token;
 
@@ -105,6 +105,7 @@ const verifiedOnly = asyncHandler(async (req, res, next) => {
 
 module.exports = {
   protect,
+  protectMobile,
   adminOnly,
   authorOnly,
   verifiedOnly,
