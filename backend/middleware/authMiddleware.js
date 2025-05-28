@@ -105,7 +105,7 @@ const verifiedOnly = asyncHandler(async (req, res, next) => {
 
 module.exports = {
   protect,
-  protectMobile,
+  // protectMobile,
   adminOnly,
   authorOnly,
   verifiedOnly,

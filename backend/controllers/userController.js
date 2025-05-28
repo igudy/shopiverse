@@ -827,64 +827,39 @@ const updatePhoto = asyncHandler(async (req, res) => {
 // Login with google
 const loginWithGoogle = asyncHandler(async (req, res) => {
   const { userToken, isMobile } = req.body;
-  const ticket = await client.verifyIdToken({
-    idToken: userToken,
-    audience: process.env.GOOGLE_CLIENT_ID,
-  });
 
-  const payload = ticket.getPayload();
-  const { name, email, picture, sub } = payload;
-
-  // Create password
-  const password = Date.now() + sub;
-
-  // Check if user exists
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    // Create new user
-    const newUser = await User.create({
-      name,
-      email,
-      password,
-      photo: picture,
-      isVerified: true,
-      // Only add userAgent for web
-      ...(!isMobile && { userAgent: [parser(req.headers["user-agent"]).ua] }),
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: userToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
     });
 
-    if (newUser) {
-      const token = generateToken(newUser._id);
+    const payload = ticket.getPayload();
+    const { name, email, picture, sub } = payload;
 
-      // For web: set cookie
-      if (!isMobile) {
-        res.cookie("token", token, {
-          path: "/",
-          httpOnly: true,
-          expires: new Date(Date.now() + 1000 * 86400), // 1 day
-          sameSite: "none",
-          secure: true,
-        });
-      }
+    // Create password
+    const password = Date.now() + sub;
 
-      const { _id, name, email, phone, bio, photo, role, isVerified } = newUser;
+    // Check if user exists
+    let user = await User.findOne({ email });
 
-      res.status(201).json({
-        _id,
+    if (!user) {
+      // Create new user
+      user = await User.create({
         name,
         email,
-        phone,
-        bio,
-        photo,
-        role,
-        isVerified,
-        token: isMobile ? token : undefined, // Only send token in response for mobile
+        password,
+        photo: picture,
+        isVerified: true,
+        ...(!isMobile && { userAgent: [parser(req.headers["user-agent"]).ua] }),
       });
+    } else {
+      // Update user profile if changed
+      user.name = name;
+      user.photo = picture;
+      await user.save();
     }
-  }
 
-  // User exists, login
-  if (user) {
     const token = generateToken(user._id);
 
     // For web: set cookie
@@ -898,19 +873,22 @@ const loginWithGoogle = asyncHandler(async (req, res) => {
       });
     }
 
-    const { _id, name, email, phone, bio, photo, role, isVerified } = user;
+    const { _id, phone, bio, role, isVerified } = user;
 
-    res.status(201).json({
+    res.status(user ? 200 : 201).json({
       _id,
-      name,
-      email,
+      name: user.name,
+      email: user.email,
       phone,
       bio,
-      photo,
+      photo: user.photo,
       role,
       isVerified,
-      token: isMobile ? token : undefined, // Only send token in response for mobile
+      token: isMobile ? token : undefined,
     });
+  } catch (error) {
+    console.error("Google login error:", error);
+    res.status(401).json({ message: "Invalid authentication" });
   }
 });
 
