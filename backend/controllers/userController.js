@@ -834,6 +834,17 @@ const loginWithGoogle = asyncHandler(async (req, res) => {
       audience: process.env.GOOGLE_CLIENT_ID,
     });
 
+    // try {
+    //   const ticket = await client.verifyIdToken({
+    //     idToken: userToken,
+    //     audience: [
+    //       process.env.GOOGLE_IOS_CLIENT_ID,
+    //       process.env.GOOGLE_EXPO_CLIENT_ID,
+    //       process.env.GOOGLE_ANDROID_CLIENT_ID,
+    //       process.env.GOOGLE_WEB_CLIENT_ID,
+    //     ],
+    //   });
+
     const payload = ticket.getPayload();
     const { name, email, picture, sub } = payload;
 
