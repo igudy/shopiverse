@@ -30,8 +30,10 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:5173",
-      "http://localhost:8081",
       "https://shopiverse-client.vercel.app",
+      // Mobile Below
+      "http://localhost:8081/auth/authEmail",
+      "http://localhost:8081",
     ],
     credentials: true,
   })
