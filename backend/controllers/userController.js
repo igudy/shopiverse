@@ -174,6 +174,7 @@ const registerUser = asyncHandler(async (req, res) => {
 //   }
 // });
 
+// Login User
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -230,6 +231,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Logout User
 const logoutUser = asyncHandler(async (req, res) => {
   // Send HTTP-only cookie
   res.cookie("token", "", {
@@ -242,6 +244,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.json({ message: "Logout successfully" });
 });
 
+// Get User
 const getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -265,6 +268,7 @@ const getUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Update User
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -292,6 +296,7 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Delete User
 const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (!user) {
@@ -303,6 +308,7 @@ const deleteUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "User deleted successfully" });
 });
 
+// Get all users
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find().sort("-createdAt").select("-password");
 
@@ -314,6 +320,7 @@ const getUsers = asyncHandler(async (req, res) => {
   res.status(200).json(users);
 });
 
+// Login status
 const loginStatus = asyncHandler(async (req, res) => {
   const token = req.cookies.token;
 
@@ -330,6 +337,7 @@ const loginStatus = asyncHandler(async (req, res) => {
   return res.json(false);
 });
 
+// Upgrade user role
 const upgradeUser = asyncHandler(async (req, res) => {
   const { role, id } = req.body;
   const user = await User.findById(id);

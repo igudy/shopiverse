@@ -145,104 +145,73 @@ const MainProducts = () => {
   };
 
   return (
-    <div>
-      <p
-        className="relative text-5xl sm:text-4xl
-      sm:mb-2 font-extrabold my-10"
-      >
+    <div className="px-2 sm:px-4">
+      <p className="text-3xl sm:text-4xl md:text-5xl font-extrabold my-6 sm:my-10">
         All Products
       </p>
 
-      {/* Categories and Product */}
-      <div className="border-2 rounded-xl p-3">
-        <div>
-          <div
-            className="flex justify-between
-          items-center px-5 py-2"
-          >
-            <div className="font-bold mr-20">
-              {filteredProducts?.length} Products Found
-            </div>
+      <div className="border-2 rounded-xl p-2 sm:p-3">
+        {/* Search and Filter Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 sm:gap-2 px-2 sm:px-5 py-2">
+          <div className="font-bold text-sm sm:text-base">
+            {filteredProducts?.length} Products Found
+          </div>
 
-            {/* Search */}
-            <div className="mx-2 flex-1">
-              <label
-                htmlFor="default-search"
-                className="mb-2 text-sm font-medium
-                text-gray-900 sr-only dark:text-white"
+          {/* Search - moved to top on mobile */}
+          <div className="w-full sm:mx-2 sm:flex-1 order-first sm:order-none">
+            <div className="relative flex">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <IoSearchCircleOutline className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+              </div>
+              <input
+                type="search"
+                className="p-3 sm:p-4 pl-9 sm:pl-10 w-full text-sm text-purple-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:border-purple-600 dark:text-black outline-none"
+                placeholder="Search ..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button
+                type="button"
+                className="text-white bg-purple-800 hover:bg-purple-800 font-medium rounded-r-lg text-sm px-3 sm:px-4 py-2"
+                onClick={() => dispatch(FILTER_BY_SEARCH({ products: data, search }))}
               >
                 Search
-              </label>
-              <div className="relative flex">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <IoSearchCircleOutline className="w-6 h-6 text-black" />
-                </div>
-                <input
-                  type="search"
-                  id="default-search"
-                  className="p-4 pl-10 w-full text-sm text-purple-900 border border-gray-300
-                  rounded-l-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500
-                  dark:border-purple-600 dark:text-black outline-none
-                  dark:focus:border-purple-500"
-                  placeholder="Search ..."
-                  required
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-                <button
-                  type="button"
-                  className="text-white bg-purple-700 hover:bg-purple-800 font-medium
-                  rounded-r-lg text-sm px-4 py-2 dark:bg-purple-600
-                  dark:hover:bg-purple-700 dark:focus:ring-purple-800"
-                  onClick={() =>
-                    dispatch(FILTER_BY_SEARCH({ products: data, search }))
-                  }
-                >
-                  Search
-                </button>
-              </div>
+              </button>
             </div>
+          </div>
 
-            {/* Sort */}
-            <div className="mx-2 flex-1">
-              <select
-                className="bg-gray-50 border border-gray-300 text-purple-900
-                text-sm rounded-lg block w-full dark:bg-purple-700 dark:border-purple-600
-                 dark:placeholder-purple-400 dark:text-white dark:focus:ring-purple-500
-                  dark:focus:border-purple-500 p-4"
-                onChange={(e) => setSort(e.target.value)}
-                value={sort}
-              >
-                <option value="latest">Latest</option>
-                <option value="lowest-price">Lowest Price</option>
-                <option value="highest-price">Highest Price</option>
-                <option value="a-z">A-Z</option>
-                <option value="z-a">Z-A</option>
-              </select>
-            </div>
+          {/* Sort - full width on mobile */}
+          <div className="w-full sm:w-auto sm:mx-2 sm:flex-1">
+            <select
+              className="bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg block w-full p-3 sm:p-4"
+              onChange={(e) => setSort(e.target.value)}
+              value={sort}
+            >
+              <option value="latest">Latest</option>
+              <option value="lowest-price">Lowest Price</option>
+              <option value="highest-price">Highest Price</option>
+              <option value="a-z">A-Z</option>
+              <option value="z-a">Z-A</option>
+            </select>
           </div>
         </div>
 
-        <div className="flex">
-          <div className="flex gap-5 p-5">
-            {/* Filtering */}
-            <div className="flex flex-col gap-2 border-2 rounded-xl p-2 w-[250px]">
+        <div className="flex flex-col md:gap-5 md:flex-row">
+          {/* Filter Sidebar - full width on mobile, collapses to side on larger screens */}
+          <div className="p-2 w-full md:w-[30%]">
+            <div className="flex flex-col gap-2 border-2 rounded-xl p-2 w-full lg:w-[250px]">
               <div>
-                <div className="font-bold text-purple-600 cursor-pointer">
-                  Categories
-                </div>
-                {/* <div className="flex gap-1"> */}
-
-                  <div className="flex gap-2 p-1 flex-wrap text-white text-sm ">
-                                      <div
-  className="p-1 bg-purple-500 h- hover:bg-purple-700 w-[30px] text-center rounded-xl capitalize gap-2 cursor-pointer text-white text-sm"
-  onClick={() => filteredProductFunc("All")}
->
-  All
-</div>
+                <div className="font-bold text-purple-600">Categories</div>
+                <div className="flex gap-2 p-1 flex-wrap text-white text-sm">
+                  <div
+                    className="p-1 bg-purple-500 hover:bg-purple-800 w-[30px] text-center rounded-xl capitalize cursor-pointer"
+                    onClick={() => filteredProductFunc("All")}
+                  >
+                    All
+                  </div>
                   {categoryData?.map((cat: any) => (
                     <div
-                      className="p-1 bg-purple-500 hover:bg-purple-700 rounded-xl capitalize gap-2 cursor-pointer"
+                      className="p-1 bg-purple-500 hover:bg-purple-800 rounded-xl capitalize cursor-pointer"
                       onClick={() => filteredProductFunc(cat?.name)}
                       key={cat?.id}
                     >
@@ -250,19 +219,13 @@ const MainProducts = () => {
                     </div>
                   ))}
                 </div>
-                {/* </div> */}
-
               </div>
 
               <div>
-                <div className="font-bold mt-4 text-purple-600 cursor-pointer">
-                  Brand
-                </div>
+                <div className="font-bold mt-4 text-purple-600">Brand</div>
                 <div className="w-full">
                   <select
-                    className="bg-gray-50 border border-gray-300
-                text-sm rounded-lg block w-full
-                 text-black  p-2"
+                    className="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full text-black p-2"
                     onChange={(e) => setBrand(e.target.value)}
                     value={brand}
                   >
@@ -280,23 +243,15 @@ const MainProducts = () => {
                 <div className="mt-5">
                   <p className="font-bold text-purple-600">Price Range</p>
                 </div>
-                <div className="py-2 m-2 pr-5">
+                <div className="py-2 m-2 pr-2 sm:pr-5">
                   <Slider
                     range
                     marks={{
                       [price[0]]: `$${price[0]}`,
                       [price[1]]: `$${price[1]}`,
                     }}
-                    min={
-                      data && data.length > 0
-                        ? Math.min(...data.map((product: any) => product.price))
-                        : 0
-                    }
-                    max={
-                      data && data.length > 0
-                        ? Math.max(...data.map((product: any) => product.price))
-                        : 1000
-                    }
+                    min={minPrice}
+                    max={maxPrice}
                     value={price}
                     onChange={onChange}
                   />
@@ -305,7 +260,7 @@ const MainProducts = () => {
 
               <div>
                 <button
-                  className="p-3 w-full bg-purple-600 text-white mt-2 rounded-lg hover:bg-purple-800"
+                  className="p-2 sm:p-3 w-full bg-purple-600 text-white mt-2 rounded-lg hover:bg-purple-800 text-sm sm:text-base"
                   onClick={clearFilters}
                 >
                   Clear Filters
@@ -315,15 +270,17 @@ const MainProducts = () => {
           </div>
 
           {/* Product Cards */}
-          <div className="max-w-screen-xl mx-auto">
-            <div className="grid md:grid-cols-2 sm:grid-cols-1 xsm:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 grid-cols-4 gap-4 w-full">
+          <div className="w-full px-2 sm:px-0 md:w-[70%]">
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
               {isLoadingProducts ? (
-                <CircularProgress />
+                <div className="col-span-full flex justify-center">
+                  <CircularProgress />
+                </div>
               ) : error ? (
-                <p>Error loading products</p>
+                <p className="col-span-full text-center">Error loading products</p>
               ) : (
                 currentItems?.map((item: any) => (
-                  <div key={item._id}>
+                  <div key={item._id} className="w-full">
                     <AllProductsCard
                       id={item._id}
                       title={item.name}
@@ -338,20 +295,22 @@ const MainProducts = () => {
               )}
             </div>
 
-            <div className="flex justify-center">
+            {/* Pagination */}
+            <div className="flex justify-center mt-6 pb-4">
               <ReactPaginate
                 breakLabel="..."
                 nextLabel="Next"
                 onPageChange={handlePageClick}
-                pageRangeDisplayed={3}
+                pageRangeDisplayed={2}
+                marginPagesDisplayed={1}
                 pageCount={pageCount}
                 previousLabel="Prev"
-                renderOnZeroPageCount={null}
-                containerClassName="pagination"
-                pageLinkClassName="page-num"
-                previousLinkClassName="page-num"
-                nextLinkClassName="page-num"
-                activeLinkClassName="activePage"
+                containerClassName="flex gap-2 items-center"
+                pageLinkClassName="px-3 py-1 rounded border text-sm"
+                previousLinkClassName="px-3 py-1 rounded border text-sm"
+                nextLinkClassName="px-3 py-1 rounded border text-sm"
+                activeLinkClassName="bg-purple-600 text-white border-purple-600"
+                disabledLinkClassName="opacity-50 cursor-not-allowed"
               />
             </div>
           </div>

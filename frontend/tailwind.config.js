@@ -1,18 +1,20 @@
-import { Config } from "tailwindcss";
-
 const config = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {},
     screens: {
-      xl: { max: "1200px" },
-      lg: { max: "991px" },
-      md: { max: "767px" },
-      sm: { max: "550px" },
-      xsm: { max: "375px" },
+      xsm: "375px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
     },
   },
   plugins: [],
+  corePlugins: {
+    container: false,
+  },
 };
 
 export default config;

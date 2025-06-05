@@ -170,7 +170,7 @@ const Brand = () => {
               </div>
             </div>
 
-            <button className="w-[50%] bg-purple-600 text-white h-12 my-5 rounded-lg shadow-xl font-bold hover:bg-purple-700">
+            <button className="w-[50%] bg-purple-600 text-white h-12 my-5 rounded-lg shadow-xl font-bold hover:bg-purple-800">
               Add Brand
             </button>
           </form>

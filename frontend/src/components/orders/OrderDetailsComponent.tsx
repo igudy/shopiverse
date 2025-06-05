@@ -174,7 +174,7 @@ const OrderDetailsComponent = () => {
                           >
                             <div
                               className="bg-purple-600 p-4 rounded-lg text-white font-medium 
-                                    cursor-pointer hover:bg-purple-700"
+                                    cursor-pointer hover:bg-purple-800"
                             >
                               Review Product
                             </div>
@@ -195,7 +195,7 @@ const OrderDetailsComponent = () => {
       <div className="flex justify-center items-center">
         <button
           onClick={handleDownload}
-          className="p-4 px-10 bg-purple-700 hover:bg-purple-500 rounded-xl shadow-lg text-white my-5"
+          className="p-4 px-10 bg-purple-800 hover:bg-purple-500 rounded-xl shadow-lg text-white my-5"
         >
           Download Receipt
         </button>

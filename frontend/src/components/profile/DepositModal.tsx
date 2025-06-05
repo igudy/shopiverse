@@ -153,7 +153,7 @@ const DepositModal = ({ isOpen, onClose }: any) => {
               </button>
               <button
                 type="submit"
-                className="p-2 rounded text-white bg-purple-700"
+                className="p-2 rounded text-white bg-purple-800"
               >
                 Send
               </button>

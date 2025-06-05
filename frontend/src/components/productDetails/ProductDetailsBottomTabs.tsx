@@ -23,7 +23,7 @@ const ProductDetailsBottomTabs = () => {
             key={i}
             className={`flex items-center px-3 cursor-pointer ${
               item.tabName === tab
-                ? "font-medium rounded-lg text-white bg-purple-700"
+                ? "font-medium rounded-lg text-white bg-purple-800"
                 : "text-gray-700"
             }`}
             onClick={() => setTab(item.tabName)}

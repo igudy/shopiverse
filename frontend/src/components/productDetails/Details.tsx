@@ -20,14 +20,10 @@ import toast from "react-hot-toast";
 
 const Details = () => {
   const { id } = useParams();
-
-  // ***** Skipped image slider logic ***** //
   const dispatch = useDispatch();
   const [imageIndex, setImageIndex] = useState(0);
   const { data: product, error, isLoading } = useGetProductQuery(id);
-  const [saveCartDB, { isLoading: isLoadingCartDB }] =
-    useSaveCartToDBMutation();
-
+  const [saveCartDB, { isLoading: isLoadingCartDB }] = useSaveCartToDBMutation();
   const cartItems = useSelector(selectCartItems);
 
   const cart = cartItems.find((cart: any) => cart._id === id);
@@ -82,22 +78,30 @@ const Details = () => {
   }, [product]);
 
   return (
-    <div className="my-5 mx-10">
+    <div className="my-5 mx-4 sm:mx-10">
       <div>
-        <div className="text-sm text-gray-500 font-medium">
-          Home <span className="mx-3"> &gt; </span> {product?.category}
+        <div className="text-xs sm:text-sm text-gray-500 font-medium">
+          Home <span className="mx-2 sm:mx-3"> &gt; </span> {product?.category}
         </div>
-        <div className="my-4 flex">
-          <div className="p-1 rounded-xl w-[50%]">
-            <img
-              src={product?.productImg}
-              className="rounded-lg object-cover 
-              cursor-pointer w-[60%] h-[400px] shadow-lg"
-            />
+        
+        <div className="my-4 flex flex-col md:flex-row gap-6">
+          {/* Product Image */}
+          <div className="w-full md:w-[50%] flex justify-center">
+            <div className="p-1 rounded-xl w-full max-w-[500px]">
+              <img
+                src={product?.productImg}
+                className="rounded-lg object-cover cursor-pointer w-full h-auto sm:h-[400px] shadow-lg"
+                alt={product?.name}
+              />
+            </div>
           </div>
-          <div className="w-[50%]">
-            <div className="font-bold capitalize text-2xl">{product?.name}</div>
-            <div>
+          
+          {/* Product Details */}
+          <div className="w-full md:w-[50%]">
+            <div className="font-bold capitalize text-xl sm:text-2xl">
+              {product?.name}
+            </div>
+            <div className="mt-2">
               Brand:
               <span className="font-bold text-purple-700 cursor-pointer">
                 {" "}
@@ -105,104 +109,93 @@ const Details = () => {
               </span>
             </div>
             <HorizontalLine />
-            <div className="flex gap-5 text-4xl font-bold items-center">
+            
+            {/* Pricing */}
+            <div className="flex gap-3 sm:gap-5 text-2xl sm:text-4xl font-bold items-center">
               <div>₦{product?.price}.00</div>
-              <div className="text-gray-400 text-2xl font-medium line-through">
+              <div className="text-gray-400 text-lg sm:text-2xl font-medium line-through">
                 ₦{product?.falsePrice}.00
               </div>
             </div>
-            <div className="text-sm text-gray-600">
-              {product?.quantity} units availiable
+            
+            {/* Stock Info */}
+            <div className="text-sm text-gray-600 mt-2">
+              {product?.quantity} units available
             </div>
             <div className="text-sm text-gray-600">
               {product?.sold || "0"} sold
             </div>
             <HorizontalLine />
-            <div className="flex items-center gap-1 font-bold">
+            
+            {/* Ratings */}
+            <div className="flex items-center gap-1 font-bold mt-2">
               <div>{Math.round(rating)}</div>
-
-              <AiFillStar className="text-yellow-400" size={23} />
+              <AiFillStar className="text-yellow-400" size={20} />
               <div>
-                <span className="font-normal">(Verified Review)</span>
+                <span className="font-normal text-sm">(Verified Review)</span>
               </div>
             </div>
 
+            {/* Quantity Selector */}
             {isCartAdded < 0 ? null : (
-              <>
-                <div className="flex items-center gap-2">
-                  <div className="mt-3 font-bold text-2xl text-gray-500">
+              <div className="mt-4">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <div className="font-bold text-lg sm:text-2xl text-gray-500">
                     Quantity
                   </div>
-                  <div
-                    className="border-2 p-1 rounded-lg gap-5 flex 
-                  items-center justify-center font-semibold"
-                  >
-                    <div
-                      className="w-10 h-10 cursor-pointer 
-                      hover:bg-gray-100 bg-white rounded-lg 
-                      shadow-lg flex justify-center items-center
-                       text-2xl"
+                  <div className="border-2 p-1 rounded-lg gap-3 sm:gap-5 flex items-center justify-center font-semibold">
+                    <button
+                      className="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer hover:bg-gray-100 bg-white rounded-lg shadow-lg flex justify-center items-center text-xl sm:text-2xl"
                       onClick={() => decreaseCart(product)}
+                      aria-label="Decrease quantity"
                     >
                       -
-                    </div>
+                    </button>
                     <div>{cart.cartQuantity}</div>
-                    <div
-                      className="w-10 h-10 cursor-pointer 
-                      hover:bg-purple-600 bg-purple-500 
-                      rounded-lg shadow-lg flex justify-center 
-                      items-center text-2xl"
+                    <button
+                      className="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer hover:bg-purple-600 bg-purple-500 rounded-lg shadow-lg flex justify-center items-center text-xl sm:text-2xl text-white"
                       onClick={() => addToCart(product)}
+                      aria-label="Increase quantity"
                     >
                       +
-                    </div>
+                    </button>
                   </div>
                 </div>
-              </>
+              </div>
             )}
 
-            {/* Product Quantity */}
+            {/* Action Buttons */}
             {product?.quantity > 0 ? (
-              <div className="flex gap-5 items-center mt-5">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 items-center mt-5">
                 <button
-                  className="bg-purple-500 hover:bg-purple-600 
-                  cursor-pointer text-white w-full flex 
-                  justify-center items-center rounded-lg 
-                  font-bold text-sm h-14 border-1"
+                  className="bg-purple-500 hover:bg-purple-600 cursor-pointer text-white w-full flex justify-center items-center rounded-lg font-bold text-sm h-12 sm:h-14 border-1 transition-colors duration-200"
                   onClick={() => addToCart(product)}
                 >
                   Add to Cart
                 </button>
                 <button
-                  className="bg-orange-500 hover:bg-orange-600 
-                  cursor-pointer text-white w-full flex 
-                  justify-center items-center rounded-lg 
-                  font-bold text-sm h-14 border-1"
+                  className="bg-orange-500 hover:bg-orange-600 cursor-pointer text-white w-full flex justify-center items-center rounded-lg font-bold text-sm h-12 sm:h-14 border-1 transition-colors duration-200"
                   onClick={addToWishList}
                 >
                   Add to Wishlist
                 </button>
               </div>
             ) : (
-              <>
-                <button
-                  disabled
-                  className="bg-purple-500 
-                    hover:bg-purple-600 cursor-pointer 
-                  text-white w-full flex justify-center 
-                  items-center rounded-lg font-bold text-sm 
-                  h-10 border-1 mt-5"
-                >
-                  Out of Stock
-                </button>
-              </>
+              <button
+                disabled
+                className="bg-purple-500 hover:bg-purple-600 cursor-not-allowed text-white w-full flex justify-center items-center rounded-lg font-bold text-sm h-12 sm:h-14 border-1 mt-5 opacity-70"
+              >
+                Out of Stock
+              </button>
             )}
 
             <HorizontalLine />
-            <div className="text-xl font-bold text-purple-800 mb-2">
+            
+            {/* Description */}
+            <div className="text-lg sm:text-xl font-bold text-purple-800 mb-2">
               Description
             </div>
-            <div>{product?.desc}</div>
+            <div className="text-sm sm:text-base">{product?.desc}</div>
           </div>
         </div>
       </div>

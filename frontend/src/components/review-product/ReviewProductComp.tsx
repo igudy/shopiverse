@@ -172,7 +172,7 @@ const ReviewProductComp = () => {
                 <div
                   className="bg-purple-600 p-2 text-white w-32 
                   justify-center flex rounded-xl shadow-lg 
-                  hover:bg-purple-700 cursor-pointer 
+                  hover:bg-purple-800 cursor-pointer 
                   items-center gap-1"
                   onClick={() => navigate(`/edit-review/${id}`)}
                 >
@@ -183,7 +183,7 @@ const ReviewProductComp = () => {
                 </div>
                 <div
                   className="bg-purple-600 p-2 text-white 
-                  hover:bg-purple-700 cursor-pointer w-32 
+                  hover:bg-purple-800 cursor-pointer w-32 
                   justify-center flex rounded-xl shadow-lg 
                   items-center gap-1"
                   onClick={handleDeleteReview}

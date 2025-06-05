@@ -13,14 +13,8 @@ const cloud_name = import.meta.env.VITE_REACT_APP_CLOUD_NAME;
 
 const ProfileComponent = () => {
   useRedirectLoggedOutUser("/login");
-  // useEffect(() => {
-  //   dispatch(getUser());
-  // }, [dispatch]);
-
   const dispatch = useDispatch<any>();
-  const { isLoading, isLoggedIn, isSuccess, message, user } = useSelector(
-    (state: any) => state.auth
-  );
+  const { user } = useSelector((state: any) => state.auth);
 
   const initialState = {
     name: user?.name || "",
@@ -33,7 +27,7 @@ const ProfileComponent = () => {
     balance: user?.balance || "",
   };
 
-  const [profile, setProfile] = useState(initialState);
+  const [profile, setProfile] = useState<any>(initialState);
   const [profileImage, setProfileImage] = useState<any>(null);
   const [imagePreview, setImagePreview] = useState<any>(null);
 
@@ -42,7 +36,6 @@ const ProfileComponent = () => {
     setProfileImage(e.target.files[0]);
 
     if (selectedFile) {
-      // Check the file size (in bytes)
       const fileSizeInBytes = selectedFile.size;
       const maxSizeInBytes = 3 * 1024 * 1024; //3MB
 
@@ -50,15 +43,12 @@ const ProfileComponent = () => {
         toast.error(
           "Image size exceeds the limit of 3MB. Please choose a smaller image."
         );
-
-        // Clear the input field
         e.target.value = null;
         setProfileImage(null);
         setImagePreview(null);
         return;
       }
 
-      // If the file size is within the limit, update state
       setProfileImage(selectedFile);
       setImagePreview(URL.createObjectURL(selectedFile));
     }
@@ -85,7 +75,6 @@ const ProfileComponent = () => {
         image.append("cloud_name", cloud_name);
         image.append("upload_preset", upload_preset);
 
-        // Save image to Cloudinary
         const response = await fetch(
           "https://api.cloudinary.com/v1_1/igudy/image/upload",
           { method: "post", body: image }
@@ -94,7 +83,6 @@ const ProfileComponent = () => {
         imageURL = imgData.url ? imgData.url.toString() : null;
       }
 
-      // Save profile to MongoDB
       const userData: any = {
         name: profile.name,
         phone: profile.phone,
@@ -104,14 +92,13 @@ const ProfileComponent = () => {
 
       dispatch(updateUser({ userData }));
     } catch (error: any) {
-      toast.error(error.messageny);
+      toast.error(error.message);
     }
   };
 
   useLayoutEffect(() => {
     if (user) {
-      setProfile((prevProfile) => ({
-        ...prevProfile,
+      setProfile({
         name: user.name,
         email: user.email,
         phone: user.phone,
@@ -119,90 +106,102 @@ const ProfileComponent = () => {
         bio: user.bio,
         role: user.role,
         isVerified: user.isVerified,
-      }));
+      });
     }
   }, [user]);
 
   return (
     <div>
       <form onSubmit={saveProfile}>
-        <div className="flex sm:flex-col gap-10">
-          <div
-            className="basis-[20%]
-          bg-slate-100 rounded-lg shadow-md"
-          >
+        <div className="flex flex-col md:flex-row gap-6 md:gap-10">
+          {/* Profile Image Section */}
+          <div className="bg-slate-100 rounded-lg shadow-md p-4 w-full md:w-[300px]">
             <div className="flex justify-center">
               <img
                 src={imagePreview === null ? user?.photo : imagePreview}
                 alt="profile_picture"
-                className="rounded-full px-5 py-5 h-[300px] w-[300px] max-h-[300px] max-w-[300px]"
+                className="rounded-full h-[200px] w-[200px] md:h-[300px] md:w-[300px] object-cover"
               />
             </div>
 
-            <div className="justify-center text-center">
-              <p className="mx-2 text-lg font-bold">{user?.name}</p>
-              <p className="mx-2 text-sm text-gray-500">Role: {user.role}</p>
+            <div className="text-center mt-4">
+              <p className="text-lg font-bold">{user?.name}</p>
+              <p className="text-sm text-gray-500">Role: {user?.role}</p>
             </div>
-            <div className="px-3 py-2 flex justify-center">
-              <p className="my-3">
-                <label className="text-sm">Change Photo:</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="image"
-                  onChange={handleImageChange}
-                />
-              </p>
+            
+            <div className="mt-4">
+              <label className="block text-sm mb-2">Change Photo:</label>
+              <input
+                type="file"
+                accept="image/*"
+                name="image"
+                onChange={handleImageChange}
+                className="block w-full text-sm text-gray-500
+                  file:mr-4 file:py-2 file:px-4
+                  file:rounded-md file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-blue-50 file:text-blue-700
+                  hover:file:bg-blue-100"
+              />
             </div>
           </div>
-          <div className="basis-[75%] bg-slate-100 rounded-lg shadow-md p-3">
-            <p className="text-2xl font-bold">Account data</p>
-            <p>
-              <label>Name:</label>
-              <input
-                type="text"
-                name="name"
-                className="input-box my-1"
-                value={profile?.name}
-                onChange={handleInputChange}
-              />
-            </p>
 
-            <p>
-              <label>Email:</label>
-              <input
-                type="email"
-                name="email"
-                className="input-box my-1 bg-gray-500"
-                value={profile?.email}
-                // readOnly
-                disabled
-              />
-            </p>
+          {/* Profile Info Section */}
+          <div className="flex-1 bg-slate-100 rounded-lg shadow-md p-4 md:p-6">
+            <h2 className="text-2xl font-bold mb-4">Account Data</h2>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block mb-1">Name:</label>
+                <input
+                  type="text"
+                  name="name"
+                  className="w-full p-2 border rounded"
+                  value={profile?.name}
+                  onChange={handleInputChange}
+                />
+              </div>
 
-            <p>
-              <label>Phone:</label>
-              <input
-                type="text"
-                name="phone"
-                className="input-box my-1"
-                value={profile?.phone}
-                onChange={handleInputChange}
-              />
-            </p>
+              <div>
+                <label className="block mb-1">Email:</label>
+                <input
+                  type="email"
+                  name="email"
+                  className="w-full p-2 border rounded bg-gray-200"
+                  value={profile?.email}
+                  disabled
+                />
+              </div>
 
-            <p>
-              <label>Bio:</label>
-              <textarea
-                name="bio"
-                className="input-box my-1"
-                value={profile?.bio}
-                onChange={handleInputChange}
-                cols={30}
-                rows={10}
-              />
-            </p>
-            <button className="submit">Update Profile</button>
+              <div>
+                <label className="block mb-1">Phone:</label>
+                <input
+                  type="text"
+                  name="phone"
+                  className="w-full p-2 border rounded"
+                  value={profile?.phone}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div>
+                <label className="block mb-1">Bio:</label>
+                <textarea
+                  name="bio"
+                  className="w-full p-2 border rounded"
+                  value={profile?.bio}
+                  onChange={handleInputChange}
+                  rows={4}
+                />
+              </div>
+
+              <button 
+                type="submit"
+                className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
+              >
+                Update Profile
+              </button>
+            </div>
           </div>
         </div>
       </form>

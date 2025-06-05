@@ -43,7 +43,7 @@ const Account = () => {
         </div>
 
         <div className="flex justify-center items-center my-2 gap-3">
-          <div className="flex gap-1 font-medium items-center p-2 bg-purple-700 
+          <div className="flex gap-1 font-medium items-center p-2 bg-purple-800 
           text-white rounded-xl shadow-md hover:bg-purple-900
           cursor-pointer w-[10rem] justify-center"
            onClick={openDepositModal}

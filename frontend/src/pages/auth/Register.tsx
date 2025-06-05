@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import LoginImage from "../../../src/assets/product6.png";
-import Google from "../../../src/assets/icons/googleicon.svg";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -21,7 +19,6 @@ import {
   loginWithGoogle,
   registerUser,
 } from "../../components/redux/slices/auth/authSlice";
-
 import { GoogleLogin } from "@react-oauth/google";
 
 const Register = () => {
@@ -33,7 +30,7 @@ const Register = () => {
     hasAtLeast8Char: false,
   });
 
-  const { isLoading, isLoggedIn, isSuccess, message } = useSelector(
+  const { isLoading, isLoggedIn, isSuccess } = useSelector(
     (state: any) => state.auth
   );
 
@@ -49,26 +46,23 @@ const Register = () => {
     resolver: zodResolver(sign_up_user_validation_schema),
   });
 
-const onSubmit = async (data: any) => {
-  if (data.password !== data.confirmPassword) {
-    toast.error("Invalid, password does not match");
-  } else {
-    // Passwords match, continue with submission.
-    const userData = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-    };
-    await dispatch(registerUser({ userData }));
-  }
-};
-
+  const onSubmit = async (data: any) => {
+    if (data.password !== data.confirmPassword) {
+      toast.error("Passwords do not match");
+    } else {
+      const userData = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      };
+      await dispatch(registerUser({ userData }));
+    }
+  };
 
   useEffect(() => {
     if (isSuccess && isLoggedIn) {
       navigate("/");
     }
-
     dispatch(RESET());
   }, [isLoggedIn, isSuccess, dispatch, navigate]);
 
@@ -79,196 +73,200 @@ const onSubmit = async (data: any) => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="flex sm:block gap-5 justify-between mx-16 xsm:mx-2 sm:mx-2">
-        {isLoading}
-        {/* <div className='bg-gradient-to-t from-purple-500 to-purple-300 h-10 sm:w-full'></div> */}
-        <div className="basis-1/2 md:justify-center xsm:justify-center justify-center flex flex-col xsm:hidden sm:hidden md:hidden lg:hidden sm:justify-center left-0">
-          <img
-            src={LoginImage}
-            alt="loginImage"
-            className="object-fill
-            w-auto h-[50vh] lg:h-[35vh] justify-center md:h-[20vh] sm:my-3 md:my-3 sm:h-[21vh] xsm:h-[19vh] transitions-theme -rotate-[-15deg] hover:rotate-0 cursor-pointer z-20"
-          />
+      
+      {isLoading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="text-white">Loading...</div>
         </div>
+      )}
 
-        <div className="flex flex-col mx-10 sm:mx-2 xsm:mx-2 p-5 my-7 shadow-2xl right-0">
-          <div className="">
-            {/* <img src={Logo} alt='logo' className='mt-10 h-10 xsm:h-7 sm:h-7' /> */}
-            {/* SHOPIVERSE */}
+      <main className="flex-grow flex items-center justify-center px-4 py-8 sm:py-4">
+        <div className="container mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 xl:gap-12 lg:gap-8 max-w-6xl">
+          {/* Image Section - Hidden on mobile */}
+          <div className="lg:basis-1/2 xl:basis-1/2 hidden md:flex items-center justify-center">
+            <img
+              src={LoginImage}
+              alt="Registration"
+              className="object-contain w-full max-h-[60vh] xl:max-h-[70vh] lg:max-h-[60vh] transition-transform duration-300 hover:rotate-0 -rotate-12"
+            />
           </div>
-          <div>
-            <h1 className="text-5xl font-bold font-serif my-3 mb-6 text-purple-00 xsm:text-xl sm:text-xl mt-10 md:text-2xl sm:mt-1">
-              Create your account.
+
+          {/* Form Section */}
+          <div className="w-full lg:basis-1/2 xl:basis-1/2 bg-white rounded-xl shadow-lg p-6 sm:p-4 xsm:p-3 max-w-md">
+            <h1 className="text-4xl xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl xsm:text-xl font-bold font-serif mb-6 text-gray-800">
+              Create your account
             </h1>
-          </div>
-          <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex flex-col text-sm">
-                <div className="my-3">
-                  <label htmlFor="name" className="flex">
-                    Username{" "}
-                    {errors.name && (
-                      <div className=" text-red-800 text-[12px] flex items-center mx-2">
-                        <AiFillCloseCircle />
-                        {errors.name.message as string}
-                      </div>
-                    )}
-                  </label>
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              {/* Username */}
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                  Username
+                </label>
+                <div className="relative">
                   <input
                     type="text"
-                    className={`input-box `}
+                    id="name"
+                    className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
+                      errors.name ? "border-red-500" : "border-gray-300"
+                    }`}
                     placeholder="Igudy"
-                    {...register("name", { required: true })}
+                    {...register("name")}
                   />
+                  {errors.name && (
+                    <div className="absolute right-3 top-3 text-red-500">
+                      <AiFillCloseCircle className="w-5 h-5" />
+                    </div>
+                  )}
                 </div>
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-600">{errors.name.message as string}</p>
+                )}
               </div>
-              <div className="my-3">
-                <label htmlFor="email" className="flex">
-                  Email address{" "}
+
+              {/* Email */}
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email address
+                </label>
+                <div className="relative">
+                  <input
+                    type="email"
+                    id="email"
+                    className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 ${
+                      errors.email ? "border-red-500" : "border-gray-300"
+                    }`}
+                    placeholder="john.doe@company.com"
+                    {...register("email")}
+                  />
                   {errors.email && (
-                    <div className=" text-red-800 text-[12px] flex items-center mx-2">
-                      <AiFillCloseCircle />
-                      {errors.email.message as string}
+                    <div className="absolute right-3 top-3 text-red-500">
+                      <AiFillCloseCircle className="w-5 h-5" />
                     </div>
                   )}
-                </label>
-                <input
-                  type="email"
-                  className={`input-box `}
-                  placeholder="john.doe@company.com"
-                  {...register("email", { required: true })}
-                />{" "}
+                </div>
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-600">{errors.email.message as string}</p>
+                )}
               </div>
-              <div className="my-3">
-                <label htmlFor="password" className="flex mb-2 my-1 ">
+
+              {/* Password */}
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                   Password
-                  {errors.password && (
-                    <div className=" text-red-800 text-[12px] flex items-center mx-2">
-                      <AiFillCloseCircle />
-                      {errors.password.message as string}
-                    </div>
-                  )}
                 </label>
-                <span className="">
-              
-                {/* 
-                  placeholder: any,
-                  id: any;
-                  name: any,
-                  register: any,
-                  onPaste: any,
-                  value: any  
-                */}
-                  
-                  <PasswordInputRHF
-                    placeholder={"Password"}
-                    name={"Password"}
-                    register={{
-                      ...register("password", {
-                        required: true,
-                        onChange: () => {
-                          validatePassword(
-                            watch("password"),
-                            setIsPasswordValid
-                          );
-                        },
-                      }),
-                    }}
-                  />
-                </span>
-              </div>
-              <div className="my-3">
-                <label htmlFor="confirmPassword" className="flex mb-2">
-                  Confirm password
-                  {errors.confirmPassword && (
-                    <div className=" text-red-800 text-[12px] flex items-center mx-2">
-                      <AiFillCloseCircle />
-                      {errors.confirmPassword.message && (
-                        <div>{errors.confirmPassword.message as string}</div>
-                      )}
-                    </div>
-                  )}
-                </label>
-
-                <div className="">
-                  <PasswordInputRHF
-                    placeholder={"Confirm Password"}
-                    name={"ConfirmPassword"}
-                    id={"confirmPassword"}
-                    register={{
-                      ...register("confirmPassword", {
-                        required: true,
-                        onChange: () => {
-                          validatePassword(
-                            watch("confirmPassword"),
-                            setIsPasswordValid
-                          );
-                        },
-                      }),
-                    }}
-                    onPaste={(e: any) => {
-                      e.preventDefault();
-                      toast.error("Cannot paste to input field");
-                      return false;
-                    }}
-                    // value={}
-                  />
-                </div>
+                <PasswordInputRHF
+                  placeholder="Password"
+                  name="password"
+                  register={{
+                    ...register("password", {
+                      required: true,
+                      onChange: () => {
+                        validatePassword(
+                          watch("password"),
+                          setIsPasswordValid
+                        );
+                      },
+                    }),
+                  }}
+                />
               </div>
 
-              {/* All error messages */}
-              <div className="flex flex-col text-[12px] border-2 p-2 rounded-xl">
-                <div className="flex flex-col gap-2">
-                  <PasswordValidationChecker
-                    title="must contain at least 8 letters"
-                    checked={isPasswordValid.hasAtLeast8Char}
-                  />
-                  <PasswordValidationChecker
-                    title="must contain at least 1 uppercase letter"
-                    checked={isPasswordValid.hasUppercase}
-                  />
-                  <PasswordValidationChecker
-                    title="must contain at least 1 lowercase letter"
-                    checked={isPasswordValid.hasLowercase}
-                  />
-                  <PasswordValidationChecker
-                    title="must contain at least 1 number"
-                    checked={isPasswordValid.hasNumber}
-                  />
-                  <PasswordValidationChecker
-                    title="must contain at least 1 special character"
-                    checked={isPasswordValid.hasSpecialChar}
-                  />
-                </div>
+              {/* Confirm Password */}
+              <div>
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                  Confirm Password
+                </label>
+                <PasswordInputRHF
+                  placeholder="Confirm Password"
+                  name="confirmPassword"
+                  id="confirmPassword"
+                  register={{
+                    ...register("confirmPassword", {
+                      required: true,
+                      onChange: () => {
+                        validatePassword(
+                          watch("confirmPassword"),
+                          setIsPasswordValid
+                        );
+                      },
+                    }),
+                  }}
+                  onPaste={(e: any) => {
+                    e.preventDefault();
+                    toast.error("Cannot paste to input field");
+                    return false;
+                  }}
+                />
+                {errors.confirmPassword && (
+                  <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message as string}</p>
+                )}
               </div>
-              <button type="submit" className="submit">
-                Submit
+
+              {/* Password Validation */}
+              <div className="border border-gray-200 rounded-lg p-3 space-y-2">
+                <PasswordValidationChecker
+                  title="At least 8 characters"
+                  checked={isPasswordValid.hasAtLeast8Char}
+                />
+                <PasswordValidationChecker
+                  title="At least 1 uppercase letter"
+                  checked={isPasswordValid.hasUppercase}
+                />
+                <PasswordValidationChecker
+                  title="At least 1 lowercase letter"
+                  checked={isPasswordValid.hasLowercase}
+                />
+                <PasswordValidationChecker
+                  title="At least 1 number"
+                  checked={isPasswordValid.hasNumber}
+                />
+                <PasswordValidationChecker
+                  title="At least 1 special character"
+                  checked={isPasswordValid.hasSpecialChar}
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-purple-600 hover:bg-purple-800 text-white font-medium py-3 px-4 rounded-lg transition duration-300"
+                disabled={isLoading}
+              >
+                {isLoading ? "Creating Account..." : "Create Account"}
               </button>
             </form>
 
-            <div className="my-3 text-lg text-center justify-center sm:w-full sm:text-sm">
-              Have an account?{" "}
-              <span className="text-blue-700 hover:text-blue-900 font-medium cursor-pointer underline">
-                <Link to="/login">Log In Now</Link>
-              </span>
+            <div className="mt-4 text-center text-sm text-gray-600">
+              Already have an account?{" "}
+              <Link to="/login" className="text-purple-600 hover:text-purple-800 font-medium underline">
+                Log In
+              </Link>
+            </div>
+
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Or sign up with</span>
+              </div>
+            </div>
+
+            <div className="flex justify-center">
+              <GoogleLogin
+                onSuccess={googleLogin}
+                onError={() => toast.error("Registration Failed")}
+                size="large"
+                text="signup_with"
+                width="300"
+              />
             </div>
           </div>
-          <div className="flex-row flex justify-center cursor-pointer sm:w-full my-6">
-            <GoogleLogin
-              onSuccess={googleLogin}
-              onError={() => {
-                toast.error("Login Failed");
-              }}
-              size="large"
-              text="signup_with"
-              width={500}
-              // height={100}
-            />
-          </div>
         </div>
-      </div>
+      </main>
+
       <Footer />
     </div>
   );

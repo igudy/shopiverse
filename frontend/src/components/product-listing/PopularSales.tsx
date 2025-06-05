@@ -5,51 +5,64 @@ import toast from "react-hot-toast";
 import { comingSoon } from "../../utils";
 
 const PopularSales = () => {
-
-   return (
-    <div>
-      <p className="relative text-5xl sm:text-4xl sm:mb-2 font-extrabold my-10">
+  return (
+    <div className="px-4">
+      <p className="text-5xl xl:text-4xl lg:text-3xl md:text-3xl sm:text-2xl xsm:text-xl font-extrabold my-10 sm:my-6 xsm:my-4">
         {popularsales.title}
       </p>
 
-      <div className="flex sm:flex-col xsm:flex-col md:flex-col    xl:gap-5 lg:gap-5 sm:gap-4 md:gap-10 gap-5">
+      <div className="grid grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 xsm:grid-cols-1 gap-5 xl:gap-5 lg:gap-4 md:gap-4 sm:gap-3 xsm:gap-3">
         {popularsales?.items?.map((item) => (
           <div key={item.id} className="text-white">
             <div
-              className={`relative bg-gradient-to-b ${item.color} ${item.shadow} grid items-center justify-items-start rounded-xl py-3 px-2 transition-all duration-700 ease-in-out w-full hover:scale-90`}
+              className={`relative bg-gradient-to-b ${item.color} ${item.shadow} rounded-xl py-4 px-3 transition-all duration-300 ease-in-out hover:scale-95 h-full`}
             >
-              <div className="flex justify-between px-1 sm:px-2 xsm:px-2">
-                <div>
-                  <p className="font-bold sm:text-sm xsm:text-sm md:text-xl my-2">
-                    {item.title}
-                  </p>
-                  <p className="text-xs my-1">{item.text}</p>
-                  <div className="flex gap-2 my-2">
-                    <p className="font-bold sm:text-sm xsm:text-sm lg:font-bold xl:font-bold md:font-bold md:text-xl lg:text-lg">
-                      ₦{item.price}
+              <div className="flex justify-between h-full">
+                {/* Text Content */}
+                <div className="flex flex-col justify-between">
+                  <div>
+                    <p className="font-bold xl:text-xl lg:text-lg md:text-xl sm:text-lg xsm:text-base my-1">
+                      {item.title}
                     </p>
-                    <span className="bg-slate-200 w-12 sm:w-8 md:w-16 lg:w-10 rounded-lg drop-shadow-xl text-black">
-                      <p className="flex text font-medium sm:text-sm justify-center items-center md:font-bold md:text-md md:mt-[2px]">
-                        {item.rating} <AiFillStar className="text-yellow-500" />
-                      </p>
-                    </span>
+                    <p className="text-xs xl:text-xs lg:text-xs md:text-xs sm:text-xs xsm:text-xs my-1">
+                      {item.text}
+                    </p>
                   </div>
-                  <div className="flex items-center">
-                    <div className="border-[2px] w-7 h-6 cursor-pointer rounded-full drop-shadow-xl text-inherit items-center">
-                      <span className="flex text-center items-center justify-center" onClick={comingSoon}>
-                        <BsFillCartCheckFill className="pt-1" />
+                  
+                  <div>
+                    <div className="flex gap-2 my-2 items-center">
+                      <p className="font-bold xl:text-lg lg:text-base md:text-lg sm:text-base xsm:text-base">
+                        ₦{item.price}
+                      </p>
+                      <span className="bg-slate-200 xl:w-12 lg:w-10 md:w-12 sm:w-10 xsm:w-10 rounded-lg drop-shadow-xl text-black">
+                        <p className="flex items-center justify-center xl:text-sm lg:text-xs md:text-sm sm:text-xs xsm:text-xs font-medium">
+                          {item.rating} <AiFillStar className="text-yellow-500 ml-1" />
+                        </p>
                       </span>
                     </div>
-                    <span className="mt-1 pl-2 xl:text-md text-sm shadow-md cursor-pointer" onClick={comingSoon}>
-                      {item.btn}
-                    </span>
+                    <div className="flex items-center">
+                      <div 
+                        className="border-[2px] w-7 h-6 cursor-pointer rounded-full drop-shadow-xl flex items-center justify-center"
+                        onClick={comingSoon}
+                      >
+                        <BsFillCartCheckFill className="text-sm" />
+                      </div>
+                      <span 
+                        className="ml-2 xl:text-sm lg:text-xs md:text-sm sm:text-xs xsm:text-xs cursor-pointer"
+                        onClick={comingSoon}
+                      >
+                        {item.btn}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div className="right-0">
+
+                {/* Image */}
+                <div className="flex items-center">
                   <img
                     src={item.img}
                     alt={`${item.title}`}
-                    className="h-[20vh] xsm:h-[10vh] xsm:mt-5 sm:h-[20vh] md:h-[20vh] lg:h-[12vh] w-auto transitions-theme -rotate-[15deg] hover:rotate-0 cursor-pointer object-fill"
+                    className="h-[7rem] md:h-[10rem] w-auto transition-transform duration-300 -rotate-[15deg] hover:rotate-0 cursor-pointer object-contain"
                   />
                 </div>
               </div>

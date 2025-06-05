@@ -13,7 +13,7 @@ const NotFound = () => {
 
         <br />
         <Link to="/">
-          <button className="p-3 bg-purple-700 text-white font-bold rounded-md">
+          <button className="p-3 bg-purple-800 text-white font-bold rounded-md">
             Back to Home{" "}
           </button>
         </Link>

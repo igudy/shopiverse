@@ -140,7 +140,7 @@ const CheckoutWalletSection = () => {
                     Insufficient Balance.
                   </div>
                   <div
-                    className="p-2 rounded-md w-full bg-purple-700
+                    className="p-2 rounded-md w-full bg-purple-800
                text-white text-center my-2 cursor-pointer
                 hover:bg-purple-800"
                     onClick={() => navigate("/profile?wallet")}
@@ -153,7 +153,7 @@ const CheckoutWalletSection = () => {
                   <Link
                     to="/checkout-success"
                     onClick={payWithWallet}
-                    className="p-2 rounded-md w-full bg-purple-700
+                    className="p-2 rounded-md w-full bg-purple-800
                text-white text-center my-2 cursor-pointer
                 hover:bg-purple-800"
                   >

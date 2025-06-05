@@ -1,16 +1,16 @@
 import { topratedsales } from "../../data/data";
-import ProductCards from '../reusable/ProductCards'
+import ProductCards from '../reusable/ProductCards';
 
 const TopRatedSales = () => {
   return (
-    <div>
-      <p className="relative text-5xl sm:text-4xl sm:mb-2 font-extrabold my-10">
+    <div className="px-4 xsm:px-2">
+      <p className="text-5xl xl:text-4xl lg:text-3xl md:text-3xl sm:text-2xl xsm:text-xl font-extrabold my-10 sm:my-6 xsm:my-4">
         {topratedsales.title}
       </p>
       <div className="max-w-screen-xl mx-auto">
-        <div className="grid md:grid-cols-2 sm:grid-cols-1 xsm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 grid-cols-4 gap-4 w-full">
+        <div className="grid grid-cols-4 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 xsm:grid-cols-1 gap-6 xl:gap-5 lg:gap-4 md:gap-4 sm:gap-3 xsm:gap-3">
           {topratedsales?.items?.map((item: any) => (
-            <div className="" key={item.id}>
+            <div key={item.id}>
               <ProductCards
                 id={item.id}
                 title={item.title}

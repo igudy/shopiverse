@@ -31,9 +31,9 @@ BACKEND
 - Cart - Done
 - Search functionality - Done
 - Related Product
-- Wallet
-- Wishlist
-- Review
+- Wallet - Done
+- Wishlist - Done
+- Review - Done
 
 
 

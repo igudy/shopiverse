@@ -268,7 +268,7 @@ const AddProduct = () => {
               rows={10}
             />
 
-            <button className="w-full bg-purple-600 text-white h-14 my-10 rounded-lg shadow-xl font-bold hover:bg-purple-700">
+            <button className="w-full bg-purple-600 text-white h-14 my-10 rounded-lg shadow-xl font-bold hover:bg-purple-800">
               Add Product
             </button>
           </form>

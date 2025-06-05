@@ -1,36 +1,36 @@
 import { useEffect, useState } from "react";
-// import CartModal from "../modal/CartModal";
+import { 
+  HeartIcon,
+  MagnifyingGlassIcon,
+  ShoppingBagIcon,
+  Bars3Icon,
+  XMarkIcon 
+} from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
-import { RESET, logout, selectUser } from "../redux/slices/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { RESET, logout, selectUser } from "../redux/slices/auth/authSlice";
 import { ShowOnLogin, ShowOnLogout } from "../protect/hiddenLink";
 import NavImage from "../../assets/logo/shopi.png";
-import { selectCartTotalQuantity } from "../redux/slices/cart/CartSlice";
-import { ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { 
+  selectCartTotalQuantity, 
+  CALCULATE_TOTAL_QUANTITY, 
+  selectCartItems 
+} from "../redux/slices/cart/CartSlice";
 
-const HomeNavbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const Navbar = () => {
   const [navState, setNavState] = useState(false);
-  const dispatch = useDispatch<any>();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch<any>();
   const user = useSelector(selectUser);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
+  const cartItems = useSelector(selectCartItems);
 
-  // Logout functionality
   const logoutUser = async () => {
     dispatch(RESET());
     await dispatch(logout());
     navigate("/login");
   };
-
-  // Modals
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  function openModal() {
-    setIsOpen(true);
-  }
 
   const onNavScroll = () => {
     if (window.scrollY > 30) {
@@ -39,96 +39,131 @@ const HomeNavbar = () => {
       setNavState(false);
     }
   };
+
   useEffect(() => {
     window.addEventListener("scroll", onNavScroll);
-
     return () => {
       window.removeEventListener("scroll", onNavScroll);
     };
   }, []);
 
+  useEffect(() => {
+    dispatch(CALCULATE_TOTAL_QUANTITY({}));
+  }, [cartItems, dispatch]);
+
   const handleNavigate = () => {
     navigate("/cart");
   };
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
   return (
-    <div
-      className={
-        !navState
-          ? `flex flex-row justify-between items-center 
-          mx-14 py-2 xsm:mx-2 xsm:py-6 sm:mx-2 sm:py-8
-           md:mx-8 md:py-2`
-          : `flex flex-row justify-between items-center 
-          mx-14 py-2 xsm:mx-2 xsm:py-6 sm:mx-2 sm:py-8 
-          md:mx-8 md:py-2`
-      }
-    >
-      <div className="">
-        <img src={NavImage} className="w-[160px] cursor-pointer" alt="logo" />
-      </div>
-      <div
-        className="flex text-white items-center gap-4 
-      xsm:gap-0 sm:gap-1 right-0 z-[999999]"
-      >
-        <Link to="/profile">
-          <p className="cursor-pointer hover:underline">
+    <div className={`bg-purple-800 text-white text-sm ${navState ? "shadow-sm" : ""}`}>
+      <div className="container mx-auto px-4 py-1 flex justify-between items-center">
+        {/* Logo */}
+        <Link to="/" className="z-50">
+          <img src={NavImage} className="w-[160px] cursor-pointer" alt="logo" />
+        </Link>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-6">
+          <Link to="/profile" className="hover:underline">
             {user?.name ? <>Hi {user.name.split(" ")[0]}</> : <>Profile</>}
-          </p>{" "}
-        </Link>
+          </Link>
+          
+          <Link to="/admin" className="hover:underline">Admin</Link>
+          
+          <ShowOnLogin>
+            <Link to="/order-history" className="hover:underline">My Orders</Link>
+          </ShowOnLogin>
+          
+          <ShowOnLogout>
+            <Link to="/login" className="hover:underline">Login</Link>
+          </ShowOnLogout>
+          
+          <ShowOnLogout>
+            <Link to="/register" className="hover:underline">Register</Link>
+          </ShowOnLogout>
+          
+          <ShowOnLogin>
+            <button onClick={logoutUser} className="hover:underline">Logout</button>
+          </ShowOnLogin>
 
-        <Link to="/admin">
-          <p className="cursor-pointer hover:underline">Admin</p>
-        </Link>
-        <ShowOnLogout>
-          <Link to="/login">
-            <p className="cursor-pointer hover:underline">Login</p>
-          </Link>
-        </ShowOnLogout>
-        <ShowOnLogout>
-          <Link to="/register">
-            <p className="cursor-pointer hover:underline">Register</p>
-          </Link>
-        </ShowOnLogout>
-        <ShowOnLogin>
-          <Link to="/order-history">
-            <p className="cursor-pointer hover:underline">My Orders</p>
-          </Link>
-        </ShowOnLogin>
-        <ShowOnLogin></ShowOnLogin>
-        <ShowOnLogin>
-          <p className="cursor-pointer hover:underline" onClick={logoutUser}>
-            Logout
-          </p>
-        </ShowOnLogin>
-
-        <div onClick={handleNavigate}>
-          <div
-            className="bg-white
-             shadow-xl w-5 h-5 
-          rounded-full flex items-center font-medium justify-center mr-[-50px]
-          mt-[-20px] z-[999]"
-          >
-            <span
-              className="text-purple-800 
-            text-[12px]"
-            >
-              {cartTotalQuantity}
-            </span>
+          {/* Cart Icon */}
+          <div className="relative cursor-pointer" onClick={handleNavigate}>
+            <div className="absolute -top-2 -right-2 bg-white shadow-xl w-5 h-5 rounded-full flex items-center justify-center z-10">
+              <span className="text-purple-800 text-xs">{cartTotalQuantity}</span>
+            </div>
+            <ShoppingBagIcon className="w-6 h-6" />
           </div>
-          <ShoppingBagIcon
-            type="button"
-            className="w-8 h-6 mt-[-9px] ml-[-10px] cursor-pointer"
-          />
         </div>
 
-        {/* <CartModal
-          openModal={openModal}
-          closeModal={closeModal}
-          isOpen={isOpen}
-        /> */}
+        {/* Mobile Menu Button and Cart */}
+        <div className="flex md:hidden items-center gap-4">
+          <div className="relative cursor-pointer" onClick={handleNavigate}>
+            <div className="absolute -top-2 -right-2 bg-white shadow-xl w-5 h-5 rounded-full flex items-center justify-center z-10">
+              <span className="text-purple-800 text-xs">{cartTotalQuantity}</span>
+            </div>
+            <ShoppingBagIcon className="w-6 h-6" />
+          </div>
+          
+          <button onClick={toggleMobileMenu} className="text-white">
+            {mobileMenuOpen ? (
+              <XMarkIcon className="w-6 h-6" />
+            ) : (
+              <Bars3Icon className="w-6 h-6" />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className={`fixed top-0 right-0 h-full w-64 bg-purple-800 shadow-lg transform ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out z-40 md:hidden`}>
+          <div className="p-6 flex flex-col h-full">
+            <div className="flex justify-between items-center mb-8">
+              <img src={NavImage} className="w-[120px]" alt="logo" />
+              <button onClick={toggleMobileMenu} className="text-white">
+                <XMarkIcon className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-6 flex-grow">
+              <Link to="/profile" className="hover:underline py-2" onClick={toggleMobileMenu}>
+                {user?.name ? <>Hi {user.name.split(" ")[0]}</> : <>Profile</>}
+              </Link>
+
+              <Link to="/admin" className="hover:underline py-2" onClick={toggleMobileMenu}>Admin</Link>
+              
+              <ShowOnLogin>
+                <Link to="/order-history" className="hover:underline py-2" onClick={toggleMobileMenu}>My Orders</Link>
+              </ShowOnLogin>
+              
+              <ShowOnLogout>
+                <Link to="/login" className="hover:underline py-2" onClick={toggleMobileMenu}>Login</Link>
+              </ShowOnLogout>
+              
+              <ShowOnLogout>
+                <Link to="/register" className="hover:underline py-2" onClick={toggleMobileMenu}>Register</Link>
+              </ShowOnLogout>
+              
+              <ShowOnLogin>
+                <button onClick={() => { logoutUser(); toggleMobileMenu(); }} className="hover:underline py-2 text-left">Logout</button>
+              </ShowOnLogin>
+            </div>
+          </div>
+        </div>
+
+        {/* Overlay */}
+        {mobileMenuOpen && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden" 
+            onClick={toggleMobileMenu}
+          />
+        )}
       </div>
     </div>
   );
 };
 
-export default HomeNavbar;
+export default Navbar;

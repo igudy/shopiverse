@@ -1,35 +1,37 @@
-import { highlight } from '../../data/data'
+import { highlight } from '../../data/data';
 
 const Highlights = () => {
   return (
-    <div className="sm:my-5 md:my-5 xsm:my-5 my-32 sm:text-center relative">
-      <div className="flex flex-row sm:flex-col-reverse md:flex-col-reverse left-0 justify-between">
-        <div className="basis-1/2 md:flex md:justify-center sm:flex xsm:justify-center xsm:flex sm:justify-center">
+    <div className="relative my-20 xsm:my-12 sm:my-14 px-4">
+      <div className="flex flex-col-reverse md:flex-row gap-10 xsm:gap-6 items-center">
+        {/* Image Section */}
+        <div className="w-full xsm:flex xsm:justify-center">
           <img
             src={highlight.img}
-            className="object-fill
-            w-auto h-[50vh] lg:h-[35vh] justify-center  md:h-[34vh] sm:my-3 md:my-3 sm:h-[21vh] xsm:h-[19vh] transitions-theme -rotate-[-15deg] hover:rotate-0 cursor-pointer z-20"
-            alt={highlight.img}
+            alt={highlight.heading}
+            className="h-[50vh] xl:h-[45vh] lg:h-[40vh] md:h-[35vh] sm:h-[30vh] xsm:h-[25vh] w-auto object-contain transform -rotate-12 hover:rotate-0 transition duration-300 ease-in-out"
           />
         </div>
-        <div className="basis-1/2">
-          <div className="relative text-xl sm:text-md xsm:text-md sm:text-center md:text-center right-0 mt-4 text-right">
-            <p className="font-bold text-blue-600 sm:text-2xl md:text-3xl xsm:text-xl xl:text-6xl text-6xl">
-              {highlight.heading}
-            </p>
-            <p className="font-extrabold text-slate-900 sm:text-xl xsm:text-xl md:text-2xl xl:text-6xl lg:text-4xl text-5xl drop-shadow-2xl">
-              {highlight.title}
-            </p>
-            <p className="text-slate-800 text-md my-1 sm:text-sm xsm:text-sm md:text-sm lg:text-sm xl:text-lg">
-              {highlight.text}
-            </p>
-            <div className="flex justify-end items-end text-right">
-              <div className="bg-slate-800 w-[200px] xsm:mt-4 sm:mt-4 justify-items-end sm:w-full md:w-full xsm:w-full h-12 xsm: xsm:h-10 shadow-xl rounded-lg align-center cursor-pointer  hover:bg-slate-700 md:mb-4">
-                <p className="flex pt-2 xsm:text-sm justify-center items-center text-white">
-                  {highlight.btn}
-                </p>
-              </div>
-            </div>
+
+        {/* Text Section */}
+        <div className="w-full md:text-right text-center">
+          <p className="text-blue-600 font-bold text-4xl xl:text-3xl lg:text-2xl md:text-xl sm:text-lg xsm:text-base mb-1">
+            {highlight.heading}
+          </p>
+          <p className="font-extrabold text-slate-900 text-5xl xl:text-4xl lg:text-3xl md:text-2xl sm:text-xl xsm:text-lg mb-2 drop-shadow">
+            {highlight.title}
+          </p>
+          <p className="text-slate-800 text-base xl:text-sm lg:text-xs md:text-xs sm:text-xs xsm:text-xs mb-4">
+            {highlight.text}
+          </p>
+
+          <div className="flex justify-center md:justify-end">
+            <button
+              onClick={() => alert('Coming Soon')}
+              className="bg-slate-800 text-white md:text-sm text-xs w-48 xl:w-44 lg:w-40 md:w-36 sm:w-32 xsm:w-full h-12 xl:h-11 lg:h-10 md:h-9 sm:h-8 xsm:h-8 rounded-lg shadow hover:bg-slate-700 transition"
+            >
+              {highlight.btn}
+            </button>
           </div>
         </div>
       </div>

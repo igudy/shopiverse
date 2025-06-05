@@ -169,7 +169,7 @@ const TransferModal = ({ isOpen, onClose }: any) => {
             <button
               type="submit"
               className={`p-2 rounded text-white ${
-                !dataVerify ? "bg-gray-500" : "bg-purple-700"
+                !dataVerify ? "bg-gray-500" : "bg-purple-800"
               }`}
               disabled={!dataVerify}
             >
