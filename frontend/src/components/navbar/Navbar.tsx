@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { 
-  HeartIcon,
-  MagnifyingGlassIcon,
+import {
   ShoppingBagIcon,
   Bars3Icon,
   XMarkIcon 
@@ -156,7 +154,7 @@ const Navbar = () => {
 
         {/* Overlay */}
         {mobileMenuOpen && (
-          <div 
+          <div
             className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden" 
             onClick={toggleMobileMenu}
           />

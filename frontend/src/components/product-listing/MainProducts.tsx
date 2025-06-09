@@ -151,7 +151,6 @@ const MainProducts = () => {
       </p>
 
       <div className="border-2 rounded-xl p-2 sm:p-3">
-        {/* Search and Filter Header */}
         <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 sm:gap-2 px-2 sm:px-5 py-2">
           <div className="font-bold text-sm sm:text-base">
             {filteredProducts?.length} Products Found
@@ -196,9 +195,8 @@ const MainProducts = () => {
           </div>
         </div>
 
-        <div className="flex flex-col md:gap-5 md:flex-row">
-          {/* Filter Sidebar - full width on mobile, collapses to side on larger screens */}
-          <div className="p-2 w-full md:w-[30%]">
+        <div className="flex flex-col gap-2 md:flex-row">
+          <div className="p-2 w-full sm:w-[30%]">
             <div className="flex flex-col gap-2 border-2 rounded-xl p-2 w-full lg:w-[250px]">
               <div>
                 <div className="font-bold text-purple-600">Categories</div>
@@ -269,8 +267,7 @@ const MainProducts = () => {
             </div>
           </div>
 
-          {/* Product Cards */}
-          <div className="w-full px-2 sm:px-0 md:w-[70%]">
+          <div className="p-2 w-full sm:w-[70%]">
             <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
               {isLoadingProducts ? (
                 <div className="col-span-full flex justify-center">

@@ -1,8 +1,6 @@
 import { AiFillStar } from "react-icons/ai";
 import { BsFillCartCheckFill } from "react-icons/bs";
-import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { ADD_TO_CART } from "../redux/slices/cart/CartSlice";
 import { truncate } from "lodash";
 import { Link } from "react-router-dom";
 import { beComingSoon, comingSoon } from "../../utils";
@@ -17,55 +15,57 @@ export const AllProductsCard = ({
   discountPrice,
 }: any) => {
   const truncatedTitle = truncate(title, {
-    length: window.innerWidth < 640 ? 15 : 20,
+    length: window.innerWidth < 640 ? 20 : 25,
     omission: "...",
   });
 
   return (
-    <div className="flex w-full items-center rounded-xl shadow-xl bg-gradient-to-r from-purple-700 to-purple-500 hover:bg-gradient-to-b p-2 text-white h-[150px] sm:h-[180px] min-h-[150px] sm:min-h-[180px] max-h-[150px] sm:max-h-[180px] cursor-pointer">
-      <div className="flex-col gap-1 sm:gap-2 w-[55%] p-1">
-        <p className="text-[13px] sm:text-[15px] font-bold leading-tight">
-          {truncatedTitle}
-        </p>
-        <p className="text-[9px] sm:text-[10px] mt-1">{text}</p>
-        <div className="flex gap-1 mt-1 sm:mt-2 items-center">
-          <p className="font-bold text-[9px] sm:text-[10px] line-through">
-            ${price}
-          </p>
-          <p className="font-bold text-[11px] sm:text-[12px]">
-            ${discountPrice}
-          </p>
-        </div>
-        <div className="bg-slate-200 w-10 sm:w-12 rounded-lg drop-shadow-xl text-black cursor-pointer my-1">
-          <p className="flex justify-center items-center text-[11px] sm:text-[13px]">
-            {rating} <AiFillStar className="text-yellow-500 ml-0.5" />
-          </p>
-        </div>
-        <div className="flex items-center mt-1">
-          <div className="border-[2px] w-8 h-5 sm:w-10 sm:h-6 cursor-pointer rounded-full drop-shadow-xl mr-1 text-inherit items-center">
-            <span className="flex justify-center items-center h-full">
-              <BsFillCartCheckFill className="text-sm sm:text-base" onClick={beComingSoon} />
-            </span>
+    <div className="flex flex-col bg-white rounded-2xl shadow-md hover:shadow-lg 
+    transition-shadow duration-300 overflow-hidden border
+     border-gray-100 h-[330px] sm:h-[330px]">
+      <Link to={`/productDetails/${id}`} className="w-full">
+        <img
+          src={img}
+          alt={title}
+          className="w-full h-[180px] object-cover transition-transform 
+          duration-300 group-hover:scale-105"
+        />
+      </Link>
+
+      <div className="flex flex-col flex-grow justify-between p-3 sm:p-4">
+        <div>
+          <h3 className="text-sm sm:text-base font-semibold text-gray-800">
+            {truncatedTitle}
+          </h3>
+          <p className="text-xs text-gray-500 mt-1">{text}</p>
+
+          <div className="flex items-center gap-2 mt-2">
+            <span className="text-gray-400 line-through text-xs">${price}</span>
+            <span className="text-purple-600 font-bold text-sm">${discountPrice}</span>
           </div>
-          <span className="pl-1 sm:pl-2 cursor-pointer bg-slate-200 hover:bg-slate-700 text-black hover:text-white rounded-lg px-1 sm:px-2 w-full">
-            <p className="text-center text-[9px] sm:text-[10px] leading-tight" onClick={beComingSoon}>
-              Buy Now
-            </p>
-          </span>
         </div>
-      </div>
-      <div className="w-[45%] overflow-hidden">
-        <Link to={`/productDetails/${id}`}>
-          <img
-            src={img}
-            alt="product"
-            className="w-full h-[135px] sm:h-[165px] object-cover rounded-lg cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-95"
-          />
-        </Link>
+
+        <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">
+            {rating}
+            <AiFillStar className="text-yellow-400 ml-1" />
+          </div>
+          <button
+            onClick={beComingSoon}
+            className="flex items-center gap-1 bg-purple-600 hover:bg-purple-700 text-white text-xs px-3 py-1 rounded-full transition-colors duration-200"
+          >
+            <BsFillCartCheckFill />
+            Buy Now
+          </button>
+        </div>
       </div>
     </div>
   );
 };
+
+
+
+
 const ProductCards = ({
   id,
   title,
