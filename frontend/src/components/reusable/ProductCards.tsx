@@ -14,15 +14,12 @@ export const AllProductsCard = ({
   img,
   discountPrice,
 }: any) => {
-  const truncatedTitle = truncate(title, {
-    length: window.innerWidth < 640 ? 20 : 25,
-    omission: "...",
-  });
+
 
   return (
     <div className="flex flex-col bg-white rounded-2xl shadow-md hover:shadow-lg 
     transition-shadow duration-300 overflow-hidden border
-     border-gray-100 h-[330px] sm:h-[330px]">
+     border-gray-100 h-[330px] sm:h-[350px]">
       <Link to={`/productDetails/${id}`} className="w-full">
         <img
           src={img}
@@ -35,7 +32,8 @@ export const AllProductsCard = ({
       <div className="flex flex-col flex-grow justify-between p-3 sm:p-4">
         <div>
           <h3 className="text-sm sm:text-base font-semibold text-gray-800">
-            {truncatedTitle}
+          {truncate(title, { length: 20 })}
+
           </h3>
           <p className="text-xs text-gray-500 mt-1">{text}</p>
 

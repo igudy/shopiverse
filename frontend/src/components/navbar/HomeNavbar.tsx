@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { 
-  HeartIcon,
-  MagnifyingGlassIcon,
+import {
   ShoppingBagIcon,
   Bars3Icon,
   XMarkIcon 

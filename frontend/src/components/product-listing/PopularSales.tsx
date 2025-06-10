@@ -7,7 +7,7 @@ import { comingSoon } from "../../utils";
 const PopularSales = () => {
   return (
     <div className="px-4">
-      <p className="text-5xl xl:text-4xl lg:text-3xl md:text-3xl sm:text-2xl xsm:text-xl font-extrabold my-10 sm:my-6 xsm:my-4">
+      <p className="text-xl md:text-5xl font-extrabold my-4 mt-14 md:mt-0 md:my-5">
         {popularsales.title}
       </p>
 
