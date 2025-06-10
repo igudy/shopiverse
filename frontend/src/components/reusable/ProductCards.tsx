@@ -99,7 +99,7 @@ const ProductCards = ({
                 className="font-bold sm:text-sm xsm:text-sm lg:font-bold
                xl:font-bold md:font-bold md:text-xl lg:text-lg cursor-pointer"
               >
-                ${price}
+                ₦{price}
               </p>
               <span
                 className="bg-slate-200 w-12 sm:w-8 md:w-16 lg:w-10 rounded-lg 
