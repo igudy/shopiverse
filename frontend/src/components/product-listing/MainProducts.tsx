@@ -172,7 +172,9 @@ const MainProducts = () => {
               <button
                 type="button"
                 className="text-white bg-purple-800 hover:bg-purple-800 font-medium rounded-r-lg text-sm px-3 sm:px-4 py-2"
-                onClick={() => dispatch(FILTER_BY_SEARCH({ products: data, search }))}
+                onClick={() =>
+                  dispatch(FILTER_BY_SEARCH({ products: data, search }))
+                }
               >
                 Search
               </button>
@@ -241,7 +243,8 @@ const MainProducts = () => {
                 <div className="mt-5">
                   <p className="font-bold text-purple-600">Price Range</p>
                 </div>
-                <div className="py-2 m-2 pr-2 sm:pr-5">
+
+                <div className="py-2 m-2 pr-2 sm:px-5 max-w-[250px]">
                   <Slider
                     range
                     marks={{
@@ -252,6 +255,24 @@ const MainProducts = () => {
                     max={maxPrice}
                     value={price}
                     onChange={onChange}
+                    trackStyle={[{ backgroundColor: "#9333ea" }]}
+                    handleStyle={[
+                      {
+                        borderColor: "#9333ea",
+                        width: "16px",
+                        height: "16px",
+                        marginTop: "-6px",
+                      },
+                      {
+                        borderColor: "#9333ea",
+                        width: "16px",
+                        height: "16px",
+                        marginTop: "-6px",
+                      },
+                    ]}
+                    railStyle={{ backgroundColor: "#e9d5ff", height: "4px" }}
+                    dotStyle={{ display: "none" }}
+                    activeDotStyle={{ display: "none" }}
                   />
                 </div>
               </div>
@@ -274,7 +295,9 @@ const MainProducts = () => {
                   <CircularProgress />
                 </div>
               ) : error ? (
-                <p className="col-span-full text-center">Error loading products</p>
+                <p className="col-span-full text-center">
+                  Error loading products
+                </p>
               ) : (
                 currentItems?.map((item: any) => (
                   <div key={item._id} className="w-full">

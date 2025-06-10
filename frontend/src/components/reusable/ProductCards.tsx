@@ -14,12 +14,12 @@ export const AllProductsCard = ({
   img,
   discountPrice,
 }: any) => {
-
-
   return (
-    <div className="flex flex-col bg-white rounded-2xl shadow-md hover:shadow-lg 
+    <div
+      className="flex flex-col bg-white rounded-2xl shadow-md hover:shadow-lg 
     transition-shadow duration-300 overflow-hidden border
-     border-gray-100 h-[330px] sm:h-[350px]">
+     border-gray-100 h-[330px] sm:h-[350px]"
+    >
       <Link to={`/productDetails/${id}`} className="w-full">
         <img
           src={img}
@@ -31,15 +31,18 @@ export const AllProductsCard = ({
 
       <div className="flex flex-col flex-grow justify-between p-3 sm:p-4">
         <div>
-          <h3 className="text-sm sm:text-base font-semibold text-gray-800">
-          {truncate(title, { length: 20 })}
-
+          <h3 className="text-sm sm:text-base font-semibold text-gray-800 h-5 flex-wrap">
+            {truncate(title, { length: 20 })}
           </h3>
-          <p className="text-xs text-gray-500 mt-1">{text}</p>
+          <p className="text-sm text-gray-500 mt-1">{text}</p>
 
           <div className="flex items-center gap-2 mt-2">
-            <span className="text-gray-400 line-through text-xs">${price}</span>
-            <span className="text-purple-600 font-bold text-sm">${discountPrice}</span>
+            <span className="text-gray-400 line-through text-xs">
+              ₦{price.toLocaleString()}
+            </span>
+            <span className="text-purple-600 font-bold text:xl sm:text-2xl">
+              ₦{discountPrice.toLocaleString()}
+            </span>
           </div>
         </div>
 
@@ -60,9 +63,6 @@ export const AllProductsCard = ({
     </div>
   );
 };
-
-
-
 
 const ProductCards = ({
   id,
