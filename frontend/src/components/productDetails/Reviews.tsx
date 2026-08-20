@@ -33,46 +33,49 @@ const Reviews = () => {
 
   return (
     <div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
         <div>
           <StarRatingComponent
             name="rating"
             starCount={5}
             value={rating}
-            // onStarClick={onStarClick}
-            renderStarIcon={() => <span style={{ fontSize: "2rem" }}>★</span>}
+            renderStarIcon={() => <span className="text-xl sm:text-2xl">★</span>}
           />
         </div>
-        <div>({productData?.ratings?.length})</div>
+        <div className="text-sm sm:text-base text-gray-600">
+          ({productData?.ratings?.length || 0} reviews)
+        </div>
       </div>
-      <div>
-        {productData?.ratings?.length < 1 ? (
-          <>No reviews yet</>
+      <div className="mt-4">
+        {!productData?.ratings?.length ? (
+          <p className="text-gray-500 text-sm sm:text-base">No reviews yet</p>
         ) : (
-          <>
+          <div className="space-y-3">
             {productData?.ratings.map((item: any, index: number) => (
               <div
                 key={index}
-                className="border-[1.5px] p-2 rounded-xl shadow-sm my-2 text-[12px]"
+                className="border p-3 sm:p-4 rounded-xl shadow-sm bg-gray-50"
               >
-                <div className="flex flex-col">
-                  <div className="font-medium text-md">{item.review}</div>
-                  <div>By: {item.name}</div>
-                  <div>{dayjs(item.reviewDate).format("MMMM D, YYYY h:mm A")}</div>
+                <div className="flex flex-col gap-1">
+                  <p className="font-medium text-sm sm:text-base">{item.review}</p>
+                  <p className="text-xs sm:text-sm text-gray-600">By: {item.name}</p>
+                  <p className="text-xs text-gray-500">
+                    {dayjs(item.reviewDate).format("MMMM D, YYYY h:mm A")}
+                  </p>
                   <div>
                     <StarRatingComponent
                       name="rating"
                       starCount={5}
                       value={item.star}
                       renderStarIcon={() => (
-                        <span style={{ fontSize: "1rem" }}>★</span>
+                        <span className="text-sm sm:text-base">★</span>
                       )}
                     />
                   </div>
                 </div>
               </div>
             ))}
-          </>
+          </div>
         )}
       </div>
     </div>

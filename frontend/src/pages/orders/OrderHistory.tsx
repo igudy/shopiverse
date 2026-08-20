@@ -7,7 +7,7 @@ const OrderHistory = () => {
   return (
     <div>
       <Navbar />
-      <div className="mx-14">
+      <div className="mx-2 sm:mx-4 md:mx-8 lg:mx-14">
         <OrderHistoryComp />
       </div>
       <Footer />

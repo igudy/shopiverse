@@ -116,24 +116,22 @@ const CheckoutFlutterwaveSection = () => {
   };
 
   return (
-    <div>
-      <div className="flex px-10 gap-10 mb-10">
-        <div className="w-[50%]">
+    <div className="px-3 sm:px-6 md:px-10">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 mb-10">
+        <div className="w-full lg:w-1/2">
           <CheckoutSummary />
         </div>
-        <div className="w-[50%] mt-10">
+        <div className="w-full lg:w-1/2 mt-4 lg:mt-10">
           <div>
-            <h3 className="text-2xl flex justify-center">
+            <h3 className="text-xl sm:text-2xl font-semibold text-center mb-4">
               Flutterwave Checkout
             </h3>
             <button
               type="button"
               onClick={payWithFlutterwave}
-              className="flex justify-center items-center 
-                my-4 rounded-xl shadow-xl bg-purple-500
-                text-white p-4 w-full hover:bg-purple-400"
+              className="flex justify-center items-center my-4 rounded-xl shadow-xl bg-purple-500 text-white p-3 sm:p-4 w-full hover:bg-purple-400 transition text-sm sm:text-base font-medium"
             >
-              <BiLogoFlutter className="w-8 h-8 mr-2" />
+              <BiLogoFlutter className="w-6 h-6 sm:w-8 sm:h-8 mr-2" />
               Pay Now
             </button>
           </div>

@@ -125,92 +125,82 @@ const removeCoupon = () => {
             </div>
           ) : (
             <div
-              className="border-2 rounded-xl border-purple-600 m-3 p-3 max-h-600px 
-              overflow-y-auto"
+              className="border-2 rounded-xl border-purple-600 mx-2 sm:mx-3 p-2 sm:p-3 max-h-[70vh] sm:max-h-[600px] overflow-y-auto"
             >
               {cartItems.map((cart: any, index: number) => {
                 const { _id, name, price, productImg, cartQuantity } = cart;
                 return (
-                  <div className="flex justify-between my-5" key={_id}>
-                    <div className="left-0">
-                      <div className="flex flex-row">
-                        <div className="rounded-lg ">
-                          <img
-                            src={productImg}
-                            alt={name}
-                            className={`relative bg-gradient-to-b py-2 
-                            xsm:py-1 sm:py-2 px-3 transition-all 
-                            duration-700 ease-in-out xsm:w-28 sm:w-28 w-24
-                            hover:scale-95 text-white sm:my-[0.5px]`}
-                          />
-                        </div>
-                        <div className="ml-[-50px] mt-2 z-20 bg-gray-300 w-12 h-5 xsm:w-10 xsm:h-4 rounded-xl">
-                          <p className="text-sm text-center justify-center xsm:text-[12px] xsm:mt-[-2px]">
+                  <div className="flex flex-col sm:flex-row justify-between my-5 gap-3 sm:gap-0" key={_id}>
+                    <div className="flex flex-row items-start">
+                      <div className="relative flex-shrink-0">
+                        <img
+                          src={productImg}
+                          alt={name}
+                          className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg transition-all duration-700 ease-in-out hover:scale-95"
+                        />
+                        <div className="absolute -top-2 -right-2 bg-gray-300 px-2 py-0.5 rounded-xl z-10">
+                          <p className="text-xs sm:text-sm text-center">
                             ₦{price}
                           </p>
                         </div>
-                        <div className="mx-2 xsm:ml-4 flex-col">
-                          <p className="font-bold xsm:font-normal">{name}</p>
-                          <p>{name}</p>
-                          <div className="flex items-center gap-6">
-                            <div
-                              className="bg-theme-cart bg-theme-cart rounded w-6 h-6  flex items-center justify-center active:scale-90 cursor-pointer"
-                              onClick={() => decreaseCart(cart)}
+                      </div>
+                      <div className="ml-3 sm:ml-4 flex flex-col flex-1 min-w-0">
+                        <p className="font-bold text-sm sm:text-base truncate">{name}</p>
+                        <p className="text-xs sm:text-sm text-gray-500 truncate">{name}</p>
+                        <div className="flex items-center gap-3 sm:gap-6 mt-2">
+                          <div
+                            className="bg-theme-cart rounded w-6 h-6 flex items-center justify-center active:scale-90 cursor-pointer"
+                            onClick={() => decreaseCart(cart)}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-4 h-4 sm:w-5 sm:h-5 text-white stroke-[2]"
                             >
-                              {/* Decrease(-) */}
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="w-5 h-5 text-white stroke-[2]"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M19.5 12h-15"
-                                />
-                              </svg>
-                            </div>
-                            <div className="bg-theme-cart bg-theme-cart rounded w-12 h-7  flex items-center justify-center active:scale-90 cursor-pointer">
-                              <span className="text-white">{cartQuantity}</span>
-                            </div>
-                            <div
-                              className="bg-theme-cart bg-theme-cart rounded w-6 h-6  flex items-center justify-center active:scale-90 cursor-pointer"
-                              onClick={() => increaseCart(cart)}
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M19.5 12h-15"
+                              />
+                            </svg>
+                          </div>
+                          <div className="bg-theme-cart rounded w-10 sm:w-12 h-7 flex items-center justify-center">
+                            <span className="text-white text-sm sm:text-base">{cartQuantity}</span>
+                          </div>
+                          <div
+                            className="bg-theme-cart rounded w-6 h-6 flex items-center justify-center active:scale-90 cursor-pointer"
+                            onClick={() => increaseCart(cart)}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-4 h-4 sm:w-5 sm:h-5 text-white stroke-[2]"
                             >
-                              {/* Increase(+) */}
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="w-5 h-5 text-white stroke-[2]"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M12 4.5v15m7.5-7.5h-15"
-                                />
-                              </svg>
-                            </div>
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 4.5v15m7.5-7.5h-15"
+                              />
+                            </svg>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="right-0">
-                      <div className="grid gap-y-3 justify-items-center">
-                        <p className="font-bold">
-                          ₦{(price * cartQuantity).toFixed(2)}
-                        </p>
-                        <div
-                          className="bg-theme-cart bg-theme-cart rounded w-6 h-6 flex items-center justify-center active:scale-90 cursor-pointer"
-                          onClick={() => removeFromCart(cart)}
-                        >
-                          <AiFillDelete className="w-5 h-5 lg:w-8 lg:h-8 text-white stroke-[2]" />
-                        </div>
+                    <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-3 pl-2 sm:pl-0">
+                      <p className="font-bold text-sm sm:text-base">
+                        ₦{(price * cartQuantity).toFixed(2)}
+                      </p>
+                      <div
+                        className="bg-theme-cart rounded w-8 h-8 sm:w-6 sm:h-6 flex items-center justify-center active:scale-90 cursor-pointer"
+                        onClick={() => removeFromCart(cart)}
+                      >
+                        <AiFillDelete className="w-5 h-5 text-white" />
                       </div>
                     </div>
                   </div>
@@ -221,8 +211,8 @@ const removeCoupon = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-8 my-5 mx-3">
-        <div className="p-4 border-2 rounded-xl shadow-md bg-white">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 my-5 mx-3">
+        <div className="p-3 md:p-4 border-2 rounded-xl shadow-md bg-white">
           <div className="my-5">
             <div className="flex justify-between items-center text-base font-semibold uppercase border-b pb-2">
               <div>Subtotal</div>
@@ -232,9 +222,9 @@ const removeCoupon = () => {
             </div>
           </div>
 
-          <div className="my-10">
-            <div className="flex justify-between items-center mb-4">
-              <div className="font-medium">Have a coupon?</div>
+          <div className="my-6 md:my-10">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+              <div className="font-medium text-sm md:text-base">Have a coupon?</div>
               {coupon && (
                 <>
                   <div
@@ -254,11 +244,10 @@ const removeCoupon = () => {
                 type="text"
                 onChange={handleCouponChange}
                 value={coupon}
-                className="flex-1 p-2 border rounded-l-xl outline-none"
+                className="flex-1 p-2 border rounded-l-xl outline-none text-sm md:text-base min-w-0"
                 placeholder="Coupon code"
               />
-              <button className="bg-purple-500 text-white p-2 rounded-r-xl
-              hover:bg-purple-600 transition"
+              <button className="bg-purple-500 text-white px-3 py-2 rounded-r-xl hover:bg-purple-600 transition text-sm md:text-base whitespace-nowrap"
                 onClick={verifyCoupon}
               >
                 Verify
@@ -283,8 +272,8 @@ const removeCoupon = () => {
           {/* <CouponDiscount /> */}
         </div>
 
-        <div className="p-4 border-2 rounded-xl shadow-md bg-white">
-          <div className="font-semibold mb-4 text-2xl">
+        <div className="p-3 md:p-4 border-2 rounded-xl shadow-md bg-white">
+          <div className="font-semibold mb-4 text-lg md:text-2xl">
             Please choose a payment method.
           </div>
 

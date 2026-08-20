@@ -16,8 +16,7 @@ import StoriesCard from "../reusable/StoriesCard";
 const TopStories = () => {
   return (
     <>
-      <p className="relative text-5xl sm:text-4xl 
-      sm:mb-2 font-extrabold my-10">
+      <p className="relative text-2xl sm:text-3xl md:text-4xl lg:text-5xl sm:mb-2 font-extrabold my-6 sm:my-8 md:my-10 px-2">
         {story.title}
       </p>
       <div>

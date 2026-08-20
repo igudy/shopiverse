@@ -55,18 +55,15 @@ const CartBottomSection = ({
   }
 
   return (
-    <div>
-      <div
-        className="bottom-0 w-full px-5 py-2 xsm:mb-16 
-      sm:mb-16 grid items-center"
-      >
-        <div className="grid items-center gap-2">
-          <p className="text-sm font-medium text-center">
-            Taxes and shipping will be calculated at shipping.
+    <div className="sticky bottom-0 bg-white border-t shadow-lg">
+      <div className="w-full px-3 sm:px-5 py-3 sm:py-4 mb-16 sm:mb-0">
+        <div className="grid items-center gap-2 max-w-md mx-auto">
+          <p className="text-xs sm:text-sm font-medium text-center text-gray-600">
+            Taxes and shipping will be calculated at checkout.
           </p>
           <button
             type="button"
-            className="button-theme bg-theme-cart py-5 hover:bg-grey-800 text-white"
+            className="button-theme bg-theme-cart py-3 sm:py-4 hover:bg-grey-800 text-white text-sm sm:text-base font-semibold rounded-lg transition-all"
             onClick={paymentFunc}
           >
             Checkout

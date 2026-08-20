@@ -81,27 +81,18 @@ const CheckoutDetailsSection = () => {
   };
 
   return (
-    <div>
-      <div
-        className="flex sm:block gap-5 justify-between 
-      mx-16 xsm:mx-2 sm:mx-2"
-      >
-        {/* <div className='bg-gradient-to-t 
-        from-purple-500 to-purple-300 h-10 
-        sm:w-full'></div> */}
-        <div
-          className="flex flex-col mx-10 sm:mx-2 xsm:mx-2 p-5 
-        my-7 shadow-2xl right-0  min-w-xl w-full"
-        >
+    <div className="px-2 sm:px-4 md:px-6 lg:px-10">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 justify-between">
+        <div className="flex flex-col p-3 sm:p-4 md:p-5 my-4 lg:my-7 shadow-2xl rounded-lg w-full lg:w-1/2">
           <div>
-            <h1 className="text-2xl font-bold text-purple-500 xsm:text-xl sm:text-xl mt-10 md:text-xl sm:mt-1">
+            <h1 className="text-xl sm:text-2xl font-bold text-purple-500 mt-4 sm:mt-6 lg:mt-10">
               Checkout Details
             </h1>
           </div>
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="my-3">
-                <h1 className="text-xl font-bold underline xsm:text-xl sm:text-xl mt-2 md:text-2xl sm:mt-1">
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold underline mt-2">
                   Shipping Address
                 </h1>
                 {/* Recipient name */}
@@ -264,7 +255,7 @@ const CheckoutDetailsSection = () => {
 
               {/* SHIPPING ADDRESS */}
               <div className="my-3">
-                <h1 className="text-xl mt-5 font-bold underline xsm:text-xl sm:text-xl md:text-2xl sm:mt-1">
+                <h1 className="text-lg sm:text-xl md:text-2xl mt-5 font-bold underline">
                   Billing Address
                 </h1>
 
@@ -427,16 +418,7 @@ const CheckoutDetailsSection = () => {
           </div>
         </div>
 
-        <div
-          // basis-1/2 md:justify-center
-          // xsm:justify-center justify-center flex flex-col
-          // xsm:hidden sm:hidden md:hidden lg:hidden
-          // sm:justify-center left-0
-          className="flex flex-col mx-10 sm:mx-2 xsm:mx-2 p-5 
-        my-7 shadow-2xl right-0  min-w-xl w-full
-        "
-        >
-          {/* Checkout Summary */}
+        <div className="flex flex-col p-3 sm:p-4 md:p-5 my-4 lg:my-7 shadow-2xl rounded-lg w-full lg:w-1/2">
           <CheckoutSummary />
         </div>
       </div>

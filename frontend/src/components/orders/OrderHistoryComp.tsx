@@ -82,28 +82,61 @@ const OrderHistoryComp = () => {
 
   return (
     <>
-      <div className="text-3xl mt-3">Your Order History</div>
-      <div className="text-md">Open an order to leave a Product Review</div>
+      <div className="text-xl sm:text-2xl md:text-3xl mt-3 font-bold">Your Order History</div>
+      <div className="text-sm sm:text-base text-gray-600">Open an order to leave a Product Review</div>
 
       {isLoadingOrder ? (
-        <div className="mt-5">
+        <div className="mt-5 flex justify-center">
           <CircularProgress />
         </div>
       ) : orderData && orderData.length > 0 ? (
-        <div style={{ height: 400, width: "100%" }} className="mt-5 text-xsm">
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 20 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-          />
+        <div className="mt-5">
+          {/* Mobile card view */}
+          <div className="block md:hidden space-y-3">
+            {rows.map((order: any) => (
+              <div key={order.id} className="bg-white border rounded-lg p-3 shadow-sm">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <p className="text-xs text-gray-500">Order #{order.index}</p>
+                    <p className="font-semibold">{order.orderDate}</p>
+                  </div>
+                  <span className={`px-2 py-1 text-xs rounded-full ${
+                    order.orderStatus === 'Delivered' ? 'bg-green-100 text-green-800' :
+                    order.orderStatus === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                    'bg-gray-100 text-gray-800'
+                  }`}>
+                    {order.orderStatus}
+                  </span>
+                </div>
+                <p className="text-sm font-bold">₦{order.orderAmount}</p>
+                <p className="text-xs text-gray-600 mt-1">{order.paymentMethod}</p>
+                <p className="text-xs text-gray-500 truncate mt-1">{order.cartItems}</p>
+                <button
+                  onClick={() => navigate(`/order-details/?id=${order.id}`)}
+                  className="w-full mt-3 bg-purple-600 text-white py-2 rounded-lg text-sm hover:bg-purple-700 transition"
+                >
+                  View Details
+                </button>
+              </div>
+            ))}
+          </div>
+          
+          {/* Desktop table view */}
+          <div className="hidden md:block" style={{ height: 400, width: "100%" }}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 20 },
+                },
+              }}
+              pageSizeOptions={[5, 10]}
+            />
+          </div>
         </div>
       ) : (
-        <div className="mt-5">No orders found</div>
+        <div className="mt-5 text-center text-gray-500">No orders found</div>
       )}
     </>
   );

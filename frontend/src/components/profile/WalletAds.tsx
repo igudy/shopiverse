@@ -5,29 +5,27 @@ import EcommerceImg from "../../assets/ecommercepng.png";
 
 const WalletAds = () => {
   return (
-    <div className="border-2 rounded-xl border-purple-500 shadow-md p-3 h-[14rem] max-h-[14rem]">
+    <div className="border-2 rounded-xl border-purple-500 shadow-md p-3 sm:p-4 min-h-[14rem]">
       <div className="flex">
-        <div className="w-[70%] flex flex-col justify-between">
-          <div className="font-medium text-xl gap-1 flex items-center">
-            <HiCurrencyDollar className="text-orange-500 h-[40px] w-[40px]" />{" "}
-            <span className="font-bold">Shopiverse Wallet </span>
+        <div className="w-[65%] sm:w-[70%] flex flex-col justify-between">
+          <div className="font-medium text-base sm:text-xl gap-1 flex items-center">
+            <HiCurrencyDollar className="text-orange-500 h-[30px] w-[30px] sm:h-[40px] sm:w-[40px] flex-shrink-0" />
+            <span className="font-bold">Shopiverse Wallet</span>
           </div>
-          <div className=" text-xl flex gap-1 items-center font-medium  my-3">
-            Cashback up to 80%{" "}
-            <AiFillGift className="text-orange-500 h-[30px] w-[30px]" />
+          <div className="text-base sm:text-xl flex gap-1 items-center font-medium my-2 sm:my-3">
+            Cashback up to 80%
+            <AiFillGift className="text-orange-500 h-[24px] w-[24px] sm:h-[30px] sm:w-[30px] flex-shrink-0" />
           </div>
-          <div className="flex flex-wrap text-xs">
-            Use your Shopiverse wallet at checkout and get up to 80% cashback{" "}
+          <div className="text-xs sm:text-sm text-gray-600">
+            Use your Shopiverse wallet at checkout and get up to 80% cashback
           </div>
         </div>
-        <div className="w-30%">
-          <div>
-            <img
-              src={EcommerceImg}
-              alt="ecommerce-image"
-              className="h-[180px]"
-            />
-          </div>
+        <div className="w-[35%] sm:w-[30%] flex items-center justify-center">
+          <img
+            src={EcommerceImg}
+            alt="ecommerce"
+            className="h-[120px] sm:h-[160px] md:h-[180px] object-contain"
+          />
         </div>
       </div>
     </div>

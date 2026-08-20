@@ -17,25 +17,25 @@ const ProductDetailsBottomTabs = () => {
   const [tab, setTab] = useState("Product Reviews");
   return (
     <>
-      <div className="mt-10 flex px-10 text-lg gap-12 text-gray-500">
+      <div className="mt-6 sm:mt-10 flex flex-wrap px-3 sm:px-6 md:px-10 text-sm sm:text-base md:text-lg gap-2 sm:gap-4 md:gap-12 text-gray-500">
         {allTabs?.map((item, i) => (
-          <div
+          <button
             key={i}
-            className={`flex items-center px-3 cursor-pointer ${
+            className={`flex items-center px-3 py-2 sm:py-1 cursor-pointer rounded-lg transition ${
               item.tabName === tab
-                ? "font-medium rounded-lg text-white bg-purple-800"
-                : "text-gray-700"
+                ? "font-medium text-white bg-purple-800"
+                : "text-gray-700 hover:bg-gray-100"
             }`}
             onClick={() => setTab(item.tabName)}
           >
             {item.tabName}
-          </div>
+          </button>
         ))}
       </div>
-      <div className="">
+      <div>
         <HorizontalReviewLine />
 
-        <div className="my-5 mx-10 sm:mx-2 xsm:mx-2 lg:mx-3">
+        <div className="my-4 sm:my-5 mx-2 sm:mx-4 md:mx-6 lg:mx-10">
           <div>{tab === "Product Reviews" && <Reviews />}</div>
           <div>
             {tab === "Other product information" && <ProductInformation />}

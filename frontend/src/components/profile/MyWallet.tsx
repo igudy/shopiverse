@@ -26,11 +26,11 @@ const Wallet = () => {
   return (
     <>
       {showConfetti && <Confetti />}
-      <div className="flex gap-5">
-        <div className="w-[50%]">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-5">
+        <div className="w-full md:w-1/2">
           <Account />
         </div>
-        <div className="w-[50%]">
+        <div className="w-full md:w-1/2">
           <WalletAds />
         </div>
       </div>

@@ -98,68 +98,55 @@ const CheckoutWalletSection = () => {
   };
 
   return (
-    <div>
-      <div className="flex px-10 gap-10 mb-10">
-        <div className="w-[50%]">
+    <div className="px-3 sm:px-6 md:px-10">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 mb-10">
+        <div className="w-full lg:w-1/2">
           <CheckoutSummary />
         </div>
-        <div className="w-[50%] mt-10">
-          <div
-            className="text-2xl font-bold px-2 text-purple-500 
-          xsm:text-xl sm:text-xl md:text-xl sm:mt-1"
-          >
-            Checkout wallet section
+        <div className="w-full lg:w-1/2 mt-4 lg:mt-10">
+          <div className="text-xl sm:text-2xl font-bold px-2 text-purple-500 mb-4">
+            Checkout Wallet Section
           </div>
-          <div className="border-2 rounded-lg p-3">
+          <div className="border-2 rounded-lg p-3 sm:p-4">
             <div className="flex justify-between items-center">
               <div className="flex flex-col">
                 <div className="text-sm font-medium">Account Balance</div>
-                <div className="text-md font-bold mt-2">
-                  ₦
-                  {new Intl.NumberFormat("en-NG", {
+                <div className="text-lg sm:text-xl font-bold mt-2">
+                  ₦{new Intl.NumberFormat("en-NG", {
                     minimumFractionDigits: 2,
                   }).format(user?.balance || 0)}
                 </div>
               </div>
               <div>
-                {/* Mastercard image */}
                 <img
                   src={Mastercard}
-                  className="h-20 "
-                  alt="mastercard-image"
+                  className="h-12 sm:h-16 md:h-20"
+                  alt="mastercard"
                 />
               </div>
             </div>
 
-            {/* Button */}
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center mt-4">
               {cartTotalAmount > user?.balance ? (
                 <>
-                  {" "}
-                  <div className="text-red-600 font-medium text-2xl">
+                  <div className="text-red-600 font-medium text-lg sm:text-xl md:text-2xl text-center">
                     Insufficient Balance.
                   </div>
                   <div
-                    className="p-2 rounded-md w-full bg-purple-800
-               text-white text-center my-2 cursor-pointer
-                hover:bg-purple-800"
+                    className="p-3 rounded-md w-full bg-purple-800 text-white text-center my-2 cursor-pointer hover:bg-purple-600 transition text-sm sm:text-base"
                     onClick={() => navigate("/profile?wallet")}
                   >
                     Top Up Wallet
                   </div>
                 </>
               ) : (
-                <>
-                  <Link
-                    to="/checkout-success"
-                    onClick={payWithWallet}
-                    className="p-2 rounded-md w-full bg-purple-800
-               text-white text-center my-2 cursor-pointer
-                hover:bg-purple-800"
-                  >
-                    Pay Now
-                  </Link>
-                </>
+                <Link
+                  to="/checkout-success"
+                  onClick={payWithWallet}
+                  className="p-3 rounded-md w-full bg-purple-800 text-white text-center my-2 cursor-pointer hover:bg-purple-600 transition text-sm sm:text-base font-medium"
+                >
+                  Pay Now
+                </Link>
               )}
             </div>
           </div>

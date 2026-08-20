@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <>
       <Hero />
-      <div className="mx-14 sm:mx-2 xsm:mx-1 md:mx-5">
+      <div className="mx-2 sm:mx-4 md:mx-6 lg:mx-10 xl:mx-14">
         <PopularSales />
         <Highlights />
         <MainProducts />

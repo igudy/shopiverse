@@ -123,42 +123,42 @@ const CheckoutStripeComp = ({
   };
 
   return (
-    <div className="flex px-10 gap-10 mb-10">
-      <div className="w-[50%]">
+    <div className="flex flex-col lg:flex-row px-3 sm:px-6 md:px-10 gap-6 lg:gap-10 mb-10">
+      <div className="w-full lg:w-1/2">
         <CheckoutSummary />
       </div>
-      <div className="w-[50%] mt-10">
+      <div className="w-full lg:w-1/2 mt-4 lg:mt-10">
         <div>
-          <div className="container">{!clientSecret && <h3>{message}</h3>}</div>
+          <div className="container">{!clientSecret && <h3 className="text-sm sm:text-base">{message}</h3>}</div>
         </div>
 
         {/* Stripe form coming from their library */}
         <div>
           {clientSecret && (
             <div>
-              {/****** SUMMARY ******/}
               <form onSubmit={handleSubmit}>
                 <div>
-                  {/***** STRIPE CHECKOUT *****/}
                   <CardPayment>
-                    <h3>Stripe Checkout</h3>
+                    <h3 className="text-lg sm:text-xl font-semibold mb-4">Stripe Checkout</h3>
                     <PaymentElement />
                     <button
                       disabled={isLoading || !stripe || !elements}
                       id="submit"
+                      className="w-full"
                     >
                       <span id="button-text">
                         {isLoading ? (
-                          <FaSpinner />
+                          <div className="flex justify-center p-2">
+                            <FaSpinner className="animate-spin" />
+                          </div>
                         ) : (
-                          <div className="p-2 hover:bg-blue-800 bg-blue-600 text-white rounded-xl flex justify-center my-6 w-full">
+                          <div className="p-3 sm:p-4 hover:bg-blue-800 bg-blue-600 text-white rounded-xl flex justify-center my-4 sm:my-6 w-full text-sm sm:text-base font-medium">
                             Pay now
                           </div>
                         )}
                       </span>
                     </button>
-                    {/* Show any error or success messages */}
-                    {message && <div>{message}</div>}
+                    {message && <div className="text-sm text-red-600 mt-2">{message}</div>}
                   </CardPayment>
                 </div>
               </form>
